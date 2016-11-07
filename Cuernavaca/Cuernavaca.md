@@ -49,10 +49,16 @@ less ErrorMetricsOut.bin
 # Running a pipeline
 
 ```
-mkdir sandbox
-python scripts/parse-interop.py examples/ErrorMetricsOut.bin sandbox/errorrates.csv
-Rscript
+% mkdir sandbox
+% python scripts/parse-interop.py examples/ErrorMetricsOut.bin \
+ sandbox/errorrates.csv
+% Rscript scripts/plot-errors.R sandbox/errorates.csv \
+ sandbox/errorrates.pdf
 ```
+
+
+
+# Show R plot result here
 
 
 
@@ -85,4 +91,50 @@ ACGT...
 
 
 
-# 
+# Alignment
+
+* There are two general approaches to aligning short read data:
+
+ 1. *de novo* assembly of reads into contigs
+ 2. mapping to a reference genome
+
+* *de novo* assembly can be a reasonable option if your objective is the consensus genome sequence
+* reference mapping is better if your objective is variant detection
+
+
+
+# Reference-based mappers
+
+* Generally work on the principle of looking up sequence fragments in a reference index
+* Break down reference genome into fragments and record location of each
+* Permit mismatches by augmenting index with all 1- and 2-off variants
+* There are many mappers (BWA, bowtie2) with none clearly superior
+
+
+
+# bowtie2
+
+* Can index 2-off variants
+* Allows soft clipping (5' or 3' end of read can be excluded from index query)
+* Efficient "Smith-Waterman" alignment to reference after indexing
+
+
+# Running bowtie2
+
+```
+bowtie2 -X examples/index -1 examples/example.R1.fastq -2 examples/example.R2.fastq \
+-S sandbox/output.sam
+```
+
+
+
+# SAM format
+
+* Based on [SAMtools](https://github.com/samtools/samtools) programs (SAM = sequence alignment/map)
+* `.sam` has become a *de facto* standard output format for short read mappers
+
+
+
+# Tablet
+
+* Java-based tool for visualizing SAM/BAM outputs
