@@ -133,8 +133,38 @@ bowtie2 -X examples/index -1 examples/example.R1.fastq -2 examples/example.R2.fa
 * Based on [SAMtools](https://github.com/samtools/samtools) programs (SAM = sequence alignment/map)
 * `.sam` has become a *de facto* standard output format for short read mappers
 
+| # | Name  | Description          | #  | Name  | Description          |
+|---|-------|----------------------|----|-------|----------------------|
+| 1 | QNAME | Read label           | 7  | RNEXT | Ref. seq. of mate    |
+| 2 | FLAG  | Bitwise flags        | 8  | PNEXT | Map location of 1st  |
+| 3 | RNAME | Reference seq.       |    |       | base in mate         |
+| 4 | POS   | Map location of 1st  | 9  | TLEN  | Insertion length     |
+|   |       | base in read         | 10 | SEQ   | Read sequence        |
+| 5 | MAPQ  | Mapping quality      | 11 | QUAL  | Read quality string  |    
+| 6 | CIGAR | *see next slide*     |    |       |                      |
+
 
 
 # Tablet
 
 * Java-based tool for visualizing SAM/BAM outputs
+* Provides an interactive coverage plot.
+* Try it out!
+
+
+
+# Processing SAM output stream
+
+* SAM output is very large
+* Sometimes we can get what we need without writing the entire result to file
+
+
+
+
+# CIGAR
+* Compact Idiosyncratic Gapped Alignment Report
+
+
+
+
+

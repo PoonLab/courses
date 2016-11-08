@@ -178,16 +178,23 @@ body {
 .reveal table {
   margin: auto;
   border-collapse: collapse;
-  border-spacing: 0; }
+  border-spacing: 0;
+  font-size: 0.8em;
+}
 
 .reveal table th {
   font-weight: bold; }
 
-.reveal table th,
+.reveal table th {
+  text-align: left;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-bottom: 2px solid;
+}
+
 .reveal table td {
   text-align: left;
   padding: 0.2em 0.5em 0.2em 0.5em;
-  border-bottom: 1px solid; }
+}
 
 .reveal table th[align="center"],
 .reveal table td[align="center"] {
