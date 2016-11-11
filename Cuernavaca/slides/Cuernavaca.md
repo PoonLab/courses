@@ -6,16 +6,17 @@
 
 
 
-# Why we need to learn code
+# &iquest;Por qu&eacute; necesitamos aprender a codificar?
 
-* NGS data are massive and difficult to analyze with conventional software (e.g., Excel)
+* Secuenciaci&oacute;n de nueva generaci&oacute;n (SPG) datos son masivos
+* difficult to analyze with conventional software (e.g., Excel)
 * Bioinformatic tools for NGS analysis are extremely valuable
 * The majority of tools are designed for human genomics; metagenomics
 * Virus populations are too diverse - we need to make our own tools
 
 
 
-# What does it mean to code?
+# &iquest;Qu&eacute; significa codificar?
 
 * You can't make a button for everything
 * Command-line interface offers unlimited versatility
@@ -43,6 +44,28 @@ less ErrorMetricsOut.bin
 ```
 * Contents of this file are documented [here](http://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/sav/sequencing-analysis-viewer-v1_8_46-guide-15066069-a.pdf)
 * We want to access the tile/cycle-specific &phi;X174 error rates contained in `ErrorMetricsOut.bin`
+
+
+
+# Processing InterOp
+
+* Try this:
+```
+python foo.py ErrorMetricsOut.bin
+```
+
+
+
+# Tile-/cycle-specific error rates
+
+* Sometimes the MiSeq error rate jumps at a particular cycle-tile combination
+
+* Not necessarily a big problem for random libraries
+
+* Can be a really big problem for amplicon libraries!
+
+* Show figure
+
 
 
 
@@ -121,10 +144,27 @@ ACGT...
 
 # Running bowtie2
 
+* Create a reference index
 ```
-bowtie2 -X examples/index -1 examples/example.R1.fastq -2 examples/example.R2.fastq \
--S sandbox/output.sam
+bowtie2-build Zika-reference.fa zika
 ```
+
+* Map Illumina data to index
+```
+bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz -2 data/Zika-envelope.n1E4.R1.fastq.gz \
+ -S sandbox/first.sam
+```
+
+
+# What happened?
+
+* Rapid evolution of viruses means that references may be poor fit to data
+* Try more lenient mapping (soft clips):
+```
+bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz -2 data/Zika-envelope.n1E4.R1.fastq.gz \
+ -S sandbox/local.sam --local
+```
+* Better but not good...
 
 
 
@@ -153,6 +193,9 @@ bowtie2 -X examples/index -1 examples/example.R1.fastq -2 examples/example.R2.fa
 
 
 
+
+
+
 # Processing SAM output stream
 
 * SAM output is very large
@@ -162,6 +205,7 @@ bowtie2 -X examples/index -1 examples/example.R1.fastq -2 examples/example.R2.fa
 
 
 # CIGAR
+
 * Compact Idiosyncratic Gapped Alignment Report
 
 

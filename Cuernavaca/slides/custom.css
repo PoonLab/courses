@@ -19,7 +19,7 @@ body {
 
 .reveal {
   font-family: "Droid Serif", Helvetica, sans-serif;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: normal;
   color: #555; }
 
@@ -57,7 +57,7 @@ body {
   word-wrap: break-word; }
 
 .reveal h1 {
-  font-size: 2.5em; }
+  font-size: 2.6em; }
 
 .reveal h2 {
   font-size: 1.6em; }
@@ -179,7 +179,7 @@ body {
   margin: auto;
   border-collapse: collapse;
   border-spacing: 0;
-  font-size: 0.8em;
+  font-size: 0.75em;
 }
 
 .reveal table th {

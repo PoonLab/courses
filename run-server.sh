@@ -1,2 +1,2 @@
 #!/bin/bash
-python3.6 -m http.server
+python3.5 -m http.server
