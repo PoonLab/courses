@@ -49,10 +49,12 @@ less ErrorMetricsOut.bin
 
 # Processing InterOp
 
-* Try this:
+* Try this (Python 2 only!):
+
 ```
-python foo.py ErrorMetricsOut.bin
+python scripts/parse-interop.py data/ErrorMetricsOut.bin sandbox/ErrorMetricsOut.csv
 ```
+
 
 
 
@@ -99,11 +101,11 @@ gunzip TESTFILE.fastq.gz
 # FASTQ format
 
 ```
-% head -n4 TESTFILE.fastq
-@label
-ACGT...
+% head -n4 Zika-envelope.n1E4.R1.fastq
+@otu1-2/1
+CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 +
-!!!!
+*F#FG#FFGGG#DGG#A2GGG?GGGC8G#EGGF#FGGGGGGGGEFGFGGFGGGGFFGGGE;G*GGGG/GGG
 ```
 * Illiumina quality scores encoded as follows (see also [Wikipedia](https://en.wikipedia.org/wiki/FASTQ_format#Encoding)):
 ```
@@ -142,29 +144,37 @@ ACGT...
 * Efficient "Smith-Waterman" alignment to reference after indexing
 
 
+
 # Running bowtie2
 
 * Create a reference index
+
 ```
 bowtie2-build Zika-reference.fa zika
 ```
 
 * Map Illumina data to index
+
 ```
-bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz -2 data/Zika-envelope.n1E4.R1.fastq.gz \
+bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
+-2 data/Zika-envelope.n1E4.R1.fastq.gz \
  -S sandbox/first.sam
 ```
+
 
 
 # What happened?
 
 * Rapid evolution of viruses means that references may be poor fit to data
 * Try more lenient mapping (soft clips):
+
 ```
-bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz -2 data/Zika-envelope.n1E4.R1.fastq.gz \
+bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
+-2 data/Zika-envelope.n1E4.R1.fastq.gz \
  -S sandbox/local.sam --local
 ```
-* Better but not good...
+
+* Better, but not good...
 
 
 
@@ -193,6 +203,8 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz -2 data/Zika-envelop
 
 
 
+# Adaptive mapping
+
 
 
 
@@ -209,6 +221,11 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz -2 data/Zika-envelop
 * Compact Idiosyncratic Gapped Alignment Report
 
 
+# Foofus
+
+```
+samtools view -bT ../data/Zika-reference.fa output.sam > output.bam
+```
 
 
 
