@@ -35,61 +35,6 @@
 
 
 
-# InterOp files
-
-* These are binary files (not human readable) that store quality and error metrics associated with the run.
-* Try this:
-```
-less ErrorMetricsOut.bin
-```
-* Contents of this file are documented [here](http://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/sav/sequencing-analysis-viewer-v1_8_46-guide-15066069-a.pdf)
-* We want to access the tile/cycle-specific &phi;X174 error rates contained in `ErrorMetricsOut.bin`
-
-
-
-# Processing InterOp
-
-* Try this (Python 2 only!):
-
-```
-python scripts/parse-interop.py data/ErrorMetricsOut.bin sandbox/ErrorMetricsOut.csv
-Rscript
-```
-
-
-
-
-# Tile-/cycle-specific error rates
-
-* Sometimes the MiSeq error rate jumps at a particular cycle-tile combination
-
-* Not necessarily a big problem for random libraries
-
-* Can be a really big problem for amplicon libraries!
-
-
-
-
-
-# Running a pipeline
-
-```
-% mkdir sandbox
-% python scripts/parse-interop.py examples/ErrorMetricsOut.bin \
- sandbox/errorrates.csv
-% Rscript scripts/plot-errors.R sandbox/errorates.csv \
- sandbox/errorrates.pdf
-```
-
-
-
-# Visualizing error rates
-
-![alt text](ErrorMetricsOut.png)
-
-
-
-
 # The Illumina data files
 
 * Raw data files are too large to allow these to accumulate uncompressed
@@ -116,6 +61,79 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 |                              |         |
 0                              31        41
 ```
+
+
+
+# Quality scores
+
+* An empirical estimate of the probability that the base call is incorrect:
+  
+  $$Q = -10 \log_{10} P$$
+  
+* Based on instrument calibration by manufacturer. 
+* Not all error variation is represented by these scores! 
+
+
+
+# Tile-/cycle-specific error rates
+
+* Sometimes the MiSeq error rate jumps at a particular cycle-tile combination
+
+![Bad tile-cycle combinations in a MiSeq run](bad-cycles.png)
+
+
+
+# Clinical significance of tile/cycle errors
+
+* Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
+
+![Bad tile-cycle combinations in a MiSeq run](mutation-barplot-v2.png)
+
+
+
+
+# Bad cycles and HIV genotyping
+
+* Not necessarily a big problem for random libraries
+
+* Can be a really big problem for amplicon libraries!
+
+
+
+# InterOp files
+
+* These are binary files (not human readable) that store quality and error metrics associated with the run.
+* Try this:
+```
+less ErrorMetricsOut.bin
+```
+* Contents of this file are documented [here](http://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/sav/sequencing-analysis-viewer-v1_8_46-guide-15066069-a.pdf)
+* We want to access the tile/cycle-specific &phi;X174 error rates contained in `ErrorMetricsOut.bin`
+
+
+
+# Processing InterOp
+
+* Try this (Python 2 only!):
+
+```
+% python scripts/parse-interop.py examples/ErrorMetricsOut.bin \
+ sandbox/errorrates.csv
+% Rscript scripts/plot-errors.R sandbox/errorates.csv \
+ sandbox/errorrates.pdf
+```
+
+
+
+# Visualizing error rates
+
+![alt text](ErrorMetricsOut.png)
+
+
+
+
+
+
 
 
 
