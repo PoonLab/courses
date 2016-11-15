@@ -1,19 +1,30 @@
+import argparse
 import remap
+import sys
 
-# load the reference sequence
-with open('../data/Zika-reference.fa', 'rU') as f:
+def main():
+    parser = argparse.ArgumentParser(
+        description='Generate a new reference sequence from the consensus '
+                    'of reads that were mapped to the current reference.'
+    )
+    parser.add_argument('sam', type=argparse.FileType('rU'),
+                        help='<input> SAM file')
+    parser.add_argument('ref', type=argparse.FileType('rU'),
+                        help='<input> FASTA file containing reference')
+    args = parser.parse_args()
+
+    # load the reference sequence
     refseq = ''
-    for line in f:
+    for line in args.ref:
         if line.startswith('>'):
             continue
         refseq += line.strip('\n')
 
-handle = open('../sandbox/local.sam', 'rU')
+    pileup, counts = remap.sam_to_pileup(args.sam)
+    conseqs = remap.pileup_to_conseq(pileup, 10)
 
-pileup, counts = remap.sam_to_pileup(handle)
-conseqs = remap.pileup_to_conseq(pileup, 10)
+    conseq = remap.update_reference(refseq, conseqs.values()[0])
+    sys.stdout.write(conseq)
 
-remap.update_reference(refseq, conseqs.values()[0])
-
-
-print conseq
+if __name__ == '__main__':
+    main()

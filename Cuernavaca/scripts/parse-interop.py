@@ -1,6 +1,6 @@
 import sys
 
-assert sys.version_info <= (2,7), "Python 3 not supported"
+assert sys.version_info < (3,0), "Python 3 not supported"
 
 import argparse
 from csv import DictWriter

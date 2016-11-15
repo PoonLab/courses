@@ -213,14 +213,51 @@ def pileup_to_conseq (pileup, qCutoff):
     return conseqs
 
 
+def convert_fasta (handle):
+    result = []
+    h = None
+    sequence = ''
+    for line in handle:
+        if line.startswith('$'):
+            continue
+        elif line.startswith('>') or line.startswith('#'):
+            if len(sequence) > 0:
+                result.append([h, sequence])
+                sequence = ''
+            h = line.strip('>#\n')
+        else:
+            sequence += line.strip('\n')
+    result.append([h,sequence])
+    return result
+
+
 def update_reference(reference, conseq):
     #alignment = pairwise2.align.localxx(reference, conseq)  # too slow!!!
     infile = os.path.join(tempdir, 'remap.fa')
     outfile = infile.replace('.fa', '.mafft.fa')
     with open(infile, 'w') as handle:
         handle.write('>ref\n%s\n>conseq\n%s\n' % (reference, conseq))
+
     os.system('mafft %s > %s' % (infile, outfile))
     with open(outfile, 'rU') as handle:
-        for line in handle:
-            sys.stdout.write(line)
-    # TODO: use alignment to modify reference
+        fasta = dict(convert_fasta(handle))
+
+    print fasta
+
+    # use the aligned sequences to update the reference
+    newseq = ''
+    for i in range(len(fasta['ref'])):
+        b1 = fasta['ref'][i]
+        b2 = fasta['conseq'][i]
+        if b1 == '-':
+            if b2 == '-':
+                print "this shouldn't happen!"
+                sys.exit()
+            else:
+                newseq += b2  # insertion relative to last reference
+        else:
+            if b2 == '-':
+                continue  # deletion relative to last reference
+            else:
+                newseq += b2
+    return newseq

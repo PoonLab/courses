@@ -26,7 +26,7 @@
 
 
 
-# NGS platforms
+# Sistemas SPG
 
 * Usually people are dealing with 454, Ion Torrent and Illumina
 * 454 is an abandoned platform
@@ -53,6 +53,7 @@ less ErrorMetricsOut.bin
 
 ```
 python scripts/parse-interop.py data/ErrorMetricsOut.bin sandbox/ErrorMetricsOut.csv
+Rscript
 ```
 
 
@@ -66,7 +67,6 @@ python scripts/parse-interop.py data/ErrorMetricsOut.bin sandbox/ErrorMetricsOut
 
 * Can be a really big problem for amplicon libraries!
 
-* Show figure
 
 
 
@@ -83,7 +83,10 @@ python scripts/parse-interop.py data/ErrorMetricsOut.bin sandbox/ErrorMetricsOut
 
 
 
-# Show R plot result here
+# Visualizing error rates
+
+![alt text](ErrorMetricsOut.png)
+
 
 
 
@@ -93,7 +96,7 @@ python scripts/parse-interop.py data/ErrorMetricsOut.bin sandbox/ErrorMetricsOut
 * Compression reduces file size by about X fold
 * Uncompress a file as follows:
 ```
-gunzip TESTFILE.fastq.gz
+gunzip Zika-envelope.n1E4.R1.fastq.gz
 ```
 
 
@@ -101,7 +104,7 @@ gunzip TESTFILE.fastq.gz
 # FASTQ format
 
 ```
-% head -n4 Zika-envelope.n1E4.R1.fastq
+% head -n4 data/Zika-envelope.n1E4.R1.fastq
 @otu1-2/1
 CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 +
@@ -150,7 +153,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 * Create a reference index
 
 ```
-bowtie2-build Zika-reference.fa zika
+bowtie2-build -q data/Zika-reference.fa data/zika
 ```
 
 * Map Illumina data to index
@@ -159,6 +162,27 @@ bowtie2-build Zika-reference.fa zika
 bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 -2 data/Zika-envelope.n1E4.R1.fastq.gz \
  -S sandbox/first.sam
+```
+
+
+
+# Very few reads mapped to reference
+```
+10000 reads; of these:
+  10000 (100.00%) were paired; of these:
+    10000 (100.00%) aligned concordantly 0 times
+    0 (0.00%) aligned concordantly exactly 1 time
+    0 (0.00%) aligned concordantly >1 times
+    ----
+    10000 pairs aligned concordantly 0 times; of these:
+      0 (0.00%) aligned discordantly 1 time
+    ----
+    10000 pairs aligned 0 times concordantly or discordantly; of these:
+      20000 mates make up the pairs; of these:
+        19979 (99.89%) aligned 0 times
+        21 (0.10%) aligned exactly 1 time
+        0 (0.00%) aligned >1 times
+0.10% overall alignment rate
 ```
 
 
@@ -174,7 +198,25 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
  -S sandbox/local.sam --local
 ```
 
+* Now 6.85% overall alignment rate
 * Better, but not good...
+
+
+
+# Examining the mapping results
+
+* Tablet: Java-based tool for visualizing SAM/BAM outputs
+* Provides an interactive coverage plot.
+* Try it out!
+
+
+
+# Adaptive reference mapping
+
+* Most groups have adopted the approach of adapting the reference sequence
+* Update reference with the consensus of whatever reads could be mapped
+* The reference should eventually converge to the ideal consensus sequence
+* Stop when there is no improvement in the number of reads mapped
 
 
 
@@ -195,15 +237,6 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# Tablet
-
-* Java-based tool for visualizing SAM/BAM outputs
-* Provides an interactive coverage plot.
-* Try it out!
-
-
-
-# Adaptive mapping
 
 
 
@@ -221,7 +254,8 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 * Compact Idiosyncratic Gapped Alignment Report
 
 
-# Foofus
+
+#  
 
 ```
 samtools view -bT ../data/Zika-reference.fa output.sam > output.bam
