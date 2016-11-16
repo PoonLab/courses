@@ -267,29 +267,89 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 | D     | Deletion    |
 | S     | Soft clip   |
 
-
-
-# Updating the consensus
-
-* Convert SAM file into BAM
-  ```
-  samtools view -b sandbox/local.sam > sandbox/local.bam
-  ```
+* For example, `5S45M1I4M5I89M1S`
 
 
 
-# Samtools-free approach 
+# Adapting the consensus 
 
 * My experience has been that *samtools* is confusing and poorly maintained
 * Coded my own method in Python
   ```
   python scripts/remap.py sandbox/local.sam \
    data/Zika-reference.fa \
-   > sandbox/updated.fa
+   sandbox/updated.fa
+  ```
+
+* Result:
+  ```
+  NC_012532.1, original length 10794
+  Reads cover interval of length 1496
+  Updated reference with 220 differences
   ```
 
 
 
-# 
+# Does it work?
+ 
+* Try remapping FASTQ files to new reference
+
+```
+bowtie2-build -qf sandbox/updated.fa sandbox/updated
+
+bowtie2 -x sandbox/updated \
+ -1 data/Zika-envelope.n1E4.R1.fastq \
+ -2 data/Zika-envelope.n1E4.R2.fastq \ 
+ -S sandbox/updated.sam
+```
 
 
+
+# Yes it does!
+
+```
+10000 reads; of these:
+  10000 (100.00%) were paired; of these:
+    403 (4.03%) aligned concordantly 0 times
+    9597 (95.97%) aligned concordantly exactly 1 time
+    0 (0.00%) aligned concordantly >1 times
+    ----
+    403 pairs aligned concordantly 0 times; of these:
+      0 (0.00%) aligned discordantly 1 time
+    ----
+    403 pairs aligned 0 times concordantly or discordantly; of these:
+      806 mates make up the pairs; of these:
+        749 (92.93%) aligned 0 times
+        57 (7.07%) aligned exactly 1 time
+        0 (0.00%) aligned >1 times
+96.25% overall alignment rate
+```
+
+
+
+# We can keep going...
+
+```
+$ python scripts/adapt-ref.py sandbox/updated.sam \ 
+  sandbox/updated.fa sandbox/updated2.fa
+NC_012532.1, original length 10790
+Reads cover interval of length 1501
+Updated reference with 10 differences
+...
+97.80% overall alignment rate
+```
+
+* but no improvement after third iteration.
+
+
+
+# What can we do with our SAM?
+
+* Not a convenient format for studying evolution
+
+* May be a low probability of overlap between two mapped reads chosen at random.
+
+* Paired-end reads are on separate lines.
+
+* What we would really like is an alignment of the merged and aligned 
+reads covering a specific interval.
