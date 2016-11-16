@@ -47,7 +47,9 @@
 * Compression reduces file size by about X fold
 * Uncompress a file as follows:
 ```
-gunzip Zika-envelope.n1E4.R1.fastq.gz
+# go to directory where you checked out courses.git
+cd courses/Cuernavaca
+gunzip --keep data/Zika-envelope.n1E4.R1.fastq.gz
 ```
 
 
@@ -81,27 +83,20 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
-# Tile-/cycle-specific error rates
-
-* Sometimes the MiSeq error rate jumps at a particular cycle-tile combination
-
-![Bad tile-cycle combinations in a MiSeq run](bad-cycles.png)
-
-
-
 # Clinical significance of tile/cycle errors
 
 * Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
+* Quality scores were fine!
 
 ![Frequency of E138A declined from 3% to neglible once we removed bad cycles](mutation-barplot-v2.png)
 
 
 
+# Bad tile/cycle combination
 
-# Bad cycles and HIV genotyping
+![Bad tile-cycle combinations in a MiSeq run](bad-cycles.png)
 
 * Not necessarily a big problem for random libraries
-
 * Can be a really big problem for amplicon libraries!
 
 
@@ -123,10 +118,11 @@ less ErrorMetricsOut.bin
 * Try this (Python 2 only!):
 
 ```
-% python scripts/parse-interop.py examples/ErrorMetricsOut.bin \
- sandbox/errorrates.csv
-% Rscript scripts/plot-errors.R sandbox/errorates.csv \
- sandbox/errorrates.pdf
+% mkdir sandbox
+% python scripts/parse-interop.py data/ErrorMetricsOut.bin \
+  sandbox/errorrates.csv
+% Rscript scripts/error-metrics.R sandbox/errorates.csv \
+  sandbox/errorrates.pdf
 ```
 
 
