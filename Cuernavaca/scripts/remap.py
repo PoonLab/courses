@@ -2,10 +2,12 @@ import re
 import sys
 import tempfile
 import os
+import argparse
 
 tempdir = tempfile.gettempdir()
 cigar_re = re.compile('[0-9]+[MIDNSHPX=]')  # CIGAR token
 indel_re = re.compile('[+-][0-9]+')
+
 
 def is_first_read(flag):
     """
@@ -128,89 +130,87 @@ def pileup_to_conseq (pileup, qCutoff):
     to_skip = 0
     last_pos = 0
 
-    for ref, records in pileup.iteritems():
-        conseq = ''
-        keys = records.keys()
-        keys.sort()
+    conseq = ''
+    keys = pileup.keys()
+    keys.sort()
 
-        for pos in keys:
-            astr = records[pos]['s']
-            qstr = records[pos]['q']
+    for pos in keys:
+        astr = pileup[pos]['s']
+        qstr = pileup[pos]['q']
 
-            if to_skip > 0:
-                to_skip -= 1
-                continue
+        if to_skip > 0:
+            to_skip -= 1
+            continue
 
-            if (pos - last_pos) > 1:
-                conseq += 'N' * (pos - last_pos - 1)
-            last_pos = pos
-            alist = []  # alist stores all bases at a given coordinate
-            i = 0       # Current index for astr
-            j = 0       # Current index for qstr
+        if (pos - last_pos) > 1:
+            conseq += 'N' * (pos - last_pos - 1)
+        last_pos = pos
+        alist = []  # alist stores all bases at a given coordinate
+        i = 0       # Current index for astr
+        j = 0       # Current index for qstr
 
-            while i < len(astr):
-                if astr[i] == '^':
-                    q = ord(qstr[j])-33
-                    base = astr[i+2] if q >= qCutoff else 'N'
-                    alist.append(base.upper())
-                    i += 3
-                    j += 1
-                elif astr[i] in '*':
-                    alist.append('-')
-                    i += 1
-                elif astr[i] == '$':
-                    i += 1
-                elif i < len(astr)-1 and astr[i+1] in '+-':
-                    # i-th base is followed by an indel indicator
-                    m = indel_re.match(astr[i+1:])
-                    indel_len = int(m.group().strip('+-'))
-                    left = i+1 + len(m.group())
-                    insertion = astr[left:(left+indel_len)]
-                    q = ord(qstr[j])-33
-                    base = astr[i].upper() if q >= qCutoff else 'N'
-                    token = base + m.group() + insertion.upper()  # e.g., A+3ACG
-                    if astr[i+1] == '+':
-                        alist.append(token)
-                    else:
-                        alist.append(base)
-                    i += len(token)
-                    j += 1
+        while i < len(astr):
+            if astr[i] == '^':
+                q = ord(qstr[j])-33
+                base = astr[i+2] if q >= qCutoff else 'N'
+                alist.append(base.upper())
+                i += 3
+                j += 1
+            elif astr[i] in '*':
+                alist.append('-')
+                i += 1
+            elif astr[i] == '$':
+                i += 1
+            elif i < len(astr)-1 and astr[i+1] in '+-':
+                # i-th base is followed by an indel indicator
+                m = indel_re.match(astr[i+1:])
+                indel_len = int(m.group().strip('+-'))
+                left = i+1 + len(m.group())
+                insertion = astr[left:(left+indel_len)]
+                q = ord(qstr[j])-33
+                base = astr[i].upper() if q >= qCutoff else 'N'
+                token = base + m.group() + insertion.upper()  # e.g., A+3ACG
+                if astr[i+1] == '+':
+                    alist.append(token)
                 else:
-                    # Operative case: sequence matches reference (And no indel ahead)
-                    q = ord(qstr[j])-33
-                    base = astr[i].upper() if q >= qCutoff else 'N'
                     alist.append(base)
-                    i += 1
-                    j += 1
-
-            atypes = set(alist)
-            intermed = []
-            for atype in atypes:
-                intermed.append((alist.count(atype), atype))
-            intermed.sort(reverse=True)
-
-            if intermed:
-                token = intermed[0][1]
+                i += len(token)
+                j += 1
             else:
-                token = 'N'
+                # Operative case: sequence matches reference (And no indel ahead)
+                q = ord(qstr[j])-33
+                base = astr[i].upper() if q >= qCutoff else 'N'
+                alist.append(base)
+                i += 1
+                j += 1
 
-            if '+' in token:
-                m = indel_re.findall(token)[0] # \+[0-9]+
-                conseq += token[0]
-                if int(m) % 3 == 0:
-                    # only add insertions that retain reading frame
-                    conseq += token[1+len(m):]
-            elif token == '-':
-                conseq += '-'
-            else:
-                conseq += token
+        atypes = set(alist)
+        intermed = []
+        for atype in atypes:
+            intermed.append((alist.count(atype), atype))
+        intermed.sort(reverse=True)
+
+        if intermed:
+            token = intermed[0][1]
+        else:
+            token = 'N'
+
+        if '+' in token:
+            m = indel_re.findall(token)[0] # \+[0-9]+
+            conseq += token[0]
+            if int(m) % 3 == 0:
+                # only add insertions that retain reading frame
+                conseq += token[1+len(m):]
+        elif token == '-':
+            conseq += '-'
+        else:
+            conseq += token
 
         # remove in-frame deletions (multiples of 3), if any
         pat = re.compile('([ACGT])(---)+([ACGT])')
         conseq = re.sub(pat, r'\g<1>\g<3>', conseq)
-        conseqs.update({ref: conseq})
 
-    return conseqs
+    return conseq
 
 
 def convert_fasta (handle):
@@ -231,6 +231,24 @@ def convert_fasta (handle):
     return result
 
 
+
+
+
+def get_boundaries(str):
+    # return a tuple giving indices of subsequence without gap prefix and suffix
+    gap_prefix = re.compile('^[-]+')
+    gap_suffix = re.compile('[-]+$')
+    res = [0, len(str)]
+    left = gap_prefix.findall(str)
+    right = gap_suffix.findall(str)
+    if left:
+        res[0] = len(left[0])
+    if right:
+        res[1] = len(str) - len(right[0])
+
+    return res
+
+
 def update_reference(reference, conseq):
     #alignment = pairwise2.align.localxx(reference, conseq)  # too slow!!!
     infile = os.path.join(tempdir, 'remap.fa')
@@ -238,15 +256,17 @@ def update_reference(reference, conseq):
     with open(infile, 'w') as handle:
         handle.write('>ref\n%s\n>conseq\n%s\n' % (reference, conseq))
 
-    os.system('mafft %s > %s' % (infile, outfile))
+    os.system('mafft --quiet %s > %s' % (infile, outfile))
+    #os.system('muscle -quiet -in %s -out %s' % (infile, outfile))
     with open(outfile, 'rU') as handle:
-        fasta = dict(convert_fasta(handle))
+        fasta = dict([(h, s.upper()) for h, s in convert_fasta(handle)])
 
-    print fasta
 
     # use the aligned sequences to update the reference
-    newseq = ''
-    for i in range(len(fasta['ref'])):
+    left, right = get_boundaries(fasta['conseq'])
+    newseq = fasta['ref'][:left]
+    ndiff = 0
+    for i in range(left, right):
         b1 = fasta['ref'][i]
         b2 = fasta['conseq'][i]
         if b1 == '-':
@@ -258,6 +278,47 @@ def update_reference(reference, conseq):
         else:
             if b2 == '-':
                 continue  # deletion relative to last reference
+            elif b2 == 'N':
+                newseq += b1  # sample consensus is ambiguous
             else:
-                newseq += b2
-    return newseq
+                if b1 != b2:
+                    ndiff += 1
+                newseq += b2  # replace with consensus
+    newseq += fasta['ref'][right:]
+
+    return newseq, ndiff
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Generate a new reference sequence from the consensus '
+                    'of reads that were mapped to the current reference.'
+    )
+    parser.add_argument('sam', type=argparse.FileType('rU'),
+                        help='<input> SAM file')
+    parser.add_argument('ref', type=argparse.FileType('rU'),
+                        help='<input> FASTA file containing reference')
+    parser.add_argument('out', type=argparse.FileType('w'),
+                        help='<output> FASTA file with updated reference')
+    parser.add_argument('-qcut', type=int, default=10,
+                        help="<option> Quality score cutoff")
+    args = parser.parse_args()
+
+    # load the reference sequences
+    refseqs = dict([(h.split()[0], s) for h, s in convert_fasta(args.ref)])
+
+    # analyze the sequences
+    pileup, counts = sam_to_pileup(args.sam)
+    for refname, pile in pileup.iteritems():
+        conseq = pileup_to_conseq(pile, args.qcut)
+        newseq, ndiff = update_reference(refseqs[refname], conseq)
+        args.out.write('>%s\n%s\n' % (refname, newseq))
+
+        # how many changes were there?
+        print '%s, original length %d' % (refname, len(refseqs[refname]))
+        print 'Reads cover interval of length', len(pile)
+        print 'Updated reference with', ndiff, 'differences'
+
+
+if __name__ == '__main__':
+    main()

@@ -26,6 +26,12 @@
 
 
 
+# Meet the command line
+
+![](tar.png) 
+
+
+
 # Sistemas SPG
 
 * Usually people are dealing with 454, Ion Torrent and Illumina
@@ -87,7 +93,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 * Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
 
-![Bad tile-cycle combinations in a MiSeq run](mutation-barplot-v2.png)
+![Frequency of E138A declined from 3% to neglible once we removed bad cycles](mutation-barplot-v2.png)
 
 
 
@@ -128,12 +134,6 @@ less ErrorMetricsOut.bin
 # Visualizing error rates
 
 ![alt text](ErrorMetricsOut.png)
-
-
-
-
-
-
 
 
 
@@ -255,29 +255,41 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-
-
-
-
-# Processing SAM output stream
-
-* SAM output is very large
-* Sometimes we can get what we need without writing the entire result to file
-
-
-
-
 # CIGAR
 
 * Compact Idiosyncratic Gapped Alignment Report
+* A string representation of how the read aligns to the reference
+
+| Token | Description |
+|-------|-------------|
+| M     | Matched     |
+| I     | Insertion   |
+| D     | Deletion    |
+| S     | Soft clip   |
 
 
 
-#  
+# Updating the consensus
 
-```
-samtools view -bT ../data/Zika-reference.fa output.sam > output.bam
-```
+* Convert SAM file into BAM
+  ```
+  samtools view -b sandbox/local.sam > sandbox/local.bam
+  ```
 
+
+
+# Samtools-free approach 
+
+* My experience has been that *samtools* is confusing and poorly maintained
+* Coded my own method in Python
+  ```
+  python scripts/remap.py sandbox/local.sam \
+   data/Zika-reference.fa \
+   > sandbox/updated.fa
+  ```
+
+
+
+# 
 
 
