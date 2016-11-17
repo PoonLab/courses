@@ -133,7 +133,7 @@ less ErrorMetricsOut.bin
 
 
 
-# Alignment
+# Alineaci&oacute;n
 
 * There are two general approaches to aligning short read data:
 
@@ -145,7 +145,7 @@ less ErrorMetricsOut.bin
 
 
 
-# Reference-based mappers
+# Herramientas de m&oacute;dulo de mapeo basado en la referencia
 
 * Generally work on the principle of looking up sequence fragments in a reference index
 * Break down reference genome into fragments and record location of each
@@ -162,7 +162,7 @@ less ErrorMetricsOut.bin
 
 
 
-# Running bowtie2
+# Ejecutando bowtie2
 
 * Create a reference index
 
@@ -179,8 +179,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 ```
 
 
-
-# Very few reads mapped to reference
+# Muy poco lecturas mapeadas a la referencia
 ```
 10000 reads; of these:
   10000 (100.00%) were paired; of these:
@@ -201,7 +200,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# What happened?
+# &iquest;Que pas&oacute;?
 
 * Rapid evolution of viruses means that references may be poor fit to data
 * Try more lenient mapping (soft clips):
@@ -217,7 +216,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# Examining the mapping results
+# Examinar los resultados de la mapeo
 
 * Tablet: Java-based tool for visualizing SAM/BAM outputs
 * Provides an interactive coverage plot.
@@ -225,7 +224,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# Adaptive reference mapping
+# Mapeo adaptative de la referencia
 
 * Most groups have adopted the approach of adapting the reference sequence
 * Update reference with the consensus of whatever reads could be mapped
@@ -234,7 +233,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# SAM format
+# Formato SAM
 
 * Based on [SAMtools](https://github.com/samtools/samtools) programs (SAM = sequence alignment/map)
 * `.sam` has become a *de facto* standard output format for short read mappers
@@ -267,12 +266,12 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# Adapting the consensus 
+# Adaptaci&oacute;n del consenso 
 
 * My experience has been that *samtools* is confusing and poorly maintained
 * Coded my own method in Python
   ```
-  python scripts/remap.py sandbox/local.sam \
+  python scripts/adapt-ref.py sandbox/local.sam \
    data/Zika-reference.fa \
    sandbox/updated.fa
   ```
@@ -286,7 +285,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
-# Does it work?
+# &iquest;Funciona?
  
 * Try remapping FASTQ files to new reference
 
@@ -301,7 +300,7 @@ bowtie2 -x sandbox/updated \
 
 
 
-# Yes it does!
+# &iexcl;Si, funciona!
 
 ```
 10000 reads; of these:
@@ -323,7 +322,7 @@ bowtie2 -x sandbox/updated \
 
 
 
-# We can keep going...
+# Podemos seguir...
 
 ```
 $ python scripts/adapt-ref.py sandbox/updated.sam \ 
@@ -339,13 +338,31 @@ Updated reference with 10 differences
 
 
 
-# What can we do with our SAM?
+# Echemos un vistazo al resultado de nuevo
+
+![](tablet-updated.png)
+
+
+
+# &iexcl;Esto no es &uacute;til!
 
 * Not a convenient format for studying evolution
 
-* May be a low probability of overlap between two mapped reads chosen at random.
+* Low probability of overlap between two mapped reads chosen at random.
 
 * Paired-end reads are on separate lines.
 
 * What we would really like is an alignment of the merged and aligned 
 reads covering a specific interval.
+
+
+
+# Otro script de Python
+
+```
+python scripts/slice-sam.py -h  # see help menu first
+
+python scripts/slice-sam.py sandbox/updated.sam \ 
+ sandbox/slice-1700-2000.fa  -refname NC_012532.1 \
+ -left 1700 -right 2000 -min_overlap 250 -maxN 0.1 -qcut 15
+```
