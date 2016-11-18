@@ -6,6 +6,17 @@
 
 
 
+# Workshop materials
+
+* All slides, code and data are available at 
+[http://github.com/PoonLab/courses](http://github.com/PoonLab/courses)
+![GitHub](github-logo.png)
+
+* Download a copy from the releases page.
+* Both `*.tar.bz` and `*.zip` archives should be available. 
+
+
+
 # &iquest;Por qu&eacute; necesitamos aprender a codificar?
 
 * Secuenciaci&oacute;n de nueva generaci&oacute;n (SPG) datos son masivos
@@ -26,9 +37,17 @@
 
 
 
-# Meet the command line
+# Cumplir con la l&iacute;nea de comandos
 
-![](tar.png) 
+![](es.tar.png) 
+
+
+
+# Let's do a little UNIX
+
+```
+
+```
 
 
 
@@ -83,7 +102,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
-# Clinical significance of tile/cycle errors
+# Clinical significance of error rates
 
 * Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
 * Quality scores were fine!
@@ -92,7 +111,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
-# Bad tile/cycle combination
+# Mala azulejos / ciclos
 
 ![Bad tile-cycle combinations in a MiSeq run](bad-cycles.png)
 
@@ -101,7 +120,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
-# InterOp files
+# Archivos de InterOp
 
 * These are binary files (not human readable) that store quality and error metrics associated with the run.
 * Try this:
@@ -113,7 +132,7 @@ less ErrorMetricsOut.bin
 
 
 
-# Processing InterOp
+# Procesando la InterOp
 
 * Try this (Python 2 only!):
 
@@ -127,7 +146,7 @@ less ErrorMetricsOut.bin
 
 
 
-# Visualizing error rates
+# Visualizar las tasas de error
 
 ![alt text](ErrorMetricsOut.png)
 
@@ -362,7 +381,46 @@ reads covering a specific interval.
 ```
 python scripts/slice-sam.py -h  # see help menu first
 
-python scripts/slice-sam.py sandbox/updated.sam \ 
- sandbox/slice-1700-2000.fa  -refname NC_012532.1 \
- -left 1700 -right 2000 -min_overlap 250 -maxN 0.1 -qcut 15
+python scripts/slice-sam.py -refname NC_012532.1 \
+-left 1700 -right 2000 -min_overlap 250 -maxN 0.1 \
+-qcut 15 sandbox/updated.sam sandbox/slice-1700-2000.fa
 ```
+
+
+
+# Much better!
+
+![](slice-1700-2000.png)
+
+
+
+# Now we can study evolution
+
+```
+mafft sandbox/slice-1700-2000.fa > \
+sandbox/slice-1700-2000.mafft.fa
+
+fasttree2 -nt -gtr < sandbox/slice-1700-2000.mafft.fa > \
+sandbox/slice-1700-2000.nwk
+```
+
+
+
+# 
+
+![A tree](tree-small.png)
+
+
+
+
+# Advertencias
+
+* These scripts were prepared for this workshop to demonstrate how 
+Python, R and UNIX can be used to work with viral NGS data.
+
+* They have not been tested and should not be used for research 
+or clinical purposes.
+
+* I have skipped many steps, such as read trimming.
+
+* All materials are free to use under the GNU Affero GPL license.
