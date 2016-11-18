@@ -6,7 +6,7 @@
 
 
 
-# Workshop materials
+# Materiales del seminario
 
 * All slides, code and data are available at 
 [http://github.com/PoonLab/courses](http://github.com/PoonLab/courses)
@@ -43,10 +43,14 @@
 
 
 
-# Let's do a little UNIX
+# Hagamos un poco de UNIX
 
 ```
-
+$ pwd
+/Users/art/git/courses/Cuernavaca
+$ ls
+data    scripts	slides
+$ mkdir sandbox
 ```
 
 
@@ -60,7 +64,7 @@
 
 
 
-# The Illumina data files
+# Los archivos de datos Illumina
 
 * Raw data files are too large to allow these to accumulate uncompressed
 * Compression reduces file size by about X fold
@@ -73,7 +77,7 @@ gunzip --keep data/Zika-envelope.n1E4.R1.fastq.gz
 
 
 
-# FASTQ format
+# Formato FASTQ 
 
 ```
 % head -n4 data/Zika-envelope.n1E4.R1.fastq
@@ -91,7 +95,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
-# Quality scores
+# Puntuaciones de calidad
 
 * An empirical estimate of the probability that the base call is incorrect:
   
@@ -102,7 +106,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
-# Clinical significance of error rates
+# Significaci&oacute;n cl&iacute;nica
 
 * Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
 * Quality scores were fine!
@@ -388,13 +392,13 @@ python scripts/slice-sam.py -refname NC_012532.1 \
 
 
 
-# Much better!
+# &iexcl;Mucho mejor!
 
 ![](slice-1700-2000.png)
 
 
 
-# Now we can study evolution
+# Ahora podemos estudiar la evoluci&oacute;n
 
 ```
 mafft sandbox/slice-1700-2000.fa > \
