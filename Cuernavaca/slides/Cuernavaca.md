@@ -182,8 +182,6 @@ less ErrorMetricsOut.bin
 
 # &iexcl;Blanquear al rescate!
 
-* A lab member raised issue [publicly](http://seqanswers.com/forums/archive/index.php/t-29110.html) and with Illumina
-
 * Eventually a revised wash protocol with bleach was [posted](https://drive.google.com/file/d/0B383TG7oJh2CTWp6MzZkMHBDd28/edit) by Illumina
 
 <center>
