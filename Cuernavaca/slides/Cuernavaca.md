@@ -1,8 +1,10 @@
 # Secuenciaci&oacute;n de pr&oacute;xima generaci&oacute;n para la evoluci&oacute;n del virus
 <!--- Next-generation sequencing analysis for virus evolution -->
-## Art Poon [@GitHub](github.com/ArtPoon)
+## Art Poon [@GitHub](https://github.com/ArtPoon)
 
-#### Departments of Pathology and Laboratory Medicine; Microbiology and Immunology; Applied Mathematics at Western University, Ontario, Canada
+#### Department of Pathology and Laboratory Medicine;  Microbiology and Immunology; and Applied Mathematics
+
+![](images/WesternLogo.png)
 
 
 
@@ -10,7 +12,7 @@
 
 * All slides, code and data are available at 
 [http://github.com/PoonLab/courses](http://github.com/PoonLab/courses)
-![GitHub](github-logo.png)
+<center>![GitHub](images/github-logo.png)</center>
 
 * Download a copy from the releases page.
 * Both `*.tar.bz` and `*.zip` archives should be available. 
@@ -39,7 +41,7 @@
 
 # Cumplir con la l&iacute;nea de comandos
 
-![](es.tar.png) 
+<center>![](images/es.tar.png)</center> 
 
 
 
@@ -106,21 +108,32 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
+# Otros problemas
+
+1. Bad tile/cycle combinations
+2. Longitudinal (between-run) contamination
+3. Cross-sectional (within-run) contamination
+
+
+
+# Mala azulejos / ciclos
+<center>
+![Bad tile-cycle combinations in a MiSeq run](images/bad-cycles.png)
+</center>
+
+* Not necessarily a big problem for random libraries
+* Can be a really big problem for amplicon libraries!
+
+
+
 # Significaci&oacute;n cl&iacute;nica
 
 * Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
 * Quality scores were fine!
 
-![Frequency of E138A declined from 3% to neglible once we removed bad cycles](mutation-barplot-v2.png)
-
-
-
-# Mala azulejos / ciclos
-
-![Bad tile-cycle combinations in a MiSeq run](bad-cycles.png)
-
-* Not necessarily a big problem for random libraries
-* Can be a really big problem for amplicon libraries!
+<center>
+![Frequency of E138A declined from 3% to neglible once we removed bad cycles](images/mutation-barplot-v2.png)
+</center>
 
 
 
@@ -152,7 +165,49 @@ less ErrorMetricsOut.bin
 
 # Visualizar las tasas de error
 
-![alt text](ErrorMetricsOut.png)
+![Plot of error metrics](images/ErrorMetricsOut.png)
+
+
+
+# Contaminac&oacute;n cruzada longitudinal
+
+* Reads from previous runs appear in the current run.
+
+* Used modified PCR primer with extra T (TAATG, start 130926), alternated primers between runs.
+
+<center>![Measures of longitudinal run contamination](images/carryover1.png)</center>
+<small>LC Swenson et al., Tropism Testing by MiSeq Is Comparable to 454-Based Methods but Exhibits Contamination Issues; Abstract #611, Conference on Retroviruses and Opportunistic Infections, Boston, MA, March 3-6, 2014</small>
+
+
+
+# &iexcl;Blanquear al rescate!
+
+* A lab member raised issue [publicly](http://seqanswers.com/forums/archive/index.php/t-29110.html) and with Illumina
+
+* Eventually a revised wash protocol with bleach was [posted](https://drive.google.com/file/d/0B383TG7oJh2CTWp6MzZkMHBDd28/edit) by Illumina
+
+<center>
+![Reduction of longitudinal run contamination with bleach wash](images/carryover2.png)
+</center>
+
+
+
+# Contaminaci&oacute;n cruzada en el interior
+
+* We were running hepatitis C virus (HCV) and human leukocyte antigen (HLA) loci 
+samples on the same run, different indices
+
+* Some reads in HCV sample were mapping to HLA, and vice versa!
+
+
+
+# Asociados con &iacute;ndices compartidos
+
+![](images/cross-contamination.png)
+
+* Can be resolved by using unique indices!
+<small>CJ Brumme et al., Within-Run Cross-Contamination in Deep Sequencing Applications on the Illumina MiSeq; Abstract #592, Conference on Retroviruses and Opportunistic Infections, Seattle, WA, February 23-26, 2015</small>
+
 
 
 
@@ -200,6 +255,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 -2 data/Zika-envelope.n1E4.R1.fastq.gz \
  -S sandbox/first.sam
 ```
+
 
 
 # Muy poco lecturas mapeadas a la referencia
@@ -363,8 +419,9 @@ Updated reference with 10 differences
 
 # Echemos un vistazo al resultado de nuevo
 
-![](tablet-updated.png)
+![](images/tablet-updated.png)
 
+* Try opening the new SAM file in Tablet
 
 
 # &iexcl;Esto no es &uacute;til!
@@ -394,7 +451,9 @@ python scripts/slice-sam.py -refname NC_012532.1 \
 
 # &iexcl;Mucho mejor!
 
-![](slice-1700-2000.png)
+<center>
+![](images/slice-1700-2000.png)
+</center>
 
 
 
@@ -412,8 +471,18 @@ sandbox/slice-1700-2000.nwk
 
 # 
 
-![A tree](tree-small.png)
+<center>
+![A tree](images/tree-small.png)
+</center>
 
+
+
+# &iquest;Qu&eacute; pasa con la metagen&oacute;mica viral? 
+
+* We are already doing this with multiple virus targets (HIV, hepatitis C virus)
+
+* Need to be cautious about mapping to similar references because adaptive algorithm 
+can cause collisions
 
 
 
@@ -428,3 +497,14 @@ or clinical purposes.
 * I have skipped many steps, such as read trimming.
 
 * All materials are free to use under the GNU Affero GPL license.
+
+
+
+# Expresiones de gratitud
+
+* The laboratory results I have cited were obtained by the *BC Centre for Excellence in HIV/AIDS* 
+(Chanson J. Brumme, Luke C. Swenson, Hope Lapointe, P. Richard Harrigan)
+
+* My new lab is supported by grants from Genome Canada and the Canadian Institutes of Health Research
+
+*  **&iexcl;Posiciones disponibles!**
