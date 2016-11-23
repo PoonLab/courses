@@ -13,8 +13,12 @@
 * All slides, code and data are available at 
 [http://github.com/PoonLab/courses](http://github.com/PoonLab/courses)
 <center>![GitHub](images/github-logo.png)</center>
+```
+cd Desktop
+git clone https://github.com/PoonLab/courses.git
+```
 
-* Download a copy from the releases page.
+* OR download a copy from the releases page.
 * Both `*.tar.bz` and `*.zip` archives should be available. 
 
 
@@ -142,7 +146,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 * These are binary files (not human readable) that store quality and error metrics associated with the run.
 * Try this:
 ```
-less ErrorMetricsOut.bin
+less data/ErrorMetricsOut.bin
 ```
 * Contents of this file are documented [here](http://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/sav/sequencing-analysis-viewer-v1_8_46-guide-15066069-a.pdf)
 * We want to access the tile/cycle-specific &phi;X174 error rates contained in `ErrorMetricsOut.bin`
@@ -157,7 +161,7 @@ less ErrorMetricsOut.bin
 % mkdir sandbox
 % python scripts/parse-interop.py data/ErrorMetricsOut.bin \
   sandbox/errorrates.csv
-% Rscript scripts/error-metrics.R sandbox/errorates.csv \
+% Rscript scripts/error-metrics.R sandbox/errorrates.csv \
   sandbox/errorrates.pdf
 ```
 
@@ -297,8 +301,8 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 * Tablet: Java-based tool for visualizing SAM/BAM outputs
 * Provides an interactive coverage plot.
-* Try it out!
-
+* [Download Linux (64 bit) installer](https://ics.hutton.ac.uk/tablet/download-tablet/)
+* Try it out using `local.sam` and `data/Zika-reference.ca`
 
 
 # Mapeo adaptative de la referencia
@@ -370,8 +374,8 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 bowtie2-build -qf sandbox/updated.fa sandbox/updated
 
 bowtie2 -x sandbox/updated \
- -1 data/Zika-envelope.n1E4.R1.fastq \
- -2 data/Zika-envelope.n1E4.R2.fastq \ 
+ -1 data/Zika-envelope.n1E4.R1.fastq.gz \
+ -2 data/Zika-envelope.n1E4.R2.fastq.gz \ 
  -S sandbox/updated.sam
 ```
 
