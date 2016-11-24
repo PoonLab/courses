@@ -516,6 +516,21 @@ can cause collisions
 
 
 
+# How did we do?
+
+* The true composition of the sample was:
+    * Zika virus (NC_012532.1) = 1000 (6.7%)
+    * HIV (HXB2) = 3000 (20%)
+    * HCV (H77) = 6000 (40%)
+    * random = 5000 (33.3%)
+* To check:
+  ```
+  grep -c NC_012 mixed3.sam
+  grep -c H77 mixed3.sam
+  grep -c HXB2 mixed3.sam
+  ```
+
+
 # Advertencias
 
 * These scripts were prepared for this workshop to demonstrate how 
