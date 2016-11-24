@@ -366,6 +366,11 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
+* Workflow
+![Schematic of bioinformatic workflow for adaptive reference mapping](workflow.png)
+
+
+
 # &iquest;Funciona?
  
 * Try remapping FASTQ files to new reference
@@ -485,6 +490,29 @@ sandbox/slice-1700-2000.nwk
 
 * Need to be cautious about mapping to similar references because adaptive algorithm 
 can cause collisions
+
+* Try using `bowtie2` and `adapt-ref.py` on the following files:
+    * `mixed-references.fa`
+    * `mixed.R1.fastq`
+    * `mixed.R2.fastq`
+
+
+
+# My workflow:
+```
+  606  bowtie2-build -q -f data/mixed-references.fa sandbox/mixed-ref
+  607  bowtie2 -x sandbox/mixed-ref -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed.sam --local
+  608  python scripts/adapt-ref.py -h
+  609  python scripts/adapt-ref.py sandbox/mixed.sam data/mixed-references.fa sandbox/mixed.fa
+  610  bowtie2-build -q -f sandbox/mixed.fa sandbox/mixed-ref1
+  611  bowtie2 -x sandbox/mixed-ref1 -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed2.sam --local
+  612  python scripts/adapt-ref.py sandbox/mixed2.sam sandbox/mixed.fa  sandbox/mixed2.fa
+  613  bowtie2-build -q -f sandbox/mixed2.fa sandbox/mixed-ref2
+  614  bowtie2 -x sandbox/mixed-ref2 -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed3.sam --local
+```
+
+
+# Have a look at your work in Tablet!
 
 
 
