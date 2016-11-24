@@ -1,4 +1,4 @@
-# Secuenciaci&oacute;n de pr&oacute;xima generaci&oacute;n para la evoluci&oacute;n del virus
+# Secuenciaci&oacute;n de nueva generaci&oacute;n para la evoluci&oacute;n del virus
 <!--- Next-generation sequencing analysis for virus evolution -->
 ## Art Poon [@GitHub](https://github.com/ArtPoon)
 
