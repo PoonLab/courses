@@ -502,7 +502,6 @@ can cause collisions
 ```
   606  bowtie2-build -q -f data/mixed-references.fa sandbox/mixed-ref
   607  bowtie2 -x sandbox/mixed-ref -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed.sam --local
-  608  python scripts/adapt-ref.py -h
   609  python scripts/adapt-ref.py sandbox/mixed.sam data/mixed-references.fa sandbox/mixed.fa
   610  bowtie2-build -q -f sandbox/mixed.fa sandbox/mixed-ref1
   611  bowtie2 -x sandbox/mixed-ref1 -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed2.sam --local

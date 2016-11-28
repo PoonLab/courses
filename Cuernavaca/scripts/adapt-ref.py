@@ -5,6 +5,10 @@ import os
 import argparse
 
 tempdir = tempfile.gettempdir()
+if not os.access(tempdir, os.W_OK):
+    # user does not have permission to write to temporary directory
+    tempdir = os.getcwd()
+
 cigar_re = re.compile('[0-9]+[MIDNSHPX=]')  # CIGAR token
 indel_re = re.compile('[+-][0-9]+')
 
@@ -178,7 +182,13 @@ def pileup_to_conseq (pileup, qCutoff):
                 j += 1
             else:
                 # Operative case: sequence matches reference (And no indel ahead)
-                q = ord(qstr[j])-33
+                try:
+                    q = ord(qstr[j])-33
+                except:
+                    print astr[i]
+                    print qstr
+                    print i, j
+                    raise
                 base = astr[i].upper() if q >= qCutoff else 'N'
                 alist.append(base)
                 i += 1
@@ -251,6 +261,7 @@ def get_boundaries(str):
 
 def update_reference(reference, conseq):
     #alignment = pairwise2.align.localxx(reference, conseq)  # too slow!!!
+    tempdir = os.getcwd()
     infile = os.path.join(tempdir, 'remap.fa')
     outfile = infile.replace('.fa', '.mafft.fa')
     with open(infile, 'w') as handle:
