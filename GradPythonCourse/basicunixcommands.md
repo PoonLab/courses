@@ -78,4 +78,16 @@
   * Allows users the right to access files in directory
 
 # Changing Access Rights to Directories and Files
-
+* **chmod**
+ * Allows owner to change permissions of a file
+ * Options:
+  * **u** user
+  * **g** group
+  * **o** other
+  * **a** all
+  * **r** read
+  * **w** write and delete
+  * **x** execute and access directory
+  * **+** add permission
+  * **-** remove permission
+ 
