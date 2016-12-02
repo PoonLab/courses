@@ -26,3 +26,35 @@
   * /usr/bin are programs run by users and are necessary for the functions of the system
   * /usr/local/bin are where installed programs by the user are stored
 
+# Basic Commands
+* **ls**
+ * Lists files in your current working directory
+ * Exception: Unless you are very familiary with Unix, some files should not be changed and are kept hidden
+ * These files begin with a period (.)
+ * To find all files, use the **ls -a** command
+* **mkdir**
+ * Allows you to make a subdirectory in your home directory
+ * Example: % mkdir PoonLab
+* **cd**
+ * Allows you to change directory from the current working directory
+ * Example: % cd PoonLab
+
+* **(.)**
+ * The current directory
+ * Example: % cd .
+* **(..)**
+ * Considering the hierachal structure of the files, the parent directory command will bring you directly up the hierarchy
+* **pwd**
+ * Present working directory
+ * Will give the full pathname of the current directory that you are in
+
+* **cp**
+ * Allows you to copy files
+ * Example: cp file file1 allows you to copy file in your current working directory and name it file1
+* **mv**
+ * Allows you to move files
+ * Example: mv file file1 allows you to move file to file1
+* **rm** and **rmdir**
+ * Allows you to remove a file (rm) or remove a directory (rmdir)
+ 
+
