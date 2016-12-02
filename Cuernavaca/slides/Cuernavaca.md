@@ -1,8 +1,10 @@
-# Secuenciaci&oacute;n de pr&oacute;xima generaci&oacute;n para la evoluci&oacute;n del virus
+# Secuenciaci&oacute;n de nueva generaci&oacute;n para la evoluci&oacute;n del virus
 <!--- Next-generation sequencing analysis for virus evolution -->
-## Art Poon [@GitHub](github.com/ArtPoon)
+## Art Poon [@GitHub](https://github.com/ArtPoon)
 
-#### Departments of Pathology and Laboratory Medicine; Microbiology and Immunology; Applied Mathematics at Western University, Ontario, Canada
+#### Department of Pathology and Laboratory Medicine;  Microbiology and Immunology; and Applied Mathematics
+
+![](images/WesternLogo.png)
 
 
 
@@ -10,9 +12,14 @@
 
 * All slides, code and data are available at 
 [http://github.com/PoonLab/courses](http://github.com/PoonLab/courses)
-![GitHub](/img/github-logo.png)
+<center>![GitHub](/img/github-logo.png)</center>
+```
+cd Desktop
+git clone https://github.com/PoonLab/courses.git
+```
+>>>>>>> 1a15a81022ed89b424a8ab7bfad4def09a0919a4
 
-* Download a copy from the releases page.
+* OR download a copy from the releases page.
 * Both `*.tar.bz` and `*.zip` archives should be available. 
 
 
@@ -39,7 +46,7 @@
 
 # Cumplir con la l&iacute;nea de comandos
 
-![](/img/es.tar.png) 
+<center>![](/img/es.tar.png)</center> 
 
 
 
@@ -106,21 +113,33 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 
 
+# Otros problemas
+
+1. Bad tile/cycle combinations
+2. Longitudinal (between-run) contamination
+3. Cross-sectional (within-run) contamination
+
+
+
+# Mala azulejos / ciclos
+<center>
+![Bad tile-cycle combinations in a MiSeq run](/img/bad-cycles.png)
+</center>
+
+
+* Not necessarily a big problem for random libraries
+* Can be a really big problem for amplicon libraries!
+
+
+
 # Significaci&oacute;n cl&iacute;nica
 
 * Every subtype B sample in a MiSeq run had a substantial frequency (~3%) of resistance mutation E138A
 * Quality scores were fine!
 
-![Frequency of E138A declined from 3% to neglible once we removed bad cycles](mutation-barplot-v2.png)
-
-
-
-# Mala azulejos / ciclos
-
-![Bad tile-cycle combinations in a MiSeq run](/img/bad-cycles.png)
-
-* Not necessarily a big problem for random libraries
-* Can be a really big problem for amplicon libraries!
+<center>
+![Frequency of E138A declined from 3% to neglible once we removed bad cycles](images/mutation-barplot-v2.png)
+</center>
 
 
 
@@ -129,7 +148,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 * These are binary files (not human readable) that store quality and error metrics associated with the run.
 * Try this:
 ```
-less ErrorMetricsOut.bin
+less data/ErrorMetricsOut.bin
 ```
 * Contents of this file are documented [here](http://support.illumina.com/content/dam/illumina-support/documents/documentation/software_documentation/sav/sequencing-analysis-viewer-v1_8_46-guide-15066069-a.pdf)
 * We want to access the tile/cycle-specific &phi;X174 error rates contained in `ErrorMetricsOut.bin`
@@ -144,7 +163,7 @@ less ErrorMetricsOut.bin
 % mkdir sandbox
 % python scripts/parse-interop.py data/ErrorMetricsOut.bin \
   sandbox/errorrates.csv
-% Rscript scripts/error-metrics.R sandbox/errorates.csv \
+% Rscript scripts/error-metrics.R sandbox/errorrates.csv \
   sandbox/errorrates.pdf
 ```
 
@@ -152,7 +171,46 @@ less ErrorMetricsOut.bin
 
 # Visualizar las tasas de error
 
-![alt text](/img/ErrorMetricsOut.png)
+![Plot of error metrics](/img/ErrorMetricsOut.png)
+
+
+
+# Contaminac&oacute;n cruzada longitudinal
+
+* Reads from previous runs appear in the current run.
+
+* Used modified PCR primer with extra T (TAATG, start 130926), alternated primers between runs.
+
+<center>![Measures of longitudinal run contamination](images/carryover1.png)</center>
+<small>LC Swenson et al., Tropism Testing by MiSeq Is Comparable to 454-Based Methods but Exhibits Contamination Issues; Abstract #611, Conference on Retroviruses and Opportunistic Infections, Boston, MA, March 3-6, 2014</small>
+
+
+
+# &iexcl;Blanquear al rescate!
+
+* Eventually a revised wash protocol with bleach was [posted](https://drive.google.com/file/d/0B383TG7oJh2CTWp6MzZkMHBDd28/edit) by Illumina
+
+<center>
+![Reduction of longitudinal run contamination with bleach wash](images/carryover2.png)
+</center>
+
+
+
+# Contaminaci&oacute;n cruzada en el interior
+
+* We were running hepatitis C virus (HCV) and human leukocyte antigen (HLA) loci 
+samples on the same run, different indices
+
+* Some reads in HCV sample were mapping to HLA, and vice versa!
+
+
+
+# Asociados con &iacute;ndices compartidos
+
+![](images/cross-contamination.png)
+
+* Can be resolved by using unique indices!
+<small>CJ Brumme et al., Within-Run Cross-Contamination in Deep Sequencing Applications on the Illumina MiSeq; Abstract #592, Conference on Retroviruses and Opportunistic Infections, Seattle, WA, February 23-26, 2015</small>
 
 
 
@@ -202,6 +260,7 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 ```
 
 
+
 # Muy poco lecturas mapeadas a la referencia
 ```
 10000 reads; of these:
@@ -243,8 +302,8 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 * Tablet: Java-based tool for visualizing SAM/BAM outputs
 * Provides an interactive coverage plot.
-* Try it out!
-
+* [Download Linux (64 bit) installer](https://ics.hutton.ac.uk/tablet/download-tablet/)
+* Try it out using `local.sam` and `data/Zika-reference.ca`
 
 
 # Mapeo adaptative de la referencia
@@ -308,6 +367,11 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 
 
 
+* Workflow
+![Schematic of bioinformatic workflow for adaptive reference mapping](workflow.png)
+
+
+
 # &iquest;Funciona?
  
 * Try remapping FASTQ files to new reference
@@ -316,8 +380,8 @@ bowtie2 -x data/zika -1 data/Zika-envelope.n1E4.R1.fastq.gz \
 bowtie2-build -qf sandbox/updated.fa sandbox/updated
 
 bowtie2 -x sandbox/updated \
- -1 data/Zika-envelope.n1E4.R1.fastq \
- -2 data/Zika-envelope.n1E4.R2.fastq \ 
+ -1 data/Zika-envelope.n1E4.R1.fastq.gz \
+ -2 data/Zika-envelope.n1E4.R2.fastq.gz \ 
  -S sandbox/updated.sam
 ```
 
@@ -366,6 +430,8 @@ Updated reference with 10 differences
 ![](/img/tablet-updated.png)
 
 
+* Try opening the new SAM file in Tablet
+
 
 # &iexcl;Esto no es &uacute;til!
 
@@ -394,7 +460,10 @@ python scripts/slice-sam.py -refname NC_012532.1 \
 
 # &iexcl;Mucho mejor!
 
+<center>
 ![](/img/slice-1700-2000.png)
+</center>
+
 
 
 
@@ -412,9 +481,57 @@ sandbox/slice-1700-2000.nwk
 
 # 
 
+<center>
 ![A tree](/img/tree-small.png)
+</center>
 
 
+
+# &iquest;Qu&eacute; pasa con la metagen&oacute;mica viral? 
+>>>>>>> 1a15a81022ed89b424a8ab7bfad4def09a0919a4
+
+* We are already doing this with multiple virus targets (HIV, hepatitis C virus)
+
+* Need to be cautious about mapping to similar references because adaptive algorithm 
+can cause collisions
+
+* Try using `bowtie2` and `adapt-ref.py` on the following files:
+    * `mixed-references.fa`
+    * `mixed.R1.fastq`
+    * `mixed.R2.fastq`
+
+
+
+# My workflow:
+```
+  606  bowtie2-build -q -f data/mixed-references.fa sandbox/mixed-ref
+  607  bowtie2 -x sandbox/mixed-ref -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed.sam --local
+  609  python scripts/adapt-ref.py sandbox/mixed.sam data/mixed-references.fa sandbox/mixed.fa
+  610  bowtie2-build -q -f sandbox/mixed.fa sandbox/mixed-ref1
+  611  bowtie2 -x sandbox/mixed-ref1 -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed2.sam --local
+  612  python scripts/adapt-ref.py sandbox/mixed2.sam sandbox/mixed.fa  sandbox/mixed2.fa
+  613  bowtie2-build -q -f sandbox/mixed2.fa sandbox/mixed-ref2
+  614  bowtie2 -x sandbox/mixed-ref2 -1 data/mixed.R1.fastq.gz -2 data/mixed.R2.fastq.gz -S sandbox/mixed3.sam --local
+```
+
+
+# Have a look at your work in Tablet!
+
+
+
+# How did we do?
+
+* The true composition of the sample was:
+    * Zika virus (NC_012532.1) = 1000 (6.7%)
+    * HIV (HXB2) = 3000 (20%)
+    * HCV (H77) = 6000 (40%)
+    * random = 5000 (33.3%)
+* To check:
+  ```
+  grep -c NC_012 mixed3.sam
+  grep -c H77 mixed3.sam
+  grep -c HXB2 mixed3.sam
+  ```
 
 
 # Advertencias
@@ -428,3 +545,14 @@ or clinical purposes.
 * I have skipped many steps, such as read trimming.
 
 * All materials are free to use under the GNU Affero GPL license.
+
+
+
+# Expresiones de gratitud
+
+* The laboratory results I have cited were obtained by the *BC Centre for Excellence in HIV/AIDS* 
+(Chanson J. Brumme, Luke C. Swenson, Hope Lapointe, P. Richard Harrigan)
+
+* My new lab is supported by grants from Genome Canada and the Canadian Institutes of Health Research
+
+*  **&iexcl;Posiciones disponibles!**
