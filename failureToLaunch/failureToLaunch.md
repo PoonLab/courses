@@ -39,7 +39,7 @@
 
 # Cumplir con la l&iacute;nea de comandos
 
-![](/img/es.tar.png) 
+![](es.tar.png) 
 
 
 
@@ -117,7 +117,7 @@ CCGGGATCTTGTTGATTGTGAACGCTGCGGTACCTAAGGATGACACGCCTTTCAATCCATGTTTGTCCGTT
 
 # Mala azulejos / ciclos
 
-![Bad tile-cycle combinations in a MiSeq run](/img/bad-cycles.png)
+![Bad tile-cycle combinations in a MiSeq run](bad-cycles.png)
 
 * Not necessarily a big problem for random libraries
 * Can be a really big problem for amplicon libraries!
@@ -152,7 +152,7 @@ less ErrorMetricsOut.bin
 
 # Visualizar las tasas de error
 
-![alt text](/img/ErrorMetricsOut.png)
+![alt text](ErrorMetricsOut.png)
 
 
 
@@ -363,7 +363,7 @@ Updated reference with 10 differences
 
 # Echemos un vistazo al resultado de nuevo
 
-![](/img/tablet-updated.png)
+![](tablet-updated.png)
 
 
 
@@ -394,7 +394,7 @@ python scripts/slice-sam.py -refname NC_012532.1 \
 
 # &iexcl;Mucho mejor!
 
-![](/img/slice-1700-2000.png)
+![](slice-1700-2000.png)
 
 
 
@@ -412,7 +412,7 @@ sandbox/slice-1700-2000.nwk
 
 # 
 
-![A tree](/img/tree-small.png)
+![A tree](tree-small.png)
 
 
 
