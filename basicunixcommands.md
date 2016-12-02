@@ -56,5 +56,26 @@
  * Example: mv file file1 allows you to move file to file1
 * **rm** and **rmdir**
  * Allows you to remove a file (rm) or remove a directory (rmdir)
- 
+
+# Access Rights to Directories and Files
+* Each file has access rights associated with it
+* These right can be found using the **ls -l** command, which essentially gives you the "long" listing of the file name
+* Example: -rwxrw-r-- 1 echadwi 562 Dec 2nd 2016 PoonLab
+ * The 9 letter symbol at the beginning gives the access rights
+* Access rights on files
+ * **r**
+  * Read permission
+ * **w**
+  * write permission
+ * **x**
+  * execution permission
+* Access rights on directories
+ * **r**
+  * Allows users to list files in directory
+ * **w**
+  * Allows users to delete or move files
+ * **x**
+  * Allows users the right to access files in directory
+
+# Changing Access Rights to Directories and Files
 
