@@ -1,19 +1,21 @@
-# Secuenciaci&oacute;n de pr&oacute;xima generaci&oacute;n para la evoluci&oacute;n del virus
-<!--- Next-generation sequencing analysis for virus evolution -->
-## Art Poon [@GitHub](github.com/ArtPoon)
+# Failure to Launch: Challenges in bringing next-generation sequencing into the clinical HIV laboratory
 
+## Art Poon [@GitHub](github.com/ArtPoon)
 #### Departments of Pathology and Laboratory Medicine; Microbiology and Immunology; Applied Mathematics at Western University, Ontario, Canada
 
 
 
-# Materiales del seminario
+# HIV genotyping is standard of care
 
-* All slides, code and data are available at 
-[http://github.com/PoonLab/courses](http://github.com/PoonLab/courses)
-![GitHub](/img/github-logo.png)
+* 
 
-* Download a copy from the releases page.
-* Both `*.tar.bz` and `*.zip` archives should be available. 
+
+
+# BC Centre for Excellence in HIV/AIDS
+
+* A CAP accredited clinical laboratory for HIV genotyping.
+* BC Drug Treatment Program - fully subsidized clinical testing and treatment for all residents of BC living with HIV
+* A population database with clinical, demographic and genetic data for nearly 9,000 patients. 
 
 
 
@@ -39,7 +41,7 @@
 
 # Cumplir con la l&iacute;nea de comandos
 
-![](es.tar.png) 
+![](/img/es.tar.png) 
 
 
 
