@@ -40,7 +40,7 @@ def main():
     passed = filter(lambda x: count_bases(x[1]) > args.minlen, iter_fasta(args.fasta))
     for label, seq in passed:
         args.outfile.write('>%s\n%s\n' % (label, seq))
-        
+
 
 if __name__ == '__main__':
     main()
