@@ -60,7 +60,10 @@
 # Access Rights to Directories and Files
 * Each file has access rights associated with it
 * These right can be found using the **ls -l** command, which essentially gives you the "long" listing of the file name
-* Example: -rwxrw-r-- 1 echadwi 562 Dec 2nd 2016 PoonLab
+* Example: 
+  ```
+  -rwxrw-r-- 1 echadwi 562 Dec 2nd 2016 PoonLab
+  ```
  * The 9 letter symbol at the beginning gives the access rights
 * Access rights on files
  * **r**
