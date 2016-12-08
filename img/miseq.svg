@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="616.66px" height="279px" viewBox="0 0 616.66 279" enable-background="new 0 0 616.66 279" xml:space="preserve">
+<g>
+	<defs>
+		<polygon id="SVGID_1_" points="0,262 614,279 614,17 0,0 		"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	<rect x="-155" y="-308" clip-path="url(#SVGID_2_)" fill="#FFFFFF" width="1152" height="1466"/>
+	<polygon clip-path="url(#SVGID_2_)" fill="#FFFFFF" points="61.72,217.801 287,217.801 230.68,257.801 5.4,257.801 	"/>
+	
+		<polygon clip-path="url(#SVGID_2_)" fill="none" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+		61.72,217.801 287,217.801 230.68,257.801 5.4,257.801 	"/>
+	
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#FF8000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M157.4,121.8c6.933,14.399,14.667,24.536,20.8,43.2s10.667,45.869,16,68.801"/>
+	
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#FF8000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M194.2,121.8c0.533,17.599-1.333,32.536,1.6,52.8c2.934,20.266,10.667,45.869,16,68.801"/>
+	
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#FF8000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M245.8,133c-5.333,15.998-12.467,31.469-16,48s-3.467,34.135-5.2,51.199"/>
+	
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#FF8000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M106.2,233.801c2.666-16,9.6-34.936,8-48c-1.6-13.066-11.468-30.934-17.601-30.4S79.8,175.936,77.4,189
+		c-2.4,13.066,3.2,29.869,4.8,44.801"/>
+	
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#FF8000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M224.6,144.199c-5.332,16-12.467,31.469-16,48c-3.532,16.533-3.467,34.137-5.199,51.201"/>
+	<g clip-path="url(#SVGID_2_)">
+		<text transform="matrix(1 0 0 1 7.2256 40.4004)" font-family="'Helvetica'" font-size="24">Bridge ampliﬁcation and </text>
+	</g>
+	<g clip-path="url(#SVGID_2_)">
+		<text transform="matrix(1 0 0 1 23.2275 68.4004)" font-family="'Helvetica'" font-size="24">cluster generation on </text>
+	</g>
+	<g clip-path="url(#SVGID_2_)">
+		<text transform="matrix(1 0 0 1 49.9346 96.4004)" font-family="'Helvetica'" font-size="24">ﬂow cell surface</text>
+	</g>
+	
+		<path clip-path="url(#SVGID_2_)" fill="none" stroke="#FF8000" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M533.777,115.677c-21.771,21.709-45.254,42.646-65.318,65.134s-36.725,46.543-55.084,69.811"/>
+	
+		<line clip-path="url(#SVGID_2_)" fill="none" stroke="#0080FF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="547.764" y1="131.45" x2="518.039" y2="158.938"/>
+	<path clip-path="url(#SVGID_2_)" fill="#8000FF" d="M516.256,166.004c1.258,4.695-1.527,9.52-6.223,10.777
+		c-4.693,1.258-9.52-1.527-10.777-6.223c-1.258-4.693,1.527-9.52,6.223-10.777C510.172,158.523,514.998,161.309,516.256,166.004"/>
+	<path clip-path="url(#SVGID_2_)" fill="#FF0000" d="M523.924,176.59c1.258,4.693-1.527,9.52-6.223,10.777
+		c-4.693,1.258-9.52-1.527-10.777-6.223s1.527-9.52,6.223-10.777C517.84,169.109,522.666,171.895,523.924,176.59"/>
+	<g clip-path="url(#SVGID_2_)">
+		<text transform="matrix(1 0 0 1 353.8086 40)" font-family="'Helvetica'" font-size="24">Add ﬂuorophore-labeled </text>
+	</g>
+	<g clip-path="url(#SVGID_2_)">
+		<text transform="matrix(1 0 0 1 372.5293 68)" font-family="'Helvetica'" font-size="24">reversible terminator </text>
+	</g>
+	<g clip-path="url(#SVGID_2_)">
+		<text transform="matrix(1 0 0 1 421.1914 96)" font-family="'Helvetica'" font-size="24">nucleotides</text>
+	</g>
+	<polygon clip-path="url(#SVGID_2_)" fill="#FFFF00" points="534.635,154.395 531.855,167.471 543.434,174.154 530.139,175.553 
+		527.359,188.629 521.922,176.416 508.627,177.812 518.561,168.867 513.123,156.654 524.701,163.34 	"/>
+	<polygon clip-path="url(#SVGID_2_)" fill="#FFFF00" points="540.438,162.744 531.492,172.68 538.178,184.256 525.965,178.818 
+		517.02,188.754 518.416,175.459 506.203,170.021 519.279,167.242 520.678,153.947 527.361,165.523 	"/>
+</g>
+</svg>
