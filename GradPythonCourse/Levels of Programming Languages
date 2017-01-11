@@ -1,1 +1,63 @@
+# **Python Lecture 1**
+
+# Different levels of coding language
+* From low to high:
+  * Logic gates
+    * Example: AND gate
+  * Assembly
+    * Example: Roller Coaster Tycoon
+  * Compiled C
+    * Human readable, also optimizes automatically
+  * Scripting language
+    * Example: Python (more readable, more convenient, but slower)
+    *          Pearl
+    *          Ruby
+
+# Base Objects
+* Non-iterable 
+  * Integers
+    * Example: 27
+  * Floats
+    * Example: 3.41
+* Iterable
+  * Strings (not mutable)
+    * Example: "apple"
+  * Tuple (not mutable)
+    * Example: (27, 3.41, 'apple')
+  * List (mutable)
+    * Example: [27, 3.41, ‘apple’]
+  * Dict (mutable)
+    * Example: {27: 'a'
+                3.41: 7
+                'apple':[1,2]}
+    * NOTE: Dict is an associative list that is made up of key-value pairs
+    * Example: Key= dog, value= definition
+
+# Dynamic Typing
+* a=7 (integer)
+* Note: you are assigning the integer 7 to 'a'
+* When you type 'a' into python, it will be defined as 7
+* 'a' can also be a string, float, etc.
+
+# Operator
+* Function that acts on objects
+* Examples:
+  * +
+    * Example: a= 1+2=3
+    *          a= "western"+"university"= "westernuniversity"
+  *  *
+    * Example: a=3*4=12
+    *          a= "bird"*3= 'birdbirdbird'
+
+# Python is a Zero-based Index
+* What does this mean?
+* Let's use this example to explain:
+  * a= "apple"
+  * a[0]...'a'
+  * a[3]...'l'
+  * a[0:2]...'ap'
+  * a[1:-1]... 'ppl'
+
+  
+
 
