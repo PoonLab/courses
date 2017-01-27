@@ -31,7 +31,14 @@
  * Lists files in your current working directory
  * Exception: Unless you are very familiary with Unix, some files should not be changed and are kept hidden
  * These files begin with a period (.)
- * To find all files, use the **ls -a** command
+ * To find all files, use the **ls -a** command: for example,
+ ```
+ # ls -a
+ .
+ ..
+ .hidden_file
+ something_else.txt
+ ```
 * **mkdir**
  * Allows you to make a subdirectory in your home directory
  * Example: % mkdir PoonLab
