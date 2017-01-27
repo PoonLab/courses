@@ -24,7 +24,7 @@
 * /bin is a subdirectory of the root directory that contains programs that are necessary for the most basic functions of the system (ie. starting and repairing the system)
 * /usr is also a subdirectory of the root directory that can be broken down into two sub categories
   * /usr/bin are programs run by users and are necessary for the functions of the system
-  * /usr/local/bin are where installed programs by the user are stored
+  * `/usr/local/bin` are where installed programs by the user are stored
 
 # Basic Commands
 * **ls**
