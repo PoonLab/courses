@@ -1,11 +1,21 @@
 ## Prerequisites
 * students must have a laptop to work on
-* your laptop must have a UNIX-like computing environment, e.g., Linux, OS-X
+* your laptop must have a UNIX-like computing environment, e.g., Linux, Apple OS-X
 * install [PyCharm](https://www.jetbrains.com/pycharm/)
 * install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
+## Grading
+
+| Percent | Assessment |
+|---------|------------|
+| 10% | Participation (including computing skills survey) |
+| 30% | Assignments (8) |
+| 10% | Project proposal |
+| 50% | Coding project |
+
+
 ## May 2, 2017 - [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
-* Computing skills survey
+* Computing skills survey 
 * What is bioinformatics?
 * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
 * [Working on the command-line](basicunixcommands.md)
@@ -71,3 +81,4 @@
 * argparse
 * refactoring
 * unit testing
+* Retaking computing skills survey 
