@@ -21,44 +21,53 @@
 * mutables
 * Assignment: Reading a file
 
-## May 30, 2017 - Flow control
+## May 16, 2017 - Flow control
 * loops (for, while)
 * if-else statements (conditionals)
 * the toothbrush exercise
 * Assignment: Filtering a file by lines
+* Deadline: Project proposal in Markdown
+* Assignment: Data processing project (deadline June 27)
 
-## May 16, 2017 - Working with iterables
+## May 30, 2017 - Working with iterables
 * Indexing
 * Slicing
 * Building strings
 * [Formatted strings](https://en.wikipedia.org/wiki/Printf_format_string)
 * Dictionaries (associative lists)
 * Assignment: Filtering a file by entries
+* Assignment: Create a GitHub account
 
-## **June 1, 2017** - Code maintenance
+## June 1, 2017 - Clinical, biomedical data formats
+* tabular (CSV, TSV)
+* ClinVar
+* [COSMIC](http://cancer.sanger.ac.uk/cosmic)
+
+## **June 6, 2017** - Code maintenance
 * [PEP8](https://www.python.org/dev/peps/pep-0008/)
 * documentation
 * version control
 * [learning Git](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
-* code exchange exercise
-* Assignment: Create a GitHub account
-* Assignment: software archeology
+* Collaborative coding exercise
+* Assignment: Python script archeology
 
-## June 6, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
+## June 13, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
 * Regular languages
 * Special characters
 * Group capture
 * Substitutions
 * Assignment: Parsing a text file
 
-## June 13, 2017 - [Working with large data]
-* Generators
-* Writing efficient code
+
+## June 20, 2017 - Genetic sequence data formats
+* BioPython
+* GenBank
+* FASTQ
+* SAM, BAM, VCF
 
 
-## June 20, 2017
-
-## June 27, 2017
-
-
-
+## June 27, 2017 - Packaging your code
+* sys
+* argparse
+* refactoring
+* unit testing
