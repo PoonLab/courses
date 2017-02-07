@@ -48,20 +48,17 @@
 * Assignment: Filtering a file by entries
 * Assignment: Create a GitHub account
 
-## June 1, 2017 - Clinical, biomedical data formats
+## June 1, 2017 - Biological data formats
 * tabular (CSV, TSV)
-* ClinVar
+* [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/)
 * [COSMIC](http://cancer.sanger.ac.uk/cosmic)
+* [BioPython](https://github.com/biopython/biopython)
+* [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
+* [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)
+* [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
 
-## **June 6, 2017** - Code maintenance
-* [PEP8](https://www.python.org/dev/peps/pep-0008/)
-* documentation
-* version control
-* [learning Git](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
-* Collaborative coding exercise
-* Assignment: Python script archeology
 
-## June 13, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
+## June 6, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
 * Regular languages
 * Special characters
 * Group capture
@@ -69,11 +66,19 @@
 * Assignment: Parsing a text file
 
 
-## June 20, 2017 - Genetic sequence data formats
-* BioPython
-* GenBank
-* FASTQ
-* SAM, BAM, VCF
+## June 13, 2017 - Workflow integration
+* bash scripting
+* pipes
+* Python [subprocess](https://docs.python.org/3/library/subprocess.html) module
+
+
+## June 20, 2017 - Code maintenance
+* [PEP8](https://www.python.org/dev/peps/pep-0008/)
+* documentation
+* version control
+* [learning Git](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
+* Collaborative coding exercise
+* Assignment: Python script archeology
 
 
 ## June 27, 2017 - Packaging your code
