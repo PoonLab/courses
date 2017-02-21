@@ -450,12 +450,32 @@ CJ Brumme et al. Abstract #592, Conference on Retroviruses
 
 
 
+# The ![Kive](/img/kive-logo.svg) Development Team
+ 
+* Richard H Liang, [rhliang](https://github.com/rhliang) ![](https://avatars0.githubusercontent.com/u/5862525?v=3&s=60)
+* Don Kirkby, [donkirkby](https://github.com/donkirkby) ![](https://avatars0.githubusercontent.com/u/1639148?v=3&s=60)
+* James Nakagawa, [jamesnakagawa](https://github.com/jamesnakagawa)
+* Rosemary McCloskey, [rmcclosk](https://github.com/rmcclosk) ![](https://avatars0.githubusercontent.com/u/768594?v=3&s=60)
+* Joshua Horacsek, [jjh13](https://github.com/jjh13)  
+* Eric Martin, [emartin-cfe](https://github.com/emartin-cfe)
+
+
+
 # Acknowledgements
 
 * The laboratory results I have cited were obtained by my former colleagues at 
  the *BC Centre for Excellence in HIV/AIDS* 
- (Chanson J. Brumme, Luke C. Swenson, Hope Lapointe, P. Richard Harrigan)
+  * Chanson J. Brumme
+  * Luke C. Swenson
+  * Hope Lapointe
+  * P. Richard Harrigan
 
+
+
+# Funding
 <center>
 ![](/img/GenomeCanadaLogo.png) ![](/img/shim.png) ![](/img/cihr.png)
+<br>
+<br>
+Positions available!
 </center>
