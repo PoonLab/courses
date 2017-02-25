@@ -45,6 +45,7 @@
 * This study is a prime example of how we can use clinical laboratory data to perform a direct test on human pathophysiology
 * Daily, ~2.5x10^11 new RBCs are released from the bone marrow into the peripheral circulation, and continue to undergo an accelerated decline in volume and hemoglobin within a few days
 * Subsequently, a longer period of slower decline occurs, and the volume and hemoglobin are coregulated
+
 ## Results
 * This study compares the probability distributions of reticulocytes (immature RBCs) and the mature RBCs circulating in the blood and found that the correlation between volume and hemoglobin content increases as the cells mature
  * Correlation coefficient of ~0.40 for the reticulocyte population and ~0.85 for the full population
