@@ -70,7 +70,38 @@
 * From computational methods, it was determined that there is a strong genetic association to RFP and suggests that HCV genetic heterogeneity has a measurable effect on the severity of liver disease
 * Furthermore, genetic assays can be developed for measuring virulence of HCV strains in clinical/public health settings
 
+# Predicting Functional Effect of Human Missense Mutations Using PolyPhen-2
+## Software Overview
+* Polymorphism Phenotyping v2 (PolyPhen-2) is a software that can predict the possible impact of amino acid substitutions on the stability and function of human proteins
+* This software uses structural and comparative evolutionary considerations to make predictions
+* Functions:
+  * annotate single-nucleotide polymorphisms (SNPs)
+  * map coding SNPs to gene transcripts
+  * extracts protein sequence annotations and structural attributes
+  * *Note:* from all of these functinos, PolyPhen-2 can then estimate the probability of the missense mutation being damaging based on a combination of all of these properties
+ * PolyPhen-2 uses a multiple protein sequence alignment pipeline and a forecasting method applying machine learning classification
+ * PolyPhen-2 merges with University of California, Santa Cruz's Genome Browser and MultiZ multiple alignments of vertebrae genomes with the human genome
+ * It is able to process large volumes of data produced by next-generation sequencing projects from the help of built-in support for high-performance computing environments like Grid Engine and Platform LSF
+ 
+# Automated screening for myelodysplastic syndromes through analysis of complete blood count and cell population data parameters
+## Overview
+* Myelodysplastic syndromes (MDS) are diseases where the bone marrow in an individual does not make a sufficient amount of mature blood cells
+* Essentially, the patient will lack healthy red blood cells, white blood cells and platelets
+* This purpose of this study was to determine if data collectd by automated hematology analyzers during complete blood count (CBC) analysis might help to identify MDS in a routine  clinical setting
+* CBC parameters and demographic information in a large (>5000), unselected sequential cohort of outpatients was collected
+* The group of outpatients was divided into independent training and test groups to develop and validate random forest classifier that identifies MDS
 
+## Results
+* Random Forests:
+ * Used for classification and regression
+ * Operate by making a number of decision trees at training time and then outputting the class that is the "mode of classes" (classification) or "mean prediction" (regression) of that specific tree
+* The classifier effectively identified MDS and had a receiver operating characteristic area under the curve (AUC) of 0.942
+* Platelet distrubtion width and SD of RBC distribution width were the most discriminating variables within the classifier
+* Another independent set of patients (>200) validated a similar classifier from a second institution of the AUC of 0.93
+* This study shows the practicality of identifying MDS in an unselected outpatient population using data routinely collected during CBC analysis with a classifier that has been validated using two independent data sets from different institutions
+
+
+ 
 
 
 
