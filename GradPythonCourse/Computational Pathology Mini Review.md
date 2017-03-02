@@ -29,13 +29,13 @@
 # Current work in Computational Pathology
 * Examples include:
   * Physiological and pathological population dynamics of circulating human red blood cells
-   * John M. Higgins and L. Mahadevan
+    * John M. Higgins and L. Mahadevan
   * Computational models of liver fibrosis progression for hepatitis C virus chronic infection
-   * James Lara, F. Xavier Lopez-Labrador, Fernando Gonzalez-Candelas, Marina Berenguer, Yury E. Khadyakov
+    * James Lara, F. Xavier Lopez-Labrador, Fernando Gonzalez-Candelas, Marina Berenguer, Yury E. Khadyakov
   * Predicting Functional Effect of Human Missense Mutations Using PolyPhen-2
-   * Ivan Adzhubei, Daniel M. Jordan, Shamil R. Sunyaev
+    * Ivan Adzhubei, Daniel M. Jordan, Shamil R. Sunyaev
   * Automated screening for myelodysplastic syndromes through analysis of complete blood count and cell population data parameters
-   *  Phillipp W. Raess, Gert-Jan M. van de Geijn, Tjin L. Njo, Boudewijn Klop, Dmitry Sukhachev, Gerald Wertheim, Tom McAleer, Stepen R. Master and Adam Bagg
+    *  Phillipp W. Raess, Gert-Jan M. van de Geijn, Tjin L. Njo, Boudewijn Klop, Dmitry Sukhachev, Gerald Wertheim, Tom McAleer, Stepen R. Master and Adam Bagg
    
 # Example
 ![accessibility text, i.e., mouseover](http://www.pnas.org/content/107/47/20587/F1.medium.gif)
