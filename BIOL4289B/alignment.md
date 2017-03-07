@@ -250,7 +250,7 @@
 
 # Defining a cost function
 
- 
+
 
 ---
 
