@@ -34,6 +34,12 @@
 
 ---
 
+# Diversity of genomes
+
+![](genome-sizes.png)
+
+---
+
 # dsDNA viruses
 
 <table>
@@ -224,7 +230,14 @@
 
 ---
 
-# Sequence alignment
+# Working with virus diversity
+## Sequence alignment
+
+---
+
+# Sequence databases
+
+
 
 ## Learning objectives
 * Substitution matrices
@@ -241,10 +254,27 @@
 
 # Pairwise alignment
 
-* An alignment is a hypothesis about how components of two sequences are descended from a common ancestor.
-* Generally two reasons this is can be difficult:
+* An alignment is a hypothesis about how residues of two sequences are descended from a common ancestor.
+* Generally two problems to solve:
   1. Locating the overlap
+    ```bash
+    ACGTAGGAA  >>  ACGTAGGAA
+    CGTACG     >>  -CGTACG--
+    ```
   2. Insertion/deletion (indel) differences
+    ```bash
+    ACGTAGGAA   >>  ACGTAGG--AA
+    ACGACGTTAA  >>  ACG-ACGTTAA
+    ```
+
+---
+
+# Exact solution is too difficult
+
+* Thorne-Kishino-Felsenstein (1991; TKF91)
+* Explicit model of insertion and deletion events
+* Not feasible for data sets of modest size
+* Instead we almost always use a "heuristic" algorithm:
 
 ---
 
