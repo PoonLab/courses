@@ -226,6 +226,17 @@
 
 # Sequence alignment
 
+## Learning objectives
+* Substitution matrices
+* BLAST
+* Gap penalties
+* Affine penalties - gap open and extension
+* Global versus local alignment (terminal gap penalties)
+* Multiple sequence alignment - why this is difficult
+* Guide trees
+* Iterative alignment
+* Short read mappers
+
 ---
 
 # Pairwise alignment
@@ -238,6 +249,11 @@
 ---
 
 # Defining a cost function
+
+ 
+
+---
+
 
 * Inexact matches - we should weight them differently.
 * *e.g.*, transitions occur more often than transversions.
