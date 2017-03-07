@@ -6,10 +6,12 @@
 
 # Viruses matter
 
-* Not classified as "alive" (no metabolism, no translation)
-* Viruses evolve
-* Have significant impact on the fitness of organisms
-* Have signifcant impact on the environments of living things
+* Are viruses alive? (no metabolism, no translation)
+* Viruses evolve.
+* Have significant impacts on the fitness of organisms.
+* Important components of ecosystems.
+
+<center>![https://what-if.xkcd.com/80/](virus_mountain.png)</center>
 
 ---
 
@@ -31,12 +33,6 @@
 * Virus diversity organised by nucleic acid (Baltimore classification)
 * International Committee on Taxonomy of Viruses requires virus species to be distinguished by multiple criteria
 * A recent consensus statement published in [*Nature Reviews Microbiology*](http://www.nature.com/nrmicro/journal/vaop/ncurrent/full/nrmicro.2016.177.html) argues that a distinct genetic type should be sufficient to name a new species
-
----
-
-# Diversity of genomes
-
-![](genome-sizes.png)
 
 ---
 
@@ -230,25 +226,29 @@
 
 ---
 
-# Working with virus diversity
-## Sequence alignment
-
----
-
-# Sequence databases
-
-
-
+# Sequence alignment
 ## Learning objectives
-* Substitution matrices
-* BLAST
-* Gap penalties
-* Affine penalties - gap open and extension
-* Global versus local alignment (terminal gap penalties)
-* Multiple sequence alignment - why this is difficult
-* Guide trees
-* Iterative alignment
-* Short read mappers
+<table>
+<tr>
+<td>
+<ul>
+<li>Substitution matrices</li>
+<li>Gap penalties</li>
+<li>Affine penalties - gap open and extension</li>
+<li>Global versus local alignment (terminal gap penalties)</li>
+</ul>
+</td>
+<td>
+<ul>
+ <li>Multiple sequence alignment - why this is difficult
+ <li>Guide trees</li>
+ <li>Iterative alignment</li>
+ <li>Short read mappers</li>
+</ul>
+</td>
+</tr>
+</table>
+
 
 ---
 
@@ -257,40 +257,128 @@
 * An alignment is a hypothesis about how residues of two sequences are descended from a common ancestor.
 * Generally two problems to solve:
   1. Locating the overlap
-    ```bash
+  ```
     ACGTAGGAA  >>  ACGTAGGAA
     CGTACG     >>  -CGTACG--
-    ```
+  ```
+
   2. Insertion/deletion (indel) differences
-    ```bash
+  ```
     ACGTAGGAA   >>  ACGTAGG--AA
     ACGACGTTAA  >>  ACG-ACGTTAA
-    ```
+  ```
 
 ---
 
 # Exact solution is too difficult
 
 * Thorne-Kishino-Felsenstein (1991; TKF91)
-* Explicit model of insertion and deletion events
-* Not feasible for data sets of modest size
-* Instead we almost always use a "heuristic" algorithm:
+* Explicit model reconstructing ancestral insertion and deletion events
+  ```
+  ACGTAG  >>  AC-TAG  >>  ACTA[GC]G
+  ACTGTAG  >>  ACTGTAG[CG]  >>  ACT--AGCG
+  ```
+* Not feasible for data sets of even modest size
+* Instead we almost always use a "heuristic" algorithm
 
 ---
 
-# Defining a cost function
+# Substitution matrices
 
-
+* First developed by Dr. Margaret Dayhoff (PAM matrices)
+* *e.g.*, BLOSUM62, an empirical model of how often specific substitutions are expected to occur:
+  ```
+      Ala  Cys  Trp  Val
+  Ala   4    0   -3    0
+  Cys   0    9   -2   -1
+  Trp  -3   -2   11   -3
+  Val   0   -1   -3    4
+  ```
+`$$ S_{ij} = \log\frac{p_{ij}}{q_i q_j}$$` where $p_{ij}$ is observed pairs and $q_i$ is overall frequency of residue $i$
 
 ---
 
+# Gap penalties
 
-* Inexact matches - we should weight them differently.
-* *e.g.*, transitions occur more often than transversions.
+* There has to be some cost to indels or else:
+  ```
+  ACACACAC    ACACACAC    ACACACAC
+  ACAC----    AC----AC    A--CA--C
+  ```
+  will be scored the same.
+* Generally every gap incurs some cost to an alignment.
 
 ---
 
+# Affine gap penalties
 
+* Linear gap penalty: Each gap has the same cost
+* Affine gap penalty:  "Opening" a gap incurs some cost $u$, and extending the gap incurs a linear cost at some rate $v$.
+$$W(l) = u + v\times l$$
+* So if $u=10$ and $v=1$:
+  ```
+  ACACACAC    ACACACAC    ACACACAC
+  ACAC----    AC----AC    A--CA--C
+    -14         -14         -24
+  ```
 
+---
 
+# Global vs. local
+
+* Do you expect your sequences to align end-to-end, or is there incomplete coverage?
+* Local alignment ignores "terminal" gaps at the start or end of an aligned sequence:
+  ```
+  ACACACAC    ACACACAC    ACACACAC
+  ACAC----    AC----AC    A--CA--C
+     0          -14         -24
+  ```
+
+---
+
+# Solving it
+
+* The cost function defines one or more alignments that minimize cost
+* Finding these alignments is made efficient with a "dynamic programming" algorithm.
+* *e.g.*, Needleman-Wunsch, Smith-Waterman, Gotoh
+* Breaks down problem into small pieces, computes each piece once, and then looks up stored solutions for later computation
+
+---
+
+# Multiple sequence alignment
+
+* Difficult to scale up pairwise alignment to many sequences
+* Aligning sequence B to A and C to A does not align B and C:
+  ```
+  A: ACG-T   A: ACGT   B: ACGGT
+  B: ACGGT   C: AC-T   C: AC-T
+  ```
+* We need some scheme for applying pairwise alignment to a set of sequences
+
+---
+
+# Guide trees
+
+* Progressively build up an MSA
+* Start with the most similar pair of sequences based on some alignment-free measure
+* Alignments are propagated back up the tree
+* Iterative alignment -- reconstruct a new guide tree from the previous iteration's MSA
+
+---
+
+# Software
+
+* [CLUSTALW](http://www.clustal.org)
+* [MUSCLE](http://www.drive5.com/muscle)
+* [MAFFT](http://mafft.cbrc.jp/alignment/software/)
+* [PRANK](http://www.ebi.ac.uk/goldman-srv/prank/prank/)
+
+---
+
+# Alignment of next-generation sequence data
+
+* The output of NGS platforms is too enormous for conventional alignment methods
+* There are dozens of programs available
+
+<small>Source: https://academic.oup.com/bioinformatics/article/28/24/3169/245777/Tools-for-mapping-high-throughput-sequencing-data</source>
 
