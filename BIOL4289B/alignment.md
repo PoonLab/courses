@@ -369,6 +369,7 @@ $$W(l) = u + v\times l$$
 # Software
 
 * [CLUSTALW](http://www.clustal.org)
+* [T-COFFEE](http://www.tcoffee.org/Projects/tcoffee/)
 * [MUSCLE](http://www.drive5.com/muscle)
 * [MAFFT](http://mafft.cbrc.jp/alignment/software/)
 * [PRANK](http://www.ebi.ac.uk/goldman-srv/prank/prank/)
@@ -377,8 +378,19 @@ $$W(l) = u + v\times l$$
 
 # Alignment of next-generation sequence data
 
-* The output of NGS platforms is too enormous for conventional alignment methods
+* The output of NGS platforms is enormous
+* Standard MSA methods are too slow!
 * There are dozens of programs available
 
 <small>Source: https://academic.oup.com/bioinformatics/article/28/24/3169/245777/Tools-for-mapping-high-throughput-sequencing-data</source>
+
+---
+
+# Short read mapping
+
+* Build an index (hash table) of one or more reference genomes
+* A hash function efficiently reduces a complex object to a relatively simple value
+* *e.g.*, count the number of G's in a stretch of 20 bases
+* Map short read to reference by index look-up
+
 
