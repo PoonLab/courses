@@ -119,7 +119,7 @@
   * creates a sequence of numbers
   * Example:
   
-  ```
+   ```
     For i in range(30):
       Print i
       
@@ -128,10 +128,10 @@
     2
     ...
     29
-```
+  ```
 * Range with paremeters
 
-```
+  ```
   for i in range (10, 30, 2)
     print i
     
@@ -140,5 +140,5 @@
   14
   ...
   28
-```
+  ```
  * **Note** This means that we want the range from 10-30 in increments of 2
