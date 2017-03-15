@@ -67,6 +67,7 @@
     
   not ready yet! 
 ```
+
 * Comparison operators
   * Can compare two values
   * Example:
@@ -78,6 +79,7 @@
       
     false
     ```
+    
 * "and"
   * combines two conditionals if BOTH conditions are met
   * Example:
