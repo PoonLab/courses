@@ -71,6 +71,7 @@
 * Comparison operators
   * Can compare two values
   * Example:
+  
   ```
     if (8>9):
       print('true'):
@@ -83,6 +84,7 @@
 * "and"
   * combines two conditionals if BOTH conditions are met
   * Example:
+  
   ```
     if (8) and (9):
       Print("true")
@@ -102,7 +104,8 @@
   * "For" loops
     * This type of loop tells the computer that for every item in a list or range, loop over it!
     * Example:
-    ```
+    
+```
       x= [1,2,3]
       for i in x:
         Print i
@@ -110,10 +113,12 @@
       1
       2
       3
-    ```   
+ ```  
+    
 * Range 
   * creates a sequence of numbers
   * Example:
+  
   ```
     For i in range(30):
       Print i
@@ -125,6 +130,7 @@
     29
 ```
 * Range with paremeters
+
 ```
   for i in range (10, 30, 2)
     print i
