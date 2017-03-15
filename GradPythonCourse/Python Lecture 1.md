@@ -38,13 +38,14 @@
     * Used for pairing keys to objects
     * Can be declared using curly brackets
     * Example: 
-    ```
+
+```
     Sarah= {}
     Sarah["lunch"]= "salad"
     Sarah["dinner"]= "potroast"
     Sarah
     {'lunch':'salad', 'dinner':'potroast'}
-    ```
+```
  
  **Question** Sarah skipped her lunch break to run an experiment in lab, how do we change the dictionary?
  
@@ -148,12 +149,19 @@
 * Examples:
   * add +
   
-    * Example: `a= 1+2=3`
-    *          `a= "western"+"university"= "westernuniversity"`
+    * Example: 
+    ```
+    a= 1+2=3
+    a= "western"+"university"= "westernuniversity"
+    ```
+    
   * Subtract -
   * Divide /
   * Multiply *
-    * Example: `a=3*4=12`
-    *          `a= "bird"*3= 'birdbirdbird'`
+    * Example: 
+    ```
+    a=3*4=12
+    a= "bird"*3= 'birdbirdbird'
+    ```
   * Power/Exponent **  
   
