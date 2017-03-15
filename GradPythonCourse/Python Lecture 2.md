@@ -66,13 +66,13 @@
     print ("not ready yet!")
     
   not ready yet! 
-```
+  ```
 
 * Comparison operators
   * Can compare two values
   * Example:
   
-  ```
+    ```
     if (8>9):
       print('true'):
     else:
@@ -85,7 +85,7 @@
   * combines two conditionals if BOTH conditions are met
   * Example:
   
-  ```
+    ```
     if (8) and (9):
       Print("true")
     true
@@ -96,7 +96,7 @@
       Print("no")
      
      yes
-```
+    ```
 
 # Loops
 
@@ -105,7 +105,7 @@
     * This type of loop tells the computer that for every item in a list or range, loop over it!
     * Example:
     
-```
+      ```
       x= [1,2,3]
       for i in x:
         Print i
@@ -113,13 +113,13 @@
       1
       2
       3
- ```  
+      ```  
     
 * Range 
   * creates a sequence of numbers
   * Example:
   
-   ```
+    ```
     For i in range(30):
       Print i
       
@@ -128,7 +128,7 @@
     2
     ...
     29
-  ```
+    ```
 * Range with paremeters
 
   ```
