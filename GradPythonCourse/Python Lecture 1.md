@@ -58,24 +58,28 @@
 # Important Note: Python is a Zero-based Index
 * What does this mean?
 * Let's use this example to explain:
+```
   * a= "apple"
   * a[0]...'a'
   * a[3]...'l'
   * a[0:2]...'ap'
   * a[1:-1]... 'ppl'
+```
 
 # Manipulation of Strings:
 * Combining two strings:
+```
  * Concatenation
  * a= "red" + "dog"
  * 'reddog'
  * for a in "reddog"**:**
  *   print("z"+a)
- *
+```
  * *What do you get?* 
  
 * Combining numbers and strings (aka Cast and Concatenate):
  * Example:
+ ```
  * a= 3 
  * b= "cookies"
  * c= a+b
@@ -83,54 +87,65 @@
  * c= str(a) + b  
  * c
  * '3cookies'
+ ```
 * Using a place holder
  * "%d" %NUM= substitute INTEGER
  * "%f" %NUM= substitute FLOAT
  * Example:
+ ```
  * a= 1207
  * b= "room%d"%a
  * b
   * 'room 1207
+  ```
 
 # Manipulation of Lists
 * Adding values to the end of a list
  * Append(VALUE):
  * Example:
+ ```
   * a= [3, 'apple', 67.2]
   * a.append('sheep')
   * a
   * [3, 'apple', 67.2, 'sheep']
+  ```
  * Adding values to the middle of a list
   * insert(Location, VALUE):
   * Example:
+  ```
   * a= [3, 'apple', 67.2]
   * a.insert(1, 'sheep')
   * a
   * [3, 'sheep', 'apple', 67.2]
+  ```
   * **Note:** Remeber that python is a *zero-based index*!
  * Remove a value at a specific location
+ ```
   * pop(location)
   * a= [3, 'sheep', 'apple', 67.2]
   * a.pop(1)
   * a
   * [3, 'apple', 67.2]
+  ```
  * Converting items to a list
+ ```
   * list(item)
   * list("western university")
   * ['w', 'e', 's', 't', 'e', 'r', 'n', ' ', 'u', 'n', 'i', 'v', 'e', 'r', 's', 'i', 't', 'y']
-
+```
 
 
 # Operators
 * Function that acts on objects
 * Examples:
   * add +
-    * Example: a= 1+2=3
-    *          a= "western"+"university"= "westernuniversity"
+  
+    * Example: `a= 1+2=3`
+    *          `a= "western"+"university"= "westernuniversity"`
   * Subtract -
   * Divide /
   * Multiply *
-    * Example: a=3*4=12
-    *          a= "bird"*3= 'birdbirdbird'
+    * Example: `a=3*4=12`
+    *          `a= "bird"*3= 'birdbirdbird'`
   * Power/Exponent **  
   
