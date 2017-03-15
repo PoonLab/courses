@@ -20,24 +20,25 @@
     * Example: 27
   * Floats
     * Have decimal
-    * Example: 3.41
+    * Example: `3.41`
 * Iterable
   * Strings (not mutable)
     * Essentially an assortment of characters (ie. letters, numbers, punctuation)
     * Can be declared using single or double quotation marks
-    * Example: "apple"
+    * Example: `"apple"`
   * List (mutable)
     * Used for storing an assortment of data types (ie. integers, floats, strings, etc.)
     * Can be delcared using square brackets
-    * Example: [27, 3.41, ‘apple’]
+    * Example: `[27, 3.41, ‘apple’]`
   * Tuple (not mutable)
     * Essentially an "unadjustable" list
     * Can be declared using parentheses 
-    * Example: (27, 3.41, 'apple')
+    * Example: `(27, 3.41, 'apple')`
   * Dictionaries (mutable)
     * Used for pairing keys to objects
     * Can be declared using curly brackets
     * Example: 
+    ```
     * Sarah= {}
     * Sarah["lunch"]= "salad"
     * Sarah["dinner"]= "potroast"
@@ -46,6 +47,7 @@
     * **Question** Sarah skipped her lunch break to run an experiment in lab, how do we change the dictionary?
     * del Sarah["lunch"]
      * {'dinner':'potroast'}
+     ```
 
 # Dynamic Typing
 * a=7 (integer)
