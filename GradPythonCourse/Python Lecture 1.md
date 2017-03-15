@@ -48,10 +48,10 @@
  
  **Question** Sarah skipped her lunch break to run an experiment in lab, how do we change the dictionary?
  
-    ```
+```
     del Sarah["lunch"]
     {'dinner':'potroast'}
-     ```
+```
 
 # Dynamic Typing
 * a=7 (integer)
