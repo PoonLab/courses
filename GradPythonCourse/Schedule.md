@@ -39,6 +39,8 @@
 * Deadline: Project proposal in Markdown
 * Assignment: Data processing project (deadline June 27)
 
+## May 23, 2017 - ** NO CLASS **
+
 ## May 30, 2017 - Working with iterables
 * Indexing
 * Slicing
@@ -82,8 +84,9 @@
 
 
 ## June 27, 2017 - Packaging your code
-* sys
+* sys - reading arguments from the command line
 * argparse
 * refactoring
 * unit testing
+* releasing your code - GitHub, open source licenses
 * Retaking computing skills survey 
