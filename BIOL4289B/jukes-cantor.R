@@ -1,0 +1,8 @@
+setwd('~/git/courses/BIOL4289B')
+x <- seq(0, 5, length.out=20)
+png(filename="jukes-cantor.png", res=300, width=1000, height=1200)
+par(mar=c(5,5,2,2))
+plot(x, 1/4+3/4*exp(-4/3 * x), type='l', ylim=c(0,1), xlab='Time', ylab='Frequency')
+lines(x, 1/4-1/4*exp(-4/3*x), col='red')
+abline(h=0.25, lty=2)
+dev.off()

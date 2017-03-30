@@ -9,11 +9,11 @@
 <tr>
 <td>
 <ul>
+<li>What is probability?</li>
 <li>What is likelihood?</li>
-<li>What is wrong with Hamming distance?</li>
+<li>What is wrong g distance?</li>
 <li>What is a Markov chain?</li>
 <li>Jukes-Cantor model</li>
-<li>Recognize standard substitution models</li>
 </ul>
 </td>
 <td>
@@ -27,7 +27,6 @@
 </td>
 </tr>
 </table>
-
 
 ---
 
@@ -79,6 +78,16 @@ If it's a 'fair' coin, then $p=0.5$ and:
     </td>
 </tr>
 </table>
+
+---
+
+# Standard substitution models
+
+* Jukes-Cantor (JC69) - equal rates, equal base frequencies
+* Felsenstein (F81) - unequal base frequencies
+* Hasegawa-Kishino-Yano (HKY85) - let transitions and transversions have different rates
+* Tamura-Nei (TN93) - two different transition rates
+* GTR - generalized time reversible model
 
 ---
 
@@ -147,4 +156,65 @@ If it's a 'fair' coin, then $p=0.5$ and:
 
 ---
 
+# Bayes' rule
+
+* Likelihood is based on the probability of the data given the hypothesis.
+* We know the data exist!  We want to test the hypothesis!
+
+<center>
+![](venn50.png)
+</center>
+
+---
+
+# Bayes' rule
+
+`$$P(H|D) = \frac{P(D|H) P(H)}{P(D)}$$`
+
+* $P(D|H)$ is the likelihood
+* $P(H)$ is the prior - our belief about $H$ before seeing the data
+* $P(H|D)$ is the posterior - our belief about $H$ after seeing the data
+* $P(D)$ is the probability of the data: $\int_{H} P(D|H)P(H)$
+
+---
+
+# Back to tossing coins
+
+* Your prior belief about a coin is that it is probably fair.
+
+* Let's represent that belief with a beta distribution:
+<center>![](prior.png)</center>
+<small>This represents our belief based on having flipped other coins 20 times and getting 10 heads.</small>
+
+---
+
+# Updating our belief
+
+* Suppose we did coin toss experiments with a coin that is actually biased ($p=0.4$)
+* Here is what it looks like to update our posterior belief:
+<center>
+![](posterior.png)
+</center>
+
+---
+
+# Why be Bayesian?
+
+* ML only provides a single "point" estimate
+* Bayesian methods can sample from multiple optima
+* Highly versatile, can adapt to a limitless number of models
+* Can handle missing data
+* Can be more computationally demanding
+
+---
+
+# Markov chain Monte Carlo
+
+* Monte Carlo is solution by simulation
+* *e.g.*, what is the probability of winning at solitaire?
+* simulating from random parameter settings can be grossly inefficient
+* solution: let the next parameter settings to evaluate be close to the current set
+* this defines a "random walk" in which the probability of the next step depends *only* on the current state (Markov chain)
+
+---
 
