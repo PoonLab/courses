@@ -9,17 +9,15 @@
 <tr>
 <td>
 <ul>
-<li>What is probability?</li>
-<li>What is likelihood?</li>
-<li>What is wrong g distance?</li>
-<li>What is a Markov chain?</li>
-<li>Jukes-Cantor model</li>
+<li>How do we model the probability of coin toss experiments?</li>
+<li>How are probability and likelihood related?</li>
+<li>How do we calculate the likelihood of a tree?</li>
+<li>What is the Jukes-Cantor model?</li>
 </ul>
 </td>
 <td>
 <ul>
- <li>What is Felsenstein's pruning algorithm?</li>
- <li>How many trees are there?</li>
+ <li>How many kinds of trees relate $n$ taxa?</li>
  <li>How do we explore tree space?</li>
  <li>What is Bayes' rule?</li>
  <li>What are pros and cons of Bayesian inference?</li>
@@ -42,22 +40,35 @@
 
 ---
 
+# Modeling coin tosses
+
 `$$P(H=2,N=5) = {5\choose 2} p^2 (1-p)^{(5-2)} $$`
 
+<table><tr><td width=50%>
 If it's a 'fair' coin, then $p=0.5$ and:
- $P=10\times 0.5^5 = \frac{10}{32} = 0.3125$
 
+ $$P=10\times 0.5^5 = \frac{10}{32} = 0.3125$$
+</td><td>
 ![](binomial.png)
+</td></tr></table>
 
 ---
 
-![](persp50.png)
+# Probability and likelihood
 
-* likelihood does not integrate/sum to 1
+<table>
+<tr><td width=50%><ul>
+  <li>Probability is a function of model outcomes (data)</li>
+  <li>Likelihood is a function of model parameters  (hypothesis)</li>
+  <li>Likelihood does not integrate/sum to 1</li>
+</ul></td>
+<td>![](persp50.png)</td>
+</tr>
+</table>
 
 ---
 
-# Computing likelihoods
+# Likelihood for evolution
 
 <table>
 <tr>
@@ -83,11 +94,11 @@ If it's a 'fair' coin, then $p=0.5$ and:
 
 # Standard substitution models
 
-* Jukes-Cantor (JC69) - equal rates, equal base frequencies
-* Felsenstein (F81) - unequal base frequencies
-* Hasegawa-Kishino-Yano (HKY85) - let transitions and transversions have different rates
-* Tamura-Nei (TN93) - two different transition rates
-* GTR - generalized time reversible model
+* Jukes-Cantor (**JC69**) - equal rates, equal base frequencies
+* Felsenstein (**F81**) - unequal base frequencies
+* Hasegawa-Kishino-Yano (**HKY85**) - let transitions and transversions have different rates
+* Tamura-Nei (**TN93**) - two different transition rates
+* **GTR** - generalized time reversible model
 
 ---
 
@@ -118,7 +129,7 @@ If it's a 'fair' coin, then $p=0.5$ and:
 |----------------|-----------------|-----------|
 | 3              | 3               | |
 | 5              | 105             | |
-| 10             | 34,459,425        | |
+| 10             | 34,459,425        | Population of Canada |
 | 15             | $2.13\times 10^{14}$ | Total number of ants |
 | 20             | $8.2\times 10^{21}$ | All grains of sand on all beaches |
 | 25             | $1.2\times 10^{30}$ | All bacteria on Earth |
@@ -127,7 +138,7 @@ If it's a 'fair' coin, then $p=0.5$ and:
 
 # How do we search tree space?
 
-* Needed to develop "rearrangements" to move from one tree to the next.
+* Needed to develop "rearrangements" to move between similar trees.
 * Nearest-neighbor interchange - swap two subtrees that share a common edge:
 
 ![](NNI.png)
@@ -218,3 +229,46 @@ If it's a 'fair' coin, then $p=0.5$ and:
 
 ---
 
+# Diagnosing MCMC
+
+<table>
+    <tr>
+    <td width="50%">
+    <ul>
+    <li>An MCMC sample usually needs some time to move from the initial values to favourable parameter combinations.</li>
+    <li>This initial period is called the "burn-in" and is removed.</li>
+    </ul>
+    </td>
+    <td>![](burnin.png)</td>
+    </tr>
+</table>
+
+---
+
+# Convergence
+* In the long run, the distribution of parameters visited by the MCMC sample should *converge* to the true posterior distribution
+* There is no way to guarantee that your sample has converged!
+* A fair approach is to run more than one chain, and see if they have similar distributions.
+
+---
+
+# Software
+
+* [Mr. Bayes](http://mrbayes.sourceforge.net/)
+* [BEAST](http://beast.bio.ed.ac.uk/) - Bayesian evolutionary analysis by sampling trees
+* [BAli-Phy](http://www.bali-phy.org/) - simultaneous inference of alignment and phylogeny
+* [PhyloBayes](http://megasun.bch.umontreal.ca/People/lartillot/www/index.htm) - designed for phylogenomics
+* [BAMBE](http://www.mathcs.duq.edu/larget/bambe.html) - no longer maintained
+
+---
+
+## West African outbreak of Ebolavirus
+![](bedford90.png)
+<small>Source: Trevor Bedford</small>
+
+---
+
+## Fossil and molecular Bayesian phylogeny of penguins
+
+![](penguin-small.png)
+<small>Source:  Tanja Stadler</small>
