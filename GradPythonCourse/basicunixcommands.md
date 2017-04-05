@@ -1,12 +1,20 @@
-# Understanding Basic Unix Commands
+# A brief introduction to *nix
 
-# What is *nix
-* UNIX is an operating system developed int he 1960's
-* UNIX has proven to be a reliable multi-user and multi-tasking system
-* There are different types of UNIX
-  * Sun Solaris
-  * GNU/ **Linux**
-  * MacOS X
+# What is *nix?
+* This is as common way of referring to Unix-like operating systems
+* Unix was developed at [Bell Laboratories](https://en.wikipedia.org/wiki/Bell_Labs) starting 1969
+* Due to antitrust ruling in 1956, AT&T could not sell it for a profit, making it affordable for universities
+* Many students learned by modifying and enhancing UNIX
+* A core tenet - the output of any command could be the input for another
+* In 1980, [ARPA](https://en.wikipedia.org/wiki/DARPA) issued a recommendation in favour of Berkeley UNIX
+[Source: A History of Modern Computing, 2nd ed. Paul E.  Ceruzzi.  MIT Press, Cambridge.]
+
+# UNIX-like OSs today
+* [Linux](https://en.wikipedia.org/wiki/Linux) was developed to be a free UNIX-like kernel
+* It became a complete operating system by incorporating free software from the [GNU Project](https://en.wikipedia.org/wiki/GNU_Project)
+* Linux has since evolved into [thousands of derived versions](https://en.wikipedia.org/wiki/Linux_distribution#/media/File:Linux_Distribution_Timeline.svg)
+* The [Android OS](https://en.wikipedia.org/wiki/Android_(operating_system)) is based on the Linux kernel.
+* [Mac OS-X](https://en.wikipedia.org/wiki/MacOS) is also a Unix-like operating system, but it was built on the Berkeley Software Distribution (BSD) kernel, and includes proprietary and closed-source software.
 
 # Basics of the Operating System
 * **The Kernel**
