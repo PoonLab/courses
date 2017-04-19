@@ -133,8 +133,9 @@ def reset():
 
 def diff(f1, f2):
     with open(os.devnull, 'w') as devnull:
-        retcode = subprocess.call(['diff' '-q', filenames[i], filenames[j]], stdout=devnull)
+        retcode = subprocess.call(['diff', '-q', f1, f2], stdout=devnull)
     return (retcode==0)
+
 
 def check():
     """
@@ -156,11 +157,21 @@ def check():
 
         total_count += nf
         for i in range(nf):
-            if not any([diff(files[i], files[j]) for j in range(i+1, nf)]):
+            f1 = os.path.join(dirpath, files[i])
+            result = []
+            for j in range(nf):
+                if i == j:
+                    continue
+                f2 = os.path.join(dirpath, files[j])
+                result.append(diff(f1, f2))
+
+            if not any(result):
                 success = False
-                print ("File %s has no match in its directory" % (files[i],))
+                print ("File %s has no match in its directory" % (f1,))
                 break
-                
+        if not success:
+            break
+
     return success
 
 def argparser():
@@ -214,7 +225,9 @@ def main():
     elif args.reset:
         reset()
     elif args.check:
-        check()
+        success = check()
+        if success:
+            print '*** SUCCESS! ***'
     else:
         parser.print_help()
 
