@@ -11,8 +11,13 @@ for students to learn:
 * cp/mv
 """
 
+import sys
 import os
 import random
+from argparse import ArgumentParser as ArgParser
+import subprocess
+
+__manifest__ = '.learn-cli.manifest'
 
 def namingway():
     """
@@ -70,15 +75,148 @@ def populate(paths):
     """
     # 2017 Central North Pacific Tropical Cyclone names
     names = ['Akoni', 'Ema', 'Hone', 'Iona', 'Keli', 'Lala', 'Moke', 'Nolo', 'Olana', 'Pena', 'Ulana', 'Wale']
-    
+    content = ['(^_^)', '(-_-)zzz', '(T_T)', '\(^o ^ )/', '(>_<)', '(=_=)']
+    content2 = random.sample(content*2, len(content)*2)
+    files = []
+    # random permutation
+    for i, fn in enumerate(random.sample(names, len(names))):
+        dest = os.path.join(random.choice(paths), fn)
+        files.append(dest)
+        with open(dest, 'w') as f:
+            f.write(content2[i]+'\n')
+    return files
+
+def write_manifest(root, paths):
+    with open(__manifest__, 'w') as f:
+        for path in paths:
+            f.write(path+'\n')
+
+
+def reset():
+    """
+    Attempt to remove files and directories created by this script
+    in a fairly safe way (without inadvertently deleting anything created
+    by the user.
+    :return:
+    """
+    if not os.path.exists(__manifest__):
+        print "Uh oh.  The manifest file created by this script is missing."
+        print "Manually `rm` files and folders under `./start`."
+        sys.exit()
+    with open(__manifest__, 'rU') as f:
+        paths = [line.strip('\n') for line in f]
+
+    dirs = []
+    for path in paths:
+        if not os.path.exists(path):
+            continue
+        if os.path.isdir(path):
+            dirs.append(path)
+        else:
+            os.remove(path)
+
+    # sort dirs in declining order of depth
+    intermed = [(len(x.split('/')), x) for x in dirs]
+    intermed.sort(reverse=True)
+    for _, dir in intermed:
+        os.rmdir(dir)
+
+    # remove the parent directory
+    try:
+        os.rmdir('start')
+    except:
+        print 'ERROR: Failed to remove parent directory'
+        pass
+    else:
+        os.remove(__manifest__)
+
+
+def diff(f1, f2):
+    with open(os.devnull, 'w') as devnull:
+        retcode = subprocess.call(['diff' '-q', filenames[i], filenames[j]], stdout=devnull)
+    return (retcode==0)
+
+def check():
+    """
+    Determine if files are placed together correctly
+    :return:
+    """
+    devnull = open(os.devnull, 'w')
+    success = True
+    total_count = 0
+    for dirpath, dirnames, files in os.walk('start'):
+        nf = len(files)
+        if nf == 0:
+            continue
+        if nf % 2 == 1:
+            # orphaned file!
+            success = False
+            print ("Whoops!  Forgot file %s in directory %s" % (files[0], dirpath))
+            break
+
+        total_count += nf
+        for i in range(nf):
+            if not any([diff(files[i], files[j]) for j in range(i+1, nf)]):
+                success = False
+                print ("File %s has no match in its directory" % (files[i],))
+                break
+                
+    return success
+
+def argparser():
+    parser = ArgParser(
+        description="The objective of this exercise is to use the UNIX commands "
+                    "`ls`, `pwd`, `cd`, `cat`, `cp` or `mv` to locate and move "
+                    "textfiles in the file tree under the ./start directory "
+                    "so that files containing the same ASCII emoticon are in the "
+                    "same directory. "
+                    "(1) Create the exercise with the --start command. "
+                    "(2) When you have found and relocated the files in ./start, "
+                    "   run this script with the --check command. "
+                    "(3) To clean up, run the --reset command."
+    )
+    parser.add_argument(
+        '--start',
+        help="Create file tree.",
+        action="store_true"
+    )
+    parser.add_argument(
+        '--reset',
+        help="Remove directories and files created by this script.",
+        action="store_true"
+    )
+    parser.add_argument(
+        '--check',
+        help='Check if distribution of files is correct and get time.',
+        action="store_true"
+    )
+    return parser
 
 
 
 def main():
     root = os.path.join(os.getcwd(), 'start')
-    mkdir(root)
-    limit, paths = recursive_mkdir(root, [], 0)
-    print paths
+
+    parser = argparser()
+    args = parser.parse_args()
+    if args.start:
+        if os.path.exists(root):
+            print 'Error, start directory already exists.\n' \
+                  'Run: `python learn-cli.py --reset` to erase.'
+            sys.exit()
+
+        os.mkdir(root)
+
+        limit, paths = recursive_mkdir(root, [], 0)
+        files = populate(paths)
+        write_manifest(root, paths+files)
+
+    elif args.reset:
+        reset()
+    elif args.check:
+        check()
+    else:
+        parser.print_help()
 
 if __name__ == '__main__':
     main()
