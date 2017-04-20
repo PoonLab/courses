@@ -16,6 +16,7 @@ import os
 import random
 from argparse import ArgumentParser as ArgParser
 import subprocess
+import time
 
 __manifest__ = '.learn-cli.manifest'
 
@@ -34,22 +35,16 @@ def mkdir(path):
         os.mkdir(path)
 
 
-def recursive_mkdir(parent, paths, depth, max_depth=5, limit=20):
+def recursive_mkdir(parent, paths, depth, max_depth=4, limit=20):
     """
     Recursively generate a binary tree of nested directories.
     :param limit:
     :return:
     """
-    if limit==0 or depth > max_depth:
+    if limit==0 or depth >= max_depth:
         return limit, paths
 
-    try:
-        os.chdir(parent)
-    except:
-        print os.getcwd()
-        print parent
-        raise
-
+    os.chdir(parent)
     dirs = []
     while limit > 0 and len(dirs) < 2:
         this_dir = namingway()
@@ -100,32 +95,25 @@ def reset():
     :return:
     """
     if not os.path.exists(__manifest__):
-        print "Uh oh.  The manifest file created by this script is missing."
-        print "Manually `rm` files and folders under `./start`."
+        print ("Uh oh.  The manifest file created by this script is missing.")
+        print ("Manually `rm` files and folders under `./start`.")
         sys.exit()
     with open(__manifest__, 'rU') as f:
         paths = [line.strip('\n') for line in f]
 
-    dirs = []
-    for path in paths:
-        if not os.path.exists(path):
-            continue
-        if os.path.isdir(path):
-            dirs.append(path)
-        else:
-            os.remove(path)
-
-    # sort dirs in declining order of depth
-    intermed = [(len(x.split('/')), x) for x in dirs]
-    intermed.sort(reverse=True)
-    for _, dir in intermed:
-        os.rmdir(dir)
+    mfiles = [os.path.basename(path) for path in paths]
+    for dirpath, dirnames, files in os.walk('start', topdown=False):
+        for f in files:
+            if f in mfiles:
+                os.remove(os.path.join(dirpath, f))
+        for dir in dirnames:
+            os.rmdir(os.path.join(dirpath, dir))
 
     # remove the parent directory
     try:
         os.rmdir('start')
     except:
-        print 'ERROR: Failed to remove parent directory'
+        print ('ERROR: Failed to remove parent directory')
         pass
     else:
         os.remove(__manifest__)
@@ -152,7 +140,7 @@ def check():
         if nf % 2 == 1:
             # orphaned file!
             success = False
-            print ("Whoops!  Forgot file %s in directory %s" % (files[0], dirpath))
+            print ("Whoops!  Directory %s has an odd number of files.." % (dirpath,))
             break
 
         total_count += nf
@@ -167,12 +155,24 @@ def check():
 
             if not any(result):
                 success = False
-                print ("File %s has no match in its directory" % (f1,))
+                print ("File %s has no match in its directory %s" % (f1, dirpath))
                 break
         if not success:
             break
 
+    if total_count < 12:
+        print ('Missing some files; did you accidentally delete or move above ./start?')
+        success = False
+
     return success
+
+
+def timer():
+    mod_time = os.path.getmtime('start')  # seconds since UNIX epoch
+    elapsed = time.time() - mod_time
+    hours, remain = divmod(int(elapsed), 3600)
+    minutes, seconds = divmod(remain, 60)
+    return hours, minutes, seconds
 
 def argparser():
     parser = ArgParser(
@@ -212,8 +212,8 @@ def main():
     args = parser.parse_args()
     if args.start:
         if os.path.exists(root):
-            print 'Error, start directory already exists.\n' \
-                  'Run: `python learn-cli.py --reset` to erase.'
+            print ('Error, start directory already exists.\n'
+                   'Run: `python learn-cli.py --reset` to erase.')
             sys.exit()
 
         os.mkdir(root)
@@ -227,7 +227,9 @@ def main():
     elif args.check:
         success = check()
         if success:
-            print '*** SUCCESS! ***'
+            print ('*** SUCCESS! ***')
+            print ('Elapsed time: %d hours, %d minutes, %d seconds' % timer())
+            print ('Run `python learn-cli.py --reset` to clean up dirs and files')
     else:
         parser.print_help()
 
