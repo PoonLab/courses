@@ -89,4 +89,4 @@
 * refactoring
 * unit testing
 * releasing your code - GitHub, open source licenses
-* Retaking computing skills survey 
+* survey
