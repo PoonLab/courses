@@ -22,7 +22,7 @@
 * Assignment: UNIX games
 * Assignment: Project proposal in [Markdown](http://daringfireball.net/projects/markdown/basics) (deadline May 16)
 
-## May 9, 2017 - Concepts in programming
+## May 9, 2017 - Starting Python - file I/O and base objects
 * [Levels of programming languages](https://en.wikipedia.org/wiki/Low-level_programming_language)
 * Scripting languages and their philosophies
 * File I/O in Python
