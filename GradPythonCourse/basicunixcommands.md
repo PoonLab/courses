@@ -1,6 +1,6 @@
 # A brief introduction to *nix
 
-# What is *nix?
+## What is *nix?
 * This is as common way of referring to Unix-like operating systems
 * Unix was developed at [Bell Laboratories](https://en.wikipedia.org/wiki/Bell_Labs) starting 1969
 * Due to antitrust ruling in 1956, AT&T could not sell it for a profit, making it affordable for universities
@@ -9,21 +9,41 @@
 * In 1980, [ARPA](https://en.wikipedia.org/wiki/DARPA) issued a recommendation in favour of Berkeley UNIX
 [Source: A History of Modern Computing, 2nd ed. Paul E.  Ceruzzi.  MIT Press, Cambridge.]
 
-# UNIX-like OSs today
+## UNIX-like OSs today
 * [Linux](https://en.wikipedia.org/wiki/Linux) was developed to be a free UNIX-like kernel
 * It became a complete operating system by incorporating free software from the [GNU Project](https://en.wikipedia.org/wiki/GNU_Project)
 * Linux has since evolved into [thousands of derived versions](https://en.wikipedia.org/wiki/Linux_distribution#/media/File:Linux_Distribution_Timeline.svg)
 * The [Android OS](https://en.wikipedia.org/wiki/Android_(operating_system)) is based on the Linux kernel.
 * [Mac OS-X](https://en.wikipedia.org/wiki/MacOS) is also a Unix-like operating system, but it was built on the Berkeley Software Distribution (BSD) kernel, and includes proprietary and closed-source software.
 
-# Basics of the Operating System
-* **The Kernel**
-  * Essentially the "Hub"
-  * Works with **The Shell** by managing the filestore/communications involved in system calls
-* **The Shell**
-  * Serves as an interface between the user and the kernel
-  * The Shell is a Command Line Interpreter (CLI)
-  * Essentially, it will understand commands and carry out their function
+## The command line
+A shell is a program that interprets commands, enabling the user to interface with files, other programs that comprise the operating system, and applications.  Starting the shell will give you something that looks like this:
+```shell
+art@Misato:~$
+```
+This is a prompt.  It's the program's way of telling me to type something.  It's also telling me a few other things:
+1. I am current interfacing with the OS with the user account `art`.  
+2. The computer has the hostname `Misato`
+3. My current location is `~`, which is shorthand for my home directory `/home/art`.  (More on this later.)
+
+I can type anything I want into this prompt:
+```shell
+art@Misato:~$ eat kleenex
+No command 'eat' found, but there are 16 similar ones
+eat: command not found
+```
+
+Clearly, my OS is not impressed (your output will vary with OS's).  It doesn't recognize my random words as a valid command.  A command has to start by invoking a program.  (Invoke is a [D'n'D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons) way of saying that we type the name of a program.)  
+
+Let's start by entering a valid command by invoking a program that actually exists.
+```shell
+art@Misato:~$ ls
+Desktop    examples.desktop                 Music     Public  Templates  work
+Documents  git                              papers    R       Videos
+Downloads  java_error_in_PYCHARM_14175.log  Pictures  src     wip
+```
+
+
 
 # Directories
 ## Finding where files are kept
