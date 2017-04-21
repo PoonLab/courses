@@ -43,6 +43,29 @@ Documents  git                              papers    R       Videos
 Downloads  java_error_in_PYCHARM_14175.log  Pictures  src     wip
 ```
 
+`ls` is a program that lists the files and folders in my home folder, which is my current "location" in the filesystem.  (UNIX was developed at a time where developers had to be extremely frugal with memory and storage; hence cryptic two-letter abbreviations were the norm.)  `ls` is an essential tool for getting the "lay of the land".
+
+![](https://imgs.xkcd.com/comics/server_problem.png)
+
+By default, `ls` doesn't display hidden files --- these are files with names that start with a dot `.` and are usually concealed because they are not meant to be accessed by the user.  Here's a truncated view of my output for an `ls -a` command:
+```shell
+.                   .gnome2                          R
+..                  .gnupg                           .R
+.AliView            .ICEauthority                    .remmina
+.apport-ignore.xml  .java                            .Rhistory
+.bash_history       java_error_in_PYCHARM_14175.log  .rstudio-desktop
+.bash_logout        .kde                             src
+.bashrc             .lesshst                         .ssh
+```
+
+Every folder contains `.` and `..`.  These are not really files or folders --- they are symbols that 
+
+
+
+
+
+
+![](https://imgs.xkcd.com/comics/tar.png)
 
 
 # Directories
