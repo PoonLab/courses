@@ -117,15 +117,36 @@ cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
 This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things. While we're here, let's point out some of the more important directories:
 * `/home` is where users keep their own stuff.  It has subdirectories for every user account.  There are generally no limits to reading and writing files in your home directory, but you won't be allowed to modify (or even read) files in another user's directory without special permissions.
 * `/usr` is where the OS keeps programs and resources that are meant for users.  
+* `/usr/local` is where programs and resources that were installed by users *on this particular machine* are located.
 * `/bin` is where binaries (executable files, i.e., programs) live.  These are generally low-level programs that define the OS.  `ls` and `cd` typically live here.
 * `/sbin` stores binaries meant for the system, not the typical user.
 * `/lib` contains [shared libraries](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries), files with resources that can be used by multiple programs and loaded when the program is run.
-* 
+* `/tmp` is an all-purpose space for temporary files that will probably get wiped when the system is restarted.
+For more inforation, see this [wiki](https://en.wikipedia.org/wiki/Unix_filesystem#Conventional_directory_layout) page.
 
 
 ## `pwd` and path specifications
-Pick a directory and follow it down as far as you can go.  You may be feeling a bit lost now.  
+The Unix file system is a big place!  Fortunately, you can always warp back to your home directory by typing `cd` by itself.  Do that and start using `cd` to explore your home directory, then use the command `pwd` to get your bearings:
+```shell
+art@Misato:~/git/courses/MathJax/config$ pwd
+/home/art/git/courses/MathJax/config
+```
+The sequence of directories returned by `pwd` goes all the way from my current directory `config` back to the root `/`.  This is called an *absolute path*.  I can be anywhere else in the file system and look at the contents of this `config` directory using the command `ls` followed by the absolute path:
+```shell
+art@Misato:~$ cd /etc
+art@Misato:/etc$ ls /home/art/git/courses/MathJax/config
+Accessible-full.js     Safe.js
+Accessible.js          TeX-AMS_CHTML-full.js
+```
 
+Now what if we're feeling lazy and we don't want to do so much typing?  Suppose we happen to be sitting at `/home/art/git/courses`.  We can get the same output with the following, shorter, command:
+```shell
+art@Misato:~/git/courses$ ls MathJax/config
+Accessible-full.js     Safe.js
+Accessible.js          TeX-AMS_CHTML-full.js
+```
+
+This is a *relative* path because it is defined relative to our current location in the filesystem.  If I moved one level up and tried the exact same command, it won't work.  Hence, relative paths are convenient but fragile.
 
 
 ![](https://imgs.xkcd.com/comics/tar.png)
