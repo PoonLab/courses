@@ -81,6 +81,10 @@ DESCRIPTION
               do not ignore entries starting with .
 ```
 
+`man` pages are a great resource when you don't have a network connection:
+![](https://imgs.xkcd.com/comics/tar.png)
+
+
 ### `cd`
 Look back at the output of `ls -a` --- do you see the `.` and `..`?  Every folder contains those.  These dots are not really files or folders --- they are symbols that enable the user to refer to the current folder, and to the parent of the current folder.  What do we mean by a parent?  A file system has a hierarchical structure; it is a tree that is made up of directed parent-child relationships.  So, each folder is "aware" of its parent folder that sits one level up in the hierarchy.  It's also aware of any child folders that sit at a lower level of the hierarchy, and refer to it as their parent.  
 
@@ -149,31 +153,15 @@ Accessible.js          TeX-AMS_CHTML-full.js
 This is a *relative* path because it is defined relative to our current location in the filesystem.  If I moved one level up and tried the exact same command, it won't work.  Hence, relative paths are convenient but fragile.
 
 
-![](https://imgs.xkcd.com/comics/tar.png)
+## Examining files
+
+### `cat`, `head` and `tail`
 
 
-# Directories
-## Finding where files are kept
-* The file system is arranged in a hierachial structure
-* / is the **root** directory
-* /bin is a subdirectory of the root directory that contains programs that are necessary for the most basic functions of the system (ie. starting and repairing the system)
-* /usr is also a subdirectory of the root directory that can be broken down into two sub categories
-  * /usr/bin are programs run by users and are necessary for the functions of the system
-  * `/usr/local/bin` are where installed programs by the user are stored
+## Modifying files and directories
 
-# Basic Commands
-* **ls**
- * Lists files in your current working directory
- * Exception: Unless you are very familiary with Unix, some files should not be changed and are kept hidden
- * These files begin with a period (.)
- * To find all files, use the **ls -a** command: for example,
- ```
- # ls -a
- .
- ..
- .hidden_file
- something_else.txt
- ```
+
+
 * **mkdir**
  * Allows you to make a subdirectory in your home directory
  * Example: % mkdir PoonLab
