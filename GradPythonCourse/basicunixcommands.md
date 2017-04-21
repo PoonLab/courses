@@ -35,6 +35,7 @@ eat: command not found
 
 Clearly, my OS is not impressed (your output will vary with OS's).  It doesn't recognize my random words as a valid command.  A command has to start by invoking a program.  (Invoke is a [D'n'D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons) way of saying that we type the name of a program.)  
 
+### ls
 Let's start by entering a valid command by invoking a program that actually exists.
 ```shell
 art@Misato:~$ ls
@@ -58,10 +59,60 @@ By default, `ls` doesn't display hidden files --- these are files with names tha
 .bashrc             .lesshst                         .ssh
 ```
 
-Every folder contains `.` and `..`.  These are not really files or folders --- they are symbols that 
+The `-a` is an option, a prescribed way of modifying the command.  In this case, we are modifying the `ls` command to include hidden files in the output.  `ls` has a lot of options.  To learn about them, you should bring up its manual page with the command `man ls`:
+```
+LS(1)                            User Commands                           LS(1)
 
+NAME
+       ls - list directory contents
 
+SYNOPSIS
+       ls [OPTION]... [FILE]...
 
+DESCRIPTION
+       List  information  about  the FILEs (the current directory by default).
+       Sort entries alphabetically if none of -cftuvSUX nor --sort  is  speci‐
+       fied.
+
+       Mandatory  arguments  to  long  options are mandatory for short options
+       too.
+
+       -a, --all
+              do not ignore entries starting with .
+```
+
+### cd
+Look back at the output of `ls -a` --- do you see the `.` and `..`?  Every folder contains those.  These dots are not really files or folders --- they are symbols that enable the user to refer to the current folder, and to the parent of the current folder.  What do we mean by a parent?  A file system has a hierarchical structure; it is a tree that is made up of directed parent-child relationships.  So, each folder is "aware" of its parent folder that sits one level up in the hierarchy.  It's also aware of any child folders that sit at a lower level of the hierarchy, and refer to it as their parent.  
+
+Let's start calling folders "directories" from now on.  It's not as intuitive, but several UNIX commands are derived from this terminology.  To wit, `cd` is an acronym of "change directory".
+
+We can move around in the filesystem using the command `cd`.  If you want to move to a child directory, you indicate this with its name:
+```shell
+art@Misato:~$ cd Desktop
+art@Misato:~/Desktop$ 
+```
+
+If we want to move up to the parent directory, we use the following command:
+```shell
+art@Misato:~/Desktop$ cd ..
+art@Misato:~$ 
+```
+
+Now let's keep inputting `cd ..` to go as far as we can!
+```shell
+art@Misato:~$ cd ..
+art@Misato:/home$ cd ..
+art@Misato:/$ cd ..
+art@Misato:/$
+```
+
+Let's have a look around:
+```shell
+art@Misato:/$ ls
+bin    dev   initrd.img      lib32       media  proc  sbin  sys  var
+boot   etc   initrd.img.old  lib64       mnt    root  snap  tmp  vmlinuz
+cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
+```
 
 
 
