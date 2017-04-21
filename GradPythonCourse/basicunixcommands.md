@@ -35,7 +35,7 @@ eat: command not found
 
 Clearly, my OS is not impressed (your output will vary with OS's).  It doesn't recognize my random words as a valid command.  A command has to start by invoking a program.  (Invoke is a [D'n'D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons) way of saying that we type the name of a program.)  
 
-### ls
+### `ls`
 Let's start by entering a valid command by invoking a program that actually exists.
 ```shell
 art@Misato:~$ ls
@@ -81,7 +81,7 @@ DESCRIPTION
               do not ignore entries starting with .
 ```
 
-### cd
+### `cd`
 Look back at the output of `ls -a` --- do you see the `.` and `..`?  Every folder contains those.  These dots are not really files or folders --- they are symbols that enable the user to refer to the current folder, and to the parent of the current folder.  What do we mean by a parent?  A file system has a hierarchical structure; it is a tree that is made up of directed parent-child relationships.  So, each folder is "aware" of its parent folder that sits one level up in the hierarchy.  It's also aware of any child folders that sit at a lower level of the hierarchy, and refer to it as their parent.  
 
 Let's start calling folders "directories" from now on.  It's not as intuitive, but several UNIX commands are derived from this terminology.  To wit, `cd` is an acronym of "change directory".
@@ -113,6 +113,18 @@ bin    dev   initrd.img      lib32       media  proc  sbin  sys  var
 boot   etc   initrd.img.old  lib64       mnt    root  snap  tmp  vmlinuz
 cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
 ```
+
+This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things. While we're here, let's point out some of the more important directories:
+* `/home` is where users keep their own stuff.  It has subdirectories for every user account.  There are generally no limits to reading and writing files in your home directory, but you won't be allowed to modify (or even read) files in another user's directory without special permissions.
+* `/usr` is where the OS keeps programs and resources that are meant for users.  
+* `/bin` is where binaries (executable files, i.e., programs) live.  These are generally low-level programs that define the OS.  `ls` and `cd` typically live here.
+* `/sbin` stores binaries meant for the system, not the typical user.
+* `/lib` contains [shared libraries](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries), files with resources that can be used by multiple programs and loaded when the program is run.
+* 
+
+
+## `pwd` and path specifications
+Pick a directory and follow it down as far as you can go.  You may be feeling a bit lost now.  
 
 
 
