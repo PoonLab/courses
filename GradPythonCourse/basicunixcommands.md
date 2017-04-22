@@ -206,3 +206,10 @@ art@Misato:~/git/courses/GradPythonCourse/examples$ grep Canada IN.txt | head -n
 ```
 Note I still had to truncate the output of `head` because there are so many variables for each record.
 
+What if I want to save this output to a file so that I can do something with it later?  That's easy:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ grep Canada IN.txt > Canada.txt
+```
+The `>` character tells UNIX to "redirect" the output stream to a file.  Note that if we use the same command but search for a different word, everything in `Canada.txt` will be erased and replaced with the new output.  To preserve the previous content and append the new output to the bottom of the file, we use the redirection symbol `>>`.  
+
+![](https://imgs.xkcd.com/comics/cautionary.png)
