@@ -187,77 +187,22 @@ art@Misato:~/git/courses/GradPythonCourse/examples$ tail -n1 small-text-file.txt
 ```
 Something kind of goofy happened here - since I ended the file with an [end of line](https://en.wikipedia.org/wiki/Newline) character, the tail command is returning a blank.
 
-
-## Modifying files and directories
-
-
-### File permissions
-
-Remember `ls`?  Another useful option for listing files is the long format:
+This is still pretty limiting.  What if we're trying to find something specific, like a protein sequence motif or a diagnosis?  This is where `grep` comes in.  To *really* get mileage out of `grep`, you need to learn [regular expressions], which we're going to cover in a later session.  However, `grep` works just as well with a plain word:
 ```shell
-art@Misato:~$ ls -l
-total 188
-drwxr-xr-x  5 art art   4096 Apr 19 22:37 Desktop
-drwxr-xr-x 21 art art   4096 Apr  8 10:47 Documents
-drwxr-xr-x  2 art art   4096 Apr 21 21:03 Downloads
--rw-r--r--  1 art art   8980 Mar 13 11:52 examples.desktop
+art@Misato:~/git/courses/GradPythonCourse/examples$ grep mine small-text-file.txt 
+but this one is mine.
 ```
-
-Each file and directory is listed on its own line.  
-
-### 
-
-* **mkdir**
- * Allows you to make a subdirectory in your home directory
- * Example: % mkdir PoonLab
-* **cd**
- * Allows you to change directory from the current working directory
- * Example: % cd PoonLab
+This command returned all lines that contain the word "mine" - for this example, there is only one such line.  What do we do if we are running this command on an immense file, and an enormous number of lines is getting returned? 
 
 
-* **cp**
- * Allows you to copy files
- * Example: cp file file1 allows you to copy file in your current working directory and name it file1
-* **mv**
- * Allows you to move files
- * Example: mv file file1 allows you to move file to file1
-* **rm** and **rmdir**
- * Allows you to remove a file (rm) or remove a directory (rmdir)
+## Bringing things together with pipes
 
-# Access Rights to Directories and Files
-* Each file has access rights associated with it
-* These right can be found using the **ls -l** command, which essentially gives you the "long" listing of the file name
-* Example: 
-  ```
-  -rwxrw-r-- 1 echadwi 562 Dec 2nd 2016 PoonLab
-  ```
- * The 9 letter symbol at the beginning gives the access rights
-* Access rights on files
- * **r**
-  * Read permission
- * **w**
-  * write permission
- * **x**
-  * execution permission
-* Access rights on directories
- * **r**
-  * Allows users to list files in directory
- * **w**
-  * Allows users to delete or move files
- * **x**
-  * Allows users the right to access files in directory
+As I mentioned before, one of the philosophies behind UNIX is that we should be able to use the output of one command as the input for another.  This is accomplished with pipes, which are represented by the character `|`.  The question I ended the last section with was deliberately a segue into the use of pipes.  What if running a `grep` command produces too much output to be usefully displayed?  We can pipe this output to any of the commands that were introduced in the previous section to deal with large files.  To illustrate, I'm going to use an HIV-1 integrase data set that is in the public domain:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ grep Canada IN.txt | wc
+    795  236902 1186681
+art@Misato:~/git/courses/GradPythonCourse/examples$ grep Canada IN.txt | head -n1
+1770	71510	INT_3448	Canada	< 2003	B	None	-	-	--	-	-	-	-	-	-	-	-	-	--	-	-	-	-	RK	
+```
+Note I still had to truncate the output of `head` because there are so many variables for each record.
 
-# Changing Access Rights to Directories and Files
-* **chmod**
- * Allows owner to change permissions of a file
- * Options:
-  * **u** user
-  * **g** group
-  * **o** other
-  * **a** all
-  * **r** read
-  * **w** write and delete
-  * **x** execute and access directory
-  * **+** add permission
-  * **-** remove permission
- 
