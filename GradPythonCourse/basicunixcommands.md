@@ -153,14 +153,59 @@ Accessible.js          TeX-AMS_CHTML-full.js
 This is a *relative* path because it is defined relative to our current location in the filesystem.  If I moved one level up and tried the exact same command, it won't work.  Hence, relative paths are convenient but fragile.
 
 
-## Examining files
+## Examining files (`wc`, `cat`, `head`, `tail`)
 
-### `cat`, `head` and `tail`
+Okay, so now we're done looking around the filesystem.  We want to do some actual work here - let's inspect a file.  But we're not going to double-click on a file and wait for it to open up in some application like TextEdit or Excel.  The whole point of learning bioinformatics is (1) we are often dealing with files that are way too large to open in a standard application, and (2) we are often dealing with files that are too complex to deal with in a graphical user interface.  Bioinformatics exists in part because molecular technologies change so rapidly that every year brings a new *kind* of data, and a whole menagerie of competing formats.  
+
+Let's start simple.  We're going to go to the `examples` directory, where there is a small text file named (out of a lack of creativity) `small-text-file.txt`.  Before we go right in there and view it, we want to have some idea of what we're dealing with.  For example, we can use `ls -s -h` to list files along with information about how much hard drive space they are taking up:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ ls -s -h
+total 12K
+12K small-text-file.txt
+```
+
+Another useful tool is `wc`, which stands for word count.  This program calculates the number of lines, words and bytes that make up a file:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ wc small-text-file.txt 
+ 4 16 74 small-text-file.txt
+```
+
+So we know that we're dealing with a small file with four lines, and that it's probably safe to display its full contents in the shell.  To do that, we use another program called `cat`.  
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ cat small-text-file.txt 
+This is a small text file. 
+There are many like it
+but this one is mine.
+```
+
+What if we're dealing with a large file?  If we used `cat`, then our console would go bonkers with streaming text.  In this case, let's use some other commands that show the first and last few lines of the file.  The number of lines to display is controlled by the `-n` option.  Since our example file is tiny, we'll just display the first and last lines.
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ head -n1 small-text-file.txt 
+This is a small text file. 
+art@Misato:~/git/courses/GradPythonCourse/examples$ tail -n1 small-text-file.txt 
+
+```
+Something kind of goofy happened here - since I ended the file with an [end of line](https://en.wikipedia.org/wiki/Newline) character, the tail command is returning a blank.
 
 
 ## Modifying files and directories
 
 
+### File permissions
+
+Remember `ls`?  Another useful option for listing files is the long format:
+```shell
+art@Misato:~$ ls -l
+total 188
+drwxr-xr-x  5 art art   4096 Apr 19 22:37 Desktop
+drwxr-xr-x 21 art art   4096 Apr  8 10:47 Documents
+drwxr-xr-x  2 art art   4096 Apr 21 21:03 Downloads
+-rw-r--r--  1 art art   8980 Mar 13 11:52 examples.desktop
+```
+
+Each file and directory is listed on its own line.  
+
+### 
 
 * **mkdir**
  * Allows you to make a subdirectory in your home directory
@@ -169,14 +214,6 @@ This is a *relative* path because it is defined relative to our current location
  * Allows you to change directory from the current working directory
  * Example: % cd PoonLab
 
-* **(.)**
- * The current directory
- * Example: % cd .
-* **(..)**
- * Considering the hierachal structure of the files, the parent directory command will bring you directly up the hierarchy
-* **pwd**
- * Present working directory
- * Will give the full pathname of the current directory that you are in
 
 * **cp**
  * Allows you to copy files
