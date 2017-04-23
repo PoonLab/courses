@@ -14,21 +14,21 @@ A scripting language provides an even higher level of abstraction than compiled 
 
 
 ## Why scripting?
-Scripting languages have become an important part of bioinformatics, but why did this happen?  I don't think there's an obvious answer for this.  Part of it may have been historical contingency.
+Scripting languages have become an important part of bioinformatics, but why did this happen?  I don't think there's an obvious answer for this.  Part of it may have been historical contingency.  The scripting language [Perl](https://en.wikipedia.org/wiki/Perl) became associated with the [Human Genome Project](https://en.wikipedia.org/wiki/Human_Genome_Project).  There's a nice article about this historical development [here](https://web.stanford.edu/class/gene211/handouts/How_Perl_HGP.html), including a quote that encapsulates this association nicely:
+
+>Some groups attempted to build large monolithic systems on top of complex relational databases; they were thwarted time and again by the highly dynamic nature of biological research. By the time a system that could deal with the ins and outs of a complex laboratory protocol had been designed, implemented and debugged, the protocol had been superseded by new technology and the software engineers had to go back to the drawing board.
+- [Lincoln Stein](https://en.wikipedia.org/wiki/Lincoln_Stein)
+
+In the post-genome era, this has remained true - the reduced one-time cost of developing a script tends to win over the performance advantage of compiled code that is more time-consuming to build.  There is a perpetually expanding range of biological applications for new molecular technologies.  The scale and complexities of data sets are constantly evolving.  In addition, scripting languages are simply easier for biologists to learn.  
 
 
-# Different levels of coding language
-* From low to high:
-  * Logic gates
-    * Example: AND gate
-  * Assembly
-    * Example: Roller Coaster Tycoon
-  * Compiled C
-    * Human readable, also optimizes automatically
-  * Scripting language
-    * Example: Python (more readable, more convenient, but slower)
-    *          Pearl
-    *          Ruby
+## Perl, Python and Ruby
+
+I think that for a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages that were directly influenced by Perl.  Recently, Python [has arguably displaced Perl](https://www.fastcompany.com/3026446/the-fall-of-perl-the-webs-most-promising-language) as the leading langauge for bioinformatics, as well as other industries and outside of academia.
+
+Perl, Python and Ruby have different programming philosophies.
+<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/981_RC01/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"perl","geo":"","time":"all"},{"keyword":"ruby","geo":"","time":"all"},{"keyword":"python","geo":"","time":"all"}],"category":0,"property":""}, {"exploreQuery":"date=all&q=perl,ruby,python","guestPath":"https://trends.google.ca:443/trends/embed/"}); </script> 
+
 
 # Base Objects
 * Non-iterable 
