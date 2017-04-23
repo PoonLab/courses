@@ -24,10 +24,9 @@ In the post-genome era, this has remained true - the reduced one-time cost of de
 
 ## Perl, Python and Ruby
 
-I think that for a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages that were directly influenced by Perl.  Recently, Python [has arguably displaced Perl](https://www.fastcompany.com/3026446/the-fall-of-perl-the-webs-most-promising-language) as the leading langauge for bioinformatics, as well as other industries and outside of academia.
+I think that for a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages that were directly influenced by Perl.  Recently, Python [has arguably displaced Perl](https://trends.google.ca/trends/explore?cat=174&date=all&q=%2Fm%2F05zrn,%2Fm%2F06ff5,Python) as the leading langauge for bioinformatics, as well as other industries and outside of academia.
 
 Perl, Python and Ruby have different programming philosophies.
-<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/981_RC01/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"perl","geo":"","time":"all"},{"keyword":"ruby","geo":"","time":"all"},{"keyword":"python","geo":"","time":"all"}],"category":0,"property":""}, {"exploreQuery":"date=all&q=perl,ruby,python","guestPath":"https://trends.google.ca:443/trends/embed/"}); </script> 
 
 
 # Base Objects
