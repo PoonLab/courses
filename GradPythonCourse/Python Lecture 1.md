@@ -2,12 +2,19 @@
 
 ## What is a scripting language?
 
-A programming language provides a convenient way for a person to write a set of instructions for a computer to follow.  Put another way, a programming language adds a level of [abstraction](http://stackoverflow.com/questions/21220155/what-does-abstraction-mean-in-programming) that are converted into the low-level instructions that are actually being carried out at the level of the processor.  In general, the processing of converting human-readable instructions (source code) into computer-readable instructions (machine code) is compiling.  Compiled programming languages are far more convenient than direclty writing machine code -- the cost for this convenience, however, is that the end result is not necessarily the most optimal machine code for a given processor.  ([Programs that are written in assembly language](https://en.wikipedia.org/wiki/RollerCoaster_Tycoon_(video_game)#Development), which has a lower level of abstraction than compiled languages, can outperform the latter.)  
+A programming language provides a convenient way for a person to write a set of instructions for a computer to follow.  Put another way, a programming language adds a level of [abstraction](http://stackoverflow.com/questions/21220155/what-does-abstraction-mean-in-programming) that are converted into the low-level instructions that are actually being carried out at the level of the processor.  In general, the processing of converting human-readable instructions (source code) into computer-readable instructions (machine code) is compiling.  
+
+[Compiled programming languages](https://en.wikipedia.org/wiki/Compiled_language) are far more convenient than direclty writing machine code -- the cost for this convenience, however, is that the end result is not necessarily the most optimal machine code for a given processor.  ([Programs that are written in assembly language](https://en.wikipedia.org/wiki/RollerCoaster_Tycoon_(video_game)#Development), which has a lower level of abstraction than compiled languages, can outperform the latter.)  You may have heard of several different compiled languages, such as C, BASIC, or Fortran.
 
 Compiling can take a long time.  Before multi-core processors became commonplace, compiling your code was a good excuse to take a break.
-![](https://xkcd.com/303/)
 
-Scripting languages are an even higher level of abstraction than compiled languages, which enables them to be far more readable and concise.  
+![](https://imgs.xkcd.com/comics/compiling.png)
+
+A scripting language provides an even higher level of abstraction than compiled languages, which enables them to be far more readable and concise.  Scripting languages are often implemented in a compiled language.  For example, the main Python interpreter was written in C.  Instead of being compiled into an executable binary program, however, a script is typically converted at [run-time](https://en.wikipedia.org/wiki/Run_time_(program_lifecycle_phase)) into a number of elementary tasks that have already been implemented in the compiled code.  Because of this additional layer of abstraction, a program written in a scripting language is generally going to be slower than one written in a compiled language.  On the other hand, the scripting language program is a lot easier to write.  (Like making macaroni and cheese with a Kraft Dinner mix instead of growing a wheat field, harvesting the grain, milling the grain into flour...)
+
+
+## Why scripting?
+Scripting languages have become an important part of bioinformatics, but why did this happen?  I don't think there's an obvious answer for this.  Part of it may have been historical contingency.
 
 
 # Different levels of coding language
