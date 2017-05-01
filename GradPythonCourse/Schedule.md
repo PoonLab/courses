@@ -16,10 +16,11 @@
 
 ## May 2, 2017 - [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
 * Computing skills survey 
-* What is bioinformatics?
+* What is bioinformatics?  The biology-statistics-computer science triangle
 * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
 * [Working on the command-line](basicunixcommands.md)
-* Assignment: UNIX games
+* In-class assignment: UNIX games - download `src/learn-cli.py`
+* Markdown
 * Assignment: Project proposal in [Markdown](http://daringfireball.net/projects/markdown/basics) (deadline May 16)
 
 ## May 9, 2017 - Starting Python - file I/O and base objects
