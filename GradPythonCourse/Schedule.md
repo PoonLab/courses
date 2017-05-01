@@ -2,7 +2,7 @@
 * students must have a laptop to work on
 * your laptop must have a UNIX-like computing environment, e.g., Linux, Apple OS-X
 * install [PyCharm](https://www.jetbrains.com/pycharm/)
-* install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).  This should already be installed on Linux and OS-X machines.  To confirm, open a [Terminal](https://en.wikipedia.org/wiki/Terminal_emulator) window and issue the following command: `git --version`.
 
 ## Grading
 
