@@ -85,8 +85,26 @@ DESCRIPTION
 ![](https://imgs.xkcd.com/comics/tar.png)
 
 
+### Working with the shell
+
+Before we get into some more UNIX commands, let's talk about a few things that are going to make your life easier.  
+First of all, your shell remembers the commands that you've entered whether they worked or not.  To get a list of them, type `history`:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/src$ history | tail
+ 1831  ls
+ 1832  cd ..
+ 1833  ls
+```
+
+The really handy thing is that you can retrieve previous commands using the `up` arrow key (and pressing `down` to return towards the bottom of the histoy list).  This can save you a lot of typing.  
+
+The second thing that you should know is that the `tab` key will autocomplete a command or the name of a file or directory *if* there are no other possibilities.  For example, if I type `head b` and there is only one file or directory in my current location in the filesystem that starts with `b`, then the rest of that name will get autocompleted with `tab`.
+ 
+Third, you can jump to the start of a line with `Control-A` and skip back to the end of the line with `Control-E`.  Hence,  even though you don't get to move your cursor around with the mouse pointer anymore (because the terminal application is not a GUI), you can still move around fairly quickly.
+
+
 ### `cd`
-Look back at the output of `ls -a` --- do you see the `.` and `..`?  Every folder contains those.  These dots are not really files or folders --- they are symbols that enable the user to refer to the current folder, and to the parent of the current folder.  What do we mean by a parent?  A file system has a hierarchical structure; it is a tree that is made up of directed parent-child relationships.  So, each folder is "aware" of its parent folder that sits one level up in the hierarchy.  It's also aware of any child folders that sit at a lower level of the hierarchy, and refer to it as their parent.  
+Okay, let's get back to business.  Look back at the output of `ls -a` --- do you see the `.` and `..`?  Every folder contains those.  These dots are not really files or folders --- they are symbols that enable the user to refer to the current folder, and to the parent of the current folder.  What do we mean by a parent?  A file system has a hierarchical structure; it is a tree that is made up of directed parent-child relationships.  So, each folder is "aware" of its parent folder that sits one level up in the hierarchy.  It's also aware of any child folders that sit at a lower level of the hierarchy, and refer to it as their parent.  
 
 Let's start calling folders "directories" from now on.  It's not as intuitive, but several UNIX commands are derived from this terminology.  To wit, `cd` is an acronym of "change directory".
 
