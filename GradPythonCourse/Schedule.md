@@ -19,60 +19,80 @@
 * What is bioinformatics?  The biology-statistics-computer science triangle
 * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
 * [Working on the command-line](basicunixcommands.md)
+* Running a Python script
 * In-class assignment: UNIX games - download `src/learn-cli.py`
 * Markdown
 * Assignment: Project proposal in [Markdown](http://daringfireball.net/projects/markdown/basics) (deadline May 16)
 
-## May 9, 2017 - Starting Python - file I/O and base objects
+
+## May 9, 2017 - Biological data formats and reading files in Python
 * [Levels of programming languages](https://en.wikipedia.org/wiki/Low-level_programming_language)
 * Scripting languages and their philosophies
+* The Python interpreter - interactive mode
 * File I/O in Python
-* Basic Python types
-* iterables
-* mutables
-* Assignment: Reading a file
+* for-loops
+* biological data formats:
+  * tabular (CSV, TSV)
+  * [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/)
+  * [COSMIC](http://cancer.sanger.ac.uk/cosmic)
+  * [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
+  * [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)
+  * [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
+  * [BioPython](https://github.com/biopython/biopython)
+* basic string operations:
+  * `print` (built-in function)
+  * `startswith`, `endswith`
+  * `in`, `find`
+  * `count`
+  * `strip`, `lstrip`, `rstrip`
+  * `split`
+* assignment: reading a file
 
-## May 16, 2017 - Flow control
-* loops (for, while)
-* if-else statements (conditionals)
-* the toothbrush exercise
-* Assignment: Filtering a file by lines
+
+## May 16, 2017 - Control flow and output
+* What is an iterable object in Python?
+* Indexing and slicing
+* Loops again (for, while)
+* Conditionals (if-else statements)
+* Parsing tabular data
+* File output
+* [Formatted strings](https://en.wikipedia.org/wiki/Printf_format_string)
+* Assignment: Parsing a file 
 * Deadline: Project proposal in Markdown
-* Assignment: Data processing project (deadline June 27)
+
 
 ## May 23, 2017 - ** NO CLASS **
 
-## May 30, 2017 - Working with iterables
-* Indexing
-* Slicing
-* Building strings
-* [Formatted strings](https://en.wikipedia.org/wiki/Printf_format_string)
-* Dictionaries (associative lists)
-* Assignment: Filtering a file by entries
-* Assignment: Create a GitHub account
 
-## June 1, 2017 - Biological data formats
-* tabular (CSV, TSV)
-* [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/)
-* [COSMIC](http://cancer.sanger.ac.uk/cosmic)
-* [BioPython](https://github.com/biopython/biopython)
-* [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
-* [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)
-* [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
-
-
-## June 6, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
+## May 30, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
 * Regular languages
 * Special characters
 * Group capture
 * Substitutions
-* Assignment: Parsing a text file
+* Start project pending review of proposal (deadline June 27)
+
+
+## June 1, 2017 - Numbers and math
+* Integer arithmetic
+* Floats
+* The `math` library
+* The `random` library
+* Building strings (concatenation)
+* Dictionaries
+* Assignment: Filtering a file by entries
+
+
+## June 6, 2017 - Debugging
+* Exception handling
+* Debugging strategies
+* Testing your code
 
 
 ## June 13, 2017 - Workflow integration
 * bash scripting
 * pipes
 * Python [subprocess](https://docs.python.org/3/library/subprocess.html) module
+* stream redirection
 
 
 ## June 20, 2017 - Code maintenance
