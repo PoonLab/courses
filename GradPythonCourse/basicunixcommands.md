@@ -192,7 +192,9 @@ This is still pretty limiting.  What if we're trying to find something specific,
 art@Misato:~/git/courses/GradPythonCourse/examples$ grep mine small-text-file.txt 
 but this one is mine.
 ```
-This command returned all lines that contain the word "mine" - for this example, there is only one such line.  What do we do if we are running this command on an immense file, and an enormous number of lines is getting returned? 
+This command returned all lines that contain the word "mine" - for this example, there is only one such line.  What do we do if we are running this command on an immense file, and an enormous number of lines is getting returned?   (For an answer, see the next section.)
+
+One more thing about `grep`.  One of the most useful ways of using `grep` is recursively - that is, to search through *all* the files contained in the present working directory as well as all other directories nested within.
 
 
 ## Bringing things together with pipes
