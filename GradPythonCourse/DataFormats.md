@@ -114,6 +114,8 @@ The first thing we need to do is to open the file.  This is accomplished with th
 ```python
 >>> handle = open('esoph.csv', 'rU')
 ```
+
+### Intermission - working with Python functions
 Since this may be the first time you've encountered a function call in Python (or even in any programming language!), I need to take a minute to explain some basic concepts.  A function is a set of instructions in the programming language that we've asked the computer to set aside and label with a name.  Whenever we call that name, the computer will know to run that set of instructions.  Functions become really useful if you can apply the same set of instructions to different things.  We pass those things to a function as "arguments".  There are two arguments being passed to the `open` function in this example:
 1. `'esoph.csv'` is a string (sequence of characters) that corresponds to a relative path to the file.  Since we initiated our Python session in the same directory as the file, we don't need to specify any other directories.
 2. `'rU'` is another string that tells Python to open the file in "read-only" mode (`r`) and to interpret the stream of ones and zeros being transmitted from the file with a Unicode encoding `U`.  
@@ -129,7 +131,16 @@ open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, clo
 ```
 There's actually many more lines than this!  This shell works the same way as `less` and `man`: you can scroll up and down with the arrow keys, and return to your Python session at any time by typing `q`.  The first line of the help document provides some concise information about how to use the function (to get more detailed information, keep reading!).  There are 8 different arguments that can be passed to the `open` function.  There is only 1 argument that doesn't have a default value: `file`.  That is what we use to specify an absolute or relative path to the file that we want to open a stream from. The `mode` argument is the only one that I've ever used in practice.  Note that it defaults to a read-only mode (`r`).  This is good behaviour - if it defaulted to a write mode (`w`), then you'd wiped out every file you tried to open! 
 
+### Back to our regular programming
 
-
-
-
+What are we supposed to do with this file stream object?
+```python
+>>> handle
+<_io.TextIOWrapper name='esoph.csv' mode='rU' encoding='UTF-8'>
+```
+That wasn't very informative, but worth a try!  If we really want to learn about what this kind of object can do, we can use the `help` function again - however, this is going to splash a lot more information than you probably want to digest at this point.  Let's introduce another helpful function (ha ha): `dir`.
+```python
+>>> dir(handle)
+['_CHUNK_SIZE', '__class__', '__del__', '__delattr__', '__dict__', '__dir__', '__doc__', '__enter__', '__eq__', '__exit__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '_checkClosed', '_checkReadable', '_checkSeekable', '_checkWritable', '_finalizing', 'buffer', 'close', 'closed', 'detach', 'encoding', 'errors', 'fileno', 'flush', 'isatty', 'line_buffering', 'mode', 'name', 'newlines', 'read', 'readable', 'readline', 'readlines', 'seek', 'seekable', 'tell', 'truncate', 'writable', 'write', 'writelines']
+```
+This returns a list of all the possible functions associated with the kind of object that we've labelled `handle`.  
