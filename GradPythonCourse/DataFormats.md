@@ -9,21 +9,39 @@ For a plain text file, a format is a set of rules about how the characters are a
 
 Tabular data formats are probably the most common format for storing conventional data types.  A table is made up of rows and columns like a [spreadsheet](https://en.wikipedia.org/wiki/Spreadsheet).  Table rows (by convention) represent independent observations/records, such as a sample of patients, and columns represent different kinds of measurements (variables) such as height and weight.  For example:
 
-| agegp |    alcgp |   tobgp  |ncases |ncontrols |
-|-------|----------|----------|-------|----------|
-| 25-34 |    40-79 |   20-29  |    0  |       4 |
-| 35-44 |   80-119 |   20-29  |    0  |       2 |
-| 45-54 |0-39g/day | 0-9g/day |     1  |      46 |
-| 55-64 |     120+ |   20-29  |    2   |      3 |
-| 25-34 |     120+ |   20-29  |    0   |      1 |
-|   75+ |     120+ |   10-19  |    1   |      1 |
-| 25-34 |   80-119 |   10-19  |    0   |      1 |
-| 55-64 |    40-79 |     30+  |    3   |      6 |
-| 25-34 |0-39g/day |   10-19  |    0   |     10 |
-| 55-64 |0-39g/day |     30+  |    4   |      6 | 
+|agegp |alcgp  |tobgp    | ncases| ncontrols|
+|:-----|:------|:--------|------:|---------:|
+|75+   |40-79  |0-9g/day |      2|         5|
+|75+   |40-79  |10-19    |      1|         3|
+|35-44 |80-119 |10-19    |      0|         6|
+|65-74 |80-119 |10-19    |      4|        12|
+|55-64 |40-79  |30+      |      3|         6|
+|45-54 |120+   |10-19    |      3|         4|
+|55-64 |120+   |20-29    |      2|         3|
+|25-34 |80-119 |30+      |      0|         2|
+|55-64 |40-79  |20-29    |      4|        17|
+|55-64 |80-119 |10-19    |      8|        15|
 
-These data come from the `esoph` dataset in [R](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html).  
+These data come from the `esoph` dataset in [R](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html). For what it's worth, to extract this subsample I used the following command in R:
+```R
+kable(esoph[sample(1:nrow(esoph), 10),], format='markdown', row.names=F)
+```
+These are aggregate data from a case-control study of esophageal cancer in France.  If you're interested about the study, you can read more about it in the source reference: [Brewlow and Day 1980](https://www.iarc.fr/en/publications/pdfs-online/stat/sp32/).  
 
-Since the table rows appear in different lines, then 
+How do we record this information in a plain text file?  Typically, we preserve the row structure of the table by placing line breaks between each row.  A [line break](https://en.wikipedia.org/wiki/Newline) is a special character encoding that tells the computer to move to a new line when displaying the content of a text file.  Different operating systems use [different control characters](https://en.wikipedia.org/wiki/Newline#Representations) in the ASCII encoding set to represent a line break: UNIX and its descendants use `LF` (line feed); Apple computers used `CR` (carriage return) until the OS became a UNIX-like system; and Microsoft Windows uses a combination of `LF` and `CR`.  This frequently causes problems when passing data files originating from different computers between programs that were developed on different platforms!  If you are trying to process a data file with a program and it isn't working, this is a possible cause.
 
+We still have to deal with preserving the column structure of a tabular data set.  This is usually accomplished with a [delimiter](https://en.wikipedia.org/wiki/Delimiter): a character or sequence of characters that is used to separate content that belongs to different items.  The comma `,` is probably the most common delimiter, closely followed (if not surpassed) by the [tab character](https://en.wikipedia.org/wiki/Tab_key#Tab_characters), which is represented by the escape character `\t`.  To illustrate, here are comma-separated and tab-separated versions of the `esoph` data snippet:
 
+```CSV
+agegp,alcgp,tobgp,ncases,ncontrols
+75+,40-79,0-9g/day,2,5
+75+,40-79,10-19,1,3
+35-44,80-119,10-19,0,6
+65-74,80-119,10-19,4,12
+55-64,40-79,30+,3,6
+45-54,120+,10-19,3,4
+55-64,120+,20-29,2,3
+25-34,80-119,30+,0,2
+55-64,40-79,20-29,4,17
+55-64,80-119,10-19,8,15
+```
