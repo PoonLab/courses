@@ -5,6 +5,8 @@ First, let's draw a distinction between plain text and binary files.  All files 
 
 For a plain text file, a format is a set of rules about how the characters are arranged to encode information.  Data formats are a necessary evil in bioinformatics.  Learning to parse new formats and converting between formats is a ubiquitous task that is often made more difficult by the lack of a strict standardization for popular formats such as [NEXUS](https://en.wikipedia.org/wiki/Nexus_file) or [Newick](https://en.wikipedia.org/wiki/Newick_format).  Fortunately, the pervasiveness of such tasks means that there are also plenty of resources in the public domain that make them easier to accomplish.
 
+![](https://imgs.xkcd.com/comics/binary_heart.jpg)
+
 ## Tabular data
 
 Tabular data formats are probably the most common format for storing conventional data types.  A table is made up of rows and columns like a [spreadsheet](https://en.wikipedia.org/wiki/Spreadsheet).  Table rows (by convention) represent independent observations/records, such as a sample of patients, and columns represent different kinds of measurements (variables) such as height and weight.  For example:
@@ -73,4 +75,61 @@ becomes this:
 67,"muscular pain, acute",Toronto
 ```
 
-## Working with tabular data in Python
+![](https://imgs.xkcd.com/comics/file_extensions.png)
+
+
+
+## Working with tabular data files in Python
+
+Okay, let's use `cd` and `ls` to navigate to the `examples` folder.  I've placed a CSV file derived from the `esoph` R data set, which I've uncreatively named `esoph.csv`:
+```shell
+[Elzar:~/git/courses] artpoon% pwd
+/Users/artpoon/git/courses
+[Elzar:~/git/courses] artpoon% cd GradPythonCourse/
+[Elzar:~/git/courses/GradPythonCourse] artpoon% cd examples/
+[Elzar:courses/GradPythonCourse/examples] artpoon% ls
+esoph.csv
+```
+
+Use the `head` command to have a quick look at the contents of this file:
+```
+[Elzar:courses/GradPythonCourse/examples] artpoon% head -n5 esoph.csv 
+agegp,alcgp,tobgp,ncases,ncontrols
+25-34,0-39g/day,0-9g/day,0,40
+25-34,0-39g/day,10-19,0,10
+25-34,0-39g/day,20-29,0,6
+25-34,0-39g/day,30+,0,5
+```
+
+Now let's fire up an interactive session with Python.  
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python
+Python 3.6.0b3 (default, Nov  1 2016, 16:08:38) 
+[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+```
+
+The first thing we need to do is to open the file.  This is accomplished with the built-in Python function `open`:
+```python
+>>> handle = open('esoph.csv', 'rU')
+```
+Since this may be the first time you've encountered a function call in Python (or even in any programming language!), I need to take a minute to explain some basic concepts.  A function is a set of instructions in the programming language that we've asked the computer to set aside and label with a name.  Whenever we call that name, the computer will know to run that set of instructions.  Functions become really useful if you can apply the same set of instructions to different things.  We pass those things to a function as "arguments".  There are two arguments being passed to the `open` function in this example:
+1. `'esoph.csv'` is a string (sequence of characters) that corresponds to a relative path to the file.  Since we initiated our Python session in the same directory as the file, we don't need to specify any other directories.
+2. `'rU'` is another string that tells Python to open the file in "read-only" mode (`r`) and to interpret the stream of ones and zeros being transmitted from the file with a Unicode encoding `U`.  
+How are we supposed to know what arguments to pass to a function?  You need to use another built-in Python function called `help`:
+```python
+help(open)
+```
+
+This spawns another interactive shell for viewing the help documentation for the `open` function:
+```shell
+open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
+    Open file and return a stream.  Raise IOError upon failure.
+```
+There's actually many more lines than this!  This shell works the same way as `less` and `man`: you can scroll up and down with the arrow keys, and return to your Python session at any time by typing `q`.  The first line of the help document provides some concise information about how to use the function (to get more detailed information, keep reading!).  There are 8 different arguments that can be passed to the `open` function.  There is only 1 argument that doesn't have a default value: `file`.  That is what we use to specify an absolute or relative path to the file that we want to open a stream from. The `mode` argument is the only one that I've ever used in practice.  Note that it defaults to a read-only mode (`r`).  This is good behaviour - if it defaulted to a write mode (`w`), then you'd wiped out every file you tried to open! 
+
+
+
+
+
