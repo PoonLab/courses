@@ -335,11 +335,19 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: can't multiply sequence by non-int of type 'str'
 ```
-
 But if we multiply a string with an integer, then it gets repeated:
 ```python
 >>> s1*3
 'hotdoghotdoghotdog'
 ```
+
+There are a lot of other things we can do with strings.  Let's get the list of these things:
+```python
+>>> dir(s1)
+['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
+```
+A nice feature of Python is that you can call the `dir` function on any instance of an object and get the list of that object's attributes.  Here, we called `dir` on the `s1` variable - because we assigned a string value to this variable, we get the list of string functions.  There are several useful functions to talk about here.  I'm going to collect these into "descriptive" and "manipulative" groups of functions.
+
+### Descriptive string functions
 
 
