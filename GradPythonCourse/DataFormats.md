@@ -222,3 +222,120 @@ This is valid Python, but it's also stupid.  No, we're going to have to learn ab
 
 ## for loops
 
+Loops are a fundamental concept in programming where we instruct the computer to follow the same set of instructions a specific number of times, or forever until some condition is met.  A `for` loop in Python looks like this:
+```python
+>>> for i in range(3):
+...     print('Underpants!')
+... 
+Underpants!
+Underpants!
+Underpants!
+```
+(This sort of thing really is how many of us got started with programming in the 80's.)  
+
+What's going on here?  First of all, a `for` statement has three basic parts:
+1. An iterable object that we're looping over.
+  In this example, `range` is a built-in function that returns a sequence of integers that starts with `0` and ends with one less than the integer argument.  In Python 3, you can't see this sequence even if you specifically ask for it.  This is because Python 3 is returning a function that will generator this sequence as numbers when you ask for them; this is more efficient than storing the entire sequence in memory.  I'm still getting used to this -- in Python 2, everything was immediately available to look at.
+  ```python
+  >>> range(3)
+  range(0, 3)
+  >>> thing = range(3)
+  >>> list(thing)
+  [0, 1, 2]
+  ```
+
+2. One or more variables for capturing the values being passed from the iterable object.  
+  In our example, there's only one integer being passed at a time, so we only need one variable: `i`.  In our first pass through the loop, `i` has the value `0`.  On our second pass, it has the value `1`.  To illustrate:
+  ```python
+  >>> for i in range(3):
+  ...   print(i)
+  ... 
+  0
+  1
+  2
+  ```
+  
+3. A code block that is going to be executed every time we pass through the loop.
+  This is where we have to get into another basic concept in Python.  A [code block](https://en.wikipedia.org/wiki/Block_(programming)) is a subset of instructions that we want to differentiate from the rest of the instructions.  When we write a `for` loop, for example, we usually don't want Python to execute the entire script multiple times.  A programming language needs to have some means of telling the computer which instructions are in the code block, and which ones are not.  Some languages enclose the code block in a special character.  For example, `C` uses curly brackets (`{` and `}`).  Python uses whitespace: a series of one or more spaces or tabs.  It's one of the defining (but not unique) characteristics of the language. 
+  For example, deleting the spaces to the left of the `print` function in the previous example raises an error:
+  ```
+  >>> for i in range(3):
+... print(i)
+  File "<stdin>", line 2
+    print(i)
+        ^
+IndentationError: expected an indented block
+  ```
+  All lines that begin with the same whitespace that come immediately after the `for` statement are included in the code block.  The next line to start with different whitespace closes the code block.  For example, this script:
+  ```python
+  for i in range(3):
+    print(i)
+  print('now stop')
+  ```
+  produces the following output:
+  ```shell
+  [Elzar:courses/GradPythonCourse/examples] artpoon% python foo.py
+  0
+  1
+  2
+  now stop
+  ```
+  Caveat: this example will raise a syntax error in interactive mode.  It's just [one of those quirks](https://docs.python.org/3/tutorial/interpreter.html#interactive-mode) of the interactive mode.
+  
+![](https://imgs.xkcd.com/comics/ducklings.png)
+
+
+## Back to our file - working with strings
+
+Now that we know a little bit about `for` loops, let's apply it to our code:
+```
+>>> for line in handle.readlines():
+...     print(line)
+... 
+25-34,40-79,20-29,0,4
+
+25-34,40-79,30+,0,7
+
+25-34,80-119,0-9g/day,0,2
+```
+and much more!  There's a couple of things to note here.  First, the lines being printed don't start at the top of our file because we've already called the `readline()` function a few times, so we've already moved through the file stream.  Second, the output is skipping every other line because each string returned by `readlines()` keeps the line break at the end.  Third, this still isn't very useful code - we could have accomplished the same thing with a `cat` statement.  No, for our script to start getting useful, we have to learn about string manipulation, and in order to do *that*, we have to learn about indexing and immutables.
+
+A string is a kind of object in Python.  Specifically, it is an *iterable* and *immutable* sequence of characters.  A string is an ordered sequence because a character has a specific location in the string, and changing this location would give you a different string.  If the order of values in the sequence is meaningful, then we can legitimately ask Python for the value located at the third position of the sequence.  This is called *indexing*.  Python is a zero-index language: it starts counting from zero.  Other languages, such as *R*, are one-index languages and start counting from one.  Here's an example:
+
+```python
+>>> s1 = "hotdog"  # define a string by enclosing characters with double-quotes and assign it to a variable
+>>> s1[1]
+'o'
+>>> s2 = 'ketchup'  # single quotes are okay too
+>>> s2[0]
+'k'
+>>> s2[0] = 'Z'  # now let's try to assign a new value to the first position
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+```
+
+A string is "immutable".  Python won't allow you to change parts of the string by assigning a different character.  On the other hand, you can concatenate two strings together without changing the content of either string.  This is accomplished with the plus sign (`+`):
+```python
+>>> s1+s2
+'hotdogketchup'
+```
+Other operators don't work:
+```python
+>>> s1-s2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unsupported operand type(s) for -: 'str' and 'str'
+>>> s1*s2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't multiply sequence by non-int of type 'str'
+```
+
+But if we multiply a string with an integer, then it gets repeated:
+```python
+>>> s1*3
+'hotdoghotdoghotdog'
+```
+
+
