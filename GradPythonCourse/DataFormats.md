@@ -205,6 +205,10 @@ We're finally ready to do a little processing with our example file:
 >>> handle.readline()
 '25-34,0-39g/day,10-19,0,10\n'
 ```
+What's this `\n` thingy?  This is how line breaks are represented in UNIX.  The backslash character (`\`) has a special meaning in UNIX - it is known as an escape character that tells the computer to interpret the *next* character differently.  In this case, we want to tell the computer that this is not the letter `n`; it is a line break.
+
+![](https://imgs.xkcd.com/comics/backslashes.png)
+
 Well.  That's great, we can see the contents of the file, but it's flying off into the ether because we're not assigning it to a variable so we can do something with it.  Let's fix that:
 ```python
 >>> line = handle.readline()
