@@ -1,5 +1,8 @@
 # Assignment 2.  Global HIV reverse transcriptase drug resistance
 
+Submit your completed assignment by e-mail as a Markdown file by May 16, 2017.
+
+
 ## Data source
 Download the tabular HIV RT data set at this link:
 
@@ -16,9 +19,15 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
 
 1. Use a UNIX command to determine the number of records in this file.  Assume that the first line is the header row.
 
+
+
 2. Using an interactive session of Python, open a file stream in read mode to this file and print the collection year for every sample collected in Canada.  Provide your code here:
 
+
+
 3. Modify your code to exclude non-numeric characters from the collection year field.  Provide your revised code here:
+
+
 
 4. Write some Python code that will extract the only the following fields (see header row):
   * AccessionID - this is a [GenBank accession number](https://www.ncbi.nlm.nih.gov/Sequin/acc.html)
@@ -29,4 +38,5 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
   
   and print the result as a line of comma-separated values.
   Provide your code here:
+
 
