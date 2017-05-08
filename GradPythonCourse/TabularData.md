@@ -75,6 +75,8 @@ becomes this:
 67,"muscular pain, acute",Toronto
 ```
 
+One last thing.  There are several reasons why tabular data formats are not the most convenient choice for other types of data, or for many situations.  One of these situations is when you want to write some additional information about the content of the table in the file.  For example, suppose that we wanted to properly credit the authors of the study that these data came from.  We can't append lines to this table that contain a reference to the literature without breaking up the tabular data scheme and causing problems when we want to parse the data.  One solution to this problem is to reserve a special character to indicate that lines beginning with that character are comments and should be ignored.  There is no standard practice for commenting CSV files.  However, I have frequently seen the `#` character used for this purpose.
+
 ![](https://imgs.xkcd.com/comics/file_extensions.png)
 
 
@@ -420,7 +422,7 @@ I'm referring to these functions as descriptive because they are essentially tes
  ```
  
  * `count` returns the number of times that a substring occurs in the string:
- ```
+ ```python
  >>> s.count('b')  # jabberwocky has two 'b's
  2
  ```
@@ -431,7 +433,7 @@ I'm referring to these functions as descriptive because they are essentially tes
 I'm using this term to describe string functions that return a string or multiple strings.  Again, most of these functions have optional arguments that I won't be covering, and which can be examined with the `help` function.
 
 * `strip` : When this function is called without any arguments, it removes any leading or trailing whitespace (spaces or tabs on the extreme left or right of a string) by default.  If you supply a substring as the optional argument, then any occurrence *of any character* in the substring is removed from the left or right of the string.  `lstrip` and `rstrip` are special cases where `strip` is applied only to the left or right of a string, respectively.
- ```
+ ```python
  >>> s = '  shrubbery \t'
  >>> s.strip()
  'shrubbery'
@@ -446,7 +448,7 @@ I'm using this term to describe string functions that return a string or multipl
  ```
 
 * `replace` : This function has two required arguments.  The first argument is a substring to search for, and the second argument is a substring to replace every occurrence of the former.  
- ```
+ ```python
  >>> s.replace('b', '')
  '  shruery \t'
  >>> s.replace('r', 'NI')
@@ -454,7 +456,7 @@ I'm using this term to describe string functions that return a string or multipl
  ```
 
 * `split` : `split` is an extremely useful function for working with tabular data - it locates every occurrence of the substring argument and cuts the string into pieces wherever it removes the substring.  `split` always returns a list, even if the substring wasn't found.  Like `strip`, `split` cuts at whitespace by default.
- ```
+ ```python
  >>> s = 'LCD Soundsystem'
  >>> s.split()
  ['LCD', 'Soundsystem']
@@ -463,12 +465,58 @@ I'm using this term to describe string functions that return a string or multipl
  ```
  
 * `join` : is the antipode of `split`.  It takes a list of strings and then concatenates them together into a single string using a given substring as glue.  A key difference between `join` and the other functions is that the substring that is being used as glue is the calling object, not the argument.  This is necessary because the return value of `split` is a list, and a list can be sequence of any kind of object including a mixture of strings, integers and other lists.  It doesn't make sense to concatenate the items in a mixed list into a single string!
- ```
+ ```python
  >>> s = "it's going to be a long trip"
  >>> '...'.join(s.split())  # not "s.split().join('...')"
  "it's...going...to...be...a...long...trip"
  ```
  
+ 
+### Getting back to tabular data
 
+Hopefully you'll have noticed that some (if not all) of the string functions that we just reviewed are really useful for working with tabular data sets.  Let's open a file handle to our example plain-text file again:
+```python
+handle = open('esoph.csv', 'rU')  # let's use Unicode encoding
+```
+We know that our file contains a header line, so we need to skip it before we process the rest of the data file.  We can do this with the following line:
+```python
+_ = handle.nextline()  # skip header line
+```
+In Python 2, I used to be able to use a different function called `next`, but `nextline` pretty much serves the same role: it tells our file object to return the current line and advance to the next line in the file stream.  Since I'm not interested in doing anything with this line, I'm assigning it to a dummy variable as indicated with a single underscore (`_`) --- a totally valid and utterly uninformative variable name!  
 
+Now it's time to iterate through the rest of the file and do something with the information contained within.  We're going to work with prior knowledge about the content of the file - namely, that each row contains the following information:
+ * age group
+ * alcohol consumption category
+ * tobacco consumption category
+ * number of cases of esophageal cancer
+ * number of controls
+
+Here is a script that will do the following things:
+ 1. Replace the age group notation with the lower age limit.
+ 2. Replace 'g' with 'mL' in alcohol consumption units.
+ 3. Replace the case and control counts with proportion and sample size.
+ 4. Print each line to the console so we can stream it into another file in a tab-separated format.
+ 
+Here's the entire script:
+```python
+handle = open('esoph.csv', 'rU')
+_ = handle.readline()  # skip header line
+
+for line in handle:
+    # remove the line break character and split into substrings at commas
+    agegp, alcgp, tobgp, cases, controls = line.strip('\n').split(',')
+    min_age = agegp.split('-')[0].strip('+')  # extract first part of XX-YY and remove trailing plus sign
+    alcvol = alcgp.replace('g', 'mL')  # alcohol consumption volume
+    
+    # calculate sample size and case proportion
+    sampsize = int(cases) + int(controls)  # convert strings to integers
+    propn = float(cases) / sampsize  # a floating point number has a decimal
+    
+    # write out to console as a tab-separated line
+    print ('\t'.join([min_age, alcvol, tobgp, str(propn), str(sampsize)]))
+
+handle.close()  # finished with the file
+```
+
+I've cluttered this example script a bit with some documentation, because I want you to get used to the idea of always providing documentation with your code.  This is as much for your own benefit as it is for anyone else who might read your code.  Think of it as doing a big favour for your future self, who has completely forgotten why you wrote this script and how it is supposed to work!
 
