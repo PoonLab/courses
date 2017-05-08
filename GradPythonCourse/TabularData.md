@@ -356,6 +356,8 @@ This implies that the following is a legitimate (but kind of pointless) slice, a
 'ketchup'
 ```
 
+![](https://imgs.xkcd.com/comics/donald_knuth.png)
+
 
 ### Mutability
 
@@ -519,4 +521,16 @@ handle.close()  # finished with the file
 ```
 
 I've cluttered this example script a bit with some documentation, because I want you to get used to the idea of always providing documentation with your code.  This is as much for your own benefit as it is for anyone else who might read your code.  Think of it as doing a big favour for your future self, who has completely forgotten why you wrote this script and how it is supposed to work!
+
+To understand what this script is doing, I find it helpful to extract one line from the file and manually run through the commands being applied to it.  Instead of entering a `for` loop, let's grab one line with `readline`:
+```python
+>>> line = handle.readline()  # called a second time (after popping off the header)
+>>> line
+'25-34,0-39g/day,0-9g/day,0,40\n'
+>>> line.strip('\n')
+'25-34,0-39g/day,0-9g/day,0,40'
+>>> line.strip('\n').split(',')
+['25-34', '0-39g/day', '0-9g/day', '0', '40']
+```
+And so on.  Interactively poke and prod at every operation being performed on this line.  What happens if you don't enclose `cases` and `controls` with `int()` functions?  How about if you try to compute the proportion with `int(cases)/sampsize`?
 
