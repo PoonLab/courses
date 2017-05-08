@@ -418,4 +418,57 @@ I'm referring to these functions as descriptive because they are essentially tes
    File "<stdin>", line 1, in <module>
  ValueError: substring not found
  ```
+ 
+ * `count` returns the number of times that a substring occurs in the string:
+ ```
+ >>> s.count('b')  # jabberwocky has two 'b's
+ 2
+ ```
+
+
+### Manipulative string functions
+
+I'm using this term to describe string functions that return a string or multiple strings.  Again, most of these functions have optional arguments that I won't be covering, and which can be examined with the `help` function.
+
+* `strip` : When this function is called without any arguments, it removes any leading or trailing whitespace (spaces or tabs on the extreme left or right of a string) by default.  If you supply a substring as the optional argument, then any occurrence *of any character* in the substring is removed from the left or right of the string.  `lstrip` and `rstrip` are special cases where `strip` is applied only to the left or right of a string, respectively.
+ ```
+ >>> s = '  shrubbery \t'
+ >>> s.strip()
+ 'shrubbery'
+ >>> s.lstrip()
+'shrubbery \t'
+ >>> s.rstrip()
+ '  shrubbery'
+ >>> '  the spaces between us  '.strip()  # whitespace within a string is protected
+ 'the space between us'
+ >>> s.strip(' sy')  # can you explain why we get this output?
+ 'hrubbery \t'
+ ```
+
+* `replace` : This function has two required arguments.  The first argument is a substring to search for, and the second argument is a substring to replace every occurrence of the former.  
+ ```
+ >>> s.replace('b', '')
+ '  shruery \t'
+ >>> s.replace('r', 'NI')
+ '  shNIubbeNIy \t'
+ ```
+
+* `split` : `split` is an extremely useful function for working with tabular data - it locates every occurrence of the substring argument and cuts the string into pieces wherever it removes the substring.  `split` always returns a list, even if the substring wasn't found.  Like `strip`, `split` cuts at whitespace by default.
+ ```
+ >>> s = 'LCD Soundsystem'
+ >>> s.split()
+ ['LCD', 'Soundsystem']
+ >>> s.split('s')
+ ['LCD Sound', 'y', 'tem']
+ ```
+ 
+* `join` : is the antipode of `split`.  It takes a list of strings and then concatenates them together into a single string using a given substring as glue.  A key difference between `join` and the other functions is that the substring that is being used as glue is the calling object, not the argument.  This is necessary because the return value of `split` is a list, and a list can be sequence of any kind of object including a mixture of strings, integers and other lists.  It doesn't make sense to concatenate the items in a mixed list into a single string!
+ ```
+ >>> s = "it's going to be a long trip"
+ >>> '...'.join(s.split())  # not "s.split().join('...')"
+ "it's...going...to...be...a...long...trip"
+ ```
+ 
+
+
 
