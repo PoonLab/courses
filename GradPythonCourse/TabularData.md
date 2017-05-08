@@ -1,4 +1,4 @@
-# Bioinformatic data formats
+# Working with tabular data in Python
 
 ## Binary and text files
 First, let's draw a distinction between plain text and binary files.  All files correspond to a series of 1's and 0's on the hard drive or in memory.  A plain text file has a flag that tells the computer that it should apply a [character encoding](https://en.wikipedia.org/wiki/Character_encoding) that maps binary sequences (bit strings) to symbols, such as characters in an alphabet.  For example, the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding maps the bit string `1001010` to the letter `J`.  This means that when you open the file, the computer knows that it should display its contents as a collection of meaningful characters.  Obviously this is a big advantage for making a file immediately interpretable.  However, we sacrifice some efficiency to make this possible, so binary files tend to be more compact while storing the same information. 
@@ -304,6 +304,8 @@ Now that we know a little bit about `for` loops, let's apply it to our code:
 ```
 and much more!  There's a couple of things to note here.  First, the lines being printed don't start at the top of our file because we've already called the `readline()` function a few times, so we've already moved through the file stream.  Second, the output is skipping every other line because each string returned by `readlines()` keeps the line break at the end.  Third, this still isn't very useful code - we could have accomplished the same thing with a `cat` statement.  No, for our script to start getting useful, we have to learn about string manipulation, and in order to do *that*, we have to learn about indexing and immutables.
 
+### Indexing
+
 A string is a kind of object in Python.  Specifically, it is an *iterable* and *immutable* sequence of characters.  A string is an ordered sequence because a character has a specific location in the string, and changing this location would give you a different string.  If the order of values in the sequence is meaningful, then we can legitimately ask Python for the value located at the third position of the sequence.  This is called *indexing*.  Python is a zero-index language: it starts counting from zero.  Other languages, such as *R*, are one-index languages and start counting from one.  Here's an example:
 
 ```python
@@ -318,6 +320,42 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: 'str' object does not support item assignment
 ```
+
+A very important generalization of indexing is *slicing*, where we cut out a continuous interval of a sequence.  A slice is invoked by square brackets and a pair of integers separated by a colon (`:`) that describes a range:
+```python
+>>> s2[0:3]  # the first 3 letters of "ketchup"
+'ket'
+>>> s2[:3]  # we can omit the zero
+'ket'
+>>> s2[3:5]  # the 3rd and 4th letters
+'ch'
+>>> s2[-3:]  # the last 3 letters
+'hup'
+>>> s2[1:-1]  # exclude the first and last letters
+'etchu'
+```
+So to sum up, the first integer gives the left limit of the range and the second gives the right limit.  If an integer is negative, then we start counting from the end of the string instead of the beginning.  Negative indexes are one-index instead of zero-index because we can't distinguish between `0` and `-0`.
+
+When you're learning Python for the first time, it's easy to get tripped up by slice notation.  First of all, remember that Python is a zero-index language, so we always start counting from `0`.  In other words, the element at position `1` is the 2nd element of a sequence.  In the first example, it might look like we've asked for four elements because the range `0:3` seems to span the numbers 0, 1, 2, and 3.  However, Python slices are left-closed/right-open intervals - they include the leftmost value, but they don't include the rightmost value.  This is actually a nice convention for a zero-indexed language: it allows us to ask directly for the first 3 letters with the integer value 3.
+
+There is actually a third "argument" to slice notation that people seldom use, but I'll mention it because you might encounter it when reading someone else's script.  This third argument specifies the step size used to progress through the range specified by the first and second arguments.  For example:
+```python
+>>> s2[0:5:2]  # s2 is still "ketchup"
+'kth'
+```
+returns the first, third and fifth letters.  If you ever do encounter this type of slice notation, it'll probably be the following usage:
+```python
+>>> s2[::-1]  # return the entire string in reverse
+'puhctek'
+```
+This implies that the following is a legitimate (but kind of pointless) slice, and it is indeed:
+```python
+>>> s2[:]
+'ketchup'
+```
+
+
+### Mutability
 
 A string is "immutable".  Python won't allow you to change parts of the string by assigning a different character.  On the other hand, you can concatenate two strings together without changing the content of either string.  This is accomplished with the plus sign (`+`):
 ```python
@@ -350,4 +388,34 @@ A nice feature of Python is that you can call the `dir` function on any instance
 
 ### Descriptive string functions
 
+I'm referring to these functions as descriptive because they are essentially tests on the content of a string: they return a `True` or `False` value that is the outcome of the test.  They don't return a new string or strings that are the product of the original string.  In most of the following brief descriptions, I am not going to go into some of the optional arguments for the respective functions; you can always learn more about them with the `help` function, *e.g.*, `help(''.beginswith)`.
+
+* `beginswith` and `endswith` test whether a string starts or ends with a particular substring, respectively.  For example:
+ ```python
+ >>> s = 'jabberwocky'
+ >>> s.startswith('jab')
+ True
+ >>> s.endswith('hockey')
+ False
+ ```
+
+* `in` is actually an operator like `+` or `==`, not a function.  However, I'm going to mention it here because it is a useful test that is less specific than `beginswith` and `endswith`: it simply tests whether a substring occurs anywhere in the string:
+ ```python
+ >>> 'wock' in s  # variable still holds "jabberwocky"
+ True
+ ```
+ 
+* A more informative test of substring occurrence is provided by `find` and `index`, which both return the index of the first occurrence.  The key difference between these two functions is that `find` returns a `-1` integer value if the substring is not found in the string, and `index` raises an Error.
+ ```python
+ >>> s.index('wock')
+ 6
+ >>> s.find('wock')
+ 6
+ >>> s.find('oaijreg')
+ -1
+ >>> s.index('oiajewf')
+ Traceback (most recent call last):
+   File "<stdin>", line 1, in <module>
+ ValueError: substring not found
+ ```
 
