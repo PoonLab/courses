@@ -84,6 +84,18 @@ for line in handle:
         Ns.append(1 if base == 'N' else 0)
 ```
 
+There are two ways of working with Python.  First, you can launch an interactive shell by simply typing `python` on the command line.  This is alright for small tasks or for calling functions from modules (something we'll learn about later), but it's not convenient when you need to write a lot of code.  It is possible to compose your script in a text editor and then copy-paste the text into an interactive shell, but at that point you might as well run the script in a non-interactive mode (in addition, whitespace can become an issue when copy-pasting code blocks into the shell).
+
+In a non-interactive mode, the Python interpreter processes the entire contents of a file.  You have to indicate which file you want to run with an absolute or relative path as the first argument on the command line.  If the script is in your present working directory, then you can simply provide the filename:
+```shell
+python foobar.py
+```
+
+A script often takes additional arguments and options from the command line; for example:
+```shell
+python foobar.py -h
+python foobar.py filename1 filename2
+```
 
 ### Ruby
 
