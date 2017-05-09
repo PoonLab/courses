@@ -21,16 +21,23 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
 
 ## Tasks
 
-1. Use a UNIX command to determine the number of records in this file.  Assume that the first line is the header row.
+1. Use a UNIX command to determine the number of records in this file.  Assume that the first line is the header row.  How many records are there?
+   ```
+   
+   ```
 
 
-
-2. Using an interactive session of Python, open a file stream in read mode to this file and print the collection year for every sample collected in Canada.  (You don't want to stream this output to your console - instead, redirect it into a file on the command line using the `>` operator.)  Provide your code here:
-
+2. Using an interactive session of Python, open a file stream in read mode to this file and print the collection year for every sample.  (You don't want to stream this output to your console - instead, redirect it into a file on the command line using the `>` operator.)  Provide your code here:
+   ```python
+   # insert code here
+   ```
 
 
 3. Modify your code to exclude non-numeric characters from the collection year field.  Provide your revised code here:
-
+   ```python
+   # insert code here
+   
+   ```
 
 
 4. Write some Python code that will extract the only the following fields (see header row):
@@ -40,7 +47,11 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
   * Subtype
   * NASeq - this is the HIV nucleotide sequence from the region encoding RT
   
-  and print the result as a line of comma-separated values.
+  and print the result as a line of comma-separated values.  Hint: you can assign the list of substrings returned by `split` to a variable that you can call something like `items` and then assign specific strings in the list that you want to work to other variables.  To assign the last item, you can use something like `last_item = items[-1]`
+  
   Provide your code here:
-
+  ```python
+  # insert code here
+  
+  ```
 
