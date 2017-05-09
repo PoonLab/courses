@@ -41,17 +41,17 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
 
 
 4. Write some Python code that will extract the only the following fields (see header row):
-  * AccessionID - this is a [GenBank accession number](https://www.ncbi.nlm.nih.gov/Sequin/acc.html)
-  * Region
-  * Year
-  * Subtype
-  * NASeq - this is the HIV nucleotide sequence from the region encoding RT
+   * AccessionID - this is a [GenBank accession number](https://www.ncbi.nlm.nih.gov/Sequin/acc.html)
+   * Region
+   * Year
+   * Subtype
+   * NASeq - this is the HIV nucleotide sequence from the region encoding RT
   
-  and print the result as a line of comma-separated values.  Hint: you can assign the list of substrings returned by `split` to a variable that you can call something like `items` and then assign specific strings in the list that you want to work to other variables.  To assign the last item, you can use something like `last_item = items[-1]`
+   and print the result as a line of comma-separated values.  Hint: you can assign the list of substrings returned by `split` to a variable that you can call something like `items` and then assign specific strings in the list that you want to work to other variables.  To assign the last item, you can use something like `last_item = items[-1]`
   
-  Provide your code here:
-  ```python
-  # insert code here
-  
-  ```
+   Provide your code here:
+   ```python
+   # insert code here
+   
+   ```
 
