@@ -1,6 +1,10 @@
-# Assignment 2.  Global HIV reverse transcriptase drug resistance
+# Assignment 2.  Working with tabular data in Python
 
 Submit your completed assignment by e-mail as a Markdown file by May 16, 2017.
+
+## Background
+
+The Stanford HIV Drug Resistance Database is an extremely important resource for HIV research and clinical management.  The database holds over 80,000 anonymized patient records collected from around the world.  Screening for the presence of drug resistant variants by generating a nucleotide sequence from the virus genome is standard-of-care and equivalent and more cost-effective than laboratory cell-culture assays.
 
 
 ## Data source
