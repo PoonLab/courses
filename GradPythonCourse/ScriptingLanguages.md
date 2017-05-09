@@ -17,13 +17,72 @@ Scripting languages have become an important part of bioinformatics, but why did
 >Some groups attempted to build large monolithic systems on top of complex relational databases; they were thwarted time and again by the highly dynamic nature of biological research. By the time a system that could deal with the ins and outs of a complex laboratory protocol had been designed, implemented and debugged, the protocol had been superseded by new technology and the software engineers had to go back to the drawing board.
 - [Lincoln Stein](https://en.wikipedia.org/wiki/Lincoln_Stein)
 
-In the post-genome era, this has remained true - the reduced one-time cost of developing a script tends to win over the performance advantage of compiled code that is more time-consuming to build.  There is a perpetually expanding range of biological applications for new molecular technologies.  The scale and complexities of data sets are constantly evolving.  In addition, scripting languages are simply easier for biologists to learn.  
+In the post-genome era, this has remained true - the reduced one-time cost of developing a script tends to win over the performance advantage of compiled code that is more time-consuming to build.  There is a perpetually expanding range of biological applications for new molecular technologies.  The scale and complexities of data sets are constantly evolving.  In addition, scripting languages are usually easier to learn when you're just getting started with computer programming.  
 
 
 ## Perl, Python and Ruby
 
-I think that for a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages that were directly influenced by Perl.  Over the years, Python [has gradually displaced Perl](https://trends.google.ca/trends/explore?cat=174&date=all&q=%2Fm%2F05zrn,%2Fm%2F06ff5,Python) as the predominant langauge for bioinformatics, as well as other industries and outside of academia.
+For a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  This might be attributable, at least in part, to the role it played in the [Human Genome Project](https://web.stanford.edu/class/gene211/handouts/How_Perl_HGP.html).  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages whose designs were directly influenced by Perl.  Over the years, Python [seems to have gradually displaced Perl](https://trends.google.ca/trends/explore?cat=174&date=all&q=%2Fm%2F05zrn,%2Fm%2F06ff5,Python) as the predominant langauge for bioinformatics, as well as other industries and outside of academia.  This does not mean that Python is a "better" language than Perl or Ruby.  Arguing about the superiority of the different languages is like arguing about whether a pickup truck is better than a sports car or a mini van.  They all get you from point A to point B, have different strengths and weaknesses, and even different cultures associated with the user communities.
 
-For today, at least, a fair case can be made that Perl, Python and Ruby are the three dominant general-purpose scripting languages.  Besides their differences in [syntax](https://en.wikipedia.org/wiki/Syntax_(programming_languages)), these languages have different programming philosophies.  Perl is designed to be 
+![](https://imgs.xkcd.com/comics/11th_grade.png)
+
+For today, at least, a fair case can be made that Perl, Python and Ruby are the three dominant general-purpose scripting languages.  Besides their differences in [syntax](https://en.wikipedia.org/wiki/Syntax_(programming_languages)), these languages have different programming philosophies, which tend to reflect the preferences and personalities of their original developers.  (An interesting aspect of programming languages is that they are often designed by a single person instead of a group.)  
 
 
+### Perl
+
+Perl was designed to be concise and flexible, removing many of the finer details of writing code that can consume a developer's time, such as allocating memory, working with basic objects such as strings and [associative arrays](https://en.wikipedia.org/wiki/Associative_array), and providing easy access to [regular expressions](https://en.wikipedia.org/wiki/Regular_expression).  Many of these design principles, such as [dynamic typing] and getting memory allocation for free, were inherited by Python and Ruby.  
+
+Perl is often criticized as resulting in opaque code that is difficult to maintain.  Like many criticisms, some aspects of this are unfair.  You can write clear, well-documented code just as readily in Perl as in other programming languages.  One hurdle to this, however, is that there are often many ways of accomplishing the same task in Perl.  I haven't done much work with Perl, so to provide a code example I am using a snippet from some code published by [Illumina](https://www.illumina.com/science/education/truseq/scripts.html):
+
+```perl
+my $a=();
+my $start=0;
+#====finding Ns in the specified genomic range=====
+open(IN, "$ARGV[0]"); #genome fasta
+my @lines = <IN>;
+close IN;
+my $pos = $start;
+my %Ns = ();
+for($i=1;$i<@lines;$i++) #The 1st line is header
+{
+	chomp $lines[$i];
+    @a = split //,$lines[$i];
+	for($j=0;$j<@a;$j++)
+	{
+		if($a[$j] eq 'N')
+		{
+					$Ns{$pos} = 1;
+		}
+		$pos++;
+	}
+}
+```
+
+
+### Python
+
+I do most of my day-to-day coding in Python.  Part of the reason why is that it was the scripting language in use in the bioinformatics lab that I trained in as a postdoctoral fellow.  However, I also simply like the language.  Python is notorious for its use of whitespace to define code blocks, and for the guiding principle that "[there should be only one way to do it](https://www.python.org/dev/peps/pep-0020/)".  This means that I should be able to look at a Python script that someone else wrote and immediately get the general idea of what's supposed to happen.  More importantly, I should be able to look at my *own* scripts weeks after writing them and understand what I had intended to do.  
+
+![](https://imgs.xkcd.com/comics/python.png)
+
+Here is my attempt at translating the Perl code example into Python:
+```python
+import sys
+
+# read filename from command line
+infile = sys.argv[1]
+
+handle = open(infile, 'rU')
+_ = handle.readline()  # discard header line
+
+Ns = []  # span multiple lines
+for line in handle:
+    # we assume that the line consists entirely of nucleotide sequence
+    seq = line.strip('\n')
+    for base in seq:
+        Ns.append(1 if base == 'N' else 0)
+```
+
+
+### Ruby
