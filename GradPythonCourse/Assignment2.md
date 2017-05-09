@@ -25,7 +25,7 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
 
 
 
-2. Using an interactive session of Python, open a file stream in read mode to this file and print the collection year for every sample collected in Canada.  Provide your code here:
+2. Using an interactive session of Python, open a file stream in read mode to this file and print the collection year for every sample collected in Canada.  (You don't want to stream this output to your console - instead, redirect it into a file on the command line using the `>` operator.)  Provide your code here:
 
 
 
