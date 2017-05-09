@@ -19,6 +19,8 @@ Scripting languages have become an important part of bioinformatics, but why did
 
 In the post-genome era, this has remained true - the reduced one-time cost of developing a script tends to win over the performance advantage of compiled code that is more time-consuming to build.  There is a perpetually expanding range of biological applications for new molecular technologies.  The scale and complexities of data sets are constantly evolving.  In addition, scripting languages are usually easier to learn when you're just getting started with computer programming.  
 
+I've mentioned that scripting languages tend to be slower than compiled languages, because the additional layer of abstraction takes you further away from the underlying hardware.  As a result, scripting languages are also considered to be useful for *prototyping*, where you can quickly implement an idea to see how it works, or how to go about doing it, before commiting time and resources to re-implement a faster, optimized version of the method in a compiled language.
+
 
 ## Perl, Python and Ruby
 
