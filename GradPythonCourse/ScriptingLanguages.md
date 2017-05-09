@@ -22,7 +22,7 @@ In the post-genome era, this has remained true - the reduced one-time cost of de
 
 ## Perl, Python and Ruby
 
-For a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  This might be attributable, at least in part, to the role it played in the [Human Genome Project](https://web.stanford.edu/class/gene211/handouts/How_Perl_HGP.html).  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages whose designs were directly influenced by Perl.  Over the years, Python [seems to have gradually displaced Perl](https://trends.google.ca/trends/explore?cat=174&date=all&q=%2Fm%2F05zrn,%2Fm%2F06ff5,Python) as the predominant langauge for bioinformatics, as well as other industries and outside of academia.  This does not mean that Python is a "better" language than Perl or Ruby.  Arguing about the superiority of the different languages is like arguing about whether a pickup truck is better than a sports car or a mini van.  They all get you from point A to point B, have different strengths and weaknesses, and even different cultures associated with the user communities.
+For a long time, Perl was the [lingua franca](https://en.wikipedia.org/wiki/Lingua_franca) of bioinformatics.  This might be attributable, at least in part, to the role it played in the [Human Genome Project](https://web.stanford.edu/class/gene211/handouts/How_Perl_HGP.html).  However, [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) and [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language)) are two slightly newer scripting languages whose designs were directly influenced by Perl.  Over the years, Python [seems to have gradually displaced Perl](https://trends.google.ca/trends/explore?cat=174&date=all&q=%2Fm%2F05zrn,%2Fm%2F06ff5,Python) as the predominant langauge for bioinformatics, as well as other industries and outside of academia.  This does not mean that Python is a "better" language than Perl or Ruby.  Arguing about the superiority of the different languages is like arguing about whether a pickup truck is better than a sports car or a mini van.  [They all get you from point A to point B](http://users.cms.caltech.edu/~mvanier/hacking/rants/cars.html), have different strengths and weaknesses, and even different cultures associated with their developer and user communities.
 
 ![](https://imgs.xkcd.com/comics/11th_grade.png)
 
@@ -33,7 +33,7 @@ For today, at least, a fair case can be made that Perl, Python and Ruby are the 
 
 Perl was designed to be concise and flexible, removing many of the finer details of writing code that can consume a developer's time, such as allocating memory, working with basic objects such as strings and [associative arrays](https://en.wikipedia.org/wiki/Associative_array), and providing easy access to [regular expressions](https://en.wikipedia.org/wiki/Regular_expression).  Many of these design principles, such as [dynamic typing] and getting memory allocation for free, were inherited by Python and Ruby.  
 
-Perl is often criticized as resulting in opaque code that is difficult to maintain.  Like many criticisms, some aspects of this are unfair.  You can write clear, well-documented code just as readily in Perl as in other programming languages.  One hurdle to this, however, is that there are often many ways of accomplishing the same task in Perl.  I haven't done much work with Perl, so to provide a code example I am using a snippet from some code published by [Illumina](https://www.illumina.com/science/education/truseq/scripts.html):
+Perl is often criticized as resulting in opaque code that is difficult to maintain.  Like many criticisms, some aspects of this are unfair.  You can write clear, well-documented code just as readily in Perl as in other programming languages.  One hurdle to this, however, is that there are often many ways of accomplishing the same task in Perl.  I haven't done much work with Perl, so to provide a code example I am using a snippet from some code published by [Illumina](https://www.illumina.com/science/education/truseq/scripts.html) that scans through a file containing genome sequence and marks which positions contain an ambiguous base (`N`):
 
 ```perl
 my $a=();
@@ -86,3 +86,7 @@ for line in handle:
 
 
 ### Ruby
+
+Ruby is widely known in association with Rails, which has been a popular framework for web applications including GitHub, Hulu, and (originally) Twitter.  As a scripting language, Ruby is generally distinguished from Perl and Python for being more "object oriented".  In object-oriented programming, we 
+
+
