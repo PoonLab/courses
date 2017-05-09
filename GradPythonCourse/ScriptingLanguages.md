@@ -46,16 +46,16 @@ my $pos = $start;
 my %Ns = ();
 for($i=1;$i<@lines;$i++) #The 1st line is header
 {
-	chomp $lines[$i];
-    @a = split //,$lines[$i];
-	for($j=0;$j<@a;$j++)
-	{
-		if($a[$j] eq 'N')
-		{
-					$Ns{$pos} = 1;
-		}
-		$pos++;
-	}
+  chomp $lines[$i];
+  @a = split //,$lines[$i];
+  for($j=0;$j<@a;$j++)
+  {
+    if($a[$j] eq 'N')
+    {
+      $Ns{$pos} = 1;
+    }
+    $pos++;
+  }
 }
 ```
 
@@ -87,6 +87,37 @@ for line in handle:
 
 ### Ruby
 
-Ruby is widely known in association with Rails, which has been a popular framework for web applications including GitHub, Hulu, and (originally) Twitter.  As a scripting language, Ruby is generally distinguished from Perl and Python for being more "object oriented".  In object-oriented programming, we 
+Ruby is widely known in association with Rails, which has been a popular framework for web applications including GitHub, Hulu, and (originally) Twitter.  As a scripting language, Ruby is generally distinguished from Perl and Python for being more "object oriented".  In object-oriented programming, we are creating a class of objects - any object that belongs to that class inherits the attributes and "abilities" (methods) of the class.  For example, I might create a `Pizza` class with the attributes `topping` and `slices` and the method `eat`, and then generate several objects from the class that I call `Pepperoni`, `Hawaiian` and `Margherita`.  We could set the `Pizza` object `Hawaiian` to have `topping="pineapple"` and then call its function `eat` to subtract `1` from its value `slices`.  Neither action affects the other `Pizza` objects - they belong only to `Hawaiian`.
+
+For example, the number `2` is an object of the `Integer` class in Ruby:
+```ruby
+irb(main):001:0> 2.even?
+=> true
+irb(main):002:0> 2.odd?
+=> false
+irb(main):003:0> 2.round(1)
+=> 2.0
+```
+
+Here's my attempt at translating the Illumina code into Ruby:
+```ruby
+infile = ARGV[0]
+Ns = Array.new
+File.open(infile, 'r') do |handle|
+  lines = handle.lines
+  lines.next
+  lines.each do |line|
+    seq = line.chomp  # remove line break
+    seq.each_char do |b|
+      if b=='N'
+        Ns << 1 
+      else
+        Ns << 0
+      end
+    end
+  end
+end
+```
+Caveat: I've worked a bit with Ruby but I wouldn't list it on my resume.  [YMMV](https://en.wiktionary.org/wiki/your_mileage_may_vary).
 
 
