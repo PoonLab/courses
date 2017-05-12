@@ -14,41 +14,53 @@
 | 50% | Coding project |
 
 
-## May 2, 2017 - [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
-* Computing skills survey 
-* What is bioinformatics?  The biology-statistics-computer science triangle
-* [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
-* [Working on the command-line](basicunixcommands.md)
-* Running a Python script
-* In-class assignment: UNIX games - download `src/learn-cli.py`
-* Markdown
-* Assignment: Project proposal in [Markdown](http://daringfireball.net/projects/markdown/basics) (deadline May 16)
+## Syllabus
+
+1. [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
+   * Computing skills survey 
+   * What is bioinformatics?  The biology-statistics-computer science triangle
+   * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
+   * [Working on the command-line](basicunixcommands.md)
+   * Running a Python script
+   * In-class assignment: UNIX games - download `src/learn-cli.py`
+   * Markdown
+   * Assignment: Project proposal in [Markdown](http://daringfireball.net/projects/markdown/basics) (deadline May 16)
 
 
-## May 9, 2017 - Biological data formats and reading files in Python
-* [Levels of programming languages](https://en.wikipedia.org/wiki/Low-level_programming_language)
-* Scripting languages and their philosophies
-* The Python interpreter - interactive mode
-* File I/O in Python
-* for-loops
-* biological data formats:
-  * tabular (CSV, TSV)
-  * [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/)
-  * [COSMIC](http://cancer.sanger.ac.uk/cosmic)
+2. Scripting languages.  Tabular data I.
+   * [Levels of programming languages](https://en.wikipedia.org/wiki/Low-level_programming_language)
+   * Scripting languages and their philosophies
+   * The Python interpreter - interactive mode
+   * tabular data (CSV, TSV)
+   * File I/O in Python
+   * for-loops
+   * indexing and slicing
+   * basic string operations:
+     * `print` (built-in function)
+     * `startswith`, `endswith`
+     * `in`, `find`
+     * `count`
+     * `strip`, `lstrip`, `rstrip`
+     * `split`
+   * assignment: parsing a tabular data set
+
+3. Tabular data II.  
+   * more examples of tabular data
+     * [SAM](https://samtools.github.io/hts-specs/)
+     * [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/)
+     * [COSMIC](http://cancer.sanger.ac.uk/cosmic)
+   * iterable objects (strings, lists, tuples, file handles)
+   * control flow (if-else, break, continue)
+   * writing output
+   * formatted strings
+
+
   * [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
   * [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)
   * [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
   * [BioPython](https://github.com/biopython/biopython)
-* basic string operations:
-  * `print` (built-in function)
-  * `startswith`, `endswith`
-  * `in`, `find`
-  * `count`
-  * `strip`, `lstrip`, `rstrip`
-  * `split`
-* assignment: reading a file
-
-
+  
+  
 ## May 16, 2017 - Control flow and output
 * What is an iterable object in Python?
 * Indexing and slicing
