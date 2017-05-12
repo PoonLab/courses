@@ -4,7 +4,9 @@
 
 ## Outline
 * A brief tour of tabular data sets in health research
-* 
+* Iterable objects - file handles, strings, lists and tuples
+* Control flow - if-else, break and continue
+* Writing output with formatted strings
 
 
 ## A brief tour of tabular data in bioinformatics and medical sciences
@@ -38,8 +40,30 @@ _ = handle.readline()
 #for line in handle.readlines():
 for line in handle:  # this is equivalent to the above statement
     # remove the line break and break the remaining string down to a list of values
-    items = line.strip('\n').split('\t')
-    
+    values = line.strip('\n').split('\t')
+    # do stuff with values here
+
+# tidy up after ourselves
+handle.close()
 ```
-This isn't by any means the only way to write this sort of script, and I'm sure it's far from the best.  I'm only using this as a foundation for reviewing some of the basic concepts we've covered so far.
+This isn't by any means the only way to write this sort of script, and it's far from the best (for one thing, there's no handling of values enclosed in double-quotes).  I'm only using this as a foundation for reviewing some of the basic concepts we've covered so far.  In a later section, I'll talk about a better way of handling tabular data in Python (with the *csv* module).
+
+Recall that a tabular data format is generally defined by separating table rows into different lines in the file, and separating the values within each row (table columns) with a delimiter.  This example script opens the file, pops the first line off as a header row, and then loops through the remaining lines in the file until it reaches the end.  Each line is broken up into pieces (substrings) that get assigned to a list.  
+
+Iteration over the file handle (looping over lines) plays a key role in our script.  
+```python
+for line in handle:  # this is equivalent to the above statement
+```
+An open file stream in Python is an iterable object.  Looping over the lines of a file is such a common task that it just made sense to incorporate this into the behaviour of a file stream object; in other words, you don't have to call its `readlines()` function.
+
+This isn't the only iterable object that we're dealing with in this script.  There's also an iterable object being returned from this line:
+```python
+values = line.strip('\n').split('\t')
+```
+The `split` function returns a list comprising all the substrings produced by cutting the original string wherever the delimiter occurs.  Since we're already dealing with two iterable objects, I think it makes sense to expand on what these are and how we work with them.
+
+
+## Iterables
+
+An iterable object in Python is an ordered sequence of other objects.  
 
