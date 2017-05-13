@@ -65,5 +65,42 @@ The `split` function returns a list comprising all the substrings produced by cu
 
 ## Iterables
 
-An iterable object in Python is an ordered sequence of other objects.  
+An iterable object in Python is a collection of other objects.  Some iterables can be indexed and sliced, like strings, because they are ordered collections (sequences).  We've covered string indexing, but here's a quick review:
+```python
+>>> # enclosing characters in double quotes constructs a string that we've assigned to the variable `s`
+>>> s = "quesadilla"
+>>> s[0]  # index to the first element in the string
+'q'
+>>> s[-1]  # index to the last element
+'a'
+>>> s[2:7]  # slice out a substring from the middle
+'esadi'
+```
+
+Another way to explain what an iterable object in Python is to give an example of something that is not.  An integer is not an iterable object.  It doesn't make sense to think of an integer as a collection.  Not all collections can be indexed.  For example, a *set* is an unordered collection.  You can iterate over it, but the order of iteration is arbitrary.
+```python
+>>> for i in set([1,2,3]):
+...   print(i)
+...
+1
+2
+3
+>>> for i in set([3,2,1]):
+...   print (i)
+...
+1
+2
+3
+```
+(Yeah, to explain something about iterables and indexing, I had to break out yet another kind of Python object: *sets*.  Sets are useful but that's more or less all I'll say about them for a while.)
+
+Lists are another kind of iterable object in Python.  We've already been using a few, so it's high time that we talked about what they are and how we work with them.  A list is an ordered collection of any other kind of object.  That's right: you can have a list of numbers, strings, and even other lists!
+```python
+a_simple_list = [1,2,3,5,7,11,13]
+a_mixed_list = [1, 'cow', ['foobar', 5.7], 3.1416]
+```
+
+
+
+
 
