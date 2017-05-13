@@ -17,7 +17,24 @@ NM_007294.3:c.(671_4096)ins(300)	BRCA1	Breast-ovarian cancer, familial 1		Pathog
 NG_005905.2:g.61068_98138del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373857	360746
 NG_005905.2:g.137094_142043del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373853	360745
 ```
-Note that this data file contains a header row.  
+Note that this data file contains a header row.  I've uploaded this CSV file into the `examples/` directory.  To resync your local copy of the repository with the remote copy, navigate to your `courses/` directory and enter the following command:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ git pull origin master
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (4/4), done.
+From http://github.com/PoonLab/courses
+ * branch            master     -> FETCH_HEAD
+   aa44207..d506966  master     -> origin/master
+Merge made by the 'recursive' strategy.
+ GradPythonCourse/TabularData2.md | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+```
+Your output will vary depending on when you last synced with the remote, and whether you've made any changes to files in your local repository.
+
+
+Try using some of the UNIX commands we've covered to have a quick look at this file, such as `wc`, `head`, and `grep`.
 
 
 ## Review: parsing a tabular data file in Python
@@ -28,7 +45,7 @@ Here is a basic skeleton of a script that opens a file and attempts to read data
 delimiter ='\t'
 
 # open a stream to the file in read mode
-handle = open('file.tsv', 'rU')
+handle = open('ClinVar.BRCA1.tsv', 'rU')
 
 # if we want to skip a header row, we need to advance one line in the stream
 _ = handle.readline()
@@ -36,7 +53,7 @@ _ = handle.readline()
 #for line in handle.readlines():
 for line in handle:  # this is equivalent to the above statement
     # remove the line break and break the remaining string down to a list of values
-    values = line.strip('\n').split('\t')
+    values = line.strip('\n').split(delimiter)
     # do stuff with values here
 
 # tidy up after ourselves
@@ -103,6 +120,15 @@ Like strings, list objects have a number of special functions.
 ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
 ```
 
+To learn about what some of these functions do, let's continue working through the BRCA1 example data set.  We left off inside a for-loop iterating over lines of the file stream, stripping the line break off each string and breaking the string up into pieces at every tab character.  Here is the same script with comments removed:
+```python
+delimiter ='\t'
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+_ = handle.readline()
 
+for line in handle:
+    values = line.strip('\n').split(delimiter)
+
+```
 
 
