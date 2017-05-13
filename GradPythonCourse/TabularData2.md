@@ -6,6 +6,7 @@
 * A second example data set 
 * Iterable objects - file handles, strings, lists and tuples
 * Control flow - if-else, break and continue
+* Gathering information with *dictionaries*
 * Writing output with formatted strings
 
 
@@ -128,7 +129,50 @@ _ = handle.readline()
 
 for line in handle:
     values = line.strip('\n').split(delimiter)
-
 ```
+You may have noticed something unusual about this last line.  I've called two different string functions, `strip` and `split`, and simply concatenated them together.  What's going on here is that `line.strip()` is returning a new string with any `\n` characters removed from the left or right of the calling string, and then we're calling `split` on the new string.  Put another way, the return value of the first function is calling a second function before we discard it (because it's not being assigned to anything).  Here is another way of writing the same set of instructions:
+```python
+line2 = line.strip('\n')
+values = line2.split(delimiter)
+```
+
+The list of substrings returned by the `split` command is assigned to a variable that I've named `values`.  Let's run through some list functions by adding them to our script.  As before, let's start with the descriptive list functions.
+```python
+delimiter ='\t'
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+_ = handle.readline()  # skip the first line
+
+for line in handle:
+    values = line.strip('\n').split(delimiter)
+    print(len(values))  # the length of the list
+    print(values.count(''))  # count the number of list elements that are empty strings
+    print(values[0])  # display the first list element
+    break  # exit loop having processed the second line only
+    
+handle.close()
+```
+
+Recall that String objects are not mutable objects:
+```python
+>>> bear = 'paddington'
+>>> bear[0]
+'p'
+>>> bear[0]='s'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+```
+List objects are mutable.  We can also convert a string into a list, and vice versa:
+```python
+>>> bear = list(bear)
+>>> bear
+['p', 'a', 'd', 'd', 'i', 'n', 'g', 't', 'o', 'n']
+>>> bear[0] = 's'
+>>> str(bear)
+"['s', 'a', 'd', 'd', 'i', 'n', 'g', 't', 'o', 'n']"
+>>> ''.join(bear)
+'saddington'
+```
+
 
 
