@@ -3,25 +3,21 @@
 * preceded by [Tabular Data 1](https://github.com/PoonLab/courses/blob/master/GradPythonCourse/TabularData.md)
 
 ## Outline
-* A brief tour of tabular data sets in health research
+* A second example data set 
 * Iterable objects - file handles, strings, lists and tuples
 * Control flow - if-else, break and continue
 * Writing output with formatted strings
 
 
-## A brief tour of tabular data in bioinformatics and medical sciences
-
 ### NCBI ClinVar
-[ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/) is NCBI's web portal to query their curated database of associations between variants in the human genome (alleles) and phenotypes (measurable characteristics).  Results from a ClinVar database query can be saved to your computer as a plain-text file in a tab-separated values (TSV) tabular format.  Here is a snippet of the results when querying `BRCA2`, which returns a table of all variants within the BRCA2 gene and their clinical associations:
+[ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/) is NCBI's web portal to query their curated database of associations between variants in the human genome (alleles) and phenotypes (measurable characteristics).  Results from a ClinVar database query can be saved to your computer as a plain-text file in a tab-separated values (TSV) tabular format.  Here is a snippet of the results when querying `BRCA1`, which returns a table of all variants within the BRCA1 gene and their clinical associations:
 ```
 Name	Gene(s)	Condition(s)	Frequency	Clinical significance (Last reviewed)	Review status	Chromosome	Location	Assembly	VariationID	AlleleID(s)	
-NM_000059.3:c.156_157insAlu	BRCA2	Breast-ovarian cancer, familial 2		Pathogenic	no assertion criteria provided			GRCh38	403703	390673
-NM_000059.3:c.(9257_9501)ins(400)	BRCA2	Breast-ovarian cancer, familial 2		Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter			GRCh38	373889	360777
-NM_000059.3(BRCA2):c.8954-?_9256+?del	BRCA2	Breast-ovarian cancer, familial 2		Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter			GRCh38	267710	262799
+NM_007294.3:c.(671_4096)ins(300)	BRCA1	Breast-ovarian cancer, familial 1		Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter			GRCh38	373890	360778
+NG_005905.2:g.61068_98138del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373857	360746
+NG_005905.2:g.137094_142043del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373853	360745
 ```
 Note that this data file contains a header row.  
-
-### 
 
 
 ## Review: parsing a tabular data file in Python
@@ -94,12 +90,18 @@ Another way to explain what an iterable object in Python is to give an example o
 ```
 (Yeah, to explain something about iterables and indexing, I had to break out yet another kind of Python object: *sets*.  Sets are useful but that's more or less all I'll say about them for a while.)
 
+## Lists
 Lists are another kind of iterable object in Python.  We've already been using a few, so it's high time that we talked about what they are and how we work with them.  A list is an ordered collection of any other kind of object.  That's right: you can have a list of numbers, strings, and even other lists!
 ```python
 a_simple_list = [1,2,3,5,7,11,13]
 a_mixed_list = [1, 'cow', ['foobar', 5.7], 3.1416]
 ```
 
+Like strings, list objects have a number of special functions.  
+```
+>>> dir([])
+['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+```
 
 
 
