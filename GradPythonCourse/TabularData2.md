@@ -205,6 +205,7 @@ The last part of this bit of code is there to warn us if we failed to locate the
 indices = filter(lambda x: x.lower().startswith('clinical'), labels)
 clin_signif_idx = indices[0] if indices else None
 ```
+![](https://imgs.xkcd.com/comics/code_quality.png)
 
 Indexing values out of the list and assigning them to their own variables is especially useful when we need to do some further processing.
 
@@ -232,7 +233,10 @@ List objects are mutable.  We can also convert a string into a list, and vice ve
 'saddington'
 ```
 
-Record all unique values of X.
+To illustrate how we can make use of list mutability, let's construct a list that will contain all *unique* values of clinical significance, excluding the "last updated" suffix.  For brevity I'm going to assume that we already know the index of this variable in the list for each row of the table.
+```
+
+```
 
 
 # Dates
