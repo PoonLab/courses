@@ -6,6 +6,7 @@
 * A second example data set 
 * Iterable objects - file handles, strings, lists and tuples
 * Control flow - if-else, break and continue
+* Gathering information with *dictionaries*
 * Writing output with formatted strings
 
 
@@ -17,7 +18,24 @@ NM_007294.3:c.(671_4096)ins(300)	BRCA1	Breast-ovarian cancer, familial 1		Pathog
 NG_005905.2:g.61068_98138del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373857	360746
 NG_005905.2:g.137094_142043del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373853	360745
 ```
-Note that this data file contains a header row.  
+Note that this data file contains a header row.  I've uploaded this CSV file into the `examples/` directory.  To resync your local copy of the repository with the remote copy, navigate to your `courses/` directory and enter the following command:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ git pull origin master
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (4/4), done.
+From http://github.com/PoonLab/courses
+ * branch            master     -> FETCH_HEAD
+   aa44207..d506966  master     -> origin/master
+Merge made by the 'recursive' strategy.
+ GradPythonCourse/TabularData2.md | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+```
+Your output will vary depending on when you last synced with the remote, and whether you've made any changes to files in your local repository.
+
+
+Try using some of the UNIX commands we've covered to have a quick look at this file, such as `wc`, `head`, and `grep`.
 
 
 ## Review: parsing a tabular data file in Python
@@ -28,7 +46,7 @@ Here is a basic skeleton of a script that opens a file and attempts to read data
 delimiter ='\t'
 
 # open a stream to the file in read mode
-handle = open('file.tsv', 'rU')
+handle = open('ClinVar.BRCA1.tsv', 'rU')
 
 # if we want to skip a header row, we need to advance one line in the stream
 _ = handle.readline()
@@ -36,7 +54,7 @@ _ = handle.readline()
 #for line in handle.readlines():
 for line in handle:  # this is equivalent to the above statement
     # remove the line break and break the remaining string down to a list of values
-    values = line.strip('\n').split('\t')
+    values = line.strip('\n').split(delimiter)
     # do stuff with values here
 
 # tidy up after ourselves
@@ -103,6 +121,58 @@ Like strings, list objects have a number of special functions.
 ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
 ```
 
+To learn about what some of these functions do, let's continue working through the BRCA1 example data set.  We left off inside a for-loop iterating over lines of the file stream, stripping the line break off each string and breaking the string up into pieces at every tab character.  Here is the same script with comments removed:
+```python
+delimiter ='\t'
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+_ = handle.readline()
+
+for line in handle:
+    values = line.strip('\n').split(delimiter)
+```
+You may have noticed something unusual about this last line.  I've called two different string functions, `strip` and `split`, and simply concatenated them together.  What's going on here is that `line.strip()` is returning a new string with any `\n` characters removed from the left or right of the calling string, and then we're calling `split` on the new string.  Put another way, the return value of the first function is calling a second function before we discard it (because it's not being assigned to anything).  Here is another way of writing the same set of instructions:
+```python
+line2 = line.strip('\n')
+values = line2.split(delimiter)
+```
+
+The list of substrings returned by the `split` command is assigned to a variable that I've named `values`.  Let's run through some list functions by adding them to our script.  As before, let's start with the descriptive list functions.
+```python
+delimiter ='\t'
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+_ = handle.readline()  # skip the first line
+
+for line in handle:
+    values = line.strip('\n').split(delimiter)
+    print(len(values))  # the length of the list
+    print(values.count(''))  # count the number of list elements that are empty strings
+    print(values[0])  # display the first list element
+    break  # exit loop having processed the second line only
+    
+handle.close()
+```
+
+Recall that String objects are not mutable objects:
+```python
+>>> bear = 'paddington'
+>>> bear[0]
+'p'
+>>> bear[0]='s'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' object does not support item assignment
+```
+List objects are mutable.  We can also convert a string into a list, and vice versa:
+```python
+>>> bear = list(bear)
+>>> bear
+['p', 'a', 'd', 'd', 'i', 'n', 'g', 't', 'o', 'n']
+>>> bear[0] = 's'
+>>> str(bear)
+"['s', 'a', 'd', 'd', 'i', 'n', 'g', 't', 'o', 'n']"
+>>> ''.join(bear)
+'saddington'
+```
 
 
 
