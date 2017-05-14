@@ -4,13 +4,17 @@
 
 ## Outline
 * A second example data set 
-* Iterable objects - file handles, strings, lists and tuples
+* Review: handling tabular data in Python
+* Iterable objects
+  * strings, lists and tuples
+  * compiling a list of unique entries
 * Control flow - if-else, break and continue
 * Gathering information with *dictionaries*
+  * deletions
 * Writing output with formatted strings
 
 
-### NCBI ClinVar
+## Example: NCBI ClinVar
 [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/) is NCBI's web portal to query their curated database of associations between variants in the human genome (alleles) and phenotypes (measurable characteristics).  Results from a ClinVar database query can be saved to your computer as a plain-text file in a tab-separated values (TSV) tabular format.  Here is a snippet of the results when querying `BRCA1`, which returns a table of all variants within the BRCA1 gene and their clinical associations:
 ```
 Name	Gene(s)	Condition(s)	Frequency	Clinical significance (Last reviewed)	Review status	Chromosome	Location	Assembly	VariationID	AlleleID(s)	
@@ -108,7 +112,7 @@ Another way to explain what an iterable object in Python is to give an example o
 ```
 (Yeah, to explain something about iterables and indexing, I had to break out yet another kind of Python object: *sets*.  Sets are useful but that's more or less all I'll say about them for a while.)
 
-## Lists
+### Lists
 Lists are another kind of iterable object in Python.  We've already been using a few, so it's high time that we talked about what they are and how we work with them.  A list is an ordered collection of any other kind of object.  That's right: you can have a list of numbers, strings, and even other lists!
 ```python
 >>> a_simple_list = [1,2,3,5,7,11,13]
@@ -210,7 +214,7 @@ clin_signif_idx = indices[0] if indices else None
 Indexing values out of the list and assigning them to their own variables is especially useful when we need to do some further processing.
 
 
-## List modifications
+### List modifications
 Recall that String objects are not mutable objects:
 ```python
 >>> bear = 'paddington'
@@ -234,9 +238,39 @@ List objects are mutable.  We can also convert a string into a list, and vice ve
 ```
 
 To illustrate how we can make use of list mutability, let's construct a list that will contain all *unique* values of clinical significance, excluding the "last updated" suffix.  For brevity I'm going to assume that we already know the index of this variable in the list for each row of the table.
+```python
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+_ = handle.readline()  # skip the first line
+
+unique_clinical = []  # initialize an empty list
+for line in handle:
+    var_name, _, _, _, clinical_lastrev = line.strip('\n').split('\t')[:5]
+    
+    # we need to remove the "last reviewed" field
+    #  e.g., "Pathogenic(Last reviewed: Oct 2, 2015)"
+    if 'reviewed' in clinical_lastrev:
+       clinical, last_update = clinical_lastrev.split('(')
+    
+    if not clinical in unique_clinical:
+        unique_clinical.append(clinical)
+
+handle.close()
+print (unique_clinical)
 ```
 
+This script gives the resulting output:
+```python
+['Pathogenic', 'Uncertain significance', 'Conflicting interpretations of pathogenicity', 'Pathogenic/Likely pathogenic', 'Benign', 'Likely pathogenic', 'Likely benign', 'not provided', 'Conflicting interpretations of pathogenicity, not provided', 'Benign/Likely benign', 'Pathogenic/Likely pathogenic, not provided', 'Benign/Likely benign, not provided']
 ```
 
 
-# Dates
+## Control flow
+
+
+## Gathering information with dictionaries
+
+
+
+## Writing output: formatted strings
+
+
