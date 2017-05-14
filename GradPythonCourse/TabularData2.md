@@ -111,9 +111,21 @@ Another way to explain what an iterable object in Python is to give an example o
 ## Lists
 Lists are another kind of iterable object in Python.  We've already been using a few, so it's high time that we talked about what they are and how we work with them.  A list is an ordered collection of any other kind of object.  That's right: you can have a list of numbers, strings, and even other lists!
 ```python
-a_simple_list = [1,2,3,5,7,11,13]
-a_mixed_list = [1, 'cow', ['foobar', 5.7], 3.1416]
+>>> a_simple_list = [1,2,3,5,7,11,13]
+>>> a_mixed_list = [1, 'cow', ['foobar', 5.7], 3.1416]
 ```
+The same indexing and slicing operations that we used for strings apply just as well to lists:
+```
+>>> a_simple_list[3]
+5
+>>> a_simple_list[2:5]
+[3, 5, 7]
+>>> a_mixed_list[-2]
+['foobar', 5.7]
+>>> a_mixed_list[::-1]
+[3.1416, ['foobar', 5.7], 'cow', 1]
+```
+Note the smaller list nested within `a_mixed_list` kept is original ordering.  It's an element of the list being reversed, so while its position has changed, it is not itself affected.
 
 Like strings, list objects have a number of special functions.  
 ```
@@ -152,6 +164,53 @@ for line in handle:
 handle.close()
 ```
 
+This should result in the following output:
+```python
+11
+3
+NM_007294.3:c.(671_4096)ins(300)
+```
+Illustrative, but not very practical.  Let's use some list indexing to assign some string elements from our list into variables.  Also, suppose that we're dealing with a very large tabular data set with hundreds columns - we are specifically interested in a subset of the columns that we know the labels for beforehand.  For example, suppose the BRCA1 data set is a *lot* larger and we're specifically interested in the variables `Name` and `Clinical significance (Last reviewed)`.  Since the data set is really large, it might not be easy to figure out what the column indices are, *i.e.*, is `Clinical significance` column number 78 or 79?  In this case, we want to parse the header to determine these indices.  Let's revisit our example:
+```python
+delimiter ='\t'
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+
+# locate variables of interest
+labels = handle.readline()
+name_idx = labels.index('Name')
+clin_signif_idx = labels.index('Clinical significance (Last reviewed)')
+
+# use indices to extract values and assign them to variables
+for line in handle:
+   values = line.strip('\n').split('\t')
+   name_val = values[name_idx]
+   clin_signif_val = values[clin_signif_idx]
+```
+This example assumes that we know the *exact* label for the variables we want to work with.  That can be an unreasonable expectation, especially if the labels are complicated.  To make our script a little more robust, let's instruct Python to search for the right label based on some basic information:
+```python
+clin_signif_idx = None
+idx = 0 
+for label in labels:
+   # convert the label to all lower-case to make our test more robust
+   if label.lower().startswith('clinical'):
+      clin_signif_idx = idx
+      break  # take the first instance only
+   idx += 1  # otherwise, add one to index and go to next item in list
+
+if clin_signif_idx is None:
+   print ("Failed to index clinical variable from header")
+```
+The last part of this bit of code is there to warn us if we failed to locate the clinical significance label.  This isn't how I would usually implement this kind of search, but I hope it's a bit easier to follow because the different steps are broken down.  For what it's worth, I would probably do something more like this:
+```
+indices = filter(lambda x: x.lower().startswith('clinical'), labels)
+clin_signif_idx = indices[0] if indices else None
+```
+![](https://imgs.xkcd.com/comics/code_quality.png)
+
+Indexing values out of the list and assigning them to their own variables is especially useful when we need to do some further processing.
+
+
+## List modifications
 Recall that String objects are not mutable objects:
 ```python
 >>> bear = 'paddington'
@@ -174,5 +233,10 @@ List objects are mutable.  We can also convert a string into a list, and vice ve
 'saddington'
 ```
 
+To illustrate how we can make use of list mutability, let's construct a list that will contain all *unique* values of clinical significance, excluding the "last updated" suffix.  For brevity I'm going to assume that we already know the index of this variable in the list for each row of the table.
+```
+
+```
 
 
+# Dates
