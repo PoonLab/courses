@@ -81,7 +81,7 @@ values = line.strip('\n').split('\t')
 The `split` function returns a list comprising all the substrings produced by cutting the original string wherever the delimiter occurs.  Since we're already dealing with two iterable objects, I think it makes sense to expand on what these are and how we work with them.
 
 
-## Iterables
+## Lists
 
 An iterable object in Python is a collection of other objects.  Some iterables can be indexed and sliced, like strings, because they are ordered collections (sequences).  We've covered string indexing, but here's a quick review:
 ```python
@@ -112,12 +112,12 @@ Another way to explain what an iterable object in Python is to give an example o
 ```
 (Yeah, to explain something about iterables and indexing, I had to break out yet another kind of Python object: *sets*.  Sets are useful but that's more or less all I'll say about them for a while.)
 
-### Lists
 Lists are another kind of iterable object in Python.  We've already been using a few, so it's high time that we talked about what they are and how we work with them.  A list is an ordered collection of any other kind of object.  That's right: you can have a list of numbers, strings, and even other lists!
 ```python
 >>> a_simple_list = [1,2,3,5,7,11,13]
 >>> a_mixed_list = [1, 'cow', ['foobar', 5.7], 3.1416]
 ```
+
 The same indexing and slicing operations that we used for strings apply just as well to lists:
 ```
 >>> a_simple_list[3]
@@ -131,6 +131,8 @@ The same indexing and slicing operations that we used for strings apply just as 
 ```
 Note the smaller list nested within `a_mixed_list` kept is original ordering.  It's an element of the list being reversed, so while its position has changed, it is not itself affected.
 
+
+### Lists and their descriptive functions
 Like strings, list objects have a number of special functions.  
 ```
 >>> dir([])
@@ -214,7 +216,7 @@ clin_signif_idx = indices[0] if indices else None
 Indexing values out of the list and assigning them to their own variables is especially useful when we need to do some further processing.
 
 
-### List modifications
+### Building and modifying lists
 Recall that String objects are not mutable objects:
 ```python
 >>> bear = 'paddington'
@@ -257,17 +259,52 @@ for line in handle:
 handle.close()
 print (unique_clinical)
 ```
-
 This script gives the resulting output:
 ```python
 ['Pathogenic', 'Uncertain significance', 'Conflicting interpretations of pathogenicity', 'Pathogenic/Likely pathogenic', 'Benign', 'Likely pathogenic', 'Likely benign', 'not provided', 'Conflicting interpretations of pathogenicity, not provided', 'Benign/Likely benign', 'Pathogenic/Likely pathogenic, not provided', 'Benign/Likely benign, not provided']
 ```
+The `append` function adds an object to a list.  The items in this list are in order of appearance in the file (Hollywood-style).  Again, this isn't the best way to go about accomplishing this task -- using a *set* or *dictionary* object would be more efficient -- but it gets the job done.
+
+
+## This is probably a good point for a break
+
+![](https://imgs.xkcd.com/comics/outreach.png)
 
 
 ## Control flow
 
+A big challenge of taking a data-driven approach to learning about Python is that there is a lot of stuff we need to cover before we can start doing anything practical.  One of the general concepts in programming that I've been skirting around is control flow.  Think of a simple script as a stream of water going downhill when it's being run.  We've covered for-loops; these are like pumps that send water back upstream for a while.  Another control statement that has a similar effect is the `while` loop:
+```python
+>>> i = 0
+>>> while i < 5:
+...     print('pants!')
+...     i += 1  # shorthand for `i = i + 1`
+... 
+pants!
+pants!
+pants!
+pants!
+pants!
+```
+There are a few structural differences between `for` and `while` loops.  In Python, a `for` loop is defined by an iterable object, such as a string or a list.  A `while` loop is defined by a stopping condition.  This can make it slightly more useful than a `for` loop when you need to do something repeatedly until some condition is met, and you can't anticipate how long the loop has to run.  For example, here's a `while` loop that repeats until we get a random integer that's divisible by 7:
+```python
+>>> import random  # load a module - we'll learn about these later
+>>> while True:
+...     y = random.randint(0,1000)
+...     print(y)
+...     if y % 7 == 0:
+...         break
+... 
+683
+503
+922
+244
+49
+```
+
 
 ## Gathering information with dictionaries
+
 
 
 
