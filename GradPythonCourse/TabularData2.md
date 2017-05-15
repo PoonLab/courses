@@ -296,7 +296,7 @@ There are a few structural differences between `for` and `while` loops.  In Pyth
 >>> while True:
 ...     y = random.randint(0,1000)
 ...     print(y)
-...     if y % 7 == 0:
+...     if y % 7 == 0:  # modulus operator; 11%7 is 4, the remainder
 ...         break
 ... 
 683
@@ -327,6 +327,34 @@ Three.
 4
 ```
 The second `print` statement is executed *every* time we pass through the loop, but the `if` statement is triggered only *once*.  When we get to the bottom of this `if` statement, we continue on through the rest of the loop as though nothing happened.
+
+You might be wondering about the double-equals sign `==`.  This is different than the assignment operator that uses a single equals sign (`=`).  Instead, it is a test of whether the left side is equivalent to the right side, and returns a `True` or `False` value.  Here are some other tests and logical operators:
+```python
+>>> a = 5  # assignment
+>>> a == 5  # equality test
+True
+>>> a != 5  # inequality test
+False
+>>> not a == 5  # inverting the equality test has the same effect
+False
+>>> a < 6  # is less than
+True
+>>> a > 6  # is greater than
+False
+>>> a <= 5  # is equal to or less than
+True
+>>> a == 'five'  # silly but valid
+False
+>>> a == 5 and False  # both tests must evaluate True
+False
+>>> a != 5 or True  # either test can evalute True
+True
+>>> a == 5 or (True and False)  # use brackets to determine order of operations
+True
+>>> (a == 5 or True) and False
+False
+```
+
 
 Here is a slightly more complicated set of conditional statements:
 ```python
@@ -363,7 +391,26 @@ before
 after
 ```
 
+Finally, there are `if..elif..else` sequences.  `elif` is an abbreviation of `else if`:
+```python
+>>> for i in range(4):
+...     if i == 0:
+...         print('One!')
+...     elif i == 1:
+...         print('Two!')
+...     else:
+...         print('Anything else.')
+... 
+One!
+Two!
+Anything else.
+Anything else.
+```
+Since `elif` is an abbreviation of `else if`, we can expand it out to this:
 
+
+If you're confused about the difference between these sets of conditional statements, it might help to draw out some flowcharts.
+![](https://imgs.xkcd.com/comics/flowchart.png)
 
 ## Gathering information with dictionaries
 
