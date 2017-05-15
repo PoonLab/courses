@@ -305,6 +305,8 @@ There are a few structural differences between `for` and `while` loops.  In Pyth
 ```
 Note that the instructions that are being repeated by the `while` loop are indented by some whitespace, just like how we structure our `for` loops.  The whitespace defines the code block affected by the loop.  Off the top of my head, I can't think of a simple way to implement this with a `for` loop.  Also, this `while` loop can *conceivably* go on for a very long time -- I can't think of a simple way to implement a potentially infinite `for` loop.
 
+![](https://imgs.xkcd.com/comics/loop.png)
+
 So far the way we've written loops requires that every pass through the loop evaluates the same set of instructions (not withstanding instructions tucked into an `if` statement).  Some times we need to short-circuit the flow within a loop.  In the example above, I've used a `break` statement that exits out of a `while` loop that would otherwise run on forever.  A `break` will only exit its own loop - it won't affect an outer loop that it is nested within.  For example:
 ```python
 >>> for word in ['one', 'two', 'three']:  # outer loop
@@ -420,6 +422,8 @@ before
 2
 after
 ```
+
+![](https://imgs.xkcd.com/comics/conditionals.png)
 
 Finally, there are `if..elif..else` sequences.  `elif` is an abbreviation of `else if`:
 ```python
