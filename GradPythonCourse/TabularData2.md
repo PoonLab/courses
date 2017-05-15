@@ -9,8 +9,6 @@
   * strings, lists and tuples
   * compiling a list of unique entries
 * Control flow - if-else, break and continue
-* Gathering information with *dictionaries*
-  * deletions
 * Writing output with formatted strings
 
 
@@ -305,10 +303,42 @@ There are a few structural differences between `for` and `while` loops.  In Pyth
 244
 49
 ```
-Off the top of my head, I can't think of a simple way to implement this with a `for` loop.  Also, this `while` loop can *conceivably* go on for a very long time -- I can't think of a simple way to implement a potentially infinite `for` loop.
+Note that the instructions that are being repeated by the `while` loop are indented by some whitespace, just like how we structure our `for` loops.  The whitespace defines the code block affected by the loop.  Off the top of my head, I can't think of a simple way to implement this with a `for` loop.  Also, this `while` loop can *conceivably* go on for a very long time -- I can't think of a simple way to implement a potentially infinite `for` loop.
 
-Note that the instructions that are being repeated by the `while` loop are indented by some whitespace, just like how we structure our `for` loops.  The whitespace defines the code block affected by the loop.  There's also a second level of indentation for the code block affected by the `if` statement.  It's high time we talked about what these really are!
+So far the way we've written loops requires that every pass through the loop evaluates the same set of instructions (not withstanding instructions tucked into an `if` statement).  Some times we need to short-circuit the flow within a loop.  In the example above, I've used a `break` statement that exits out of a `while` loop that would otherwise run on forever.  A `break` will only exit its own loop - it won't affect an outer loop that it is nested within.  For example:
+```python
+>>> for word in ['one', 'two', 'three']:  # outer loop
+...     for letter in word:  # inner loop
+...         print(letter)
+...         if letter in 'nwr':
+...             break  # only exits the inner loop
+...     print('')  # print tacks on line break onto empty string
+... 
+o
+n
 
+t
+w
+
+t
+h
+r
+
+```
+
+When we break out of a loop, none of the subsequent iterations get run.  Often, we want to jump back to the top of the loop when a certain condition is met, instead of breaking out of it entirely -- then the loop keeps chugging along as if nothing's happened.  The `continue` statement serves this purpose:
+```python
+>>> for i in range(10):
+...     if i % 2 == 0:
+...         continue  # jump to top of loop
+...     print(i)
+... 
+1
+3
+5
+7
+9
+```
 
 ### if-else conditionals
 
@@ -407,12 +437,20 @@ Anything else.
 Anything else.
 ```
 Since `elif` is an abbreviation of `else if`, we can expand it out to this:
-
+```python
+>>> for i in range(4):
+...     if i == 0:
+...         print('One!')
+...     else:
+...         if i == 1:
+...             print('Two!')
+...         else:
+...             print('Anything else.')
+```
+Note there are three levels of indentation here!  Every `elif` saves us a level of indentation.
 
 If you're confused about the difference between these sets of conditional statements, it might help to draw out some flowcharts.
 ![](https://imgs.xkcd.com/comics/flowchart.png)
-
-## Gathering information with dictionaries
 
 
 
