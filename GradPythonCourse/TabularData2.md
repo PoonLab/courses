@@ -118,6 +118,8 @@ Lists are another kind of iterable object in Python.  We've already been using a
 >>> a_mixed_list = [1, 'cow', ['foobar', 5.7], 3.1416]
 ```
 
+![](https://imgs.xkcd.com/comics/seven.png)
+
 The same indexing and slicing operations that we used for strings apply just as well to lists:
 ```
 >>> a_simple_list[3]
@@ -211,6 +213,7 @@ The last part of this bit of code is there to warn us if we failed to locate the
 indices = filter(lambda x: x.lower().startswith('clinical'), labels)
 clin_signif_idx = indices[0] if indices else None
 ```
+
 ![](https://imgs.xkcd.com/comics/code_quality.png)
 
 Indexing values out of the list and assigning them to their own variables is especially useful when we need to do some further processing.
@@ -273,7 +276,8 @@ The `append` function adds an object to a list.  The items in this list are in o
 
 ## Control flow
 
-A big challenge of taking a data-driven approach to learning about Python is that there is a lot of stuff we need to cover before we can start doing anything practical.  One of the general concepts in programming that I've been skirting around is control flow.  Think of a simple script as a stream of water going downhill when it's being run.  We've covered for-loops; these are like pumps that send water back upstream for a while.  Another control statement that has a similar effect is the `while` loop:
+### *for* and *while* loops
+A big challenge of taking a data-driven approach to learning about Python is that there is a lot of stuff we need to cover before we can start doing anything practical.  One of the general concepts in programming that I've been skirting around is control flow.  Think of running a simple script as water running down a pipe.  We've covered for-loops; these are like pumps that send water upwards for a while.  Another control statement that has a similar effect is the `while` loop:
 ```python
 >>> i = 0
 >>> while i < 5:
@@ -301,6 +305,64 @@ There are a few structural differences between `for` and `while` loops.  In Pyth
 244
 49
 ```
+Off the top of my head, I can't think of a simple way to implement this with a `for` loop.  Also, this `while` loop can *conceivably* go on for a very long time -- I can't think of a simple way to implement a potentially infinite `for` loop.
+
+Note that the instructions that are being repeated by the `while` loop are indented by some whitespace, just like how we structure our `for` loops.  The whitespace defines the code block affected by the loop.  There's also a second level of indentation for the code block affected by the `if` statement.  It's high time we talked about what these really are!
+
+
+### if-else conditionals
+
+If `for` and `while` loops are like pumps that recycle the water up to a higher section of the pipe, then `if` and `else` statements are like diverters in the pipe -- they split the flow in one direction or another.  Conditional statements are a fundamental component of programming languages, since we usually don't want to do *exactly* the same thing to every value that passes through our instructions.  There are different ways of structuring conditionals.  The simplest is a single `if` statement:
+```python
+>>> for i in range(5):
+...     if i == 3:
+...         print('Three.')
+...     print(i)
+... 
+0
+1
+2
+Three.
+3
+4
+```
+The second `print` statement is executed *every* time we pass through the loop, but the `if` statement is triggered only *once*.  When we get to the bottom of this `if` statement, we continue on through the rest of the loop as though nothing happened.
+
+Here is a slightly more complicated set of conditional statements:
+```python
+>>> for i in range(5):
+...     if i == 3:
+...         print('Three.')
+...     else:
+...         print(i)
+... 
+0
+1
+2
+Three.
+4
+```
+The `else` statement is triggered if *none* of the conditions are met -- in this case, there is only one condition.  This structure is more like a pipe diverter; the flow can only go one way or another.  Any instructions you want to be applied to all items in the `for` loop can be placed outside the conditional statements:
+```
+>>> for i in range(3):
+...     print('before')
+...     if i == 1:
+...         print('One.')
+...     else:
+...         print(i)
+...     print('after')
+... 
+before
+0
+after
+before
+One.
+after
+before
+2
+after
+```
+
 
 
 ## Gathering information with dictionaries
