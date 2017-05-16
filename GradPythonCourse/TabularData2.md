@@ -239,6 +239,17 @@ List objects are mutable.  We can also convert a string into a list, and vice ve
 >>> ''.join(bear)
 'saddington'
 ```
+Tuples are like lists - they're ordered sequences of objects - but they're *not* mutable.
+```python
+>>> mr_curry = tuple(bear)
+>>> mr_curry
+('p', 'a', 'd', 'd', 'i', 'n', 'g', 't', 'o', 'n')
+>>> mr_curry[0] = 's'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+```
+
 
 To illustrate how we can make use of list mutability, let's construct a list that will contain all *unique* values of clinical significance, excluding the "last updated" suffix.  For brevity I'm going to assume that we already know the index of this variable in the list for each row of the table.
 ```python
@@ -341,6 +352,29 @@ When we break out of a loop, none of the subsequent iterations get run.  Often, 
 7
 9
 ```
+
+One more thing - it's often useful to have a counter variable that's updated with the index of every item of the iterable object we're looping over.  (In other words, "This is the first thing!  This is the second thing!" and so on.)  This is simple enough to write:
+```python
+>>> counter = 0
+>>> for pet in ['fish', 'dog', 'puppy']:
+...     print(pet)
+...     print(' bark'*counter)
+...     counter += 1
+... 
+fish
+ 
+dog
+ bark
+puppy
+ bark bark
+```
+Since this comes up so often, however, Python provides a slightly simpler and more integrated way to do it:
+```python
+>>> for counter, pet in enumerate(['fish', 'dog', 'puppy']):
+...     print(pet)
+...     print(' bark'*counter)
+```
+The `enumerate` function returns tuples 
 
 ### if-else conditionals
 
@@ -454,7 +488,31 @@ Since `elif` is an abbreviation of `else if`, we can expand it out to this:
 Note there are three levels of indentation here!  Every `elif` saves us a level of indentation.
 
 If you're confused about the difference between these sets of conditional statements, it might help to draw out some flowcharts.
+
 ![](https://imgs.xkcd.com/comics/flowchart.png)
+
+
+## Bringing it together
+
+Let's get back to our example.  We're going to put everything we've covered so far to reformat this data set to address a couple of issues.  First of all, the first field `name` contains a lot of information that has been munged together into a long unintelligible string.  Let's break this up into parts that are easier to work with.  Second, the clinical significance field has a "Last reviewed" comment appended to it that we'd like to break into a separate field. 
+
+When we're composing a script, it generally helps to write it out in stages with a text editor and run those drafts with a non-interactive Python interpreter to check some intermediate outputs.  Any plain text editor will do.  I tend to use PyCharm, but gedit works just as well and if I know that I'm making a small change, I prefer to use UNIX [vim](https://en.wikipedia.org/wiki/Vi).
+
+![](https://imgs.xkcd.com/comics/real_programmers.png)
+
+Let's start by creating a file and calling it `parse-brca1.py`.  For convenience, you might like to have it in the same directory as the `ClinVar.BRCA1.tsv` file.  Myself, I like keeping my scripts and data in separate folders within a project folder and then calling scripts with relative paths to make the code portable.
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+
+for line in handle:
+    values = line.strip('\n').split('\t')
+    # temporary code - see how labels line up with content of first row
+    for i, val in enumerate(values):
+        print(header[i], '"', val, '"')  # enclose in quotes to make empty strings more apparent
+    break  # run only once!
+```
+Try this out and see what you get!
 
 
 
