@@ -613,5 +613,39 @@ for idx, line in enumerate(handle):
     print (accno)
 ```
 
+We're feeling pretty swell!  But now there's *another* bug:
+```shell
+Traceback (most recent call last):
+  File "parse-brca1.py", line 7, in <module>
+    accno, rest = name.split(':')
+ValueError: too many values to unpack (expected 2)
+```
+This error message tells me that when I split the `name` string on the `:` character, I got back more than two substrings.  In other words, one of the `name` values has more than one `:`.  I put in another `try..except` clause and dug up the offending line:
+```
+NM_007294.3:c.-19-48_80+248delinsU77841.1:g.2145_2536	BRCA1	Breast-ovarian cancer, familial 1		Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	17	43123769 - 43124163	GRCh38	373856	360740
+```
+Yup, two colons.  We need to make this instruction a little less fragile:
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    if ':' in name:
+        tokens = name.split(':')
+        accno = tokens[0].split('(')[0]
+        rest = ':'.join(tokens[1:])  # stitch the other parts back together
+    else:
+        accno = ''
+        rest = name
+    print (accno)
+```
+And *hooray*, our script now runs through the file without throwing exceptions!  
+
+What just happened?  You've now undergone the horrific experience of debugging code.  [Maurice Wilkes](https://en.wikipedia.org/wiki/Maurice_Wilkes) has a famous quote on debugging attributed to him:
+> As soon as we started programming, we found to our surprise that it wasn't as easy to get programs right as we had thought. Debugging had to be discovered. I can remember the exact instant when I realized that a large part of my life from then on was going to be spent in finding mistakes in my own programs.
+
+My motivation for writing this section was to give you a basic idea of what goes on when someone starts writing a script.  You never get it right the first time, and even after the hundredth iteration, there is inevitably some small problem in the code with more complex projects.  As far as composing a single script goes, I like this iterative process of writing a bit, getting some output and testing it out, writing a bit more, and so on.  It (*hopefully*) prevents the situation where you've written a big mess of code and end up having to throw it all away.
+
+![](https://imgs.xkcd.com/comics/new_bug.png)
 
 
