@@ -650,4 +650,4 @@ My motivation for writing this section was to give you a basic idea of what goes
 
 ## In-class assignment: the second objective
 
-For the rest of this session, I'd like you to have a try at implementing our second objective - to separate the "Last reviewed" comment from the `Clinical significance` field of our data set and assign the date to its own variable.  Feel free to work in groups, but please e-mail me your own version of the script when you're done.
+For the rest of this session, I'd like you to have a try at implementing our second objective - to separate the "Last reviewed" comment from the `Clinical significance` field of our data set and return the first part (*e.g.,* `Pathogenic`).  Feel free to work in groups, but please e-mail me your own version of the script when you're done.
