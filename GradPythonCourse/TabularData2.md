@@ -9,7 +9,7 @@
   * strings, lists and tuples
   * compiling a list of unique entries
 * Control flow - if-else, break and continue
-* Writing output with formatted strings
+* Composing and debugging scripts
 
 
 ## Example: NCBI ClinVar
@@ -492,7 +492,7 @@ If you're confused about the difference between these sets of conditional statem
 ![](https://imgs.xkcd.com/comics/flowchart.png)
 
 
-## Bringing it together
+## Composing and debugging scripts
 
 Let's get back to our example.  We're going to put everything we've covered so far to reformat this data set to address a couple of issues.  First of all, the first field `name` contains a lot of information that has been munged together into a long unintelligible string.  Let's break this up into parts that are easier to work with.  Second, the clinical significance field has a "Last reviewed" comment appended to it that we'd like to break into a separate field. 
 
@@ -514,9 +514,104 @@ for line in handle:
 ```
 Try this out and see what you get!
 
+Okay, let's start tackling the first objective.  I trying to guess how to parse the `name` field.
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
 
+# now I just want to run for the first 10
+for idx, line in enumerate(handle):
+    # The output of the last run tells us about what content we expect per line
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    # ... removed temporary code ...
+    accno, rest = name.split(':')  # the first part looks like an accession number
+    print(accno, rest)
+    if idx == 9:
+        break
+```
 
+This results in the following output - note the `print` function inserts a space between each argument:
+```
+NM_007294.3 c.(671_4096)ins(300)
+NG_005905.2 g.61068_98138del
+NG_005905.2 g.137094_142043del
+NG_005905.2 g.118449_154829del
+NG_005905.2 g.116321_140085del
+NG_005905.2 g.110966_142550del
+NG_005905.2 g.133626_139705dup
+NM_007294.3(BRCA1) c.81-?_547+?dup
+NM_007294.3(BRCA1) c.81-?_5193+?del
+NM_007294.3(BRCA1) c.81-?_5152+?dup
+```
 
-## Writing output: formatted strings
+Uh-oh.  There's some extra stuff tacked onto the first part in some cases.  Let's amend our script to strip it out.
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    accno, rest = name.split(':')
+    accno2 = accno.strip('(BRCA1)')
+    print(accno2)
+    if idx == 9:
+        break
+```
+
+Output:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python parse-brca1.py | tail -n3
+NM_007294.3
+NM_007294.3
+NM_007294.3
+```
+OK, that helped.  I'm feeling confident, so I try removing the last two lines to run through the entire file.  
+```
+NP_009225.
+NP_009225.
+[...other stuff...]
+Traceback (most recent call last):
+  File "parse-brca1.py", line 6, in <module>
+    accno, rest = name.split(':')
+ValueError: not enough values to unpack (expected 2, got 1)
+```
+Whoops.  That wasn't good enough after all.  We've got two problems.  The first is that the `strip` statement was too much and the clipped off the trailing `1` in some of the accession numbers.  In other words, `NP_009225.` should have remained `NP_009225.1`.  
+
+Second, not all of the `name` values contain a `:`.  What was the value that caused this to happen?  Unfortunately, Python exited the script without telling us.  We need to insert a debugging statement to reveal the contents of the value when our script hits this bug:
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    try:
+        accno, rest = name.split(':')
+    except:
+        print (line)  # show the entire line where the bug occurs
+        raise
+    accno2 = accno.split('(')[0]  # amended this line
+    print(accno2)
+```
+When we run this, we get the following (I truncated the output after the first line of the traceback):
+```
+L824X	BRCA1	Breast-ovarian cancer, familial 1		Pathogenic(Last reviewed: Feb 20, 2013)	no assertion criteria provided			GRCh38	125869	131407
+
+Traceback (most recent call last):
+```
+Our hunch was right - this is one of the few lines where the first value doesn't contain a colon character (`:`).  This would be a good place for a conditional statement:
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    if ':' in name:
+        accno, rest = name.split(':')
+        accno = accno.split('(')[0]
+    else:
+        # plain format
+        accno = ''  # empty string
+        rest = name
+    print (accno)
+```
+
 
 
