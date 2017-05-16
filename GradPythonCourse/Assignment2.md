@@ -23,7 +23,7 @@ This is a tab-separated values (TSV) file that comprises published HIV reverse t
 
 1. Use a UNIX command to determine the number of records in this file.  Assume that the first line is the header row.  How many records are there?
    ```
-   
+   112725
    ```
 
 
