@@ -651,3 +651,7 @@ My motivation for writing this section was to give you a basic idea of what goes
 ## In-class assignment: the second objective
 
 For the rest of this session, I'd like you to have a try at implementing our second objective - to separate the "Last reviewed" comment from the `Clinical significance` field of our data set and return the first part (*e.g.,* `Pathogenic`).  Feel free to work in groups, but please e-mail me your own version of the script when you're done.
+
+## Additional exercises
+1. Adapt your Python script to output all lines that contain the word `Pathogenic`.  Skip the header line.  Use `print` to write output to standard out, and then redirect this stream to a file by calling your script from the shell and using the `>` operator.  Generate a second file with the same criteria, but using UNIX `grep` instead of Python.  Run UNIX `diff` on the two files to determine if they are the same.
+
