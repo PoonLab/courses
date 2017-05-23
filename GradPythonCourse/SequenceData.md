@@ -23,9 +23,14 @@ Bioinformatics is historically closely associated with the development of geneti
 * Here is a bit of Python to replace every non-standard gap charcater with a `-`.   Later on we'll learn how this can be done more efficiently with regular expressions:
   ```python
   def standardize_gaps(seq):
-      
+      """ Replace non-standard gap characters with '-' symbol """
+      symbols = list(seq)
+      for i, symbol in enumerate(symbols):
+          if symbol in '.~X':
+              symbols[i] = '-'
+      return ''.join(symbols)
   ```
-
+  
 * Amino acids are encoded with A, C, D, E, *etc.*
 * There are standardized charcaters for mixtures of amino acids but they are rarely used.  For example, a mixture of `D` (aspartic acid) and `N` (asparagine) is encoded by `B`
 * Stop codons are encoded by `*`
