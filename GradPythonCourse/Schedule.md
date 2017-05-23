@@ -51,8 +51,45 @@
      * [COSMIC](http://cancer.sanger.ac.uk/cosmic)
    * iterable objects (strings, lists, tuples, file handles)
    * control flow (if-else, break, continue)
-   * writing output
-   * formatted strings
+   * composing and debugging a script
+
+
+4. Genetic sequences.
+   * Sequence data formats
+     * FASTA
+     * FASTQ
+     * NEXUS
+     * Genbank
+     * SAM/BAM
+     * VCF
+   * Biopython
+   * Formatted strings
+   * Gathering information with dictionaries
+
+5. More complex text processing
+   * Python modules
+   * Regular expressions with `re`
+   * Date fields with `datetime`
+
+6. Numbers
+   * arithmetic operators
+   * the `math` module
+   * the `random` module
+   * the `stats` module
+
+7. Batch processing
+   * Calling one script on many files
+   * Calling many scripts - pipelining
+   * Calling other programs - subprocessing
+   * Harnessing multiple cores with MPI
+
+9. Maintainability
+   * Version control with git
+   * Documentating your code
+   * the `argparse` module
+
+
+
 
 
   * [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
