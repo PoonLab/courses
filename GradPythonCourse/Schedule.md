@@ -58,10 +58,8 @@
    * Sequence data formats
      * FASTA
      * FASTQ
-     * NEXUS
-     * Genbank
      * SAM/BAM
-     * VCF
+     * Genbank
    * Biopython
    * Formatted strings
    * Gathering information with dictionaries
@@ -75,13 +73,15 @@
    * arithmetic operators
    * the `math` module
    * the `random` module
-   * the `stats` module
+   * basic statistics: mean, median, quantiles
 
 7. Batch processing
    * Calling one script on many files
    * Calling many scripts - pipelining
    * Calling other programs - subprocessing
    * Harnessing multiple cores with MPI
+
+8. Final project help session
 
 9. Maintainability
    * Version control with git
