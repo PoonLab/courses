@@ -58,8 +58,8 @@
    * Sequence data formats
      * FASTA
      * FASTQ
-     * SAM/BAM
-     * Genbank
+     * [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
+     * Genbank, BLAST
    * Biopython
    * Formatted strings
    * Gathering information with dictionaries
@@ -94,7 +94,7 @@
 
   * [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
   * [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)
-  * [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
+
   * [BioPython](https://github.com/biopython/biopython)
   
   

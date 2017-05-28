@@ -117,7 +117,7 @@ for h, s in parse_fasta('Decapod-PEPCK.fa`):
 How can we fix this problem?
 
 
-## FASTQ
+### FASTQ
 
 FASTQ is a popular format for short read sequence data.  It is similar to the FASTA format, but also contains base quality information.  First, let's have a look at a FASTQ file.  Here is the first record of the NCBI Short Read Archive (SRA) entry SRR5261740:
 ```
@@ -236,8 +236,8 @@ def parse_fastq(path):
 In class I'll show you how to write these functions into a text file and call them in non-interactive mode.
 
 
-## SAM format
-The SAM (sequence alignment/map) format has become a standard format for recording output from programs that align short read data against one or more reference genome sequences.  It is a tabular data format with tab-separated values and comments prefixed with `@` characters.  Since we've covered parsing tabular data sets, the SAM format makes a nice opportunity to review what we've learned.
+### SAM format
+The SAM (sequence alignment/map) format has become a standard format for recording output from programs that align short read data against one or more reference genome sequences.  Even NCBI BLAST results can be downloaded in SAM format!  It is a tabular data format with tab-separated values and comments prefixed with `@` characters.  Since we've covered parsing tabular data sets, the SAM format makes a nice opportunity to review what we've learned.
 
 
 ```
@@ -273,11 +273,152 @@ example2 = "A number {} and a string {}".format(27, 'like this')
 
 The old style borrows the `%` notation from the programming language C.  `%d` represents an integer, and `%s` represents a string.  In contrast, the string `format` function does not require you to specify what kind of variable you want to embed in the string.
 
+The new style also provides a little more functionality.  First, you can reference different arguments with integer indices:
+```python
+>>> "A string {1} and a number {0}".format(27, "like this")
+'A string like this and a number 27'
+```
+This is a nice feature when you need to repeat an entry:
+```python
+>>> "{1}: {0} {0}".format(27, "like this")
+'like this: 27 27'
+```
+and you can even index into nested objects that you've already indexed:
+```python
+>>> "{0[3]} is a {1}".format([1,2,3,5,7], "prime")
+'5 is a prime'
+```
+You can also refer to keyword instead of positional arguments in the `format` command:
+```python
+>>> "{name}: {height} cm".format(name="Theo", height=170)
+'Theo: 170 cm'
+```
+I think these particular examples are the most useful when we pass a tuple or dictionary as an argument to `format`.  To pass a tuple, you need to unpack it with a `*` operator:
+```python
+>>> tup = (27, "like this")
+>>> "{1}: {0}".format(*tup)
+'like this: 27'
+```
+and a dictionary can be unpacked with a `**` operator (we'll talk more about dictionaries in a bit):
+```python
+>>> data  = {'name': 'Theo', 'height': 170}
+>>> "{name}: {height} cm".format(**data)
+'Theo: 170 cm'
+```
+
+This is only a handful of things you can do with the new approach.  To see more examples, see [this documentation page](https://docs.python.org/3.5/library/string.html#format-examples).
+
+
+### Reconstituting FASTQ from SAM
+Let's practice working with formatted strings by writing a script that will parse the information in a SAM file and write the header, sequence and quality scores in a new FASTQ file.  We've already written a FASTQ parser in Python in a previous section.  I've provided a small SAM file (`zika.sam`) in the `examples` folder.  First, we need to open this file and parse it as a tabular data set:
+```python
+handle = open('zika.sam', 'rU')
+for line in handle:
+    if line.startswith('@'):
+        # skip comment
+        continue
+    items = line.strip('\n').split('\t')
+    qname = items[0]
+    seq = items[9]
+    qual = items[10]
+
+    print("@{} {} {}".format(qname, seq[:10], qual[:10]))
+
+handle.close()  # clean up
+```
+
+This is an intermediate script with a `print` function that will help us check that we are getting the correct information from the file.  Run it to make sure that the output makes sense.
+
+Next, we need to modify our script to write to an output file.  This time I'm going to use direct indexing to compose the formatted string from a list argument.
+```python
+handle = open('zika.sam', 'rU')
+outfile = open('zika.fastq', 'w')  # CAREFUL: write mode erases the file!
+for line in handle:
+    if line.startswith('@'):
+        continue
+    items = line.strip('\n').split('\t')
+
+    # compose formatted string from list
+    output = "@{0}\n{9}\n+\n{10}\n".format(items)
+    outfile.write(output)
+
+# clean up
+outfile.close()
+handle.close()
+```
+
+
+## Gathering information with dictionaries
+
+A dictionary is an extremely useful Python object.  It is a collection of key-value pairs, where a *key* is an immutable object like a string or integer, and a *value* is another object that is referred to by that key.  For example, in an English-language dictionary, the word *apple* is a key, and its associated value is a definition of apple.  In a phone book, the key would be your friend's name, and the value would be their phone number.  These examples should give you an intution that keys need to be unique.  You can't have two names in a phone book that are *exactly* the same; this would defeat the purpose of having a phone book in the first place.
+
+A value can be any object, including mutable objects like lists.  It can even be a dictionary!  This creates an interesting data structure.  If you think of a dictionary as the root of a tree:
+```
+root --+-- key1 --> value1
+       |
+       +-- key2 --> value2
+```
+then setting `value2` to be another dictionary creates another level of the tree:
+```
+root --+-- key1 --> value1
+       |
+       +-- key2 --> root --+-- key3 --> value3
+                           |
+                           +-- key4 --> value4
+```
+This makes dictionaries a natural representation of tree-like (hierarchical) data.
+
+Dictionaries are also useful for rapidly looking up objects.  This is because of how they work - each key is converted by a [hash function]() into an index that is used to directly look up the associated value.  For example, suppose you have compiled a list of genes from one data set, and you need to check whether a particular gene is in the list.  One way to do this is to use the `in` operator to check if our list contains the gene:
+```python
+>>> from time import time
+>>> li = list(range(int(1e6)))  # all integers from 0 to 999999
+>>> t0 = time(); 89987 in li; t1 = time()
+True
+>>> t1-t0
+0.003858804702758789  # seconds
+```
+That might not seem like a long time, but when you are dealing with a very large data set and you need to look things up many times, this can consume a lot of computing time.  This is because the computer is doing a linear search through the list.  It is like entering a bookstore and looking for a specific book by starting at the first shelf, taking each book off the shelf and looking at its cover until you find the one you want.  If the store has a million books, then on average the book you want will be roughly the 500,000th book you pull off the shelf.  (We're assuming that this is a really silly store that arranges its books completely at random.)
+
+To illustrate, here is a bit of Python code to demonstrate that we get about the same time as the `in` operator with a linear search through the list:
+```python
+from time import time
+li = list(range(1000000))
+
+t0 = time()  # start the clock!
+for i in li:
+  if i==89987:
+    break  # exit the loop
+t1 = time()
+print(t1-t0)  # I get 0.0033576488494873047 seconds
+```
+
+Now let's accomplish the same task by converting our list into a dictionary.  We don't have any values to associate with the keys, so we just set them all to `None`.
+```python
+>>> di = dict([(k, None) for k in li])  # constructing from a list of key-value tuples
+>>> t0 = time(); 89987 in di; t1 = time()
+True
+>>> t1-t0
+4.291534423828125e-05  # seconds
+```
+This is nearly two orders of magnitude less time!
+
+Dictionaries are also very useful when you need to associate multiple values with the same key.  For example, suppose that you have observations for the same patients in different files, and you need to merge those records.  However, these files are not in the same order and don't even contain all the same patients.  One approach to deal with this situation is to read each file into Python and accumulate records under unique keys, where each key corresponds to a patient, and then writing out the information you want into another file.
+
+I do this all the time when working through data from large cohort studies.  Of course it isn't the only way to go about this, and not necessarily the best way.  I think many would argue that you should build a database with a framework like SQLite instead of using a Python script to make yet another tabular data file.  However, I like working directly with the data and being able to inspect the end product as a plain text file.
 
 
 
-## Reconstituting FASTQ from SAM
-Let's practice working with formatted strings by writing a script that will parse the information in a SAM file and write the header, sequence and quality scores in a new FASTQ file.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
