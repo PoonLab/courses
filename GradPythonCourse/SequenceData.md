@@ -239,12 +239,16 @@ In class I'll show you how to write these functions into a text file and call th
 ### SAM format
 The SAM (sequence alignment/map) format has become a standard format for recording output from programs that align short read data against one or more reference genome sequences.  Even NCBI BLAST results can be downloaded in SAM format!  It is a tabular data format with tab-separated values and comments prefixed with `@` characters.  Since we've covered parsing tabular data sets, the SAM format makes a nice opportunity to review what we've learned.
 
-
+I've taken the truncated FASTQ file from the previous section and mapped those short reads to chromosome 7 of a standard human genome assembly, and saved the result to `examples/SRR5261740.trunc.sam`.  Here are the first few lines:
 ```
-
+@HD	VN:1.0	SO:unsorted
+@SQ	SN:chr7	LN:159138663
+@PG	ID:bowtie2	PN:bowtie2	VN:2.2.8	CL:"/usr/local/bin/bowtie2-align-s --wrapper basic-0 -x chr7 -S SRR5261740.trunc.sam --local -U SRR5261740.trunc.fastq"
+SRR5261740.1	16	chr7	142247517	2	168S96M31S	*	00	TTCTCCACCTTGGAGATCCAGCGCACAGAGCAGGGGGACTCGGCCATGTATCTCTGTGCCAGCACCACAGTCGCTCCTGAAAAACTGTTTTTTGGCAGTGGAACCCAGCTCTCTGTCTTGGAGGACCTGAACAACGTGTTCCCCGGGAGACTCCAGTATCTGCGTGATCTGCCCCCAGGAGACACAGGGCCATCCAGCAGAGGAGGCTGGTGCCCATGGCAGGGTCAGGGCAGGATGGGAGCTTTACCAGATCAGGGTCACTGTCCCCATGTACTCTGCGTTGATACCACTGCTT	GHHHGHHGHGHHHHHHHGGGGGHHHHHHHHEGGHHHHGGGGHHHHHHHHHHHFHHHHGGHHHGHHHHGGGGGGGHHHGHGHHHHHHGFHHHHHHHHHHHHHGHGHHHGGHHHHHHHHHHHHHHFHHHGGGGGGGGGGBBBBBBAHHHHHHHHHHHHHHGGGHGHHHHGGGGGGGHHHHHHHHHHHHHHGGHHHHHHHHHHHHHHGHHHGGHHHHHHHHHHHHHHHHHHHHHHHHHHGHHHHHGHHHHHHHHGHHHGHHHHGGGGGHHHHHHHHGGGGGGGGGGFFFBFFFBBBBB	AS:i:143	XS:i:136	XN:i:0	XM:i:7	XO:i:0	XG:i:0	NM:i:7	MD:Z:13G8T0G0C12C12A3A41	YT:Z:UU
 ```
+How many comment lines are there?  One of the comment lines contains information about the reference sequences.  In this example, we've only used one reference sequence `chr7`, which is about 159 Mbp long.  
 
-Each line corresponds to a read and contains the following information:
+Each line in a SAM corresponds to a read and contains the following information:
 
 | # | Name  | Description          | #  | Name  | Description          |
 |---|-------|----------------------|----|-------|----------------------|
@@ -256,6 +260,11 @@ Each line corresponds to a read and contains the following information:
 | 5 | MAPQ  | Mapping quality      | 11 | QUAL  | Read quality string  |
 | 6 | CIGAR | Compact idiosyncratic    |    |       |                      |
 |   |       | gapped alignment report |  |  |  |
+
+Note that there can be additional fields in a SAM file, but I usually only use the first 11.
+
+** Question **
+> Where did the first read map in chromosome 7?
 
 
 ## Formatted output
