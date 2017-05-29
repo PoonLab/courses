@@ -36,6 +36,8 @@ Bioinformatics is historically closely associated with the development of geneti
 * There are standardized charcaters for mixtures of amino acids but they are rarely used.  For example, a mixture of `D` (aspartic acid) and `N` (asparagine) is encoded by `B`
 * Stop codons are encoded by `*` but `X` is sometimes used for this same purpose.  Unfortunately, `X` is also sometimes used to indicate that the amino acid encoded by the codon is ambiguous because of a nucleotide mixture.  For example, `ARA` could encode lysine (`AAA` to `K`) or arginine (`AGA` to `R`).  A question mark `?' is another symbol for an ambiguous amino acid that has less potential for confusion.
 
+![](https://imgs.xkcd.com/comics/proteins.png)
+
 
 ### FASTA
 
@@ -48,6 +50,9 @@ art@Misato:~/git/courses/GradPythonCourse/examples$ head -n3 Decapod-PEPCK.fa
 GGCGTCCTGCGAGCCATCAACCCCGAGAACGGCTTCTTCGGCGTGGCGCCCGGCACCTCCATGAAGACCA
 ACCCTGTGGCCATGACCACTGTGCTGACCAACACCGTCTTCACTAACGTGGCCAAGACCAGCGACGGCGG
 ```
+For what it's worth, this is a decapod:
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Ocypode_quadrata.jpg/320px-Ocypode_quadrata.jpg)
+and [PEPCK](https://en.wikipedia.org/wiki/Phosphoenolpyruvate_carboxykinase) is an enzyme in the glucose-generating metaboilc pathway.
 
 Let's write a function that will take a path to a FASTA file as its only argument, and returns parsed sequence records one at a time.  This kind of function is called a *generator*.  Generators are more efficient because we aren't parsing the entire file all at once and mashing the entire contents into a single return value.
 
@@ -377,6 +382,22 @@ root --+-- key1 --> value1
 ```
 This makes dictionaries a natural representation of tree-like (hierarchical) data.
 
+Try making a simple dictionary.  To initialize an empty dictionary, use curly braces like this:
+```python
+>>> d = {}
+```
+You can then add items to the dictionary using its `update` function:
+```python
+>>> d.update({'toast': 1, 'jam': 5})
+>>> d
+{'jam': 5, 'toast': 1}
+```
+We could also have initialized the dictionary starting with these items:
+```python
+>>> d = {'jam': 5, 'toast': 1}
+>>> d = dict(jam=5, toast=1)  # another way to do it
+```
+
 Dictionaries are also useful for rapidly looking up objects.  This is because of how they work - each key is converted by a [hash function]() into an index that is used to directly look up the associated value.  For example, suppose you have compiled a list of genes from one data set, and you need to check whether a particular gene is in the list.  One way to do this is to use the `in` operator to check if our list contains the gene:
 ```python
 >>> from time import time
@@ -414,20 +435,3 @@ This is nearly two orders of magnitude less time!
 Dictionaries are also very useful when you need to associate multiple values with the same key.  For example, suppose that you have observations for the same patients in different files, and you need to merge those records.  However, these files are not in the same order and don't even contain all the same patients.  One approach to deal with this situation is to read each file into Python and accumulate records under unique keys, where each key corresponds to a patient, and then writing out the information you want into another file.
 
 I do this all the time when working through data from large cohort studies.  Of course it isn't the only way to go about this, and not necessarily the best way.  I think many would argue that you should build a database with a framework like SQLite instead of using a Python script to make yet another tabular data file.  However, I like working directly with the data and being able to inspect the end product as a plain text file.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
