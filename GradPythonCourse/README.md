@@ -26,7 +26,7 @@
    * [Markdown](http://daringfireball.net/projects/markdown/basics)
    * **Assignment:** [Project proposal in Markdown](proposal-example.md) (deadline May 16)
    * **Assignment:** [UNIX games](src/learn-cli.py)
-   * **Readings:** [basicunixcommands](basicunixcommands.md)
+   * **Readings:** [basicunixcommands](Readings/basicunixcommands.md)
 
 
 2. Scripting languages.  Tabular data I.
@@ -44,6 +44,7 @@
      * `count`
      * `strip`, `lstrip`, `rstrip`
      * `split`
+   * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md) and [Tabular data](Readings/TabularData.md)
    * **Assignment:** [Parsing a tabular data set](Assignment2.md)
 
 3. Tabular data II.  
@@ -54,7 +55,7 @@
    * iterable objects (strings, lists, tuples, file handles)
    * control flow (if-else, break, continue)
    * composing and debugging a script
-   * **Readings:** [TabularData II](TabularData2.md)
+   * **Readings:** [TabularData II](Readings/TabularData2.md)
 
 4. Genetic sequences.
    * Common sequence data formats
@@ -64,7 +65,7 @@
    * Formatted strings
    * *Time permitting:* Gathering information with dictionaries
    * **Assignment:** [pending]()
-   * **Readings:** [SequenceData](SequenceData.md) and [Dictionaries](Dictionaries.md)
+   * **Readings:** [SequenceData](Readings/SequenceData.md) and [Dictionaries](Readings/Dictionaries.md)
 
 5. More complex text processing
    * Regular expressions with `re`
