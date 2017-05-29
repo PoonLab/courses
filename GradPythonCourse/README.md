@@ -23,8 +23,10 @@
    * [Working on the command-line](basicunixcommands.md)
    * Running a Python script
    * In-class assignment: UNIX games - download `src/learn-cli.py`
-   * Markdown
-   * Assignment: Project proposal in [Markdown](http://daringfireball.net/projects/markdown/basics) (deadline May 16)
+   * [Markdown](http://daringfireball.net/projects/markdown/basics)
+   * **Assignment:** [Project proposal in Markdown](proposal-example.md) (deadline May 16)
+   * **Assignment:** [UNIX games](src/learn-cli.py)
+   * **Readings:** [basicunixcommands](basicunixcommands.md)
 
 
 2. Scripting languages.  Tabular data I.
@@ -42,7 +44,7 @@
      * `count`
      * `strip`, `lstrip`, `rstrip`
      * `split`
-   * assignment: parsing a tabular data set
+   * **Assignment:** [Parsing a tabular data set](Assignment2.md)
 
 3. Tabular data II.  
    * more examples of tabular data
@@ -52,20 +54,19 @@
    * iterable objects (strings, lists, tuples, file handles)
    * control flow (if-else, break, continue)
    * composing and debugging a script
-
+   * **Readings:** [TabularData II](TabularData2.md)
 
 4. Genetic sequences.
-   * Sequence data formats
+   * Common sequence data formats
      * FASTA
      * FASTQ
-     * [SAM, BAM, VCF](https://samtools.github.io/hts-specs/)
-     * Genbank, BLAST
-   * Biopython
+     * [SAM, BAM](https://samtools.github.io/hts-specs/)
    * Formatted strings
-   * Gathering information with dictionaries
+   * *Time permitting:* Gathering information with dictionaries
+   * **Assignment:** [pending]()
+   * **Readings:** [SequenceData](SequenceData.md) and [Dictionaries](Dictionaries.md)
 
 5. More complex text processing
-   * Python modules
    * Regular expressions with `re`
    * Date fields with `datetime`
 
