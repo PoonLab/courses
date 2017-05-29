@@ -76,7 +76,7 @@
    * basic statistics: mean, median, quantiles
 
 7. Batch processing
-   * Calling one script on many files
+   * Calling one script on many files with `bash`
    * Calling many scripts - pipelining
    * Calling other programs - subprocessing
    * Harnessing multiple cores with MPI
@@ -88,75 +88,3 @@
    * Documentating your code
    * the `argparse` module
 
-
-
-
-
-  * [GenBank](https://www.ncbi.nlm.nih.gov/genbank/)
-  * [FASTQ](https://en.wikipedia.org/wiki/FASTQ_format)
-
-  * [BioPython](https://github.com/biopython/biopython)
-  
-  
-## May 16, 2017 - Control flow and output
-* What is an iterable object in Python?
-* Indexing and slicing
-* Loops again (for, while)
-* Conditionals (if-else statements)
-* Parsing tabular data
-* File output
-* [Formatted strings](https://en.wikipedia.org/wiki/Printf_format_string)
-* Assignment: Parsing a file 
-* Deadline: Project proposal in Markdown
-
-
-## May 23, 2017 - ** NO CLASS **
-
-
-## May 30, 2017 - [Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
-* Regular languages
-* Special characters
-* Group capture
-* Substitutions
-* Start project pending review of proposal (deadline June 27)
-
-
-## June 1, 2017 - Numbers and math
-* Integer arithmetic
-* Floats
-* The `math` library
-* The `random` library
-* Building strings (concatenation)
-* Dictionaries
-* Assignment: Filtering a file by entries
-
-
-## June 6, 2017 - Debugging
-* Exception handling
-* Debugging strategies
-* Testing your code
-
-
-## June 13, 2017 - Workflow integration
-* bash scripting
-* pipes
-* Python [subprocess](https://docs.python.org/3/library/subprocess.html) module
-* stream redirection
-
-
-## June 20, 2017 - Code maintenance
-* [PEP8](https://www.python.org/dev/peps/pep-0008/)
-* documentation
-* version control
-* [learning Git](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
-* Collaborative coding exercise
-* Assignment: Python script archeology
-
-
-## June 27, 2017 - Packaging your code
-* sys - reading arguments from the command line
-* argparse
-* refactoring
-* unit testing
-* releasing your code - GitHub, open source licenses
-* survey
