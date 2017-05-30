@@ -1,7 +1,7 @@
 ## Prerequisites
 * students must have a laptop to work on
-* your laptop must have a UNIX-like computing environment, e.g., Linux, Apple OS-X
-* install [PyCharm](https://www.jetbrains.com/pycharm/)
+* your laptop must have a UNIX-like computing environment, e.g., Linux, Apple OS-X.  If you are unable to install a UNIX-like environment, then you need to install [PuTTY](http://www.putty.org/) and arrange for a temporary user account on one of my Linux workstations.  See [instructions](RemoteComputing.md).
+* install [PyCharm](https://www.jetbrains.com/pycharm/) or a similar IDE (integrated development environment) or plain-text editor (such as [gedit](https://wiki.gnome.org/Apps/Gedit)).
 * install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).  This should already be installed on Linux and OS-X machines.  To confirm, open a [Terminal](https://en.wikipedia.org/wiki/Terminal_emulator) window and issue the following command: `git --version`.
 
 ## Grading
@@ -9,7 +9,7 @@
 | Percent | Assessment |
 |---------|------------|
 | 10% | Participation (including computing skills survey) |
-| 30% | Assignments (8) |
+| 30% | Assignments (6) |
 | 10% | Project proposal |
 | 50% | Coding project |
 
