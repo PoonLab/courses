@@ -1,7 +1,6 @@
 # Genetic sequence data
 
-Bioinformatics is historically closely associated with the development of genetic sequencing technology.
-
+Bioinformatics is historically closely associated with the development of genetic sequencing technology.  Genetic sequences like nucleotides and proteins are structured data because the position of a residue is meaningful.  We can't reduce a nucleotide sequence down to the numbers of A's and retain the same amount of information.  Because these are structured data, it is usually not meaningful to represent sequences as tabular data.  It's possible, but then there's the temptation to rearrange columns.  If we restrict our representation of genetic sequences to single characters, then we don't need to worry about delimiters and can use more compact data formats.  We'll start with how nucleotides and amino acids are mapped to single characters before we talk about how this information is structured into some common sequence data formats.
 
 ## Sequence data formats
 
@@ -50,8 +49,11 @@ art@Misato:~/git/courses/GradPythonCourse/examples$ head -n3 Decapod-PEPCK.fa
 GGCGTCCTGCGAGCCATCAACCCCGAGAACGGCTTCTTCGGCGTGGCGCCCGGCACCTCCATGAAGACCA
 ACCCTGTGGCCATGACCACTGTGCTGACCAACACCGTCTTCACTAACGTGGCCAAGACCAGCGACGGCGG
 ```
+
 For what it's worth, this is a decapod:
+
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Ocypode_quadrata.jpg/320px-Ocypode_quadrata.jpg)
+
 and [PEPCK](https://en.wikipedia.org/wiki/Phosphoenolpyruvate_carboxykinase) is an enzyme in the glucose-generating metaboilc pathway.
 
 Let's write a function that will take a path to a FASTA file as its only argument, and returns parsed sequence records one at a time.  This kind of function is called a *generator*.  Generators are more efficient because we aren't parsing the entire file all at once and mashing the entire contents into a single return value.
