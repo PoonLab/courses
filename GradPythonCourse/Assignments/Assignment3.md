@@ -6,4 +6,23 @@ For this assignment, we're going to download a relatively small FASTQ file gener
 
 I've uploaded the file to the `examples` folder as `ERR869099.fastq.gz`.  The `.gz` suffix means that this is a binary file that is the result of compressing the original FASTQ file using the GNU program [gzip](https://en.wikipedia.org/wiki/Gzip).  I compressed the file because it is generally a bad idea to upload large binary files to a version control repository like GitHub.  
 
-1. 
+Please submit your completed assignment as a Markdown file to me by e-mail.
+
+1. Use a UNIX command to determine how large this compressed file is in bytes.  Show the command you used.  Next, uncompress the file using the command `gunzip -k ERR869099.fastq.gz` (the `-k` flag keeps the original file) and use the same command to see how the file size has changed.  By what factor did the file size increase?
+```shell
+
+```
+
+2. How many records are in the uncompressed FASTQ file?
+
+3. During class, you'll have already written a script for parsing a FASTQ file, including a function that converts the ASCII quality string into a vector of integer-valued scores.  The primary objective of this assignment is to tabulate the quality scores at each read position and then report the number in each cell as a CSV file.  The end result should look like this:
+
+|pos|0|1|2|...|39|40|41|
+|---|-|-|-|---|--|--|--|
+| 1 |1|15|13|   |69|53| 3|
+| 2 |0|6|7|   |178|80|22|
+| 3 |0|0|0|   |1005|309|178|
+|...| | | |   |  |  |  |
+|299|16|55|101|   | 0| 0| 0|
+|300|68|89|121|   | 0| 0| 0|
+
