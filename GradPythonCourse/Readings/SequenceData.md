@@ -134,7 +134,9 @@ AAGCAGTGGTATCAACGCAGAGTACATGGGGACAGTGACCCTGATCTGGTAAAGCTCCCATCCTGCCCTGACCCTGCCAT
 +SRR5261740.1 1 length=295
 BBBBBFFFBFFFGGGGGGGGGGHHHHHHHHGGGGGHHHHGHHHGHHHHHHHHGHHHHHGHHHHHHHHHHHHHHHHHHHHHHHHHHGGHHHGHHHHHHHHHHHHHHGGHHHHHHHHHHHHHHGGGGGGGHHHHGHGGGHHHHHHHHHHHHHHABBBBBBGGGGGGGGGGHHHFHHHHHHHHHHHHHHGGHHHGHGHHHHHHHHHHHHHFGHHHHHHGHGHHHGGGGGGGHHHHGHHHGGHHHHFHHHHHHHHHHHGGGGHHHHGGEHHHHHHHHGGGGGHHHHHHHGHGHHGHHHG
 ```
-These data came from an RNA-Seq experiment in [a study of human hematopoietic stem cells](https://www.ncbi.nlm.nih.gov/pubmed/28369043).  Each record comprises four lines:
+I've uploaded a truncated version of this file to the repository at `examples/SRR5261740.trunc.fastq`.  The original data came from an RNA-Seq experiment in [a study of human hematopoietic stem cells](https://www.ncbi.nlm.nih.gov/pubmed/28369043).
+
+Each record comprises four lines:
 1. A header line that contains some information that is unique to the read:
    ```
    @SRR5261740.1 1 length=295
