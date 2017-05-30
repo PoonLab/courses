@@ -58,12 +58,12 @@
    * **Readings:** [TabularData II](Readings/TabularData2.md)
 
 4. Genetic sequences.
+   * Gathering information with dictionaries
    * Common sequence data formats
      * FASTA
      * FASTQ
      * [SAM, BAM](https://samtools.github.io/hts-specs/)
    * Formatted strings
-   * *Time permitting:* Gathering information with dictionaries
    * **Assignment:** [Extracting quality score summaries](Assignments/Assignment3.md)
    * **Readings:** [SequenceData](Readings/SequenceData.md) and [Dictionaries](Readings/Dictionaries.md)
 
