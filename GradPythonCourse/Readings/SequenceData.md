@@ -29,7 +29,8 @@ Bioinformatics is historically closely associated with the development of geneti
               symbols[i] = '-'
       return ''.join(symbols)
   ```
-  We can also edit out non-standard gap characters with `string.replace()` function calls.  Can you write a Python function to do this?
+
+> **Question:**  We can also edit out non-standard gap characters with `string.replace()` function calls.  Can you write a Python function to do this?
 
 * Amino acids are encoded with A, C, D, E, *etc.*
 * There are standardized charcaters for mixtures of amino acids but they are rarely used.  For example, a mixture of `D` (aspartic acid) and `N` (asparagine) is encoded by `B`
@@ -114,14 +115,14 @@ def parse_fasta(path):
 
 The `yield` command causes the function to return some values, but instead of exiting our function persists and readies the next set of values to return.  By returning one record at a time, we avoid loading the entire set of records from the FASTA file into memory - this can help when we're dealing with a large file.
 
-This code doesn't work properly.  Why?  Try it out on the example file `Decapod-PEPCK.fa` to see.
+> **Question** This code doesn't work properly.  Why?  Try it out on the example file `Decapod-PEPCK.fa` to see.
 
 ```python
 for h, s in parse_fasta('Decapod-PEPCK.fa`):
     print(h)
 ```
 
-How can we fix this problem?
+> How can we fix this problem?
 
 
 ### FASTQ
@@ -270,8 +271,8 @@ Each line in a SAM corresponds to a read and contains the following information:
 
 Note that there can be additional fields in a SAM file, but I usually only use the first 11.
 
-** Question **
-> Where did the first read map in chromosome 7?
+
+> **Question:** Where did the first read map in chromosome 7?
 
 
 ## Formatted output
@@ -362,3 +363,6 @@ for line in handle:
 outfile.close()
 handle.close()
 ```
+
+## Additional exercise
+Try writing a script that converts the `zika.fastq` file back to a FASTA file.
