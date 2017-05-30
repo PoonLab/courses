@@ -45,7 +45,7 @@
      * `strip`, `lstrip`, `rstrip`
      * `split`
    * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md) and [Tabular data](Readings/TabularData.md)
-   * **Assignment:** [Parsing a tabular data set](Assignment2.md)
+   * **Assignment:** [Parsing a tabular data set](Assignments/Assignment2.md)
 
 3. Tabular data II.  
    * more examples of tabular data
@@ -64,7 +64,7 @@
      * [SAM, BAM](https://samtools.github.io/hts-specs/)
    * Formatted strings
    * *Time permitting:* Gathering information with dictionaries
-   * **Assignment:** [pending]()
+   * **Assignment:** [Extracting quality score summaries](Assignments/Assignment3.md)
    * **Readings:** [SequenceData](Readings/SequenceData.md) and [Dictionaries](Readings/Dictionaries.md)
 
 5. More complex text processing
