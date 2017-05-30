@@ -76,6 +76,8 @@ True
 ```
 That might not seem like a long time, but when you are dealing with a very large data set and you need to look things up many times, this can consume a lot of computing time.  This is because the computer is doing a linear search through the list.  It is like entering a bookstore and looking for a specific book by starting at the first shelf, taking each book off the shelf and looking at its cover until you find the one you want.  If the store has a million books, then on average the book you want will be roughly the 500,000th book you pull off the shelf.  (We're assuming that this is a really silly store that arranges its books completely at random.)
 
+![](https://imgs.xkcd.com/comics/making_hash_browns.png)
+
 To illustrate, here is a bit of Python code to demonstrate that we get about the same time as the `in` operator with a linear search through the list:
 ```python
 from time import time
