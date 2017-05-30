@@ -277,6 +277,11 @@ Note that there can be additional fields in a SAM file, but I usually only use t
 > **Question:** Where did the first read map in chromosome 7?
 
 
+### BAM files
+
+A BAM file is simply a binary compressed SAM file.  One way to convert from BAM to SAM and back is to use *samtools*, a collection of programs for working with SAM-type data that can be obtained [here](https://github.com/samtools/samtools/releases).
+
+
 ## Formatted output
 
 So far we've mostly talked about reading text from files, parsing information from that text, and printing some information to the console with `print()`.  We also need to learn how to write output to another file, which is more convenient when there is a lot of output or if we need to write to multiple files, making it difficult to use stream redirection with the `>` operator.
