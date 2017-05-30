@@ -1,7 +1,6 @@
 # Genetic sequence data
 
-Bioinformatics is historically closely associated with the development of genetic sequencing technology.
-
+Bioinformatics is historically closely associated with the development of genetic sequencing technology.  Genetic sequences like nucleotides and proteins are structured data because the position of a residue is meaningful.  We can't reduce a nucleotide sequence down to the numbers of A's and retain the same amount of information.  Because these are structured data, it is usually not meaningful to represent sequences as tabular data.  It's possible, but then there's the temptation to rearrange columns.  If we restrict our representation of genetic sequences to single characters, then we don't need to worry about delimiters and can use more compact data formats.  We'll start with how nucleotides and amino acids are mapped to single characters before we talk about how this information is structured into some common sequence data formats.
 
 ## Sequence data formats
 
@@ -36,6 +35,8 @@ Bioinformatics is historically closely associated with the development of geneti
 * There are standardized charcaters for mixtures of amino acids but they are rarely used.  For example, a mixture of `D` (aspartic acid) and `N` (asparagine) is encoded by `B`
 * Stop codons are encoded by `*` but `X` is sometimes used for this same purpose.  Unfortunately, `X` is also sometimes used to indicate that the amino acid encoded by the codon is ambiguous because of a nucleotide mixture.  For example, `ARA` could encode lysine (`AAA` to `K`) or arginine (`AGA` to `R`).  A question mark `?' is another symbol for an ambiguous amino acid that has less potential for confusion.
 
+![](https://imgs.xkcd.com/comics/proteins.png)
+
 
 ### FASTA
 
@@ -48,6 +49,12 @@ art@Misato:~/git/courses/GradPythonCourse/examples$ head -n3 Decapod-PEPCK.fa
 GGCGTCCTGCGAGCCATCAACCCCGAGAACGGCTTCTTCGGCGTGGCGCCCGGCACCTCCATGAAGACCA
 ACCCTGTGGCCATGACCACTGTGCTGACCAACACCGTCTTCACTAACGTGGCCAAGACCAGCGACGGCGG
 ```
+
+For what it's worth, this is a decapod:
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Ocypode_quadrata.jpg/320px-Ocypode_quadrata.jpg)
+
+and [PEPCK](https://en.wikipedia.org/wiki/Phosphoenolpyruvate_carboxykinase) is an enzyme in the glucose-generating metaboilc pathway.
 
 Let's write a function that will take a path to a FASTA file as its only argument, and returns parsed sequence records one at a time.  This kind of function is called a *generator*.  Generators are more efficient because we aren't parsing the entire file all at once and mashing the entire contents into a single return value.
 
@@ -239,12 +246,16 @@ In class I'll show you how to write these functions into a text file and call th
 ### SAM format
 The SAM (sequence alignment/map) format has become a standard format for recording output from programs that align short read data against one or more reference genome sequences.  Even NCBI BLAST results can be downloaded in SAM format!  It is a tabular data format with tab-separated values and comments prefixed with `@` characters.  Since we've covered parsing tabular data sets, the SAM format makes a nice opportunity to review what we've learned.
 
-
+I've taken the truncated FASTQ file from the previous section and mapped those short reads to chromosome 7 of a standard human genome assembly, and saved the result to `examples/SRR5261740.trunc.sam`.  Here are the first few lines:
 ```
-
+@HD	VN:1.0	SO:unsorted
+@SQ	SN:chr7	LN:159138663
+@PG	ID:bowtie2	PN:bowtie2	VN:2.2.8	CL:"/usr/local/bin/bowtie2-align-s --wrapper basic-0 -x chr7 -S SRR5261740.trunc.sam --local -U SRR5261740.trunc.fastq"
+SRR5261740.1	16	chr7	142247517	2	168S96M31S	*	00	TTCTCCACCTTGGAGATCCAGCGCACAGAGCAGGGGGACTCGGCCATGTATCTCTGTGCCAGCACCACAGTCGCTCCTGAAAAACTGTTTTTTGGCAGTGGAACCCAGCTCTCTGTCTTGGAGGACCTGAACAACGTGTTCCCCGGGAGACTCCAGTATCTGCGTGATCTGCCCCCAGGAGACACAGGGCCATCCAGCAGAGGAGGCTGGTGCCCATGGCAGGGTCAGGGCAGGATGGGAGCTTTACCAGATCAGGGTCACTGTCCCCATGTACTCTGCGTTGATACCACTGCTT	GHHHGHHGHGHHHHHHHGGGGGHHHHHHHHEGGHHHHGGGGHHHHHHHHHHHFHHHHGGHHHGHHHHGGGGGGGHHHGHGHHHHHHGFHHHHHHHHHHHHHGHGHHHGGHHHHHHHHHHHHHHFHHHGGGGGGGGGGBBBBBBAHHHHHHHHHHHHHHGGGHGHHHHGGGGGGGHHHHHHHHHHHHHHGGHHHHHHHHHHHHHHGHHHGGHHHHHHHHHHHHHHHHHHHHHHHHHHGHHHHHGHHHHHHHHGHHHGHHHHGGGGGHHHHHHHHGGGGGGGGGGFFFBFFFBBBBB	AS:i:143	XS:i:136	XN:i:0	XM:i:7	XO:i:0	XG:i:0	NM:i:7	MD:Z:13G8T0G0C12C12A3A41	YT:Z:UU
 ```
+How many comment lines are there?  One of the comment lines contains information about the reference sequences.  In this example, we've only used one reference sequence `chr7`, which is about 159 Mbp long.  
 
-Each line corresponds to a read and contains the following information:
+Each line in a SAM corresponds to a read and contains the following information:
 
 | # | Name  | Description          | #  | Name  | Description          |
 |---|-------|----------------------|----|-------|----------------------|
@@ -256,6 +267,11 @@ Each line corresponds to a read and contains the following information:
 | 5 | MAPQ  | Mapping quality      | 11 | QUAL  | Read quality string  |
 | 6 | CIGAR | Compact idiosyncratic    |    |       |                      |
 |   |       | gapped alignment report |  |  |  |
+
+Note that there can be additional fields in a SAM file, but I usually only use the first 11.
+
+** Question **
+> Where did the first read map in chromosome 7?
 
 
 ## Formatted output
@@ -346,79 +362,3 @@ for line in handle:
 outfile.close()
 handle.close()
 ```
-
-
-## Gathering information with dictionaries
-
-A dictionary is an extremely useful Python object.  It is a collection of key-value pairs, where a *key* is an immutable object like a string or integer, and a *value* is another object that is referred to by that key.  For example, in an English-language dictionary, the word *apple* is a key, and its associated value is a definition of apple.  In a phone book, the key would be your friend's name, and the value would be their phone number.  These examples should give you an intution that keys need to be unique.  You can't have two names in a phone book that are *exactly* the same; this would defeat the purpose of having a phone book in the first place.
-
-A value can be any object, including mutable objects like lists.  It can even be a dictionary!  This creates an interesting data structure.  If you think of a dictionary as the root of a tree:
-```
-root --+-- key1 --> value1
-       |
-       +-- key2 --> value2
-```
-then setting `value2` to be another dictionary creates another level of the tree:
-```
-root --+-- key1 --> value1
-       |
-       +-- key2 --> root --+-- key3 --> value3
-                           |
-                           +-- key4 --> value4
-```
-This makes dictionaries a natural representation of tree-like (hierarchical) data.
-
-Dictionaries are also useful for rapidly looking up objects.  This is because of how they work - each key is converted by a [hash function]() into an index that is used to directly look up the associated value.  For example, suppose you have compiled a list of genes from one data set, and you need to check whether a particular gene is in the list.  One way to do this is to use the `in` operator to check if our list contains the gene:
-```python
->>> from time import time
->>> li = list(range(int(1e6)))  # all integers from 0 to 999999
->>> t0 = time(); 89987 in li; t1 = time()
-True
->>> t1-t0
-0.003858804702758789  # seconds
-```
-That might not seem like a long time, but when you are dealing with a very large data set and you need to look things up many times, this can consume a lot of computing time.  This is because the computer is doing a linear search through the list.  It is like entering a bookstore and looking for a specific book by starting at the first shelf, taking each book off the shelf and looking at its cover until you find the one you want.  If the store has a million books, then on average the book you want will be roughly the 500,000th book you pull off the shelf.  (We're assuming that this is a really silly store that arranges its books completely at random.)
-
-To illustrate, here is a bit of Python code to demonstrate that we get about the same time as the `in` operator with a linear search through the list:
-```python
-from time import time
-li = list(range(1000000))
-
-t0 = time()  # start the clock!
-for i in li:
-  if i==89987:
-    break  # exit the loop
-t1 = time()
-print(t1-t0)  # I get 0.0033576488494873047 seconds
-```
-
-Now let's accomplish the same task by converting our list into a dictionary.  We don't have any values to associate with the keys, so we just set them all to `None`.
-```python
->>> di = dict([(k, None) for k in li])  # constructing from a list of key-value tuples
->>> t0 = time(); 89987 in di; t1 = time()
-True
->>> t1-t0
-4.291534423828125e-05  # seconds
-```
-This is nearly two orders of magnitude less time!
-
-Dictionaries are also very useful when you need to associate multiple values with the same key.  For example, suppose that you have observations for the same patients in different files, and you need to merge those records.  However, these files are not in the same order and don't even contain all the same patients.  One approach to deal with this situation is to read each file into Python and accumulate records under unique keys, where each key corresponds to a patient, and then writing out the information you want into another file.
-
-I do this all the time when working through data from large cohort studies.  Of course it isn't the only way to go about this, and not necessarily the best way.  I think many would argue that you should build a database with a framework like SQLite instead of using a Python script to make yet another tabular data file.  However, I like working directly with the data and being able to inspect the end product as a plain text file.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
