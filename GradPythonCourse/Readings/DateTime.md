@@ -10,7 +10,7 @@ Dates are also difficult because there are many ways of writing them down.  For 
 * Jan 1, 1970
 * 70/01/01
 
-There are several issues that arise here.  First, month and day numbering are easily confused.  Does `70/01/02` mean the first day of February or the second day of January?  Even worse, if only the last two digits of the year are given then all three values (days, months, and years) can be confounded!  Second, different representations can be used inconsistently.  For example, NCBI Genbank records have a field for annotating sequences with the sample collection date, but I've seen several different date formats used among records.
+There are several issues that arise here.  First, month and day numbering are easily confused.  Does `70/01/02` mean the first day of February or the second day of January?  Even worse, if only the last two digits of the year are given then all three values (days, months, and years) can be confounded!  Second, different representations can be used inconsistently.  For example, NCBI Genbank records have a field for annotating sequences with the sample collection date, but I've seen several different date formats used among records.  I try to use the ISO format whenever possible (YYYY-MM-DD).
 
 ![](https://imgs.xkcd.com/comics/iso_8601.png)
 
@@ -31,4 +31,17 @@ datetime.timedelta(6291)
 >>> diff.days  # a simpler integer answer
 6291
 ```
-The `datetime.date` object is a generic representation for calendar dates.  Our objective is to convert string representations of dates into these objects.  
+The `datetime.date` object is a generic representation for calendar dates.  Our objective is to convert string representations of dates into these objects.  This object has a number of functions and attributes, some of which are common to all instances of `datetime.date`:
+```python
+>>> birth_date.min  # this a read-only attribute
+datetime.date(1, 1, 1)
+>>> birth_date.max  # in a few millenia, we'd better have a new version of Python :)
+datetime.date(9999, 12, 31)
+>>> birth_date.ctime()  # C-style representation of date
+'Fri Mar 10 00:00:00 2000'
+>>> birth_date.toordinal()  # number of days since UNIX epoch
+730189
+>>> birth_date.isoformat()  # yay!
+'2000-03-10'
+```
+
