@@ -1,26 +1,4 @@
-# More complex text processing
-
-## Python modules
-
-A module is a collection of functions and objects in Python.  There are many modules that are distributed with Python that are not loaded by default, and thousands of others that are developed by people and distributed as open-source software.  To load a module, you just use the `import` command:
-```python
-import os
-```
-and all the `sys` functions and objects will become available for you to use.  To see what's been loaded with the module, use the `dir` command:
-```python
->>> dir(os)
-['CLD_CONTINUED', 'CLD_DUMPED', 'CLD_EXITED', 'CLD_TRAPPED', 'EX_CANTCREAT', 'EX_CONFIG', 'EX_DATAERR', 'EX_IOERR', 'EX_NOHOST', 'EX_NOINPUT', 'EX_NOPERM', 'EX_NOUSER', 'EX_OK', 'EX_OSERR', 'EX_OSFILE', 'EX_PROTOCOL', 'EX_SOFTWARE', 'EX_TEMPFAIL', ...
-```
-and to find out what each function or object does, use the `help` command:
-```python
->>> help(os.system)
-```
-Remember that the `help` command causes your session to enter another shell for viewing the help documentation, and that to exit this shell, you need to enter `q` to quit and return back to an interactive Python session.
-
-For this class we're going to cover a couple of modules that are especially useful for working with text-based data.  Next class we'll talk about two other modules that are good for working with numbers.
-
-
-## Regular expressions
+# Regular expressions
 
 A regular expression is a representation of a subset of all possible strings, called a *pattern*.  The concept of regular expressions originates from linguistics, particularly the field of computational linguistics (natural language processing), the study of breaking a language down into a strict (formal) set of rules that can be encoded for a machine.
 
@@ -244,10 +222,30 @@ We can define multiple groups in a pattern:
 [('oo', 'a')]
 ```
 
+Extracting groups is useful when we want to apply a test to a specific group.  For example, we could use a regular expression to validate calendar dates:
+```python
+>>> pat = re.compile("([0-9]{4})-([A-Z][a-z]{2})-([0-9]+)")  # e.g., 1999-Jan-01
+>>> pat.findall('1970-Jan-01')
+[('1970', 'Jan', '01')]
+>>> year, month, day = pat.findall('2009-Oct-21')[0]  # note we had to index into the list returned by findall
+>>> int(day) <= 31  # validate day
+True
+>>> month in ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+True
+```
+In practice, we would want to include a conditional to check whether `findall` matched *any* substring.  If it didn't, then that would imply that the string did *not* contain a valid calendar date (at least, according to how we are defining valid date strings).
+
+### Find and replace
+
+Replacing groups is another powerful application of regular expressions.  We've already discussed how the `str.replace` function can be used to replace all instances of a specific substring with another specific substring:
+```python
+>>> "lobster".replace('ster', 'by')
+'lobby'
+```
+We are often dealing with ambiguous or complex cases where we need to replace a variety of (often similar) strings with a particular substitute string, or with string that is derived from the match.
 
 
-
-### Example: Defining sequence motifs
+## Example: Defining sequence motifs
 
 A common application of regular expressions in bioinformatics is matching sequence motifs.  For example, some proteins are modified by the addition of glycans (large sugar molecules) to specific amino acids.  The glycosylation of amino acids is determined by motifs in the primary protein sequence.  N-linked glycoslyation involves the addition of a glycan to an asparagine that is part of a four-residue motif that includes either a serine or threonine at the third position, and no prolines at either the second or fourth positions.  
 
@@ -267,6 +265,4 @@ but using a regular expression is far more elegant and faster:
 
 ```
 
-## Date and time data
 
-##
