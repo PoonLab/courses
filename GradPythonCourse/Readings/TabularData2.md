@@ -1,4 +1,4 @@
-# Tabular Data 2
+# Tabular Data 2 - Lists and Control flow
 
 * preceded by [Tabular Data 1](https://github.com/PoonLab/courses/blob/master/GradPythonCourse/TabularData.md)
 
