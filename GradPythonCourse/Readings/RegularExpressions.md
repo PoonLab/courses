@@ -40,17 +40,22 @@ To load the regular expressions module, type:
 ```
 
 
-### Defining groups
+### Defining character sets
 
-A group matches any of a subset of characters.  It is defined by square brackets.  For example, `"c[aou]t"` matches `"cat"`, `"cot"` and `"cut"`, but not `"cet"`.  It also does not match `"bat"`, because the pattern expects the group to have a `'c'` on the  left and a `'t'` on the right.
+A set of characters is defined by square brackets.  For example, `"c[aou]t"` matches `"cat"`, `"cot"` and `"cut"`, but not `"cet"`.  It also does not match `"bat"`, because the pattern expects the set to have a `'c'` on the  left and a `'t'` on the right.
 
-Some times you want to specify a large range of characters in a group.  To save you the trouble of typing all of those characters in, regular expressions have a range syntax: `"[x-y]"` where `x` and `y` are the inclusive limits of the range.  For example, `"[a-z]"` is the subset of all lower case characters in the alphabet.  `"[0-9]"` is all the digits.
+Some times you want to specify a large range of characters in a set.  To save you the trouble of typing all of those characters in, regular expressions have a range syntax: `"[x-y]"` where `x` and `y` are the inclusive limits of the range.  For example, `"[a-z]"` is the subset of all lower case characters in the alphabet.  `"[0-9]"` is all the digits.
 
-You can specify a partial range.  `"[A-C]"` matches `'A'`, `'B'`, and `'C'`, but not `'D'`.  You can also concatenate ranges.  For example, `"[A-CE-Z]"` is the upper case alphabet excluding D.  Finally, you can invert a group with the `^` symbol.  The pattern `[^D]` matches any character except `'D'`.  Python's regular expressions also assumes a specific order of characters.   The digits `0-9` precede `A-Z`, which in turn precede `a-z`.  This means that you can define a range that spans these intuitive groupings.  For example: `"foo[5-HT-j]"` matches `"foo9"` and `"food"`, but not `"fooJ"` or `"foot"`.
+You can specify a partial range.  `"[A-C]"` matches `'A'`, `'B'`, and `'C'`, but not `'D'`.  You can also concatenate ranges.  For example, `"[A-CE-Z]"` is the upper case alphabet excluding D.  Finally, you can complement the set with the `^` symbol.  The pattern `[^D]` matches any character except `'D'`.  Python's regular expressions also assumes a specific order of characters.   The digits `0-9` precede `A-Z`, which in turn precede `a-z`.  This means that you can define a range that spans these intuitive sets.  For example: `"foo[5-HT-j]"` matches `"foo9"` and `"food"`, but not `"fooJ"` or `"foot"`.
 
-Finally, the symbol `.` matches *any* character, so you don't have to write out all possible characters with the square bracket notation.
+There are also special characters that represent predefined character sets, so you don't have to write out all possible characters with the square bracket notation:
 
-Note that we are simply declaring a string.  This string defines a pattern under the rules of regular expressions.  We don't have to use double-quotes `"` for these strings; single-quotes `'` will serve just as well.  I'm not going to be consistent!
+* `.` matches *any* character
+* `\w` matches any character that is a letter or digit (alphanumeric characteres) or an underscore (`_`)
+* `\d` matches any digit
+* `\s` matches any whitespace character such as a tab (`\t`), space (` `) or linebreak (`\n`).
+
+Note that when we are writing regular expression patterns, we are simply declaring a string.  This string defines a pattern under the rules of regular expressions.  We don't have to use double-quotes `"` for these strings; single-quotes `'` will serve just as well.  I'm not going to be consistent!
 
 
 ### Using patterns
@@ -118,11 +123,11 @@ I would expect even greater speed gains with more complex regular expressions.
 For now, `findall` is good enough to illustrate how various patterns work.  Later on, we'll cover some of the other functions, such as `match` and `sub`.
 
 
-### Repeating characters and groups
+### Repeating characters and sets
 
 Let's continue on with the `+` symbol.  This symbol is used to describe a regular expression where the preceding character can be repeated one or many times.  For example, `a+` can represent `a`, `aa`, or `aaaaaaa`.  This symbol will only affect the character immediately in front of it.  `ba+` matches `baa` but not `bbaa`.
 
-This symbol is especially powerful when combined with a group expression.  For example, `"[A-Z]+"` matches any substring combining upper case letters, of any length:
+This symbol is especially powerful when combined with character sets.  For example, `"[A-Z]+"` matches any substring combining upper case letters, of any length:
 ```python
 >>> p = re.compile('[A-Z]+')
 >>> p.findall('JACKET')
@@ -148,7 +153,7 @@ You can also declare a pattern that expects a specific number or range of matche
 >>> p.findall(' abcbacbabca ')
 ['abc', 'bac', 'bab']
 ```
-only returns matches that span 3 characters in the group `[abc]`.  This is different behaviour than:
+only returns matches that span 3 characters in the set `[abc]`.  This is different behaviour than:
 ```python
 >>> p = re.compile('[abc]+')
 >>> p.findall(' abcbacbabca ')
@@ -173,7 +178,7 @@ The range can contain zero:
 ['dd']
 ```
 
-Finally, the special case of `{0,1}` has its own symbol `?`, which means that the preceding character or group may or may not appear once in the pattern:
+Finally, the special case of `{0,1}` has its own symbol `?`, which means that the preceding character or set may or may not appear once in the pattern:
 ```python
 >>> p = re.compile('to?ny')
 >>> p.findall('tny')
@@ -191,26 +196,76 @@ Note that this means we have to escape `?` if we mean the question mark, and not
 ```
 The same thing goes for every other special character we've covered.
 
-** Exercise **
-> Try writing a regular expression pattern that matches Genbank accession numbers.  These are supposed to start with one or two upper case letters, and end with five or six digits.  For example, `JN398015` and `U15660` are permitted accession numbers, but `8AB801` and `CYY5018599` are not.
+
+> **Exercise:** Try writing a regular expression pattern that matches Genbank accession numbers.  These are supposed to start with one or two upper case letters, and end with five or six digits.  For example, `JN398015` and `U15660` are permitted accession numbers, but `8AB801` and `CYY5018599` are not.
 
 
 ### Position
 
-So far we've assumed that a substring matching our pattern can appear anywhere in the master string.  If we want to find substrings in a particular location in the string, then we need to be able to refer to the start and end of that string.  Thus, we have the special characters `^` and `$`, respectively.  Note that this is the second special usage of the character `^` - it can also be used to invert the contents of a group.  For example, `"^[^a]` matches any string that does not start with an `'a'`.
+So far we've assumed that a substring matching our pattern can appear anywhere in the master string.  If we want to find substrings in a particular location in the string, then we need to be able to refer to the start and end of that string.  Thus, we have the special characters `^` and `$`, respectively.  Note that this is the second special usage of the character `^` - remember that this symbol is also used to invert the contents of a set.  For example, `"^[^a]` matches any string that does not start with an `'a'`.
 
 Regular expressions become very powerful when you can make ambiguous or exact matches relative to the start or end of a string.  For example, suppose that we want to capture the last date in ISO format `YYYY-MM-DD` in a long line of text:
 ```python
-s = "
+>>> import re
+>>> s = "AC109823_Uganda_C_2011-08-20_2012-09-02"
+>>> pat = re.compile("[0-9-]+$")  # this will match the date at the end of the string
+>>> pat.findall(s)
+['2012-09-02']  
+```
+
+The `^` and `$` symbols are also useful when we want to make sure that there are no leading or trailing characters around our pattern:
+```
+>>> pat = re.compile("^[abc]+$")
+>>> pat.findall('cababc')
+['cababc']
+>>> pat.findall('tcababc')
+[]
+>>> pat.findall('cababcz')
+[]
 ```
 
 
 ### Capturing groups
 
+A group in a regular expression is defined by enclosing characters in round parentheses:
+```python
+>>> pat = re.compile('f(o+)bar')
+>>> pat.findall('foobar')
+['oo']
+>>> pat.findall('fooba')
+[]
+```
+Something interesting is happening here.  The string has to match our entire pattern in order to be considered a match; this is why `fooba` is not a match.  However, the `findall` function is not returning the entire match when we process the string `foobar` - it's only returning the part of the match enclosed in parentheses.  This is a really useful feature of regular expressions when want to extract specific parts of a string.
+
+We can define multiple groups in a pattern:
+```python
+>>> pat = re.compile('f(o+)b(a+)r')
+>>> pat.findall('foobar')
+[('oo', 'a')]
+```
 
 
-### Example: Parsing broken identifiers
 
+
+### Example: Defining sequence motifs
+
+A common application of regular expressions in bioinformatics is matching sequence motifs.  For example, some proteins are modified by the addition of glycans (large sugar molecules) to specific amino acids.  The glycosylation of amino acids is determined by motifs in the primary protein sequence.  N-linked glycoslyation involves the addition of a glycan to an asparagine that is part of a four-residue motif that includes either a serine or threonine at the third position, and no prolines at either the second or fourth positions.  
+
+We *could* scan for potential motifs using a series of `if..else` statements and looping through the sequence:
+```python
+def lousy_way(s):
+    """ Scan an amino acid sequence for N-linked glycosylation motifs """
+    results = []
+    for i in range(len(s)-3):
+        peptide = s[i:(i+4)]
+        if peptide.startswith('N') and 'P' not in peptide and peptide[3] in 'ST':
+            results.append(i)
+    return(results)
+```
+but using a regular expression is far more elegant and faster:
+```
+
+```
 
 ## Date and time data
 
