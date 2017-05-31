@@ -7,9 +7,9 @@ Regular expressions (or *regex*es, for short) are extremely useful when you are 
 ![](https://imgs.xkcd.com/comics/regular_expressions.png)
 
 A regular expression is defined by inserting special characters into the string.  Many of these are characters that we would normally want to use for their original meaning, such as the round brackets `(` and `)`.  To tell Python that we want to use brackets in the "normal" way, we need to use the escape symbol `\` like we do for line breaks (`\n`):
-"""
+```python
 "\(like this\)"
-"""
+```
 Also note that *any* character can be used in a regular expression, such as spaces and punctuation marks.
 
 To load the regular expressions module, type:
@@ -18,7 +18,7 @@ To load the regular expressions module, type:
 ```
 
 
-### Defining character sets
+## Defining character sets
 
 A set of characters is defined by square brackets.  For example, `"c[aou]t"` matches `"cat"`, `"cot"` and `"cut"`, but not `"cet"`.  It also does not match `"bat"`, because the pattern expects the set to have a `'c'` on the  left and a `'t'` on the right.
 
@@ -36,7 +36,7 @@ There are also special characters that represent predefined character sets, so y
 Note that when we are writing regular expression patterns, we are simply declaring a string.  This string defines a pattern under the rules of regular expressions.  We don't have to use double-quotes `"` for these strings; single-quotes `'` will serve just as well.  I'm not going to be consistent!
 
 
-### Using patterns
+## Using patterns
 
 Before we go on with defining patterns, we need to learn a bit about how to use them so that we can work through some examples.  There are generally two ways to use the `re` module.  First, you can directly call functions from the module:
 ```python
@@ -101,7 +101,7 @@ I would expect even greater speed gains with more complex regular expressions.
 For now, `findall` is good enough to illustrate how various patterns work.  Later on, we'll cover some of the other functions, such as `match` and `sub`.
 
 
-### Repeating characters and sets
+## Repeating characters and sets
 
 Let's continue on with the `+` symbol.  This symbol is used to describe a regular expression where the preceding character can be repeated one or many times.  For example, `a+` can represent `a`, `aa`, or `aaaaaaa`.  This symbol will only affect the character immediately in front of it.  `ba+` matches `baa` but not `bbaa`.
 
@@ -174,11 +174,21 @@ Note that this means we have to escape `?` if we mean the question mark, and not
 ```
 The same thing goes for every other special character we've covered.
 
+Lastly, sometimes a pattern can't be defined by a single regular expression.  We can attempt to match more than one regular expression by concatenating expressions with the `|` operator:
+```python
+>>> p = re.compile("c[aeiou]t|d[iou]g")
+>>> p.findall('cat')
+['cat']
+>>> p.findall('dog')
+['dog']
+>>> p.findall('cag')
+[]
+```
 
 > **Exercise:** Try writing a regular expression pattern that matches Genbank accession numbers.  These are supposed to start with one or two upper case letters, and end with five or six digits.  For example, `JN398015` and `U15660` are permitted accession numbers, but `8AB801` and `CYY5018599` are not.
 
 
-### Position
+## Position
 
 So far we've assumed that a substring matching our pattern can appear anywhere in the master string.  If we want to find substrings in a particular location in the string, then we need to be able to refer to the start and end of that string.  Thus, we have the special characters `^` and `$`, respectively.  Note that this is the second special usage of the character `^` - remember that this symbol is also used to invert the contents of a set.  For example, `"^[^a]` matches any string that does not start with an `'a'`.
 
@@ -203,7 +213,7 @@ The `^` and `$` symbols are also useful when we want to make sure that there are
 ```
 
 
-### Capturing groups
+## Capturing groups
 
 A group in a regular expression is defined by enclosing characters in round parentheses:
 ```python
@@ -235,17 +245,9 @@ True
 ```
 In practice, we would want to include a conditional to check whether `findall` matched *any* substring.  If it didn't, then that would imply that the string did *not* contain a valid calendar date (at least, according to how we are defining valid date strings).
 
-### Find and replace
-
-Replacing groups is another powerful application of regular expressions.  We've already discussed how the `str.replace` function can be used to replace all instances of a specific substring with another specific substring:
-```python
->>> "lobster".replace('ster', 'by')
-'lobby'
-```
-We are often dealing with ambiguous or complex cases where we need to replace a variety of (often similar) strings with a particular substitute string, or with string that is derived from the match.
 
 
-## Example: Defining sequence motifs
+### Example: Defining sequence motifs
 
 A common application of regular expressions in bioinformatics is matching sequence motifs.  For example, some proteins are modified by the addition of glycans (large sugar molecules) to specific amino acids.  The glycosylation of amino acids is determined by motifs in the primary protein sequence.  N-linked glycoslyation involves the addition of a glycan to an asparagine that is part of a four-residue motif that includes either a serine or threonine at the third position, and no prolines at either the second or fourth positions.  
 
@@ -256,13 +258,80 @@ def lousy_way(s):
     results = []
     for i in range(len(s)-3):
         peptide = s[i:(i+4)]
-        if peptide.startswith('N') and 'P' not in peptide and peptide[3] in 'ST':
-            results.append(i)
+        if peptide.startswith('N') and 'P' not in peptide and peptide[2] in 'ST':
+            results.append(peptide)
     return(results)
 ```
 but using a regular expression is far more elegant and faster:
 ```
-
+def good_way(s):
+    return re.findall('N[^P][ST][^P]', s)
 ```
 
+Here is our function in action when applied to a [human herpesvirus 2 envelope glycoprotein B](https://www.ncbi.nlm.nih.gov/nuccore/KP143740.1) sequence:
+```
+>>> p = "MRGGGLICALVVGALVAAVASAAPAAPRASGGVAATVAANGGPASRPPPVPSPATTRARKRKTKKPPERPEATPPPDANATVAAGHATLRAHLREIKVENADAQFYVCPPPTGATVVQFEQPRRCPTRPEGQNYTEGIAVVFKENIAPYKFKATMYYKDVTVSQVWFGHRYSQFMGIFEDRAPVPFEEVIDKINAKGVCRSTAKYVRNNMETTAFHRDDHETDMELKPAKVATRTSRGWHTTDLKYNPSRVEAFHRYGTTVNCIVEEVDARSVYPYDEFVLATGDFVYMSPFYGYREGSHTEHTSYAADRFKQVDGFYARDLTTKARATSPTTRNLLTTPKFTVAWDWVPKRPAVCTMTKWQEVDEMLRAEYGGSFRFSSDAISTTFTTNLTQYSLSRVDLGDCIGRDAREAIDRMFARKYNATHIKVGQPQYYLATGGFLIAYQPLLSNTLAELYVREYMREQDRKPRNATPAPLREAPSANASVERIKTTSSIEFARLQFTYNHIQRHVNDMLGRIAVAWCELQNHELTLWNEARKLNPNAIASATVGRRVSARMLGDVMAVSTCVPVAPDNVIVQNSMRVSSRPGTCYSRPLVSFRYEDQGPLIEGQLGENNELRLTRDALEPCTVGHRRYFIFGGGYVYFEEYAYSHQLSRADVTTVSTFIDLNITMLEDHEFVPLEVYTRHEIKDSGLLDYTEVQRRNQLHDLRFADIDTVIRADANAAMFAGLCAFFEGMGDLGRAVGKVVMGVVGGVVSAVSGVSSFMSNPFGALAVGLLVLAGLVAAFFAFRYVLQLQRNPMKALYPLTTKELKTSDPGGVGGEGEEGAEGGGFDEAKLAEAREMIRYMALVSAMERTEHKARKKGTSALLSSKVTNMVLRKRNKARYSPLHNEDEAGDEDEL"
+>>> from time import time
+>>> t0 = time(); good_way(p); time() - t0
+['NATV', 'NYTE', 'NLTQ', 'NATH', 'NASV', 'NITM']
+5.91278076171875e-05
+>>> t1 = time(); lousy_way(p); time()-t1
+['NATV', 'NYTE', 'NLTQ', 'NATH', 'NASV', 'NITM']
+0.0006232261657714844
+>>> 0.0006232261657714844 / 5.91278076171875e-05
+10.540322580645162
+```
+So using regular expressions not only gives us tidier code, but it's also much faster!
+
+![](https://imgs.xkcd.com/comics/cadbury_eggs.png)
+
+
+## Find and replace
+
+Replacing groups is another powerful application of regular expressions.  We've already discussed how the `str.replace` function can be used to replace all instances of a specific substring with another specific substring:
+```python
+>>> "lobster".replace('ster', 'by')
+'lobby'
+```
+We are often dealing with ambiguous or complex cases where we need to replace a variety of (often similar) strings with a particular substitute string, or with string that is derived from the match.  Replacements are accomplished using the `re` module function `sub`.  In the first case, we can simply provide the replacement substring that will be substituted into every match.  For example:
+```python
+>>> s
+'The Dillinger Escape Plan'
+>>> re.sub('[A-Z]', 'Z', s)
+'Zhe Zillinger Zscape Zlan'
+```
+Or a more biologically useful example:
+```python
+def censor_stop_codons(seq):
+    """
+    Convert any stop codons in a nucleotide sequence into ambiguous codons.  Assumes standard
+    genetic code.
+    """
+    return re.sub("TA[AG]|TGA"
+```
+
+What if we want to move matches around, or replace everything around the matches?  Well, we need to have some way to refer to specific groups.  Regular expressions provides a scheme for doing this: we can refer to the first group as `\1`, the second as `\2` and so on.  For example, we can swap the first two capital letters in our example by referencing the different groups in another order:
+```python
+>>> re.sub('^([A-Z])([^A-Z]+)([A-Z])(.+)', '\\3\\2\\1\\4', s)
+'Dhe Tillinger Escape Plan'
+```
+Note that we had to escape the escape character `\`!  
+
+![](https://imgs.xkcd.com/comics/substitutions.png)
+
+
+## Getting more information about groups
+
+So far, we have just used two of the functions in the `re` module: `findall` and `sub`.  To understand some of the other functions, we have to learn about the `Match` object that is defined by the `re` module.  Think of a `Match` as a special object like strings in lists in Python; it has its own attributes and functions, including:
+* `group`: the matching substring
+* `span`: the start and end indices of the substring relative to the parent string
+* `string`: the parent string
+* `groups`: a tuple containing groups captured by the regular expression
+
+The functions that return a *Match* object or a generator of *Match* objects are:
+* `search`: returns a *Match* object for the first instance of the regular expression
+* `match`: applies the regular expression to the start of the string only
+* `finditer`: returns a generator for all non-overlapping *Match* objects
+
+In practice, I can usually accomplish what I need to do without getting involved with *Match* objects.  If I'm not doing a simple find-and-replace and I need the location of the matching substrings for some other reason, then I might use `finditer`.  
 
