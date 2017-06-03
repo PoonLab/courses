@@ -71,17 +71,16 @@
    * Regular expressions with `re`
    * Date fields with `datetime`
 
-6. Numbers
-   * arithmetic operators
-   * the `math` module
-   * the `random` module
-   * basic statistics: mean, median, quantiles
-
-7. Batch processing
+6. Batch processing
    * Calling one script on many files with `bash`
    * Calling many scripts - pipelining
    * Calling other programs - subprocessing
    * Harnessing multiple cores with MPI
+
+7. Scraping
+   * Pulling data from websites
+   * Automating web interfacing with `mechanize`
+   * Parsing web content with `BeautifulSoup`
 
 8. Final project help session
 
