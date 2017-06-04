@@ -66,6 +66,49 @@ Write these two lines into a file, save it as `argv.py` and run it from the comm
 art@Shinji:~/git/courses/GradPythonCourse/examples$ python argv.py 
 Python was called with these arguments: ['argv.py']
 ```
-The first line of our script imports the `sys` module, which provides access to system-level resources.  You can read more about this module [here](https://docs.python.org/3/library/sys.html).  The second line is displaying a special variable that belongs to the `sys` module, called `argv`, which is short for "argument vector".  A vector is an ordered sequence of things that we represent in Python as a list or tuple; in this case, it is a list (note the square brackets).  The list has only one value: the name of the script that we called the interpreter on.  
+The first line of our script imports the `sys` module, which provides access to system-level resources.  You can read more about this module [here](https://docs.python.org/3/library/sys.html).  The second line is displaying a special variable that belongs to the `sys` module, called `argv`, which is short for "argument vector".  A vector is an ordered sequence of things that we represent in Python as a list or tuple; in this case, it is a list (note the square brackets).  The list has only one value: the name of the script that we called the interpreter on.  If I start an interactive session of Python, I have an empty argument vector:
+```python
+>>> import sys
+>>> sys.argv
+['']
+```
+
+We can pass a bunch of random stuff on the command line and see the results with our new script:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ python3 argv.py I want to see this stuff
+Python was called with these arguments: ['argv.py', 'I', 'want', 'to', 'see', 'this', 'stuff']
+```
+Note that each "argument" was converted into a string object.  If I pass numbers, they will also be interpreted as strings by default.  If I want to do some math with these values, I'll have to cast them using `int` or `float`.  I can't pass arguments to Python when calling an interactive session, because it expects the first argument to be a path to a script.  
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ python boogabooga
+python: can't open file 'boogabooga': [Errno 2] No such file or directory
+```
+
+We can refer to individual members of `sys.argv` with the usual indexing method because it's just an ordinary list.  Let's edit our little script to extract the first member of the argument vector and assign it to a variable:
+```python
+import sys
+print ("Python was called with these arguments: {}".format(sys.argv))
+filename = sys.argv[1]
+handle = open(filename, 'rU')
+print(handle.readline())  # show the first line
+handle.close()
+```
+Remember, the first member of the list is the script, so we're going straight to the second (zero-index `1`).  
+Let's see this script in action:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ python argv.py Decapod-PEPCK.fa 
+Python was called with these arguments: ['argv.py', 'Decapod-PEPCK.fa']
+>EU427182.1 Albunea holthuisi phosphoenolpyruvate carboxykinase (PEPCK) gene, partial cds
+```
+What if we forget to add the additional argument?  Python returns an error:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ python argv.py
+Python was called with these arguments: ['argv.py']
+Traceback (most recent call last):
+  File "argv.py", line 3, in <module>
+    filename = sys.argv[1]
+IndexError: list index out of range
+```
+An `IndexError` is Python's way of telling us that we just tried to access a member of a list at an index that doesn't exist.  
 
 
