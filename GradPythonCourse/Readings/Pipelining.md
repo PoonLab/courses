@@ -35,5 +35,37 @@ DateTime.md
 Dictionaries.md
 ...
 ```
-generates a listing of Markdown files in the `Readings` folder, where I'm using the bash *echo* command to write each parameter value to the console.  To 
+generates a listing of Markdown files in the `Readings` folder, where I'm using the bash *echo* command to write each parameter value to the console. 
+
+We can use this bash command to perform some simple batch processing, where we're calling some python script `foo.py` on each file in the list.  However, this requires that we have written a script that will take input from the command line.  So far, we've been simply hard-coding the input file into a script, like this:
+```python
+handle = open('local-file.csv', 'rU')
+# do stuff with the file
+handle.close()
+```
+This isn't useful for batch processing, because we want to change the file path in our `open()` command.
+
+
+## Getting arguments with `sys.argv`
+Recall that when we call an executable on the command line, we can follow the name of that executable with arguments that alter the behaviour of that executable.  For example, `ls` generates a tabular listing of files and directories, whereas setting the `-l` option generates a long listing:
+```shell
+art@Shinji:~/git/courses$ ls -l
+total 84
+drwxrwxr-x 2 art art  4096 Jun  4 13:09 BIOL4289B
+drwxrwxr-x 2 art art  4096 Jun  4 13:09 css
+drwxrwxr-x 5 art art  4096 Jun  4 13:09 Cuernavaca
+drwxrwxr-x 2 art art  4096 Jun  4 13:09 failureToLaunch
+```
+Similarly, when we invoke our Python script by calling the interpreter, we are passing a single argument -- a relative or absolute path to the script we want to run.  Remember that the Python interpreter is just another binary executable that usually lives at `/usr/bin`.  (To find out exactly, enter the command `which python`.)  Let's write a script that will reveal this information:
+```python
+import sys
+print ("Python was called with these arguments: {}".format(sys.argv))
+```
+Write these two lines into a file, save it as `argv.py` and run it from the command line.  You should get some output like this:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ python argv.py 
+Python was called with these arguments: ['argv.py']
+```
+The first line of our script imports the `sys` module, which provides access to system-level resources.  You can read more about this module [here](https://docs.python.org/3/library/sys.html).  The second line is displaying a special variable that belongs to the `sys` module, called `argv`, which is short for "argument vector".  A vector is an ordered sequence of things that we represent in Python as a list or tuple; in this case, it is a list (note the square brackets).  The list has only one value: the name of the script that we called the interpreter on.  
+
 
