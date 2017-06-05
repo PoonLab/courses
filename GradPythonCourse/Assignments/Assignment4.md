@@ -50,7 +50,10 @@ Submit your results by modifying this Markdown and e-mailing the plain text file
    ```python
    import sys
    def bam2sam(path):
-       # no return value
+       bamfile = ''  # need to set this to something based on `path` argument
+       handle = open(bamfile, 'w')
+       subprocess.check_call([''], stdout=handle)  # need to populate first list argument with strings
+       
    
    bam2sam()  # need to pass argument here
    ```
