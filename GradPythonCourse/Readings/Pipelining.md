@@ -339,5 +339,33 @@ Now let's write another script that will utilize the functions defined in `Parse
 
 ## Pipelining with multiple scripts
 
-So far we've assumed that we are applying a single script to our data with batch processing.  This is good enough in many situations, but for more complex tasks we may want to call on more than one script.  
+So far we've assumed that we are applying a single script to our data with batch processing.  This is good enough in many situations, but for more complex tasks we may want to call on more than one script.  A sequence of scripts is often called a pipeline.  Pipelines play a central role in bioinformatics, and some pipelines have become a core method of emerging fields.  For example, [QIIME](http://qiime.org/scripts/) is essentially a collection of Python scripts for working with metagenomic data for microbial ecology.  
+
+A pipeline is essentially a recipe for applying some sequence of scripts and programs to your data set.  It is helpful to implement your pipeline as a sort of "meta" script, because this creates a record of how you process your data.  Otherwise, it may be easy to mix up the sequence of analyses, leading to inconsistent results.  Pipelines can be written as a bash script:
+```bash
+python script1.py input.txt output1.txt
+python script2.py output1.txt output2.txt
+python script3.py input.txt output2.txt output3.txt
+```
+or as a Python script:
+```python
+import sys
+import script1
+import script2
+import script3
+
+input = sys.argv[1]
+output1 = input.replace('.txt', '.out1')  # modify file path
+script1.run(input, output1)
+
+output2 = input.replace('.txt', '.out2')
+script2.run(output1, output2)
+
+output3 = input.replace('.txt', '.out3')
+script3.run(input, output2, output3)
+```
+This fake Python pipeline script assumes that the scripts comprising the pipeline are in the same working directory.  
+
+> **Exercise:**  Break up `ParseDiabetesTSV.py` into two scripts and write a pipeline script to apply them to the data.
+
 
