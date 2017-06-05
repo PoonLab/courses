@@ -369,3 +369,47 @@ This fake Python pipeline script assumes that the scripts comprising the pipelin
 > **Exercise:**  Break up `ParseDiabetesTSV.py` into two scripts and write a pipeline script to apply them to the data.
 
 
+## Calling other programs with `subprocess`
+
+So far we've covered how build pipelines and carry out batch processing with Python scripts.  However, not everything is done with Python!  Sometimes it is useful or even necessary to run your data with someone else's program that has been compiled from C or Java, for example.  These can be important steps in a pipeline.  That doesn't mean that we stop the pipeline there and then pick up again afterwards.  We can still automate the process of calling a binary executable (program) on a data set.  The recommended way of doing this is with Python's `subprocess` module.  Its name emphasizes the fact that our current process (running Python) is spawning a child process or subprocess that will run another program.  
+
+Automation with subprocesses can be complicated.  We are responsible for:
+* starting the subprocess
+* sending data to that subprocess
+* waiting for that subprocess to finish working with the data
+* receiving output from the subprocess
+* handling errors raised by the subprocess
+* closing the subprocess when it is finished
+For example, if we close the subprocess before it is finished, then we lose its output.  
+
+Let's start with importing the `subprocess` module and running some basic commands:
+```python
+>>> import subprocess
+>>> exit_code = subprocess.check_call(['ls', '-l'])
+...
+>>> exit_code
+0
+```
+An exit code of `0` means normal operation.  Any non-zero code means that there was some kind of error.  Note that the directory listing was streamed onto our console.  We haven't captured it as a variable, so we can't do anything with it.  In order to capture this stream, we can use the `check_output` command:
+```python
+>>> stdout = subprocess.check_output(['ls', '-l'])
+>>> stdout
+b'total 429196\n-rw-rw-r-- 1 art art   1186681 Apr 21 23:14 Canada.txt\n-rw-r--r-- 1 art art 162321443
+```
+Note that this line contains line break characters `\n`.  Also note that the string is prefixed with a `b`, which indicates that this is a [byte string](https://docs.python.org/3/reference/lexical_analysis.html#strings).  A byte string can only contain [ASCII](https://en.wikipedia.org/wiki/ASCII) characters.
+
+If you try to pass a UNIX wildcard to `ls` via subprocess, you get an error:
+```python
+>>> stdout = subprocess.check_output(['ls', '-l', '*.py'])
+ls: cannot access '*.py': No such file or directory
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python3.5/subprocess.py", line 626, in check_output
+    **kwargs).stdout
+  File "/usr/lib/python3.5/subprocess.py", line 708, in run
+    output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['ls', '-l', '*.py']' returned non-zero exit status 2
+```
+What's going on?  Python is not passing this command through a shell interpreter that would handle the UNIX wildcard, so the string `*.py` is being taken literally - the `ls` program is looking for a file with a name that starts with an asterisk.  Why is this happening?  There is a security risk in running commands through a shell interpreter from Python that is called an [injection attack](https://en.wikipedia.org/wiki/Code_injection#Shell_injection).  Much of the risk from shell injection can be avoided by not running `subprocess` commands through the shell.  Furthermore, this security risk is the reason that commands are passed as lists instead of a single string, *i.e.*, `['ls', '-l']` instead of `ls -l`.
+
+
