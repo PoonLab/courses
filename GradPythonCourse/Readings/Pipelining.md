@@ -270,7 +270,7 @@ Here is a script that has three objectives:
 1. Convert the date fields into standard ISO format (`YYYY-MM-DD`).
 2. Translate codes into text.
 3. Write the result as a CSV file.
-Let's call the script `parse-diabetes-tsv.py`.
+Let's call the script `ParseDiabetesTSV.py`.
 
 ```python
 import re
@@ -326,14 +326,18 @@ def main(tsv):
     
     for line in handle:
         date, time, code, value = line.strip('\n').split('\t')
-        isodate = standardize_date(dt)
+        isodate = standardize_date(date)
         desc = translate_code(code)
-        outfile.write(','.join([isodate, time, desc, value] + '\n')
+        outfile.write(','.join([isodate, time, desc, value]) + '\n')
         
     outfile.close()
-    handle.close()
-
-# here's where we use the functions
-tsv_file = sys.argv[1]
-main(tsv_file)    
+    handle.close()    
 ```
+
+Now let's write another script that will utilize the functions defined in `ParseDiabetesTSV.py` to perform batch processing.  How do we begin?
+
+
+## Pipelining with multiple scripts
+
+So far we've assumed that we are applying a single script to our data with batch processing.  This is good enough in many situations, but for more complex tasks we may want to call on more than one script.  
+
