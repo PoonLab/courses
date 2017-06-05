@@ -183,10 +183,157 @@ There are a few things we can do here:
    outfile = open(filename.replace('.md', '.txt'), 'w')
    ```
    This can be better for more complex batch processing where we might want to make sure that the output derived from each input file is kept separate from other outputs.  However, this approach can be dangerous - if you make a mistake specifying the output file path, then you may end up overwriting the input files!  
+   
+3. Skip using bash altogether and generate a list of files within Python's `glob` module.
 
 
-# Batch processing with Python - `glob`
+## Batch processing with Python - `glob`
 
+A *glob* is kind of like a [regular expression](RegularExpressions.md) - it is a special string that represents one or more other strings.  We've already been using globs to refer to multiple files in UNIX-like systems:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ ls ../Readings/*.md
+../Readings/basicunixcommands.md   ../Readings/ScriptingLanguages.md
+../Readings/DateTime.md            ../Readings/SequenceData.md
+../Readings/Dictionaries.md        ../Readings/TabularData2.md
+../Readings/Pipelining.md          ../Readings/TabularData.md
+../Readings/RegularExpressions.md
+```
 
+Here, we've used the symbol `*` to indicate that we want *all* files whose names end with `.md`.  This symbol is called a *wildcard*.  There are several wildcards that can be used in glob expressions:
 
+| Wildcard | Matches |
+|----------|---------|
+| `*` | Any character or sequence of characters |
+| `?` |  Any single character |
+| [abc] | Any single character in the set |
+| [a-z] | Any single character in the defined range |
 
+For example, we can use a glob to list all Markdown files that begin with a `T`:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/Readings$ ls T*.md
+TabularData2.md  TabularData.md
+```
+I've noticed that in Ubuntu, my globs are not case-sensitive:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/Readings$ ls [A-D]*.md
+basicunixcommands.md  DateTime.md  Dictionaries.md
+```
+
+To illustrate, let's create a new file called `batching.py`:
+```python
+from glob import glob
+files = glob('../Readings/*.md')
+print(files)
+```
+
+Calling our script yields the following output:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ python batching.py 
+['../Readings/Dictionaries.md', '../Readings/DateTime.md', '../Readings/ScriptingLanguages.md', '../Readings/TabularData2.md', '../Readings/basicunixcommands.md', '../Readings/Pipelining.md', '../Readings/SequenceData.md', '../Readings/TabularData.md', '../Readings/RegularExpressions.md']
+```
+Our script is brittle - it cannot be called from another directory:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ cd ..
+art@Shinji:~/git/courses/GradPythonCourse$ python examples/batching.py 
+[]
+```
+We can fix this by using an absolute path in our glob expression instead of a relative one.  However, this makes the script less portable - I like to use the same directory structure for copies of the same project on multiple computers, but the absolute paths may differ between systems (*e.g.,* **macOS** uses `/Users` instead of `/home`) or user accounts.
+
+## Example - Diabetes data
+
+The [UC Irvine Machine Learning Repository] hosts a number of data sets in the public domain for the development and comparison of machine learning algorithms.  One of these data sets ([link](https://archive.ics.uci.edu/ml/datasets/diabetes)) comprises records for 70 individuals with diabetes - these records were derived either from an electronic device or from paper records.  These are tabular data sets with tab-separated values.  Here is an excerpt from one of the data sets:
+
+| Date       | Time  | Code | Value |
+|------------|-------|----|----|
+| 07-13-1990 | 11:36 | 57 | 84 |
+| 07-13-1990 | 11:39 | 33 | 3 |
+| 07-13-1990 | 16:43 | 65 | 0 |
+| 07-13-1990 | 16:44 | 66 | 0 |
+| 07-13-1990 | 16:44 | 62 | 180 |
+
+The codes can be interpreted with a map that is contained in the *README* file; here is an excerpt:
+```
+33 = Regular insulin dose
+34 = NPH insulin dose
+35 = UltraLente insulin dose
+48 = Unspecified blood glucose measurement
+57 = Unspecified blood glucose measurement
+```
+
+If we apply the map to the excerpt above, we get the following sequence of events:
+1. Subject 43 took a blood glucose measurement (84 mmol/L) and subsequently took an insulin dose.  
+2. About five hours later, they experienced hypoglycemic symptoms.  They took a glucose measurement (180 mmol/L) and then ate dinner.
+
+There are a total of 29,330 lines in these data sets.  
+
+Here is a script that has three objectives:
+1. Convert the date fields into standard ISO format (`YYYY-MM-DD`).
+2. Translate codes into text.
+3. Write the result as a CSV file.
+Let's call the script `parse-diabetes-tsv.py`.
+
+```python
+import re
+import sys
+
+mdy = re.compile('(\d{2})-(\d{2})-(\d{4})')
+
+codes = {
+    '33': "Regular insulin dose", 
+    '34': "NPH insulin dose", 
+    '35': "UltraLente insulin dose", 
+    '48': "Unspecified blood glucose measurement", 
+    '57': "Unspecified blood glucose measurement", 
+    '58': "Pre-breakfast blood glucose measurement", 
+    '59': "Post-breakfast blood glucose measurement", 
+    '60': "Pre-lunch blood glucose measurement", 
+    '61': "Post-lunch blood glucose measurement", 
+    '62': "Pre-supper blood glucose measurement", 
+    '63': "Post-supper blood glucose measurement", 
+    '64': "Pre-snack blood glucose measurement", 
+    '65': "Hypoglycemic symptoms", 
+    '66': "Typical meal ingestion", 
+    '67': "More-than-usual meal ingestion", 
+    '68': "Less-than-usual meal ingestion", 
+    '69': "Typical exercise activity", 
+    '70': "More-than-usual exercise activity", 
+    '71': "Less-than-usual exercise activity", 
+    '72': "Unspecified special event"
+}
+
+def standardize_date(dt):
+    """ Convert MM-DD-YYYY format to ISO standard YYYY-MM-DD """
+    matches = mdy.findall(dt)
+    if not matches:
+        print ("ERROR: Failed to parse date {}".format(dt))
+        sys.exit()
+    month, day, year = matches[0]
+    isodate = '{}-{}-{}'.format(year, month, day)
+    return isodate
+
+def translate_code(code):
+    """ Use dictionary to map code to a brief description """
+    desc = codes.get(code, None)
+    if not desc:
+        print ("ERROR: Encountered unknown code {}".format(code))
+        sys.exit()
+    return desc
+
+def main(tsv):
+    """ Main function for parsing TSV file """
+    handle = open(tsv, 'rU')
+    outfile = open(tsv+'.csv', 'w')
+    
+    for line in handle:
+        date, time, code, value = line.strip('\n').split('\t')
+        isodate = standardize_date(dt)
+        desc = translate_code(code)
+        outfile.write(','.join([isodate, time, desc, value] + '\n')
+        
+    outfile.close()
+    handle.close()
+
+# here's where we use the functions
+tsv_file = sys.argv[1]
+main(tsv_file)    
+```
