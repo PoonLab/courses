@@ -35,7 +35,19 @@ DateTime.md
 Dictionaries.md
 ...
 ```
-generates a listing of Markdown files in the `Readings` folder, where I'm using the bash *echo* command to write each parameter value to the console. 
+generates a listing of Markdown files in the `Readings` folder, where I'm using the bash *echo* command to write each parameter value to the console.  Calling `echo` isn't terribly useful; we're just apeing the basic functionality of `ls`.  For a slightly more useful example, let's call the `wc -l` command to get the number of lines for each Markdown file:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/Readings$ for f in `ls *.md`; do wc -l $f; done
+235 basicunixcommands.md
+47 DateTime.md
+160 Dictionaries.md
+29 Pipelining.md
+337 RegularExpressions.md
+137 ScriptingLanguages.md
+375 SequenceData.md
+655 TabularData2.md
+543 TabularData.md
+```
 
 We can use this bash command to perform some simple batch processing, where we're calling some python script `foo.py` on each file in the list.  However, this requires that we have written a script that will take input from the command line.  So far, we've been simply hard-coding the input file into a script, like this:
 ```python
@@ -110,5 +122,71 @@ Traceback (most recent call last):
 IndexError: list index out of range
 ```
 An `IndexError` is Python's way of telling us that we just tried to access a member of a list at an index that doesn't exist.  
+
+We've just made our script more versatile - it can be called on any file!  This is perfect for batch processing with bash.  To illustrate, let's first edit our `argv.py` script a little:
+```python
+import sys
+
+filename = sys.argv[1]
+handle = open(filename, 'rU')
+first_line = handle.readline()
+handle.close()
+
+output = "Filename: {}\nFirst line:\n{}".format(filename, first_line)
+print(output)
+```
+Now we can call the script iteratively with bash:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ for f in `ls ../Readings/*.md`; do python argv.py $f; done
+Filename: ../Readings/basicunixcommands.md
+First line:
+# A brief introduction to *nix
+
+Filename: ../Readings/DateTime.md
+First line:
+# Date and time objects in Python
+```
+where I've truncated the output to the first few lines.
+
+This is pretty good for batch processing with multiple inputs.  What if we want to write multiple outputs?  If we fix an output file to write results to, then we're going to wipe out that file every time we call our script.  For example, let's modify `argv.py` as follows:
+```python
+import sys
+
+filename = sys.argv[1]
+handle = open(filename, 'rU')
+first_line = handle.readline()
+handle.close()
+
+output = "Filename: {}\nFirst line:\n{}".format(filename, first_line)
+outfile = open('wrong-way.txt', 'w')
+outfile.write(output)
+outfile.close()
+```
+and let's use the same bash command to call our script on every Markdown file in the `Readings` directory.  Use `cat` to examine the contents of the `wrong-way.txt` file that results:
+```shell
+art@Shinji:~/git/courses/GradPythonCourse/examples$ cat wrong-way.txt 
+Filename: ../Readings/TabularData.md
+First line:
+# Working with tabular data in Python
+```
+As we expected, we only see the output produced when `argv.py` was called on the *last* Markdown file.
+
+There are a few things we can do here:
+1. We can open the output file in *append* mode (`a`) instead of *write* mode (`w`):
+   ```python
+   outfile = open('wrong-way.txt', 'a')
+   ```
+   This results in a complete output file.  For simple batch processing, this can be sufficient but there are a couple of drawbacks.  First, we need to make sure that the output file is either empty or does not exist - otherwise, anything that was already in the file will remain there!  Second, it might not be easy to associate each output back to its input file.
+   
+2. Derive an output filename from each input filename.
+   ```python
+   outfile = open(filename.replace('.md', '.txt'), 'w')
+   ```
+   This can be better for more complex batch processing where we might want to make sure that the output derived from each input file is kept separate from other outputs.  However, this approach can be dangerous - if you make a mistake specifying the output file path, then you may end up overwriting the input files!  
+
+
+# Batch processing with Python - `glob`
+
+
 
 
