@@ -412,4 +412,7 @@ subprocess.CalledProcessError: Command '['ls', '-l', '*.py']' returned non-zero 
 ```
 What's going on?  Python is not passing this command through a shell interpreter that would handle the UNIX wildcard, so the string `*.py` is being taken literally - the `ls` program is looking for a file with a name that starts with an asterisk.  Why is this happening?  There is a security risk in running commands through a shell interpreter from Python that is called an [injection attack](https://en.wikipedia.org/wiki/Code_injection#Shell_injection).  Much of the risk from shell injection can be avoided by not running `subprocess` commands through the shell.  Furthermore, this security risk is the reason that commands are passed as lists instead of a single string, *i.e.*, `['ls', '-l']` instead of `ls -l`.
 
+![](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)
+
+
 
