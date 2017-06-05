@@ -414,5 +414,26 @@ What's going on?  Python is not passing this command through a shell interpreter
 
 ![](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)
 
+In sum, we can use the `subprocess` module to call external programs such as `MUSCLE` or `bowtie2` and capture the output as a Python object.  The functions `check_call` and `check_output` are convenient methods for handling return codes and the content of the stdout stream.  However, if the output is massive then it helps to break the stream down to individual lines instead of loading the entire contents into memory, much the way we would handle a large file.  We can do this with a lower level function of `subprocess` called `Popen`.  For example, here is a Python script that will call `bowtie2` on a FASTQ file and process the output stream:
+```python
+import subprocess
+import sys
 
+path = sys.argv[1]  # path to unpaired FASTQ file
+refpath = 'chr7'
+outfile = path.replace('.fastq', '.sam')
+handle = open(outfile, 'w')
+
+p = subprocess.Popen(['bowtie2', '--quiet', '-x', refpath, '-U', path, '-S', '--local'], stdout=subprocess.PIPE)
+for line in p.stdout:
+    _, _, rname, _, mapq = line.split('\t')[:5]
+    if line.startswith('@'):
+        outfile.write(line)  # carry over header line
+        continue
+    if rname == 'chr7' and int(mapq) > 30:
+        # only keep reads that mapped to chr7 with high quality
+        outfile.write(line)
+
+handle.close()
+```
 
