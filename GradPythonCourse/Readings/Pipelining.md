@@ -426,6 +426,7 @@ handle = open(outfile, 'w')
 
 p = subprocess.Popen(['bowtie2', '--quiet', '-x', refpath, '-U', path, '-S', '--local'], stdout=subprocess.PIPE)
 for line in p.stdout:
+    # parse a single line from the stream
     _, _, rname, _, mapq = line.split('\t')[:5]
     if line.startswith('@'):
         outfile.write(line)  # carry over header line
@@ -436,4 +437,17 @@ for line in p.stdout:
 
 handle.close()
 ```
+This type of script is sometimes called a "wrapper script", because it is wrapping around another program, which provides an opportunity to sanitize and regularize the inputs, and to parse the outputs "online" (as the other program generates the output).  
+
+
+## Using multiple cores
+
+Most computers today have processors with multiple cores - each core is an independent processing unit.  Having multiple cores enables the CPU to handle multiple processes at the same time.  For day-to-day programming, this provides a huge benefit because you can run processes like your web browser or music player in the background while performing other tasks with little to no impact on computing performance.  For bioinformatics, using multiple cores can be extremely useful for large data sets or batch processing many data sets.  This is referred to as [parallel computing](https://en.wikipedia.org/wiki/Parallel_computing).  
+
+However, taking advantage of multiple cores requires the programmer to tell the computer how different tasks are supposed to be distributed across the cores.  There are a few ways of doing this.  I tend to use the [message passing interface](https://en.wikipedia.org/wiki/Message_Passing_Interface) (MPI) protocol for parallel computing, but this would probably require you to install an implementation of MPI such as [OpenMPI](https://www.open-mpi.org/) or [MPICH](https://www.mpich.org/), as well as the excellent [mpi4py](http://pythonhosted.org/mpi4py/) module.  Instead, we'll talk about Python's [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html) module, which is included in the base distribution of Python.
+
+Running multiple processes concurrently creates a host of potential problems.  Which tasks go to which processes, and what are they going to do when they've completed their respective tasks?  Who gets access to specific objects?  What happens when two processes want to write to the same file on the hard drive?  Since we can easily get beyond the scope of this class with these problems, we're going to focus on the simplest task of farming out a set of *N* tasks to *M* processes.  We'll assume that the processes don't have to communicate with other processes once they've been given their list of tasks.
+
+The `multiprocessing` module takes care of many of these issues.  The most common methods in parallel computing are implemented as module functions, such as 
+
 
