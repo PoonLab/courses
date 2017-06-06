@@ -1,8 +1,10 @@
 import re
 import sys
 
+# regular expression to parse the date entry
 mdy = re.compile('(\d{2})-(\d{2})-(\d{4})')
 
+# dictionary to convert event codes
 codes = {
     '33': "Regular insulin dose", 
     '34': "NPH insulin dose", 
@@ -31,7 +33,7 @@ def standardize_date(dt):
     matches = mdy.findall(dt)
     if not matches:
         print ("ERROR: Failed to parse date {}".format(dt))
-        sys.exit()
+        return dt  # missing date
     month, day, year = matches[0]
     isodate = '{}-{}-{}'.format(year, month, day)
     return isodate
@@ -41,7 +43,7 @@ def translate_code(code):
     desc = codes.get(code, None)
     if not desc:
         print ("ERROR: Encountered unknown code {}".format(code))
-        sys.exit()
+        desc = ''  # blank for missing description
     return desc
 
 def main(tsv):
@@ -50,7 +52,12 @@ def main(tsv):
     outfile = open(tsv+'.csv', 'w')
     
     for line in handle:
-        date, time, code, value = line.strip('\n').split('\t')
+        try:
+            date, time, code, value = line.strip('\n').split('\t')
+        except:
+            print (tsv)
+            print (line)
+            raise  # original behaviour (raises error)
         isodate = standardize_date(date)
         desc = translate_code(code)
         outfile.write(','.join([isodate, time, desc, value]) + '\n')
