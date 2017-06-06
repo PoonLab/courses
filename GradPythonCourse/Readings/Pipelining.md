@@ -424,16 +424,16 @@ refpath = 'chr7'
 outfile = path.replace('.fastq', '.sam')
 handle = open(outfile, 'w')
 
-p = subprocess.Popen(['bowtie2', '--quiet', '-x', refpath, '-U', path, '-S', '--local'], stdout=subprocess.PIPE)
+p = subprocess.Popen(['bowtie2', '--quiet', '-x', refpath, '-U', path, '--local'], stdout=subprocess.PIPE)
 for line in p.stdout:
-    # parse a single line from the stream
-    _, _, rname, _, mapq = line.split('\t')[:5]
     if line.startswith('@'):
-        outfile.write(line)  # carry over header line
+        handle.write(line)  # carry over header line
         continue
-    if rname == 'chr7' and int(mapq) > 30:
-        # only keep reads that mapped to chr7 with high quality
-        outfile.write(line)
+
+    _, _, rname, _, mapq = line.split('\t')[:5]
+    if rname == 'chr7' and int(mapq) > 10:
+        # only keep reads that mapped to chr7 with decent quality
+        handle.write(line)
 
 handle.close()
 ```
@@ -446,8 +446,63 @@ Most computers today have processors with multiple cores - each core is an indep
 
 However, taking advantage of multiple cores requires the programmer to tell the computer how different tasks are supposed to be distributed across the cores.  There are a few ways of doing this.  I tend to use the [message passing interface](https://en.wikipedia.org/wiki/Message_Passing_Interface) (MPI) protocol for parallel computing, but this would probably require you to install an implementation of MPI such as [OpenMPI](https://www.open-mpi.org/) or [MPICH](https://www.mpich.org/), as well as the excellent [mpi4py](http://pythonhosted.org/mpi4py/) module.  Instead, we'll talk about Python's [`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html) module, which is included in the base distribution of Python.
 
-Running multiple processes concurrently creates a host of potential problems.  Which tasks go to which processes, and what are they going to do when they've completed their respective tasks?  Who gets access to specific objects?  What happens when two processes want to write to the same file on the hard drive?  Since we can easily get beyond the scope of this class with these problems, we're going to focus on the simplest task of farming out a set of *N* tasks to *M* processes.  We'll assume that the processes don't have to communicate with other processes once they've been given their list of tasks.
+Running multiple processes concurrently creates a host of potential problems.  Which tasks go to which processes, and what are they going to do when they've completed their respective tasks?  Who gets access to specific objects?  What happens when two processes want to write to the same file on the hard drive?  Since we can easily get beyond the scope of this class with these problems, we're going to focus on the simplest task of farming out a set of *N* tasks to *M* processes.  We'll assume that the processes don't have to communicate with other processes once they've been given their list of tasks.  The `multiprocessing` module takes care of many of these issues.
 
-The `multiprocessing` module takes care of many of these issues.  The most common methods in parallel computing are implemented as module functions, such as 
+### Pool
 
+The `Pool` object from the `multiprocessing` module creates a pool of worker processes that partition a set of tasks for parallel computing.  Here is a simple example:
+```python
+from multiprocessing import Pool, TimeoutError
+from time import time
+import os
+
+def chaos(x, depth=1000000):
+  for i in range(depth):
+    x = 3.71 * x*(1-x)
+  return x
+
+if __name__ == '__main__':
+    # solve with single process
+    t0 = time()
+    for i in range(1, 10):
+        print(chaos(0.1*i))
+    t1 = time()
+    print ("single process consumed {} seconds".format(t1-t0))
+
+    # start 4 worker processes
+    with Pool(processes=4) as pool:
+        t0 = time()
+        print(pool.map(chaos, [0.1*x for x in range(1,10)]))
+        print ("multiprocess consumed {} seconds".format(time()-t0))
+```
+Here is the output of this script:
+```
+0.7114574649127849
+0.8279692074428943
+0.709192872087976
+0.4926733572846207
+0.8725565654535977
+0.8154038994007364
+0.7235149052994692
+0.8279692074428943
+0.5925503469981489
+single process consumed 1.204334020614624 seconds
+[0.7114574649127849, 0.8279692074428943, 0.709192872087976, 0.4926733572846207, 0.8725565654535977, 0.8154038994007364, 0.7235149052994692, 0.8279692074428943, 0.5925503469981489]
+multiprocess consumed 0.40645694732666016 seconds
+```
+The multiprocess version is about three times faster.  This might not seem like a big deal, but for a month-long analysis this means that you can get your results in about a week.  If you're running high-performance hardware, then your computer may boast upwards of 10 cores each capable of running two threads each -- this can translate into a 20-fold speed gain!
+
+The `chaos` function is making use of the chaotic behaviour of the [logistic formula](https://en.wikipedia.org/wiki/Logistic_map#Chaos_and_the_logistic_map) to provide a simple but time-consuming numerical problem that does not converge towards an answer.  
+
+In order to understand what's going on in the rest of this script, we have to explain this line:
+```python
+if __name__ == '__main__':
+```
+This tells Python what to run if the script is being called from the command line.  Why is this necessary?  When Python sends jobs to the worker processes, they each run the script.  If we don't block off the lower portion of the script spawning a pool of worker processes, then our script could cascade into an infinite number of processes!  Hence, we need to protect this block of code from being executed by the worker processes.
+
+What about this line?
+```python
+pool.map(chaos, [0.1*x for x in range(1,10)])
+```
+Here, `pool` is a `Pool` object from the `multiprocessing` module.  `map` is one of its functions that applies the first argument, which should be a function, to every item in the second argument, which should be an iterable object.  In our example, the iterable is `range(1,10)` that is simply the integers from `1` to `9`.  I'm using a list comprehension to convert these integers to the floats `0.1` through `0.9`.  This gives me a range of points along the interval `(0,1)` where my logistic function is defined.  
 
