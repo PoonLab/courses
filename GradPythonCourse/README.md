@@ -77,7 +77,7 @@
    * Calling other programs - subprocessing
    * Harnessing multiple cores with MPI
    * **Readings:** [Pipelining](Readings/Pipelining.md)
-   * **Assignment:** [pending](Assignments/Assignment4.md)
+   * **Assignment:** [Batching SAM files](Assignments/Assignment4.md)
 
 7. Scraping
    * Pulling data from websites
