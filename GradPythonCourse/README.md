@@ -74,8 +74,10 @@
 6. Batch processing
    * Calling one script on many files with `bash`
    * Calling many scripts - pipelining
-   * Calling other programs - subprocessing
-   * Harnessing multiple cores with MPI
+   * Calling other programs with `subprocess`
+   * Harnessing multiple cores with `multiprocessing`
+   * **Readings:** [Pipelining](Readings/Pipelining.md)
+   * **Assignment:** [Batching SAM files](Assignments/Assignment4.md)
 
 7. Scraping
    * Pulling data from websites
