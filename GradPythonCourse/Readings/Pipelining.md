@@ -506,3 +506,4 @@ pool.map(chaos, [0.1*x for x in range(1,10)])
 ```
 Here, `pool` is a `Pool` object from the `multiprocessing` module.  `map` is one of its functions that applies the first argument, which should be a function, to every item in the second argument, which should be an iterable object.  In our example, the iterable is `range(1,10)` that is simply the integers from `1` to `9`.  I'm using a list comprehension to convert these integers to the floats `0.1` through `0.9`.  This gives me a range of points along the interval `(0,1)` where my logistic function is defined.  
 
+![](https://imgs.xkcd.com/comics/here_to_help.png)
