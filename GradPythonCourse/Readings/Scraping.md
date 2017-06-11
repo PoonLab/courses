@@ -12,6 +12,8 @@ It is common for users to painstakingly copy-and-paste information from a webpag
 
 Before we get into some of the techniques of web scraping, we should recognize that this is generally not a nice thing to do to a website, especially if we get it wrong.  Remember, computers are both extremely fast and extremely stupid.  If you tell your computer to go to a webpage, grab all its contents, follow a link to the next page and repeat, then the computer will do exactly that *very, very fast*.  This is essentially the same as launching a [denial of service attack](https://en.wikipedia.org/wiki/Denial-of-service_attack) on the remote server - you're sending multiple (potentially hundreds) of page requests to the server in the span of milliseconds.  
 
+![](https://imgs.xkcd.com/comics/reassuring.png)
+
 There are some "best practices" recommendations that have emerged in the developer community around the etiquette of web scraping.  For example, some recommend checking the website's `robots.txt` file, more formally known as the [robots exclusion protocol](https://en.wikipedia.org/wiki/Robots_exclusion_standard), which contains a set of instructions for automated web crawlers that index web sites for search engines such as Google.  You can read more about such recommendations in this [StackOverflow thread](https://stackoverflow.com/questions/2022030/web-scraping-etiquette).
 
 In my opinion, one thing that you should *absolutely* make sure is part of your scraping script is to build in some sort of time delay between requests.  This will help prevent your computer from firehoseing requests at the remote server.  You should also be careful when implementing and testing your script to make sure that it is working correctly before letting it loose in the wild.  If you *don't* take such steps, then you risk having your IP address blocked by the web server (or even worse, an entire IP address range that may affect your entire university!).  
@@ -27,6 +29,9 @@ You should also check whether the website has a [web API](https://en.wikipedia.o
 
 ## Web browsing with Python
 
-In order to scrape web content, we first need to get Python to browse the web.  
+In order to scrape web content, we first need to get Python to browse the web.  I prefer using the Python module [`mechanize`](https://pypi.python.org/pypi/mechanize/), but it is not included in the standard distribution of Python - rather than asking you to download and compile this third-party module or to use one of the Python module installers such as `pip` or `easy_install`, 
+```python
 
+```
 
+![](https://imgs.xkcd.com/comics/a_new_captcha_approach.png)
