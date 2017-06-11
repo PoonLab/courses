@@ -95,3 +95,29 @@ If you *don't* want to use a package manager on OS-X. then you may have to compi
 
 ## Parsing HTML with BeautifulSoup
 
+Let's get back to business.  So far, we've loaded the university homepage in Python:
+```python
+>>> from urllib import request
+>>> response = request.urlopen('http://uwo.ca')
+>>> src = response.read()
+```
+Now let's bring in bs4.  
+```python
+>>> from bs4 import BeautifulSoup
+>>> soup = BeautifulSoup(src)
+/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I'm using the best available HTML parser for this system ("html.parser"). This usually isn't a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
+
+The code that caused this warning is on line 1 of the file <stdin>. To get rid of this warning, change code that looks like this:
+
+ BeautifulSoup(YOUR_MARKUP})
+
+to this:
+
+ BeautifulSoup(YOUR_MARKUP, "html.parser")
+
+  markup_type=markup_type))
+```
+We got a slap on the wrist!  
+
+
+
