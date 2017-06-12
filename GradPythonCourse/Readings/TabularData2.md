@@ -1,6 +1,4 @@
-# Tabular Data 2
-
-* preceded by [Tabular Data 1](https://github.com/PoonLab/courses/blob/master/GradPythonCourse/TabularData.md)
+# Tabular Data 2 - Lists and Control flow
 
 ## Outline
 * A second example data set 
