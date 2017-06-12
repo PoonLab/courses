@@ -117,23 +117,26 @@ Let's get back to business.  So far, we've learned about loading a web page in P
 >>> response = request.urlopen('http://www.phac-aspc.gc.ca/publicat/lcd-pcd97/table1-eng.php')
 >>> src = response.read()
 ```
-
-
-
-Now let's bring in bs4.  
+If I copy-and-paste the contents of the table into a plain-text editor, the result is not very useful; here is an excerpt:
+```
+1st	Perinatal
+1,092
+(292.7)	Unintentional injuries
+55
+(3.8) Table 1 Footnote •	Unintentional injuries
+70
+(3.9) Table 1 Footnote •	Unintentional injuries
+```
+You can actually get a bit further by pasting this particular table into Excel, but there are embedded hyperlinks that causes problems and this is a course on bioinformatics, so we're going to learn how to do this for real.  Let's bring in bs4.  
 ```python
 >>> from bs4 import BeautifulSoup
 >>> soup = BeautifulSoup(src)
 /opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/bs4/__init__.py:181: UserWarning: No parser was explicitly specified, so I'm using the best available HTML parser for this system ("html.parser"). This usually isn't a problem, but if you run this code on another system, or in a different virtual environment, it may use a different parser and behave differently.
 
 The code that caused this warning is on line 1 of the file <stdin>. To get rid of this warning, change code that looks like this:
-
  BeautifulSoup(YOUR_MARKUP})
-
 to this:
-
  BeautifulSoup(YOUR_MARKUP, "html.parser")
-
   markup_type=markup_type))
 ```
 We got a slap on the wrist!  What happened?  Actually, this wasn't an error, it was a warning.  BeautifulSoup is able to use one of several approaches to convert HTML code into more convenient objects in Python.  
@@ -145,6 +148,14 @@ So what did we just assign to our `soup` variable?
 ```
 Well, it's an instance of a module-specific class that does a *lot* of things.  We don't have the time to work through all of these, so let's focus on just a few functions of this class.  
 
+If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  An HTML tag is written by enclosing some string with angle brackets.  For example, `<b>` is a start tag for a bold text element.  
+
+:
+```python
+>>> tables = soup.findAll('table')
+>>> len(tables)  # BS found exactly one table in the HTML source
+1
+```
 
 
  [The Allele Frequency Net Database](allelefrequencies.net) is an online database of genetic variants in the human genome at loci associated with the adaptive immune response.  Let's load the database query form for HLA allele variation:
