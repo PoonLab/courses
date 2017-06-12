@@ -161,6 +161,8 @@ If you type `soup` by itself, then Python will display the entire HTML source on
 ```
 Of course, `<puppies>` is not a recognized HTML tag (and sadly will likely never be).
 
+
+### Tables *again*?
 Now we need to parse the contents of this table.  Parsing a `bs4` table is much like [parsing a tabular data set](TabularData.md) from text, but some of the work has already been done for us -- each row is enclosed in table row tags `<tr>` and each element within a row is enclosed in table data tags `<td>`.  For example, here is a very small table in HTML:
 ```html
 <table>
@@ -209,6 +211,8 @@ for result in soup2table(tables[0]):
         continue  # go to next row
 ```
 
+
+### Text processing
 Now we can start dealing with the text within each `td` element.  I can see that there are generally two Windows-style line breaks and extraneous whitespace within most elements separating useful items:
 ```python
 'Perinatal\r\n        1,092\r\n        (292.7)'
