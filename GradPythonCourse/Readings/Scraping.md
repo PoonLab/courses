@@ -115,19 +115,27 @@ In order to use Python to scrape web content, you're going to need at least a ba
 ```html
 <b>This will rendered in bold typeface.</b>
 ```
-Here, `<b>` is the start tag and `</b>` is the end tag for an HTML bold element.  If you're reading this in a web browser, then you'll see the result of rendering this HTML here:
-<b>This will rendered in bold typeface.</b>
+Here, `<b>` is the opening tag and `</b>` is the closing tag for an HTML bold element.  If you're reading this in a web browser, then you'll see the result of rendering this HTML here:
+<b>This content will rendered in bold typeface.</b>
 
-In order to get correctly rendered by a web browser, an HTML document needs to conform to a [specification](https://www.w3.org/TR/html5/).  In very broad terms, an HTML document should have the following high-level structure:
+In order to get correctly rendered by a web browser, an HTML document needs to conform to a [specification](https://developer.mozilla.org/en/docs/Web/HTML/Element).  In very broad terms, an HTML document should have the following high-level structure:
 ```html
 <html>
  <head>
+   <!-- contains general information about the document -->
+   <meta charset="utf-8">
+   <title>This content is displayed at the top of the window or tab.</title>
  </head>
  <body>
+   <!-- generally the content of the page that is displayed -->
+   <p>This content is rendered as a paragraph.</p>
  </body>
 </html>
 ```
+Note that the start and end tags `<!--` and `-->` enclose are used to enclose hidden content (comments) in HTML.  They won't get displayed when the HTML source is rendered by a web browser.
 
+Nowadays, HTML source is seldom written by hand.  For instance, there are several "what you see is what you get" ([WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG)) word processors and graphics editors that will automatically convert a document into HTML source.  
+This is why packages like BeautifulSoup have become necessary.
 
 ## Parsing HTML with BeautifulSoup
 
