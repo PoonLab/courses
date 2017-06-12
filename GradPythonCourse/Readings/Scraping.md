@@ -95,10 +95,11 @@ If you *don't* want to use a package manager on OS-X. then you may have to compi
 
 ## Parsing HTML with BeautifulSoup
 
-Let's get back to business.  So far, we've loaded the university homepage in Python:
+Let's get back to business.  So far, we've learned about loading a web page in Python.  Instead of mucking about with the university homepage, let's try to work with something useful. 
 ```python
 >>> from urllib import request
->>> response = request.urlopen('http://uwo.ca')
+>>> response = request.urlopen('https://www.qmpontario.ca/ext/databook/db1718/Databook.htm#IV-Cancer_Pathology_Data/Pathology_Report.htm')
+>>> response = request.urlopen('http://allelefrequencies.net/hla6006a.asp')
 >>> src = response.read()
 ```
 Now let's bring in bs4.  
@@ -117,7 +118,17 @@ to this:
 
   markup_type=markup_type))
 ```
-We got a slap on the wrist!  
+We got a slap on the wrist!  What happened?  Actually, this wasn't an error, it was a warning.  BeautifulSoup is able to use one of several approaches to convert HTML code into more convenient objects in Python.  
+
+So what did we just assign to our `soup` variable?
+```python
+>>> type(soup)
+<class 'bs4.BeautifulSoup'>
+```
+Well, it's an instance of a module-specific class that does a *lot* of things.  We don't have the time to work through all of these, so let's focus on just a few functions of this class.  
 
 
 
+ [The Allele Frequency Net Database](allelefrequencies.net) is an online database of genetic variants in the human genome at loci associated with the adaptive immune response.  Let's load the database query form for HLA allele variation:
+ 
+ 
