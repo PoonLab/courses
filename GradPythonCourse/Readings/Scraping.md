@@ -109,6 +109,26 @@ sudo pip3 install html5lib==0.9999999
 ```
 
 
+## Understanding HTML
+
+In order to use Python to scrape web content, you're going to need at least a basic understanding of HTML.  [HTML](https://en.wikipedia.org/wiki/HTML) stands for hypertext markup language.  Yes, it's a markup language like [Markdown](https://en.wikipedia.org/wiki/Markdown), but a lot more complex and a lot older!  Like Markdown, HTML uses special characters to express context for what would otherwise be plain text.  HTML accomplishes this with *tags*.  A tag is a string enclosed in angle brackets, like this:
+```html
+<b>This will rendered in bold typeface.</b>
+```
+Here, `<b>` is the start tag and `</b>` is the end tag for an HTML bold element.  If you're reading this in a web browser, then you'll see the result of rendering this HTML here:
+<b>This will rendered in bold typeface.</b>
+
+In order to get correctly rendered by a web browser, an HTML document needs to conform to a [specification](https://www.w3.org/TR/html5/).  In very broad terms, an HTML document should have the following high-level structure:
+```html
+<html>
+ <head>
+ </head>
+ <body>
+ </body>
+</html>
+```
+
+
 ## Parsing HTML with BeautifulSoup
 
 Let's get back to business.  So far, we've learned about loading a web page in Python.  Instead of mucking about with the university homepage, let's try to work with something a bit more useful.  Here is a website from the Public Health Agency of Canada that reports the leading causes of death in 2008:
@@ -148,7 +168,7 @@ So what did we just assign to our `soup` variable?
 ```
 Well, it's an instance of a module-specific class that does a *lot* of things.  We don't have the time to work through all of these, so let's focus on just a few functions of this class.  
 
-If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  (From now on, let's refer to BeautifulSoup as `bs4` for short.)  An HTML tag is written by enclosing some string with angle brackets.  For example, `<b>` is a start tag for a bold text element - any text between this start tag and the next end tag `</b>` will be rendered in **bold**.  We want to look for `<table>` tags:
+If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  (From now on, let's refer to BeautifulSoup as `bs4` for short.)  We want to look for `<table>` tags:
 ```python
 >>> tables = soup.findAll('table')
 >>> len(tables)  # BS found exactly one table in the HTML source
