@@ -93,15 +93,33 @@ If you *don't* want to use a package manager on OS-X. then you may have to compi
 [Elzar:~/src/beautifulsoup4-4.6.0] artpoon% sudo python setup.py install
 ```
 
+### Caveat: Problems with installing BeautifulSoup with `apt` on Ubuntu
+
+When I attempted to install BeautifulSoup using the Ubuntu package manager `apt`, it appeared to be successful; however, firing up an interactive session of Python and loading this module proved otherwise:
+```python
+>>> import bs4
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  ...
+AttributeError: module 'html5lib.treebuilders' has no attribute '_base'
+```
+This is a [known issue](https://bugs.launchpad.net/beautifulsoup/+bug/1603299) that is apparently caused by a change in newer versions of the module `html5lib` that is a requirement for running BeautifulSoup.  The workaround is to install an older version of `html5lib`:
+```shell
+sudo pip3 install html5lib==0.9999999
+```
+
+
 ## Parsing HTML with BeautifulSoup
 
-Let's get back to business.  So far, we've learned about loading a web page in Python.  Instead of mucking about with the university homepage, let's try to work with something useful. 
+Let's get back to business.  So far, we've learned about loading a web page in Python.  Instead of mucking about with the university homepage, let's try to work with something a bit more useful.  Here is a website from the Public Health Agency of Canada that reports the leading causes of death in 2008:
 ```python
 >>> from urllib import request
->>> response = request.urlopen('https://www.qmpontario.ca/ext/databook/db1718/Databook.htm#IV-Cancer_Pathology_Data/Pathology_Report.htm')
->>> response = request.urlopen('http://allelefrequencies.net/hla6006a.asp')
+>>> response = request.urlopen('http://www.phac-aspc.gc.ca/publicat/lcd-pcd97/table1-eng.php')
 >>> src = response.read()
 ```
+
+
+
 Now let's bring in bs4.  
 ```python
 >>> from bs4 import BeautifulSoup
@@ -130,5 +148,4 @@ Well, it's an instance of a module-specific class that does a *lot* of things.  
 
 
  [The Allele Frequency Net Database](allelefrequencies.net) is an online database of genetic variants in the human genome at loci associated with the adaptive immune response.  Let's load the database query form for HLA allele variation:
- 
- 
+ >>> response = request.urlopen('http://allelefrequencies.net/hla6006a.asp')
