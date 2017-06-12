@@ -4,7 +4,7 @@
 
 [Scraping](https://en.wikipedia.org/wiki/Data_scraping) is a technique that enables a computer to extract information from a source that is not meant to be readily processed by a computer, such as a scanned image.  You can think of scraping as parsing on steroids.  Up till now, we've talked a lot of about parsing as a fundamental tool in bioinformatics, where we read data from a file that is in a standard format.  We can even use regular expressions to repair broken formats.  However, if there is *no* standard format, then things get more challenging!  [Web scraping](https://en.wikipedia.org/wiki/Web_scraping) is used to describe the scenario where scraping is applied to web content.  This is typically an HTML page that has been transmitted from the server to your web browser, which "knows" how to interpret that HTML to render the page contents on your screen.  
 
-There are now a *lot* of data resources online for biological and biomedical research.  [Genbank] is one of the oldest such resources and has been open access for decades, with a sophisticated interface and the ability to download massive data sets.  However, not all online resources are as accessible, either because they do not have the assets (*e.g.*, webservers, bandwidth) to handle large data transactions - this takes a lot of money! - or because they have some reason for limiting access to data.  These limits can be imposed by paginating the results from a database query (in other words, displaying a large number of results one page at a time, requiring you to follow links through successive pages).  The user is not able to download the results into a local file.  In other cases, access to the database is limited to users with an account on the server, which may have to be arranged with the database curators.  
+There are now a *lot* of data resources online for biological and biomedical research.  [Genbank](https://www.ncbi.nlm.nih.gov/genbank/) is one of the oldest such resources and has been open access for decades, with a sophisticated interface and the ability to download massive data sets.  However, not all online resources are as accessible, either because they do not have the assets (*e.g.*, webservers, bandwidth) to handle large data transactions - this takes a lot of money! - or because they have some reason for limiting access to data.  These limits can be imposed by paginating the results from a database query (in other words, displaying a large number of results one page at a time, requiring you to follow links through successive pages).  The user is not able to download the results into a local file.  In other cases, access to the database is limited to users with an account on the server, which may have to be arranged with the database curators.  
 
 It is common for users to painstakingly copy-and-paste information from a webpage into a text editor or word processor.  This can be extremely time-consuming!  In some situations, web scraping offers a way to circumvent the limitations set by the database website and automatically extract the entire contents of a database query with a scripting language like Python.  
 
@@ -238,12 +238,67 @@ pat = re.compile("^([A-Za-z,\s.]+)([0-9]+)\s+\(([0-9]+\.[0-9]+)\)$")
 ```
 This is a beastly regex!  With this expression, I am attempting to capture three groups, where the first group contains all alphabet and whitespace characters at the start of the string, the second group contains some integer, and the third group is a floating point number enclosed in round brackets.  
 
-Now our script looks like this:
+My complete scraping script looks like this:
+```python
+from urllib import request
+from bs4 import BeautifulSoup
+import re
+
+def soup2table(element):
+    """ A simple function for extracting text from an HTML table in BeautifulSoup """
+    for row in element.findAll('tr'):
+        data = row.findAll('td')
+        yield ([datum.text for datum in data])  # use list comprehension
+        
+
+# regex to extract content from <td> elements
+pat = re.compile("^([A-Za-z,\s.\&]+)([0-9,]+)\s+\(([0-9,]+\.[0-9]+)\)")
+pat2 = re.compile("^([A-Za-z,\s.\&]+)Table")
+
+def get_data(txt):
+    """ Extract items from the text field of a <td> element """
+    # replace non-breaking space with a regular one
+    txt = txt.replace(u'\xa0', ' ')
+    
+    # apply regex
+    matches = pat.findall(txt)
+    if not matches:
+        # some entries contain a footnote instead of count/rate data
+        match2 = pat2.findall(txt)
+        if not match2:
+            return None, None, None
+        return match2[0], None, None
+        
+    cause, count, rate = matches[0]
+    
+    cause = re.sub("\s+", ' ', cause)  # remove extra whitespace
+    count = int(count.replace(',', ''))  # convert 1,000 to 1000
+    rate = float(rate.replace(',', ''))
+    
+    return cause, count, rate
 
 
- [The Allele Frequency Net Database](allelefrequencies.net) is an online database of genetic variants in the human genome at loci associated with the adaptive immune response.  Let's load the database query form for HLA allele variation:
- >>> response = request.urlopen('http://allelefrequencies.net/hla6006a.asp')
+response = request.urlopen('http://www.phac-aspc.gc.ca/publicat/lcd-pcd97/table1-eng.php')
+src = response.read()
+soup = BeautifulSoup(src, 'html.parser')
 
+tables = soup.findAll('table')
+
+# store the results as a list
+results = []
+
+for row in soup2table(tables[0]):
+    if len(row) < 13:
+        continue  # go to next row
+        
+    rank = row[0]  # e.g., "1st"
+    result = [get_data(txt) for txt in row[1:]]
+    results.append(result)
+        
+print (results)
+```
+
+My `get_data` function is using a combination of [regular expressions](RegularExpressions.md) and string operations to extract the cause of death, count and rate from each text field.  Once I have my functions defined, the rest of the script handles the URL transaction with `request`, parsing the HTML with `BeautifulSoup`, and then applying the functions to the result.  To save you some typing, I've uploaded this script to this repo as `scraper.py`.
 
 
 
