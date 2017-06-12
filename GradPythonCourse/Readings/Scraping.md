@@ -148,7 +148,7 @@ So what did we just assign to our `soup` variable?
 ```
 Well, it's an instance of a module-specific class that does a *lot* of things.  We don't have the time to work through all of these, so let's focus on just a few functions of this class.  
 
-If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  An HTML tag is written by enclosing some string with angle brackets.  For example, `<b>` is a start tag for a bold text element - any text between this start tag and the next end tag `</b>` will be rendered in **bold**.  We want to look for `<table>` tags:
+If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  (From now on, let's refer to BeautifulSoup as `bs4` for short.)  An HTML tag is written by enclosing some string with angle brackets.  For example, `<b>` is a start tag for a bold text element - any text between this start tag and the next end tag `</b>` will be rendered in **bold**.  We want to look for `<table>` tags:
 ```python
 >>> tables = soup.findAll('table')
 >>> len(tables)  # BS found exactly one table in the HTML source
@@ -161,7 +161,7 @@ If you type `soup` by itself, then Python will display the entire HTML source on
 ```
 Of course, `<puppies>` is not a recognized HTML tag (and sadly will likely never be).
 
-Now we need to parse the contents of this table.  Parsing a BeautifulSoup table is much like [parsing a tabular data set](TabularData.md) from text, but some of the work has already been done for us -- each row is enclosed in table row tags `<tr>` and each element within a row is enclosed in table data tags `<td>`.  For example, here is a very small table in HTML:
+Now we need to parse the contents of this table.  Parsing a `bs4` table is much like [parsing a tabular data set](TabularData.md) from text, but some of the work has already been done for us -- each row is enclosed in table row tags `<tr>` and each element within a row is enclosed in table data tags `<td>`.  For example, here is a very small table in HTML:
 ```html
 <table>
   <tr>
@@ -183,7 +183,7 @@ and here is what the table looks like rendered in a web browser:
 <table><tr><td>Breakfast</td><td>A waffle and sausages</td></tr><tr><td>Lunch</td><td>Watermelon and ice coffee</td></tr><tr><td>Dinner</td><td>Lamb skewers</td></tr></table>
 (Assuming you're actually viewing this in a web browser.  Just in case you aren't, I've removed the line breaks to minimize annoyance.)
 
-Let's write a function in Python that will extract the text from a table encoded by a BeautifulSoup object:
+Let's write a function in Python that will extract the text from a table encoded by a `bs4` object:
 ```python
 def soup2table(element):
     """ A simple function for extracting text from an HTML table in BeautifulSoup """
@@ -191,9 +191,59 @@ def soup2table(element):
         data = row.findAll('td')
         yield ([datum.text for datum in data])  # use list comprehension
 ```
-What's going on here?  First, I am iterating over every table row (`tr`) element in the table by using `findAll` to generate an iterable list of rows.  Next, I'm using the same function to generate a list of table data (`td`) elements in a given row.  Finally, I am using Python list comprehension to 
+What's going on here?  First, I am iterating over every table row (`tr`) element in the table by using `findAll` to generate an iterable list of rows.  Next, I'm using the same function to generate a list of table data (`td`) elements in a given row.  Finally, I am accessing the `text` attribute of each `td` element in the list that I assigned to `data`, and  using Python list comprehension to assign the results into a new list.  As a result, this `soup2table` is a generating function that should return each row in the table without storing the entire content of the table in memory.
 
+Let's look at the first few rows:
+```python
+>>> for result in soup2table(tables[0]):
+...   print(result)
+... 
+[]
+['Table 1 Footnotes\n\nFootnote *\n\nSuppressed due to small number of cases or value of zero.\n\nFootnote •\n\nUnintentional injuries\n\nFootnote †\n\nSuicide\n\nFootnote ‡\n\nHomicide\n\n\nSource: Injury Section analysis of mortality data from Statistics Canada.']
+['1st', 'Perinatal\r\n        1,092\r\n        (292.7)', 'Unintentional injuries\r\n        55\r\n        (3.8) Table 1 Footnote •', 'Unintentional injuries\r\n        70\r\n        (3.9) Table 1 Footnote •', 'Unintentional injuries\r\n        80\r\n        (4.0) Table 1 Footnote •', 'Unintentional injuries\r\n        397\r\n        (17.6) Table 1 Footnote •', 'Unintentional injuries\r\n        513\r\n        (22.4) Table 1 Footnote •', 'Unintentional injuries\r\n        791\r\n        (17.6) Table 1 Footnote •', 'Cancer\r\n        1,370\r\n        (28.1)', 'Cancer\r\n        5,636\r\n        (106.8)', 'Cancer\r\n        12,244\r\n        (309.2)', 'Circulatory system diseases\r\n        60,280\r\n        (1,322.8)', 'Cancer\r\n        71,948\r\n        (215.9)']
+```
+The first two rows that we've parsed from the `bs4` table object don't conform to the structure of the table, which should have 13 columns.  Let's add an `if` statement to exclude these rows:
+```python
+for result in soup2table(tables[0]):
+    if len(result) < 13:
+        continue  # go to next row
+```
+
+Now we can start dealing with the text within each `td` element.  I can see that there are generally two Windows-style line breaks and extraneous whitespace within most elements separating useful items:
+```python
+'Perinatal\r\n        1,092\r\n        (292.7)'
+```
+Let's break these strings up into three substrings.  From viewing the table online, I know that these items correspond to:
+1. a specific cause of death,
+2. the number of cases in Canada in 2008, and 
+3. the age-specific death rate by that cause per 100,000.  
+However, we need to be careful about how we split these strings up.  We need to split on whitespace, but some entries contain spaces that we need to leave intact; for example:
+```python
+'Circulatory system diseases\r\n        60,280\r\n        (1,322.8)'
+```
+and other entries contain extra items that we want to exclude:
+```python
+'Unintentional injuries\r\n        55\r\n        (3.8) Table 1 Footnote •'
+```
+or non-standard characters, like this entry:
+```python
+'Endocrine,\r\n        nutr.\xa0& metab. diseases\r\n        12\r\n        (0.8)'
+```
+where `\xa0` is a special character encoding that represents a non-breaking space.  
+
+This is getting complicated, so I decide to bring in regular expressions:
+```python
+import re
+pat = re.compile("^([A-Za-z,\s.]+)([0-9]+)\s+\(([0-9]+\.[0-9]+)\)$")
+```
+This is a beastly regex!  With this expression, I am attempting to capture three groups, where the first group contains all alphabet and whitespace characters at the start of the string, the second group contains some integer, and the third group is a floating point number enclosed in round brackets.  
+
+Now our script looks like this:
 
 
  [The Allele Frequency Net Database](allelefrequencies.net) is an online database of genetic variants in the human genome at loci associated with the adaptive immune response.  Let's load the database query form for HLA allele variation:
  >>> response = request.urlopen('http://allelefrequencies.net/hla6006a.asp')
+
+
+
+
