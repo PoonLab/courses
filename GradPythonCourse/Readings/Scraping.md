@@ -148,14 +148,51 @@ So what did we just assign to our `soup` variable?
 ```
 Well, it's an instance of a module-specific class that does a *lot* of things.  We don't have the time to work through all of these, so let's focus on just a few functions of this class.  
 
-If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  An HTML tag is written by enclosing some string with angle brackets.  For example, `<b>` is a start tag for a bold text element.  
-
-:
+If you type `soup` by itself, then Python will display the entire HTML source on the console, but you might as well open the webpage in a browser and view the source there.  What we are looking for is a `<table>` element to extract from this source.  This is a good point to introduce BeautifulSoup's `findAll` function, which searches through the HTML for tags that match a string argument.  An HTML tag is written by enclosing some string with angle brackets.  For example, `<b>` is a start tag for a bold text element - any text between this start tag and the next end tag `</b>` will be rendered in **bold**.  We want to look for `<table>` tags:
 ```python
 >>> tables = soup.findAll('table')
 >>> len(tables)  # BS found exactly one table in the HTML source
 1
 ```
+`findAll` returns a Python list.  If it doesn't find any tag matching our argument, then it returns an empty list:
+```python
+>>> soup.findAll('puppies')
+[]
+```
+Of course, `<puppies>` is not a recognized HTML tag (and sadly will likely never be).
+
+Now we need to parse the contents of this table.  Parsing a BeautifulSoup table is much like [parsing a tabular data set](TabularData.md) from text, but some of the work has already been done for us -- each row is enclosed in table row tags `<tr>` and each element within a row is enclosed in table data tags `<td>`.  For example, here is a very small table in HTML:
+```html
+<table>
+  <tr>
+    <td>Breakfast</td>
+    <td>A waffle and sausages</td>
+  </tr>
+  <tr>
+    <td>Lunch</td>
+    <td>Watermelon and ice coffee</td>
+  </tr>
+  <tr>
+    <td>Dinner</td>
+    <td>Lamb skewers</td>
+  </tr>
+</table>
+<!-- Yeah.  That's what I ate today. -->
+```
+and here is what the table looks like rendered in a web browser:
+<table><tr><td>Breakfast</td><td>A waffle and sausages</td></tr><tr><td>Lunch</td><td>Watermelon and ice coffee</td></tr><tr><td>Dinner</td><td>Lamb skewers</td></tr></table>
+(Assuming you're actually viewing this in a web browser.  Just in case you aren't, I've removed the line breaks to minimize annoyance.)
+
+Let's write a function in Python that will extract the text from a table encoded by a BeautifulSoup object:
+```python
+def soup2table(element):
+    """ A simple function for extracting text from an HTML table in BeautifulSoup """
+    for row in element.findAll('tr'):
+        data = row.findAll('td')
+        yield ([datum.text for datum in data])  # use list comprehension
+```
+What's going on here?  First, I am iterating over every table row (`tr`) element in the table by using `findAll` to generate an iterable list of rows.  Next, I'm using the same function to generate a list of table data (`td`) elements in a given row.  Finally, I am using Python list comprehension to 
+
 
 
  [The Allele Frequency Net Database](allelefrequencies.net) is an online database of genetic variants in the human genome at loci associated with the adaptive immune response.  Let's load the database query form for HLA allele variation:
