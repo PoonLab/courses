@@ -352,10 +352,11 @@ def get_data(txt):
     matches = pat.findall(txt)
     if not matches:
         # some entries contain a footnote instead of count/rate data
-        match2 = pat2.findall(txt)
-        if not match2:
+        matches = pat2.findall(txt)
+        if not matches:
             return None, None, None
-        return match2[0], None, None
+        cause = re.sub("\s+", '', matches[0])
+        return cause, None, None
         
     cause, count, rate = matches[0]
     
@@ -427,18 +428,6 @@ yield ([datum.text for datum in data])
 I'm calling it the inner loop because it is nested within the outer loop.  We have to complete iterating over the inner loop before we can proceed to the next iteration of the outer loop.  Put another way, think of these nested loops as the "hours" and "minutes" hands of a clock.
 
 
-### Web server transactions
-
-```python
-response = request.urlopen('http://www.phac-aspc.gc.ca/publicat/lcd-pcd97/table1-eng.php')
-src = response.read()
-soup = BeautifulSoup(src, 'html.parser')
-```
-`request.urlopen` sends an HTTP request to the webserver at the URL `http://www.phac-aspc.gc.ca`, asking for a PHP document.  PHP is yet *another* scripting language that specializes in dynamically generating HTML source from the content of a database in response to an HTTP request.  
-
-> What do I mean by *dynamic*?  Suppose that we need to make a webpage that displays a list of classes offered by a university department.  I could write an HTML source file including this list.  However, if any of the classes was changed, such as a class that is no longer offered, a new class, or a class with a new course number, then I'd have to go in and manually revise my HTML source file.  No one does it this way anymore - most institutions have a [database](https://en.wikipedia.org/wiki/Database) that tracks information about courses and then use some server-side scripting language like PHP to query the database for the pertinent information whenever someone requests the webpage.  This means that the content of the webpage will change along with the database.  More importantly for developers, it means that we can work with a single centralized database, instead of manually maintaining potentially hundreds of HTML source files.
-
-The HTTP response from the server is captured in a special object defined by the `request` submodule and assigned to the variable `response`.  This object has a number of special functions including `read`, which we use to stream its content as a byte string to a variable we call `src`.  Finally, we construct an instance of the `BeautifulSoup` class using this byte stream as the first argument, and the option `html.parser` as the second argument.  We are expected to set the second argument because there is potentially more than one parser available on your system, and `bs4` doesn't want to have to guess which one you want to use.
 
 
 ### Regular expressions!
@@ -452,7 +441,7 @@ The first group captures all substrings that contain upper- and lowercase letter
 
 The second group captures all integers including commas, which are commonly used as the thousands separator - *e.g.*, `1,789`.  Between the second and third groups, our regex has to accommodate some whitespace - this is accomplished with the pattern `\s+`.  Finally, we know that the third group should be a floating point number enclosed in round parentheses.  We escape the first set of parentheses using the notation `\(` and `\)` and then capture floating point numbers with this pattern: `[0-9,]+\.[0-9]+`, where we are allowing for thousands separators in the integer part of the number.  Since the decimal separator `.` is not contained in a character set, we have to escape it with `\.`.  
 
-## Handling exceptions
+### Exception handling
 
 My regex is far from perfect, partly because these are noisy strings that we scraped from a website and contain non-standard characters.  Fortunately there is only one such character `\xa0` which encodes a non-breaking space.  Instead of attempting to accommodate this character in my regex, I'm just going to delete it from the string:
 ```python
@@ -464,10 +453,11 @@ Note that I've added a `u` prefix to the first argument of my string `replace` f
     matches = pat.findall(txt)
     if not matches:
         # some entries contain a footnote instead of count/rate data
-        match2 = pat2.findall(txt)
-        if not match2:
+        matches = pat2.findall(txt)
+        if not matches:
             return None, None, None
-        return match2[0], None, None
+        cause = re.sub("\s+", '', matches[0])
+        return cause, None, None
 ```
 If my regex fails to match the string contained in the `txt` argument, then `pat.findall` returns an empty list that is assigned to my `matches` variable.  I check if `matches` is an empty list with the condition `not matches`.  An important feature of Python objects is that they can be used directly for logical tests:
 ```python
@@ -489,4 +479,64 @@ False
 True
 ```
 
-If this test returns a `True`, then I use a second regex to attempt to catch 
+If this test returns a `True`, then I know that my first regex failed.  While writing this script, I printed out these exceptions to the console to get an idea of what's going on:
+```python
+if not matches:
+    print (txt)
+```
+This modifications coughs up the following text:
+```
+Perinatal Table 1 Footnote *
+Infectious & parasitic diseases Table 1 Footnote *
+```
+These strings don't contain any count or frequency data, but we still want to capture the "cause of death" value, so I wrote a second regex `"^([A-Za-z,\s.\&]+)Table"` that exploits the appearance of the substring `Table` in both cases to mark the end of the "cause of death" field.
+
+What if this second regex doesn't work?  Then we want to follow up with some default return values, which in this case I set to the `None` object:
+```python
+        matches = pat2.findall(txt)
+        if not matches:
+            return None, None, None
+        cause = re.sub("\s+", '', matches[0])
+        return cause, None, None
+```
+
+
+### String operations
+
+```python
+    cause, count, rate = matches[0]
+    
+    cause = re.sub("\s+", ' ', cause)  # remove extra whitespace
+    count = int(count.replace(',', ''))  # convert 1,000 to 1000
+    rate = float(rate.replace(',', ''))
+```
+If we have a successful match from the first regex, then we can assign the captured groups as strings to three variables:
+* `cause` - the cause of death
+* `count` - the number of cases in a given year
+* `rate` - the incidence of cases per 100,000 
+
+One of the first issues we need to deal with is that some of the `cause` values *still* contain extra line breaks and whitespace; for example:
+```
+Endocrine,\r\n        nutr.  metab. diseases\r\n        
+```
+I'm using the `re.sub` function to match any sequence of whitespace characters and replace every occurrence with a single space:
+```python
+cause = re.sub("\s+", ' ', cause)
+```
+
+In the other two statements, I am removing any commas before casting the string as integer or floating point numbers, respectively.
+
+
+### Web server transactions
+
+```python
+response = request.urlopen('http://www.phac-aspc.gc.ca/publicat/lcd-pcd97/table1-eng.php')
+src = response.read()
+soup = BeautifulSoup(src, 'html.parser')
+```
+`request.urlopen` sends an HTTP request to the webserver at the URL `http://www.phac-aspc.gc.ca`, asking for a PHP document.  PHP is yet *another* scripting language that specializes in dynamically generating HTML source from the content of a database in response to an HTTP request.  
+
+> What do I mean by *dynamic*?  Suppose that we need to make a webpage that displays a list of classes offered by a university department.  I could write an HTML source file including this list.  However, if any of the classes was changed, such as a class that is no longer offered, a new class, or a class with a new course number, then I'd have to go in and manually revise my HTML source file.  No one does it this way anymore - most institutions have a [database](https://en.wikipedia.org/wiki/Database) that tracks information about courses and then use some server-side scripting language like PHP to query the database for the pertinent information whenever someone requests the webpage.  This means that the content of the webpage will change along with the database.  More importantly for developers, it means that we can work with a single centralized database, instead of manually maintaining potentially hundreds of HTML source files.
+
+The HTTP response from the server is captured in a special object defined by the `request` submodule and assigned to the variable `response`.  This object has a number of special functions including `read`, which we use to stream its content as a byte string to a variable we call `src`.  Finally, we construct an instance of the `BeautifulSoup` class using this byte stream as the first argument, and the option `html.parser` as the second argument.  We are expected to set the second argument because there is potentially more than one parser available on your system, and `bs4` doesn't want to have to guess which one you want to use.
+
