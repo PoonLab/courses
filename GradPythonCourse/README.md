@@ -69,7 +69,7 @@
 
 5. More complex text processing
    * Regular expressions with `re`
-   * Date fields with `datetime`
+   * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
 
 6. Batch processing
    * Calling one script on many files with `bash`
@@ -81,9 +81,11 @@
 
 7. Scraping
    * Pulling data from websites
-   * Automating web interfacing with `mechanize`
+   * Automating web interfacing with `urllib`
    * Parsing web content with `BeautifulSoup`
-
+   * **Readings:** [Web scraping](Readings/Scraping.md)
+   * **Assignment:** [Scraping a website](Assignments/Assignment5.md)
+   
 8. Final project help session
 
 9. Maintainability
