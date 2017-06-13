@@ -20,7 +20,7 @@ Please submit your completed Markdown file to me by June 20, 2017.
    # print (results)
    ```
 
-3. Obviously `scraper.py` does not parse the header row of the table, which is identified by `<th>` tags.  Write a function that takes the `soup` variable as its argument, extracts the header row, and returns each entry as a string in a list.
+3. Obviously `scraper.py` does not parse the header row of the table, which is identified by `<th>` tags.  Write a function that takes the `tables[0]` variable as its argument, extracts the header row, and returns its `<td>` entries as a string in a list.
     ```python
     # insert your code here
     ```
