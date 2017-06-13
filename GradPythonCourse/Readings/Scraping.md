@@ -385,7 +385,9 @@ for row in soup2table(tables[0]):
         
 print (results)
 ```
+To save you some typing, I've uploaded this script to this repo as `scraper.py`.
 
+## What's going on?
 Let's go through this script one section at a time to explain what's going on.
 
 ```python
@@ -398,13 +400,34 @@ Here we are importing three modules:
 2. `BeautifulSoup` is a class in the `bs4` module that parses HTML source into a tree-like data structure.
 3. `re` is Python's regular expressions module.
 
+
+
+### Tree data structures
+
 ```python
 def soup2table(element):
     for row in element.findAll('tr'):
         data = row.findAll('td')
         yield ([datum.text for datum in data])
 ```
-This code declares a function in Python called `soup2table` that takes a single argument.  It assumes that the argument is some type of `bs4` object that has a defined `findAll` function.  We're being sloppy so we're not bothering to check that this is true.  Hopefully you got the general idea of how this function works from the previous section of this Markdown document.  However, to really get a concrete understanding of what's going on, we need to talk about how `bs4` converts HTML source into a set of objects that are arranged in a tree-like data structure.  To do this, I'm going to skip ahead to the bottom of the script before we jump back to explain the regular expressions and the `get_data` function.
+This code declares a function in Python called `soup2table` that takes a single argument.  It assumes that the argument is some type of `bs4` object that has a defined `findAll` function.  We're being sloppy so we're not bothering to check that this is true.  Hopefully you got the general idea of how this function works from the previous section of this Markdown document.  However, to really get a concrete understanding of what's going on, we need to talk about how `bs4` converts HTML source into a set of objects that are arranged in a tree-like data structure.  
+
+The result of parsing the byte string that contains the HTML source is a nested or hierarchical (tree-like) data structure.  An HTML document necessarily has a hierarchical structure.  The `<html>` tags enclose the entire document, which splits from this main trunk into two major branches enclosed by `<head>` and `<body>`.  As we've seen above, a table is organized into a hierarchy of HTML tags, with `<table>` tags at its root, `<tr>` tags defining the first level of splits into rows, and `<td>` tags defining a second level of splits within each row. 
+
+Why does it matter that this document is hierarchical?  When we loop over the list returned by calling `findAll` on a `tr` element, we don't end up with *all* the `td` elements in the document - we only get the `td` that are "children" of the specific `tr` we are working with at a given iteration of the outer loop.  
+
+Note that we have two loops in this function.  This is the loop that I just referred to as the outer loop:
+```python
+for row in element.findAll('tr'):
+```
+and list comprehension contains the inner loop:
+```python
+yield ([datum.text for datum in data])
+```
+I'm calling it the inner loop because it is nested within the outer loop.  We have to complete iterating over the inner loop before we can proceed to the next iteration of the outer loop.  Put another way, think of these nested loops as the "hours" and "minutes" hands of a clock.
+
+
+### Web server transactions
 
 ```python
 response = request.urlopen('http://www.phac-aspc.gc.ca/publicat/lcd-pcd97/table1-eng.php')
@@ -413,12 +436,57 @@ soup = BeautifulSoup(src, 'html.parser')
 ```
 `request.urlopen` sends an HTTP request to the webserver at the URL `http://www.phac-aspc.gc.ca`, asking for a PHP document.  PHP is yet *another* scripting language that specializes in dynamically generating HTML source from the content of a database in response to an HTTP request.  
 
-> What do I mean by *dynamic*?  Suppose that we need to make a webpage that displays a list of classes offered by a university department.  I could write an HTML source file including this list.  However, if any of the classes was changed, such as a class that is no longer offered, a new class, or a class with a new course number, then I'd have to go in and manually revise my HTML source file.  No one does it this way anymore - most institutions have a [database](https://en.wikipedia.org/wiki/Database) that tracks information about courses and then use some server-side scripting language like PHP to query the database for the pertinent information whenever someone requests the webpage.
+> What do I mean by *dynamic*?  Suppose that we need to make a webpage that displays a list of classes offered by a university department.  I could write an HTML source file including this list.  However, if any of the classes was changed, such as a class that is no longer offered, a new class, or a class with a new course number, then I'd have to go in and manually revise my HTML source file.  No one does it this way anymore - most institutions have a [database](https://en.wikipedia.org/wiki/Database) that tracks information about courses and then use some server-side scripting language like PHP to query the database for the pertinent information whenever someone requests the webpage.  This means that the content of the webpage will change along with the database.  More importantly for developers, it means that we can work with a single centralized database, instead of manually maintaining potentially hundreds of HTML source files.
 
-Think of the object returned by calling `BeautifulSoup` on the raw HTML source 
-
-
-My `get_data` function is using a combination of [regular expressions](RegularExpressions.md) and string operations to extract the cause of death, count and rate from each text field.  Once I have my functions defined, the rest of the script handles the URL transaction with `request`, parsing the HTML with `BeautifulSoup`, and then applying the functions to the result.  To save you some typing, I've uploaded this script to this repo as `scraper.py`.
+The HTTP response from the server is captured in a special object defined by the `request` submodule and assigned to the variable `response`.  This object has a number of special functions including `read`, which we use to stream its content as a byte string to a variable we call `src`.  Finally, we construct an instance of the `BeautifulSoup` class using this byte stream as the first argument, and the option `html.parser` as the second argument.  We are expected to set the second argument because there is potentially more than one parser available on your system, and `bs4` doesn't want to have to guess which one you want to use.
 
 
+### Regular expressions!
+```python
+pat = re.compile("^([A-Za-z,\s.\&]+)([0-9,]+)\s+\(([0-9,]+\.[0-9]+)\)")
+pat2 = re.compile("^([A-Za-z,\s.\&]+)Table")
+```
+As I said before, these are brutal-looking regexes (shorthand for regular expressions).  Let's work through the first regex one group at a time, which should give you the concepts you need to understand how the second regex works.
 
+The first group captures all substrings that contain upper- and lowercase letters (`A-Za-z`), commas `,`, any form of whitespace (including spaces, tabs and line breaks), periods `.` and ampersands `&`.  (Reminder: because `.` is used within a character set definition - enclosed in square brackets - it is taken literally and does not represent any character.)  I built up this group by looking over the text fields corresponding to causes of death in the HTML source, and using trial and error until I was able to capture all values in this field.
+
+The second group captures all integers including commas, which are commonly used as the thousands separator - *e.g.*, `1,789`.  Between the second and third groups, our regex has to accommodate some whitespace - this is accomplished with the pattern `\s+`.  Finally, we know that the third group should be a floating point number enclosed in round parentheses.  We escape the first set of parentheses using the notation `\(` and `\)` and then capture floating point numbers with this pattern: `[0-9,]+\.[0-9]+`, where we are allowing for thousands separators in the integer part of the number.  Since the decimal separator `.` is not contained in a character set, we have to escape it with `\.`.  
+
+## Handling exceptions
+
+My regex is far from perfect, partly because these are noisy strings that we scraped from a website and contain non-standard characters.  Fortunately there is only one such character `\xa0` which encodes a non-breaking space.  Instead of attempting to accommodate this character in my regex, I'm just going to delete it from the string:
+```python
+txt = txt.replace(u'\xa0', ' ')
+```
+Note that I've added a `u` prefix to the first argument of my string `replace` function call.  This tells Python to interpret the argument as Unicode.  
+
+```python
+    matches = pat.findall(txt)
+    if not matches:
+        # some entries contain a footnote instead of count/rate data
+        match2 = pat2.findall(txt)
+        if not match2:
+            return None, None, None
+        return match2[0], None, None
+```
+If my regex fails to match the string contained in the `txt` argument, then `pat.findall` returns an empty list that is assigned to my `matches` variable.  I check if `matches` is an empty list with the condition `not matches`.  An important feature of Python objects is that they can be used directly for logical tests:
+```python
+>>> bool(2)
+True
+>>> bool(not 2)
+False
+>>> bool(-2)  # maybe counter-intuitive!
+True
+>>> bool(not -2)
+False
+>>> bool(0)
+False
+>>> bool(not 0)
+True
+>>> bool([])
+False
+>>> bool(not [])  # this is my test
+True
+```
+
+If this test returns a `True`, then I use a second regex to attempt to catch 
