@@ -14,7 +14,7 @@ Please submit your completed Markdown file to me by June 20, 2017.
    ```
 
 
-2. Modify `examples/scraper.py` to output the contents of the `results` list in a CSV format without a header row.  
+2. Modify `examples/scraper.py` to output the contents of the `results` list in a CSV format without a header row, where each cell of the CSV is the cause of death (string), *i.e.*, the first element of the tuple.  
    ```python
    # insert your code that replaces this lines of the script:
    # print (results)
