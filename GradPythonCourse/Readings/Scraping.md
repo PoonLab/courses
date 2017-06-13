@@ -425,9 +425,9 @@ and list comprehension contains the inner loop:
 ```python
 yield ([datum.text for datum in data])
 ```
-I'm calling it the inner loop because it is nested within the outer loop.  We have to complete iterating over the inner loop before we can proceed to the next iteration of the outer loop.  Put another way, think of these nested loops as the "hours" and "minutes" hands of a clock.
+I'm calling it the inner loop because it is nested within the outer loop.  We have to complete iterating over the inner loop before we can proceed to the next iteration of the outer loop.  Put another way, think of these nested loops as the "hours" and "minutes" hands of a clock.  Or moons.
 
-
+![](https://imgs.xkcd.com/comics/galilean_moons.png)
 
 
 ### Regular expressions!
@@ -535,6 +535,8 @@ src = response.read()
 soup = BeautifulSoup(src, 'html.parser')
 ```
 `request.urlopen` sends an HTTP request to the webserver at the URL `http://www.phac-aspc.gc.ca`, asking for a PHP document.  PHP is yet *another* scripting language that specializes in dynamically generating HTML source from the content of a database in response to an HTTP request.  
+
+![](https://imgs.xkcd.com/comics/server_attention_span.png)
 
 > What do I mean by *dynamic*?  Suppose that we need to make a webpage that displays a list of classes offered by a university department.  I could write an HTML source file including this list.  However, if any of the classes was changed, such as a class that is no longer offered, a new class, or a class with a new course number, then I'd have to go in and manually revise my HTML source file.  No one does it this way anymore - most institutions have a [database](https://en.wikipedia.org/wiki/Database) that tracks information about courses and then use some server-side scripting language like PHP to query the database for the pertinent information whenever someone requests the webpage.  This means that the content of the webpage will change along with the database.  More importantly for developers, it means that we can work with a single centralized database, instead of manually maintaining potentially hundreds of HTML source files.
 
