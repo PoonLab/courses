@@ -22,10 +22,11 @@ def get_data(txt):
     matches = pat.findall(txt)
     if not matches:
         # some entries contain a footnote instead of count/rate data
-        match2 = pat2.findall(txt)
-        if not match2:
+        matches = pat2.findall(txt)
+        if not matches:
             return None, None, None
-        return match2[0], None, None
+        cause = re.sub("\s+", '', matches[0])
+        return cause, None, None
         
     cause, count, rate = matches[0]
     
