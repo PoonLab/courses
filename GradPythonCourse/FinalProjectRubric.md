@@ -1,6 +1,11 @@
 # Final Project Grading Rubric
 
-For your final project, please submit one or more Python or bash scripts that accomplish the objectives set out in your proposal.  
+For your final project, please submit:
+* One or more Python or bash scripts that accomplish the objectives set out in your proposal.  
+* Provide the raw data if possible - if not, then submit a truncated version with reduced file sizes.  
+* Provide full or truncated outputs.
+* Write a `README.md` Markdown file that documents the purpose of each script.
+
 
 **Due date:** July 11, 2017
 Submit to Dr. Poon by e-mail.  Late penalties will apply.
@@ -31,7 +36,7 @@ Submit to Dr. Poon by e-mail.  Late penalties will apply.
 * Are the objectives achieved?
 
 
-## Difficulty (10)
+## Difficulty (5)
 
 * This category exists to recognize students who are attempting more difficult tasks.
 * However, these tasks should also be realistic, *i.e.*, feasible in the allotted time.
@@ -43,6 +48,10 @@ Submit to Dr. Poon by e-mail.  Late penalties will apply.
   * Employing basic UNIX commands, *e.g.*, `ls`, `cp`
   * Reading lines from a tabular CSV data set - subsequent processing of these data may qualify as more difficult
 
+
+## Documentation (5)
+
+* Does the `README.md` provide adequate documentation for me to understand what the scripts are trying to accomplish and how they work?
 
 
 ## Style (10)
