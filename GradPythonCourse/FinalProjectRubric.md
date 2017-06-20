@@ -5,7 +5,7 @@ For your final project, please submit:
 * Provide the raw data if possible - if not, then submit a truncated version with reduced file sizes.  
 * Provide full or truncated outputs.
 * Write a `README.md` Markdown file that documents the purpose of each script.
-
+* Send flowers
 
 **Due date:** July 11, 2017
 Submit to Dr. Poon by e-mail.  Late penalties will apply.
