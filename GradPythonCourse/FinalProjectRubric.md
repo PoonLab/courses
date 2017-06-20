@@ -22,6 +22,8 @@ Submit to Dr. Poon by e-mail.  Late penalties will apply.
   * pipelining with `subprocess`
   * scraping with `urllib` and `bs4`
 
+* Do the scripts integrate different concepts to accomplish a task?
+
 
 ## Objectives (10)
 
