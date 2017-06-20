@@ -9,6 +9,7 @@ For your final project, please submit:
 
 **Due date:** July 11, 2017
 Submit to Dr. Poon by e-mail.  Late penalties will apply.
+We take VISA and MasterCard.
 
 **Total score:** 50
 
