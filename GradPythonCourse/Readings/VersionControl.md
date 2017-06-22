@@ -15,7 +15,11 @@ If you're new to programming and working in UNIX-like systems, then you are prob
 
 In the context of bioinformatics, version control is important for reproducible science.  If you don't track the changes that you've made to a script, then you may have no way of reconstructing *exactly* how you processed your data!  Accredited clinical laboratories using bioinformatic pipelines to process next-generation sequence data are now required by the College of American Pathologists to record the specific version of the pipeline used to process a patient's sample, and other groups have issued similar recommendations, including the [American College of Medical Genetics and Genomics](https://www.acmg.net/) and the [US Centers for Disease Control and Prevention](https://www.cdc.gov/). 
 
+In short, if you're going to get serious about doing bioinformatics then you need to learn how to use a version control system for your projects.
+
 
 ## git
+
+The fact that you're reading this document implies that you're accessing the course materials online through GitHub, or that you've cloned this repository on your own computer and are reading it off-line.  In other words, you've already been working with a version control system called [git](https://en.wikipedia.org/wiki/Git)
 
 ![](https://imgs.xkcd.com/comics/git.png)
