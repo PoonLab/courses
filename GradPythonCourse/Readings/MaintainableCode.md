@@ -4,12 +4,27 @@
 
 Maintainable code can be read by another person, who will be able to:
 1. use your code with confidence that it is doing what they expect it to;
-2. understand it well enough to modify it without breaking something.   
+2. not have to spend days picking apart the code to understand it;
+3. understand it well enough to modify it without breaking something.
 
-Even if you don't intend for anyone else to use your code, you will always be writing it for someone else: *you*.  Months from now when you return to your code, if your code hasn't been written to be maintainable then you will have created a "black box" for yourself.
+Even if you don't intend for anyone else to use your code, you will always be writing it for someone else: *you*.  Months from now when you return to your code, if your code hasn't been written to be maintainable then you will have created a "black box" for yourself.  So do yourself a big favour and write clean, readable code with sufficient commenting and documentations, or you'll be creating more work for your future self.
+![](https://imgs.xkcd.com/comics/future_self.png)
 
 
 ## Style
+
+Talking about "style" in relation to coding may seem frivolous, but it is actually an important part of writing maintainable code.  For example, here are two Python scripts that will calculate nucleotide frequencies from a FASTA file:
+
+```python
+import sys
+a = 'ACGT'
+z = open(sys.argv[1],'rU')
+b=dict(map(lambda x: (x,0), a))
+for x in z:
+ if x[0]=='>': continue
+ jj = filter(lambda xx in a, x)
+ for j in jj: b[j]+=1
+```
 
 
 ## Documenting your code
