@@ -22,6 +22,8 @@ Python is notorious for placing style front and centre, to the point that a scri
 
 ![](https://imgs.xkcd.com/comics/standards.png)
 
+Google also has a [style guide](https://google.github.io/styleguide/pyguide.html) for Python that is worth reading.
+
 Here is a Python that will calculate and output nucleotide frequencies from a FASTA file:
 
 ```python
@@ -139,7 +141,7 @@ b=dict(map(lambda x:(x,0),a))
 
 ### Variable naming conventions
 
-In my "bad" script, I used a lot of single- and double-letter variable names that had no clear association with their intended role.  This line is particularly horrible:
+In my "bad" script, I used a lot of single- and double-letter variable names that had no clear association with their intended role.  (This actually made it difficult to write the code, because I kept forgetting what specific variables were supposed to represent.)  This line is particularly horrible:
 ```python
 jj = filter(lambda xx:xx in a,x)
 ```
@@ -149,7 +151,7 @@ j = ''
 for xx in x:
     if xx in a:
         j += xx
-```
+```  
 
 Here is the same code with more reasonable variable names:
 ```python
@@ -165,15 +167,38 @@ Every programming language has to enforce some rule about variable names, or els
 ![](https://imgs.xkcd.com/comics/sigil_cycle.png)
 
 
+### Modular programming
+
+Modular programming is an aspect of programming style that isn't really spelled out in PEP 8.  Modularity means that we want to break tasks down to components that are self-contained and portable.  The opposite approach is [monolithic] programming where everything is subsumed under a single massive script.  In the above example, I've broken the second script down into two functions, `main` and `count_bases`:
+
+* `count_bases` opens the FASTA file at a given path and computes the overall nucleotide frequencies.
+* `main` handles the input/output actions: taking an argument from the command-line, passing this argument to `count_bases`, and then reporting the results to the console.  
+
+There are a number of benefits to breaking down your code this way.  First, if something breaks then you can zero in on a shorter function to diagnose the problem.  Second, this immediately makes `count_bases` function portable so that it can be called from another script.  For example, if I saved my second script as `second.py`, then:
+```python
+from second import count_bases
+```
+would enable me to run the `count_bases` function from that other script, which is what I mean by *portability*.
+
+Taking a modular programming approach to a script is useful for thinking about how a complex problem should be broken down into component tasks, and usually produces a more maintainable script than a single "monolithic" one.  Of course, it is possible to take this too far: for example, you *could* make a separate function for checking whether a line of a FASTA file contains a header:
+```python
+def is_header_line(line):
+    """ Check whether a line indicates the start of a new FASTA record """
+    return line.startswith('>')
+```
+and you could continue to break down the script this way into dozens of little functions, but I think you'd end up making your script *less* readable by doing so.  
+
+
 ## Documenting your code
 
-I haven't bothered to write any comments or documentation strings.  I haven't bothered to give variables informative names (this actually made it difficult to write the code, because I kept forgetting what specific variables were supposed to represent).  I've deliberately used `lambda` functions that allow me to write more compact code that might also be less accessible to a beginning coder in Python. 
+There are two types of documentation: external and internal.  External documentation are contained in separate files that can be distributed with the code, or made available online or even as as print publication.  I generally wouldn't start thinking about external documentation unless the project starts to get big, or if it is likely to be used by other people outside my immediate group.  For example, [MiCall](http://cfe-lab.github.io/MiCall/) is a next-generation sequencing pipeline for clinical genotyping of virus samples, and has a good amount of Markdown documentation that gets rendered into a nice website on GitHub.  
 
+Internal documentation is contained within the source code files themselves.  Since we're focusing on learning how to write data processing and pipelining scripts in Python, we'll focus on internal documentation.  Because internal documentation means writing information right into the source code, we're making use of comments: a comment is a chunk of text that we tell the Python interpreter to ignore by using one or more special characters.  There are generally two types of comments in Python: inline and **block** comments.
 
-
-### Inline comments
-
-### Block comments
+An **inline** comment is just that - it occupies a single line of source code.  It should either occupy the line by itself, or it can come *after* (to the right of) a piece of source code, but in Python it never appears to the left of some code.  An inline comment in Python is generally declared with the `#` special character:
+```python
+a = 1  # this is an inline comment in Python
+```
 
 
 ## Writing helpful prompts with `argparse`
