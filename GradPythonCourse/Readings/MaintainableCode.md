@@ -193,13 +193,44 @@ and you could continue to break down the script this way into dozens of little f
 
 There are two types of documentation: external and internal.  External documentation are contained in separate files that can be distributed with the code, or made available online or even as as print publication.  I generally wouldn't start thinking about external documentation unless the project starts to get big, or if it is likely to be used by other people outside my immediate group.  For example, [MiCall](http://cfe-lab.github.io/MiCall/) is a next-generation sequencing pipeline for clinical genotyping of virus samples, and has a good amount of Markdown documentation that gets rendered into a nice website on GitHub.  
 
-Internal documentation is contained within the source code files themselves.  Since we're focusing on learning how to write data processing and pipelining scripts in Python, we'll focus on internal documentation.  Because internal documentation means writing information right into the source code, we're making use of comments: a comment is a chunk of text that we tell the Python interpreter to ignore by using one or more special characters.  There are generally two types of comments in Python: inline and **block** comments.
+Internal documentation is contained within the source code files themselves.  Since we're focusing on learning how to write data processing and pipelining scripts in Python, we'll focus on internal documentation.  Because internal documentation means writing information right into the source code, we're making use of comments: a comment is a chunk of text that we tell the Python interpreter to ignore by using one or more special characters.  There are generally two types of comments in Python: inline and block comments, and documentation (doc) strings.
 
 An **inline** comment is just that - it occupies a single line of source code.  It should either occupy the line by itself, or it can come *after* (to the right of) a piece of source code, but in Python it never appears to the left of some code.  An inline comment in Python is generally declared with the `#` special character:
 ```python
 a = 1  # this is an inline comment in Python
 ```
-[PEP 8](https://www.python.org/dev/peps/pep-0008/#inline-comments) recommends using inline comments "sparingly" and separating the `#` from the end of any preceding source by at least two spaces.  What qualifies as sparing use of inline comments?  
+[PEP 8](https://www.python.org/dev/peps/pep-0008/#inline-comments) recommends using inline comments "sparingly" and separating the `#` from the end of any preceding source by at least two spaces.  What qualifies as sparing use of inline comments?  Who knows?  In my opinion, you generally don't want inline comments to outnumber lines of actual code.  Even a 1:3 ratio (25% inline comments) may seem a little excessive - however, there are also times when extensive commenting is called for (like a tricky bit of code).
+
+A **block** comment is simply a bunch of consecutive inline comments:
+```python
+# This starts the block comment
+# ----------------------------------
+# We can add whatever we want like the underscore on the previous line.
+# And we're expected to keep using the `#` symbol if we want to have a blank
+# line separating paragraphs.
+# 
+# Like that!
+```
+
+A **docstring** makes use of a special method in Python for declaring strings that span multiple lines:
+```python
+'This is a string'  
+"This is also a string'
+""" Yep, still a string.  It can contain single quotes (') and double quotes ("). """
+"""And now 
+we're breaking
+lines!"""
+```
+
+Personally, I prefer using docstrings to block comments because you don't have to keep up with the `#` symbols on every line and I think they look cleaner.
+```python
+"""
+This is how we would use a docstring to create a block of 
+comments in the code.  
+"""
+```
+
+
 
 
 ## Writing helpful prompts with `argparse`
