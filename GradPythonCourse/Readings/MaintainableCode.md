@@ -199,6 +199,7 @@ An **inline** comment is just that - it occupies a single line of source code.  
 ```python
 a = 1  # this is an inline comment in Python
 ```
+[PEP 8](https://www.python.org/dev/peps/pep-0008/#inline-comments) recommends using inline comments "sparingly" and separating the `#` from the end of any preceding source by at least two spaces.  What qualifies as sparing use of inline comments?  
 
 
 ## Writing helpful prompts with `argparse`
