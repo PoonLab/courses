@@ -230,8 +230,11 @@ comments in the code.
 """
 ```
 
+### How do I write documentation?  
 
+When I was in my first highschool computer science class, I struggled a bit with the concept of writing documentation as a formal topic.  Pedagogically, I think it makes as much sense as teaching the [five paragraph structure](https://en.wikipedia.org/wiki/Five-paragraph_essay) for writing essays.  If you're new to coding, however, it's worth covering a few suggestions out there on how to write effective comments.
 
+1. Don't repeat your code.  
 
 ## Writing helpful prompts with `argparse`
 
