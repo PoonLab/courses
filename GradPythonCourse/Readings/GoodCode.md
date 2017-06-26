@@ -442,8 +442,40 @@ This immediately improves user experience - instead of having to peruse the cont
 
 ### Sanity checks
 
-* do the inputs exist?
-* are the inputs what the script was expecting?
+What happens if a user tries to run our script on a JPEG of an alignment instead of a plain-text FASTA file?  In the help document, all that we've asked them for is to specify a path to a FASTA file, but what if the user isn't sure what a FASTA file is?  What if someone else corrupted the FASTA file, or overwrote it with a recipe for brownies?  The problem is that our script doesn't care whether the file is legitimately a FASTA file or not - it will happily count up the number of nucleotide symbols no matter what kind of file it is!  For example, I ran our script on a bowtie2 index binary file and there were no complaints:
+```shell
+Base	Count
+A	170898
+C	194198
+T	202566
+G	156730
+```
+Just as a reminder, here are the first two lines of this binary file:
+```shell
+is2882:examples art$ head -n2 chr7.1.bt2
+??B	
+????gC|	'etO???4t{???8x?I?A?yA???I|,??05????A??t?[ ???????Y$;???i???T   2?J?3	Ax4AP@?0
+                                                                                        DE@@1@@?EP@P?LP?@0?@-D
+```
+*Not* a FASTA file.
+
+This is dangerous behaviour - if we ran our script on the wrong kind of file, we would have no idea that the results are complete bogus.  We need to add some checks to our script to prevent the user from getting caught by this kind of mistake.  I refer to these as [sanity checks](https://en.wikipedia.org/wiki/Sanity_check).  A sanity check is a very simple test to determine whether some part of the system is working as expected.  
+
+A nice clean way of implementing sanity checks is with a Python `assert` statement, which comprises a test and a message to be sent to the console before throwing an exception, which will cause the script to exit prematurely if it's being run in non-interactive mode.  For example:
+```python
+>>> assert 1==0, "This won't work!"
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AssertionError: foo
+```
+Since a failed assertion will exit a running script, you want to make the failure message as informative as possible -- for example, it's helpful to use a formatted string to embed the relevant variables:
+```python
+s = 'door'
+assert s.startswith('f'), "String '{}' did not start with expected 'f' character".format(s)
+```
+
+
+
 
 
 ### Feedback
