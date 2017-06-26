@@ -243,18 +243,18 @@ This is essentially a word-for-word conversion of the source code; it doesn't ac
 
 2. Comments should describe what you're trying to do.  In fact, sometimes I write out comments before I start in with the actual source code.  This can be helpful because it lays out the thought process of how the problem can be broken down into pieces, and how those pieces relate to each other.  
 
-3. Have fun with your docstrings!  There's a lot of programmer humour buried in source code (for example, here is a massive, locked StackOverflow [thread](https://stackoverflow.com/questions/184618/what-is-the-best-comment-in-source-code-you-have-ever-encountered) where users have contributed their favorites -- warning, contains profane language).  This is one of my favourites (it came from a C source file where comments can be enclosed in `/*` and `*/` tags):
-```C
-/* Emits a 7-Hz tone for 10 seconds.
-  True story: 7 Hz is the resonant frequency of a
-  chicken's skull cavity. This was determined
-  empirically in Australia, where a new factory
-  generating 7-Hz tones was located too close to a
-  chicken ranch: When the factory started up, all the
-  chickens died.
-  Your PC may not be able to emit a 7-Hz tone. */
-```
-Here's a [link](https://stackoverflow.com/a/193705) to the original post.
+3. Have fun with your docstrings!  You can either approach the task of commenting your code as a chore, or you can decide to have fun with it; I advocate the latter.  I'm not alone in this mindset.  There's a lot of programmer humour buried in source code (for example, here is a massive, locked StackOverflow [thread](https://stackoverflow.com/questions/184618/what-is-the-best-comment-in-source-code-you-have-ever-encountered) where users have contributed their favorites -- warning, contains profane language).  This is one of my favourites (it came from a C source file where comments can be enclosed in `/*` and `*/` tags):
+  ```C
+  /* Emits a 7-Hz tone for 10 seconds.
+     True story: 7 Hz is the resonant frequency of a
+     chicken's skull cavity. This was determined
+     empirically in Australia, where a new factory
+     generating 7-Hz tones was located too close to a
+     chicken ranch: When the factory started up, all the
+     chickens died.
+     Your PC may not be able to emit a 7-Hz tone. */
+  ```
+  Here's a [link](https://stackoverflow.com/a/193705) to the original post.
 
 
 ### Comment tags
@@ -271,6 +271,34 @@ Comment tags are an informal standard that has gradually emerged to address a ne
 This rejected Python Enhancement Proporsal, [PEP 350](http://legacy.python.org/dev/peps/pep-0350/#mnemonics), has a fairly comprehensive list of tags.  However, the only two that I've ever used are `TODO` and `FIXME`.  
 
 
-## Writing helpful prompts with `argparse`
+## User experience
+
+So far we've covered [style](MaintainableCode.md#style) and [documentation](MaintainableCode.md#documenting-your-code).  These are important concepts for making your code maintainable for developers, including yourself.  The last topic we need to cover is how to make your code accessible for users (including yourself!).  Our objective is to improve the [user experience](https://en.wikipedia.org/wiki/User_experience) -- code that is not essential for the program to function properly, but exists to make the code easier and more enjoyable to use.
+
+For example, if we try to run the first example script (that calculates nucleotide frequencies) from the command line *without* providing a second argument (other than the name of the script), then we get an uninformative error:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python badcode.py 
+Traceback (most recent call last):
+  File "badcode.py", line 3, in <module>
+    z=open(sys.argv[1],'rU')
+IndexError: list index out of range
+```
+In order to figure out why this script returns an error, the user would have to open the script in a text editor and peruse line `3`.  This is far too much to expect of someone who doesn't know Python but wants to run your script, and it's a waste of your *own* time in the future when you forget how to run the script.  
+
+The second script is a little more helpful:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python good.py
+Usage: python nucfreqs.py [input FASTA]
+```
+It provides a hint about what went wrong by explaining what additional arguments the script is expecting to receive from the command line.  It also suppresses the unhelpful and intimidating traceback text that Python produces by default.  This is an example of building a helpful interface for your script.  
+
+We're not going to go as far as building a rich graphical user interface with windows and buttons to click on.  (It *is* possible to do this with Python, but unless the script is mature and has a significant population of non-expert users, it's not worth your time to build.)  What we *are* going to do is learn about how to provide some useful information for the user trying to run your script from the command line.
+
+### Helpful interfaces with `argparse`
+
+As usual, this is a frequent need that is met with a standard Python module.  In this case, we are going to learn about the `argparse` module.  
+
+
+### User feedback
 
 
