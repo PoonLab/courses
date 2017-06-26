@@ -474,14 +474,151 @@ s = 'door'
 assert s.startswith('f'), "String '{}' did not start with expected 'f' character".format(s)
 ```
 
+Checking whether a file is plain text or binary is more complicated than we can fit into an `assert` statement, so I'm going to borrow a function from this [StackOverflow thread](https://stackoverflow.com/questions/898669/how-can-i-detect-if-a-file-is-binary-non-text-in-python).  I've made a couple of modifications to make this function run faster by checking less of the file:
+```python
+def is_binary(filename, max_chunks=100):
+    """Return true if the given filename is binary.
+    @raise EnvironmentError: if the file does not exist or cannot be accessed.
+    @attention: found @ http://bytes.com/topic/python/answers/21222-determine-file-type-binary-text on 6/08/2010
+    @author: Trent Mick <TrentM@ActiveState.com>
+    @author: Jorge Orpinel <jorge@orpinel.com>"""
+    fin = open(filename, 'rb')
+    try:
+        CHUNKSIZE = 1024
+        chunk_count = 0
+        while 1:
+            chunk = fin.read(CHUNKSIZE)
+            chunk_count += 1
+            if '\0' in chunk: # found null byte
+                return True
+            if len(chunk) < CHUNKSIZE or chunk_count > max_chunks:
+                break # done
+    finally:
+        fin.close()
+    return False
+```
+This function opens the file in binary mode and scans pieces for a [null byte](https://en.wikipedia.org/wiki/Null_character) that is diagnostic of many, but not all, binary files.   
 
+Next, we need a function that predicts whether the contents of a file are consistent with the FASTA format and contain nucleotide sequences.  This is a bit tricky because the number of lines containing sequence information per record may vary, and there are not clean-cut methods for classifying a sequence as nucleotide or amino acid.  Here is a crack at it:
+```python
+def is_fasta(filename, maxline=100):
+    """ Try to guess if the file is a valid FASTA file with nucleotide sequences """
+    pat = re.compile('^[ACGTWRKYSMBDHVN?-]+$')  # regex for nucleotide sequence
+    nrecords = 0
+    with open(filename, 'rU') as handle:
+        for ln, line in enumerate(handle):
+            if line.startswith('>'):
+                nrecords += 1
+                continue
+            if not pat.findall(line.upper()) and len(line.strip()) > 0:
+                # non-header lines should contain valid nucleotide sequence
+                return False
+            if ln > maxline:
+                break
+    if nrecords == 0:
+        return False
+    return True
+```
+The `maxline` argument with a default value of `100` tells Python to stop iterating through the file after it's processed 100 lines.  This keeps this function running fast and should give us a fair guess about the content of this file.  We don't want to invest much more effort into diagnosing the file -- if we work harder then we might as well count the nucleotides while we're at it!
 
+Finally, we're going to call these two functions with `assert` statements in the `main` function:
+```python
+def main():
+    args = parse_args()
+    
+    assert not is_binary(path), "This looks like a binary file - I can't process it."
+    assert is_fasta(path), "This doesn't look like a nucleotide FASTA file :-/"
+    
+    freqs = count_bases(args.path)
+    
+    # send formatted output to console
+    print ("Base\tCount")
+    for nuc, count in freqs.items():
+        print ("{}\t{}".format(nuc, count))
+```
 
 
 ### Feedback
 
-* Progress monitoring
-* Verbosity
+I really don't like it when I run a program on the command line and nothing happens.  (Applications with fancy graphical user interfaces can be just as guilty of this.  How often have you clicked a button and been left wondering if the program froze?)  This problem results from a lack of feedback, and it can often happen when you're processing a lot of data and/or asking the program to accomplish something that's very time-consuming.  (I don't know whether *feedback* is the correct term for this, but it seems reasonable to me!)  For example, imagine if you ran an unfamiliar script and waited for five minutes with nothing happening on the screen.  I don't know about you, but I'd start to wonder what was going on.  
+
+![](https://imgs.xkcd.com/comics/estimation.png)
+
+There are different ways of reporting the progress of a job back to the user.  For example, there is a rather nice [module](https://pypi.python.org/pypi/progressbar2) for implementing a progress bar in your script, but this is probably overkill in most cases.  Instead, I suggest interspersing `print` statements in your script to provide some crude progress monitoring.
+
+> Python 3's `print` function is definitely an improvement on Python 2.  For example, you can now tell Python to print strings to the console without automatically appending a line break by setting the `end` keyword argument to an empty string `''`.  You can also tell Python to update the console by setting `flush=True`.  We used to have to do this by importing the `sys` module and running `sys.stdout.write()` and `sys.stdout.flush()`.
+
+
+First, we need to identify the most time-consuming section of the script.  This should be the main loop in the `count_bases` function.  
+```python
+def count_bases(path, wait=1e4):
+    """
+    Open a FASTA file that contains nucleotide sequences, count the total numbers of 
+    nucleotides (defined globally above), and return the result as a dictionary.
+    """
+    # prepare results container
+    freqs = {}
+    for nuc in nucleotides:
+        freqs.update({nuc: 0})
+    
+    # iterate through file contents
+    handle = open(path, 'rU')
+    for ln, line in enumerate(handle):  # <-- `ln` = line number
+        if ln % wait == 0:
+            print('.', end='', flush=True)  # provide feedback on progress
+        
+        if line.startswith('>'):
+            # this line contains a record header, ignore
+            continue
+        
+        # otherwise the line contains sequence
+        for char in line:
+            if char in nucleotides:
+                freqs[char] += 1  # increment this base count
+    handle.close()
+    print('')  # send a line break to console
+    
+    return(freqs)
+```
+
+Running this script on a FASTA file containing a human chromosome 7 sequence consumed about 18 seconds on my Mac desktop - long enough to make me wonder whether an unfamiliar script is functioning properly.  Now that we've modified `count_bases` to provide some visual feedback, I immediately know that the script is still running:
+```shell
+is2882:examples art$ time python3 good2.py chr7.fa
+...............................................................................................................................................................................................................................................................................................................................
+Base    Count
+A       23318807
+T       23314359
+G       15510293
+C       15532642
+
+real	0m17.760s
+user	0m17.526s
+sys	0m0.164s
+```
+Note that `wait` controls the number of lines represented by each `.` symbol.  In this case, I've set the default value to 10,000 lines, which corresponds to about a 1/20th of a second on my computer.
+
+Another nice way to improve the user experience is to expose options like `wait` to the user through `argparse`.  For instance, we can add the following line to `parse_args`:
+```python
+parser.add_argument('--wait', default=10000, type=int, help="<optional> Number of FASTA lines represented by '.'")
+```
+and update the corresponding line in the `main` function:
+```python
+    freqs = count_bases(args.path, wait=args.wait)
+```
+Now we can tinker with this setting from the command line:
+```shell
+is2882:examples art$ time python3 good2.py --wait 100000 chr7.fa
+................................
+Base	Count
+T	23314359
+G	15510293
+A	23318807
+C	15532642
+
+real	0m17.437s
+user	0m17.256s
+sys	0m0.131s
+```
 
 
 ### Writing output
