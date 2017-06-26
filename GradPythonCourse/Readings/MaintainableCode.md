@@ -234,7 +234,42 @@ comments in the code.
 
 When I was in my first highschool computer science class, I struggled a bit with the concept of writing documentation as a formal topic.  Pedagogically, I think it makes as much sense as teaching the [five paragraph structure](https://en.wikipedia.org/wiki/Five-paragraph_essay) for writing essays.  If you're new to coding, however, it's worth covering a few suggestions out there on how to write effective comments.
 
-1. Don't repeat your code.  
+1. Don't use comments to verbally describe the code.  I lifted this example from the [Google Python style guide](https://google.github.io/styleguide/pyguide.html#Comments):
+```python
+# BAD COMMENT: Now go through the b array and make sure whenever i occurs
+# the next element is i+1
+```
+This is essentially a word-for-word conversion of the source code; it doesn't actually help me understand what is going on.  If the reader is Python-literate, then they should be able to deduce for themselves what is happening at a low level.  What is not obvious is what you're trying to do at a higher level - the specific objective for that piece of code.
+
+2. Comments should describe what you're trying to do.  In fact, sometimes I write out comments before I start in with the actual source code.  This can be helpful because it lays out the thought process of how the problem can be broken down into pieces, and how those pieces relate to each other.  
+
+3. Have fun with your docstrings!  There's a lot of programmer humour buried in source code (for example, here is a massive, locked StackOverflow [thread](https://stackoverflow.com/questions/184618/what-is-the-best-comment-in-source-code-you-have-ever-encountered) where users have contributed their favorites -- warning, contains profane language).  This is one of my favourites (it came from a C source file where comments can be enclosed in `/*` and `*/` tags):
+```C
+/* Emits a 7-Hz tone for 10 seconds.
+  True story: 7 Hz is the resonant frequency of a
+  chicken's skull cavity. This was determined
+  empirically in Australia, where a new factory
+  generating 7-Hz tones was located too close to a
+  chicken ranch: When the factory started up, all the
+  chickens died.
+  Your PC may not be able to emit a 7-Hz tone. */
+```
+Here's a [link](https://stackoverflow.com/a/193705) to the original post.
+
+
+### Comment tags
+
+Comment tags are an informal standard that has gradually emerged to address a need that wasn't being met otherwise.  Tags allow programmers to annotate comments from a narrowly defined set of labels.  For instance, this can help locate troublesome spots of code that need further work at a later stage of development, because you can search through a large source file for these tags using `grep` or some other utility.  Some IDEs even recognize the standard tags and apply tag-specific [syntax highlighting](https://en.wikipedia.org/wiki/Syntax_highlighting).
+
+| Tag | Usage |
+|-----|-------|
+| TODO | Identify some feature or enhancement to be implemented at a later stage | 
+| FIXME | Identify some section of the code that is broken or incomplete | 
+| BUG | Identify a section of code that is broken and ideally provide a minimal reproducible example |
+| XXX | Identifies a section of code that is pathologically broken and/or misleading and needs to be replaced |
+
+This rejected Python Enhancement Proporsal, [PEP 350](http://legacy.python.org/dev/peps/pep-0350/#mnemonics), has a fairly comprehensive list of tags.  However, the only two that I've ever used are `TODO` and `FIXME`.  
+
 
 ## Writing helpful prompts with `argparse`
 
