@@ -299,6 +299,22 @@ We're not going to go as far as building a rich graphical user interface with wi
 As usual, this is a frequent need that is met with a standard Python module.  In this case, we are going to learn about the `argparse` module.  
 
 
-### User feedback
+### Sanity checks
 
+* do the inputs exist?
+* are the inputs what the script was expecting?
+
+
+### Feedback
+
+* Progress monitoring
+* Verbosity
+
+
+### Writing output
+
+* Writing to lines to file during processing instead of at the end
+* Disruption of process, loss of work
+* `flush` to make clean output
+* preventing overwrites
 
