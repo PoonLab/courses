@@ -42,6 +42,7 @@ for x in z:
  for j in jj: b[j]+=1
 print(b)
 ```
+To save you from having to type this out, I've added this script to the repo as `examples/badcode.py`.
 
 This script works, but it's difficult to read.  I consider this to be an unmaintanable implementation.  When I run it on a file, I get the following output
 ```shell
@@ -51,7 +52,7 @@ This script works, but it's difficult to read.  I consider this to be an unmaint
 
 ![](https://imgs.xkcd.com/comics/code_quality_3.png)
 
-Here is a rather different implementation that accomplishes exactly the same task:
+Here is a rather different implementation that accomplishes exactly the same task (you can find it at `examples/goodcode.py`):
 
 ```python
 """
@@ -108,7 +109,7 @@ if __name__ == '__main__':
 
 Running this script on the same FASTA file produces the following output:
 ```shell
-[Elzar:courses/GradPythonCourse/examples] artpoon% python good.py Decapod-PEPCK.fa
+[Elzar:courses/GradPythonCourse/examples] artpoon% python goodcode.py Decapod-PEPCK.fa
 Base    Count
 A       9009
 C       11992
@@ -292,16 +293,127 @@ In order to figure out why this script returns an error, the user would have to 
 
 The second script is a little more helpful:
 ```shell
-[Elzar:courses/GradPythonCourse/examples] artpoon% python good.py
+[Elzar:courses/GradPythonCourse/examples] artpoon% python goodcode.py
 Usage: python nucfreqs.py [input FASTA]
 ```
 It provides a hint about what went wrong by explaining what additional arguments the script is expecting to receive from the command line.  It also suppresses the unhelpful and intimidating traceback text that Python produces by default.  This is an example of building a helpful interface for your script.  
 
 We're not going to go as far as building a rich graphical user interface with windows and buttons to click on.  (It *is* possible to do this with Python, but unless the script is mature and has a significant population of non-expert users, it's not worth your time to build.)  What we *are* going to do is learn about how to provide some useful information for the user trying to run your script from the command line.
 
-### Helpful interfaces with `argparse`
 
-As usual, this is a frequent need that is met with a standard Python module.  In this case, we are going to learn about the `argparse` module.  
+### Helpful interfaces
+
+As usual, this is a frequent need that is met with a standard Python module.  In this case, we are going to learn about the `argparse` module.  I'll illustrate by modifying my "good" script to use this module:
+```python
+"""
+Calculate nucleotide frequencies from a FASTA file
+"""
+import argparse
+
+nucleotides = 'ACGT'  # which symbols to count
+
+def count_bases(path):
+    """
+    Open a FASTA file that contains nucleotide sequences, count the total numbers of 
+    nucleotides (defined globally above), and return the result as a dictionary.
+    """
+    # prepare results container
+    freqs = {}
+    for nuc in nucleotides:
+        freqs.update({nuc: 0})
+    
+    # iterate through file contents
+    handle = open(path, 'rU')
+    for line in handle:
+        if line.startswith('>'):
+            # this line contains a record header, ignore
+            continue
+        
+        # otherwise the line contains sequence
+        for char in line:
+            if char in nucleotides:
+                freqs[char] += 1  # increment this base count
+    handle.close()
+    
+    return(freqs)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Calculate nucleotide frequencies from a FASTA file."
+    )
+    parser.add_argument('path', help='<input> Relative or absolute path to a FASTA file')
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    freqs = count_bases(args.path)
+    
+    # send formatted output to console
+    print ("Base\tCount")
+    for nuc, count in freqs.items():
+        print ("{}\t{}".format(nuc, count))
+
+if __name__ == '__main__':
+    main()
+```
+
+The first thing you should notice is that we've imported the `argparse` module:
+```python
+import argparse
+```
+Also note that I've dropped the `sys` module because I'm not using it anymore.  
+
+> You should always keep your imports at the top of the file so that you can expect to see them in one place.  While it is possible to load modules at other locations of the code, this makes your code more difficult to maintain.  It is extremely annoying to have to hunt around for an `import` statement in the code.
+
+
+Next, we've added a new function that I called `parse_args`:
+```python
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Calculate nucleotide frequencies from a FASTA file."
+    )
+    parser.add_argument('path', help='<input> Relative or absolute path to a FASTA file')
+    return parser.parse_args()
+```
+This function is where we are making use of functions from the `argparse` module.  First, I've constructed an `argparse.ArgumentParser` object that is responsible for processing arguments from the command line.  When I call the constructor for this class, I'm passing a string with the `description` keyword that should provide exactly that - a brief description of what this script is for. 
+
+> Note that I've broken lines in calling this constructor function.  I *could* have kept this function call on a single line, but I like breaking it up to span multiple lines when I'm entering more than a few keyword arguments, or entering a long string as a keyword argument.  This is consistent with the [PEP 8](https://www.python.org/dev/peps/pep-0008/#maximum-line-length) recommendation to limit lines to 79 characters in length, but I also do it because I think it looks nice :)
+
+Next, we're calling the class function `add_argument` to define a command-line argument for the script.  The first argument of this function is postional (no keyword) and is a name that we will use to retrieve this command-line argument once the arguments have been parsed.  By default, this command-line argument is required.  If we want to make an optional argument, we just have to prefix the name with a single dash `-` or two dashes `--`.  The convention is to use a single dash for a one character argument, and double dashes for a word argument:
+```python
+    parser.add_argument('-z', help="<optional> This does absolutely nothing useful.")
+    parser.add_argument('--foobar', help="<optional> This also does absolutely nothing useful.")
+```
+Note that you should add these lines after declaring your `ArgumentParser` object, and before calling its `parse_args` function.
+
+Optional arguments are identified by their flag (*e.g.,* `-z`) and can be called anywhere in the command-line invocation.  For example, this is fine:
+```shell
+python good2.py Decapod-PEPCK.fa -z 1 --foobar foofus
+```
+and this is just as fine:
+```shell
+python good2.py --foobar foofus -z 1 Decapod-PEPCK.fa
+```
+but this is not okay:
+```shell
+python -z 1 good2.py --foobar foofus Decapod-PEPCK.fa
+```
+Any arguments that are *not* optional are treated as positional arguments on the command line.  Their order of appearance matters because there is nothing else to indicate that which value should be passed as which argument.  
+
+> These examples assume that you want to pass some string or number as a optional keyword argument.  Sometimes you don't want to pass *anything* - you just want to tell Python to do something differently.  To do this, you can change the default `action` from `store` (store the value) to another setting like `store_true`, which causes the `True` value to be assigned if the option is used.
+
+Calling `parse_args` parses the positional and optional keyword arguments from the command-line and assigns them to a `Namespace` object.  All that we need to know about this kind of object is that we can retrieve the parsed arguments from the command line by referring to them by name:
+```python
+>>> args.path
+'Decapod-PEPCK.fa'
+>>> args.z
+'1'
+>>> args.foobar
+'foofus'
+```
+Note that these are all string objects by default.
 
 
 ### Sanity checks
@@ -321,5 +433,5 @@ As usual, this is a frequent need that is met with a standard Python module.  In
 * Writing to lines to file during processing instead of at the end
 * Disruption of process, loss of work
 * `flush` to make clean output
-* preventing overwrites
+* preventing overwrites (don't do unexpected things)
 
