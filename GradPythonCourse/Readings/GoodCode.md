@@ -300,6 +300,7 @@ It provides a hint about what went wrong by explaining what additional arguments
 
 We're not going to go as far as building a rich graphical user interface with windows and buttons to click on.  (It *is* possible to do this with Python, but unless the script is mature and has a significant population of non-expert users, it's not worth your time to build.)  What we *are* going to do is learn about how to provide some useful information for the user trying to run your script from the command line.
 
+![](https://imgs.xkcd.com/comics/computer_problems.png)
 
 ### Helpful interfaces
 
@@ -414,6 +415,29 @@ Calling `parse_args` parses the positional and optional keyword arguments from t
 'foofus'
 ```
 Note that these are all string objects by default.
+
+Now if we run our script without the required argument, we get some feedback that's a bit more helpful:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python good2.py 
+usage: good2.py [-h] [-z Z] [--foobar FOOBAR] path
+good2.py: error: the following arguments are required: path
+```
+and if we pass the optional `-h` argument, we get more information in a nice format:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python good2.py -h
+usage: good2.py [-h] [-z Z] [--foobar FOOBAR] path
+
+Calculate nucleotide frequencies from a FASTA file.
+
+positional arguments:
+  path             <input> Relative or absolute path to a FASTA file
+
+optional arguments:
+  -h, --help       show this help message and exit
+  -z Z             <optional> This does absolutely nothing useful.
+  --foobar FOOBAR  <optional> This also does absolutely nothing useful.
+```
+This immediately improves user experience - instead of having to peruse the contents of the script, the user is rewarded for naively entering `python <name of script>` with helpful information instead of an error-laden blerp.
 
 
 ### Sanity checks
