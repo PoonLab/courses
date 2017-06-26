@@ -1,4 +1,9 @@
-# Writing maintainable code
+# Writing good code
+
+We've spent most of the course covering basic concepts and methods in Python that are relevant to data processing for bioinformatics.  To cap this off, we should talk about how to use what we've learned to make *good* code.  I'm going to focus on two aspects of making good code: writing code that is easy to *maintain*, and writing code that is easy to *use*.  These topics are known as [code maintainability](https://softwareengineering.stackexchange.com/questions/134855/what-characteristics-or-features-make-code-maintainable) and [user experience](https://en.wikipedia.org/wiki/User_experience).  
+
+I'm *not* going to address the performance aspect of writing good code.  As students in biology and medical sciences who are just starting out with programming, learning how to write maintainable and user-friendly code is far more important than learning how to optimize your code for maximal performance.  (However, this hasn't stopped me from pointing out some easy steps for improving code performance, like [using dictionaries for searches](Dictionaries.md#performance) or [processing file streams line by line](SequenceData.md#fasta)).
+
 
 ## What is maintainable code?
 
