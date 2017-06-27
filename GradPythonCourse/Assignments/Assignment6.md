@@ -8,12 +8,15 @@ Due date: July 4, 2017.
    def z(q    ):
     m=''
     for y  in q:
+     y = y.upper()
      if y=='A':
       m+='T'
      elif y=='C': m+='G'
      elif y=='G':
       m+='C'
      elif y=='T': m+='A'
+     else:
+         m +=   '?'
     return m
    import sys
    print(z(sys.argv[1]))
