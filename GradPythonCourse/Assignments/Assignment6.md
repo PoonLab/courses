@@ -1,4 +1,7 @@
-# Assignment 6
+# Assignment 6 - Good code
+
+Please submit this Markdown document with your answers to me by e-mail.  
+Due date: July 4, 2017.
 
 1. Identify three things (each with a specific example) about the following script that are **not** consistent with good Python coding style as defined in our class.  Use the space provided in the nested list below for your answers:
    ```python
