@@ -474,6 +474,9 @@ s = 'door'
 assert s.startswith('f'), "String '{}' did not start with expected 'f' character".format(s)
 ```
 
+> The `assert` statement is meant to be used for debugging code in development.  Consequently, there is extra information reported in the form of a [traceback](https://en.wikipedia.org/wiki/Stack_trace), which displays where we were in code execution in relation to (potentially nested) routines encoded by the script.   We're discouraged from retaining it in polished (production-level) code.  If you want to exit more cleanly, you can use the `sys.exit()` command after printing some helpful information.
+
+
 Checking whether a file is plain text or binary is more complicated than we can fit into an `assert` statement, so I'm going to borrow a function from this [StackOverflow thread](https://stackoverflow.com/questions/898669/how-can-i-detect-if-a-file-is-binary-non-text-in-python).  I've made a couple of modifications to make this function run faster by checking less of the file:
 ```python
 def is_binary(filename, max_chunks=100):
@@ -623,8 +626,109 @@ sys	0m0.131s
 
 ### Writing output
 
-* Writing to lines to file during processing instead of at the end
-* Disruption of process, loss of work
-* `flush` to make clean output
-* preventing overwrites (don't do unexpected things)
+The last aspect of user experience that we'll cover is writing output to a file.  We've already talked about [how to prepare output as formatted strings](SequenceData.md#formatted-output) to be written out.  Is there some way to make this process better for the user?  
 
+One thing to consider is *where* we are going to write output to.  In the scripts above, we've used the `print` function to stream output to the console instead of a file, although that output can be [redirected to a file](basicunixcommands.md#bringing-things-together-with-pipes).  In some circumstances, it would be nicer to be able to specify a specific file to write output to - this is especially true if we want to write output to more than one file.  The `argparse` module provides a nice interface for specifying output files:
+```python
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Calculate nucleotide frequencies from a FASTA file."
+    )
+    parser.add_argument('path', help='<input> Relative or absolute path to a FASTA file')
+    parser.add_argument('out', type=argparse.FileType('w'), help='<output> Path to write output.")
+    parser.add_argument('--wait', default=10000, type=int, help="<optional> Number of FASTA lines represented by '.'")
+    return parser.parse_args()
+```
+Passing a `argparse.FileType` object to the keyword argument `type` tells `argparse` that we want to treat the string argument from the command line as a path for opening a file stream in write mode.  Since this new line is the second required (not optional) argument that we added to `parser`, then it is the third positional argument (remember, the first positional argument is the name of the script we're running).  Here is the current help page for our script:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python good2.py -h
+usage: good2.py [-h] [--wait WAIT] path out
+
+Calculate nucleotide frequencies from a FASTA file.
+
+positional arguments:
+  path         <input> Relative or absolute path to a FASTA file
+  out          <output> Path to write output.
+
+optional arguments:
+  -h, --help   show this help message and exit
+  --wait WAIT  <optional> Number of FASTA lines represented by '.'
+```
+
+We always have to be careful about opening a file stream in write mode (`'w'`), because this will automatically create an empty file.  If there was already a file with the same name and location, then its contents have been completely wiped out!  This is not necessarily user-friendly behaviour, so let's talk about how we might prevent this from happening.  How can we do this?  
+
+According to the `argparse` [documentation](https://docs.python.org/3/library/argparse.html), the `type` keyword argument of the `add_argument` function can accept *any* function that takes a single string argument and returns a converted value.  So, let's make a function that will take a string as a path and throw an exception (exit the script) if a file already exists at that path.  In order to do the latter, we need to import yet another module called `os`.
+```python
+import os
+
+def protectedFileType(path):
+    """ Returns an open handle in write mode if the given path does not already have a file """
+    assert not os.path.exists(path), "{} exists, no overwrite permitted".format(path)
+    return open(path, 'w')
+```
+Now we can pass this function as our `type` argument:
+```python
+parser.add_argument('out', type=protectedFileType, help='<output> Path to write output.')
+```
+The next time we pass the same file as our `out` argument on the command line, Python gets really mad!
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python good2.py Decapod-PEPCK.fa temp.out
+Traceback (most recent call last):
+  File "good2.py", line 115, in <module>
+    main()
+  File "good2.py", line 102, in main
+    args = parse_args()
+  File "good2.py", line 98, in parse_args
+    return parser.parse_args()
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 1726, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 1758, in parse_known_args
+    namespace, args = self._parse_known_args(args, namespace)
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 1967, in _parse_known_args
+    stop_index = consume_positionals(start_index)
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 1923, in consume_positionals
+    take_action(action, args)
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 1816, in take_action
+    argument_values = self._get_values(action, argument_strings)
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 2257, in _get_values
+    value = self._get_value(action, arg_string)
+  File "/opt/local/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/argparse.py", line 2286, in _get_value
+    result = type_func(arg_string)
+  File "good2.py", line 86, in protectedFileType
+    assert not os.path.exists(path), "{} exists, no overwrite permitted".format(path)
+AssertionError: temp.out exists, no overwrite permitted
+```
+
+The downside of this approach is that we can't turn it off.  Unfortunately, I can't think of a way to modify the behaviour of the `protectedFileType` function with a command-line option.  An alternative approach is to capture the output path as a string and add an `--overwrite` option to the parser:
+```python
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Calculate nucleotide frequencies from a FASTA file."
+    )
+    parser.add_argument('path', help='<input> Relative or absolute path to a FASTA file')
+    parser.add_argument('out', help='<output> Path to write output.')  # plain string type
+    parser.add_argument('--wait', default=10000, type=int, help="<optional> Number of FASTA lines represented by '.'")
+    parser.add_argument('--overwrite', action='store_true')
+
+    return parser.parse_args()
+```
+and then modify our `main` function to use these arguments to create output file handles:
+```python
+def main():
+    args = parse_args()
+    
+    if os.path.exists(args.out) and not args.overwrite:
+        print("Error: File exists at path {}.  Use --overwrite option to erase.")
+        sys.exit()
+    
+    assert not is_binary(args.path), "This looks like a binary file - I can't process it."
+    assert is_fasta(args.path), "This doesn't look like a nucleotide FASTA file :-/"
+    
+    freqs = count_bases(args.path, wait=args.wait)
+    
+    # send formatted output to file
+    with open(args.out, 'w') as outfile:
+        outfile.write("Base\tCount\n")
+        for nuc, count in freqs.items():
+            outfile.write("{}\t{}".format(nuc, count) + '\n')
+```
