@@ -25,7 +25,10 @@ Due date: July 4, 2017.
 2. Write documentation within the following script using inline or block comments, or docstrings:
    ```python
    def dna_complement(seq):
-       complement = {'A': 'T', 'C': 'G', 'G': 'C', 'T': 'A'}
+       complement = {'A': 'T', 
+                     'C': 'G', 
+                     'G': 'C', 
+                     'T': 'A'}
        result = map(lambda x: complement.get(x, '?'), seq.upper())
        return ''.join(result)
    ```
