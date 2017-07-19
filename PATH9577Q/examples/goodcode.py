@@ -36,7 +36,7 @@ def main():
     # check number of arguments
     if len(sys.argv) != 2:
         print ("Usage: python nucfreqs.py [input FASTA]")
-        sys.exit()
+        sys.exit()  # quit!
     
     path = sys.argv[1]
     freqs = count_bases(path)

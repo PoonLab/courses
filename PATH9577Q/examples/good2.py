@@ -92,7 +92,7 @@ def parse_args():
         description="Calculate nucleotide frequencies from a FASTA file."
     )
     parser.add_argument('path', help='<input> Relative or absolute path to a FASTA file')
-    parser.add_argument('out', type=protectedFileType, help='<output> Path to write output.')
+    parser.add_argument('out', help='<output> Path to write output.')
     parser.add_argument('--wait', default=10000, type=int, help="<optional> Number of FASTA lines represented by '.'")
 
     return parser.parse_args()
@@ -100,21 +100,22 @@ def parse_args():
 
 def main():
     args = parse_args()
-    
-    if os.path.exists(args.out) and not args.overwrite:
-        print("Error: File exists at path {}.  Use --overwrite option to erase.")
-        sys.exit()
-    
+
     assert not is_binary(args.path), "This looks like a binary file - I can't process it."
     assert is_fasta(args.path), "This doesn't look like a nucleotide FASTA file :-/"
+    
+    # args.out is a string
+    if os.path.exists(args.out):
+        print ("WARNING: output file exists.")
+        sys.exit()
     
     freqs = count_bases(args.path, wait=args.wait)
     
     # send formatted output to file
-    with open(args.out, 'w') as outfile:
-        outfile.write("Base\tCount\n")
-        for nuc, count in freqs.items():
-            outfile.write("{}\t{}".format(nuc, count) + '\n')
+    outfile = open(args.out, 'w')
+    outfile.write("Base\tCount\n")
+    for nuc, count in freqs.items():
+        outfile.write("{}\t{}".format(nuc, count) + '\n')
 
 if __name__ == '__main__':
     main()
