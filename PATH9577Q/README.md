@@ -18,11 +18,14 @@
 
 ## Grading
 
-| Percent | Assessment |
-|---------|------------|
-| 20% | In-class quizzes |
-| 30% | Assignments (6x5%) |
-| 50% | Coding mini-project |
+* **In-class quizzes (20%)**  
+  Most classes will begin with a short (5-10 minute) quiz covering basic concepts from the preceding class.  Quizes will be self-graded by students immediately afterwards.  The purpose of these quizes is to help students identify and ask questions about concepts that they had trouble with.  Next, students will have the opportunity to revise their quiz answers before handing them in for grading.
+
+* **Take-home assignments (40%)**
+  The assignments are designed to help students review material from the associated lecture session by working through simple coding exercises.  Working in groups is encouraged.  Assignment files are distributed in Markdown format and should be edited directly in the same format and returned as e-mail attachments.  
+
+* **Data parsing mini-project (40%)**
+  Each student will be responsible for writing a script that processes a bioinformatic data file.  Students are encouraged to use data files from their own research project or lab, but this is not mandatory and will not influence the grade.  A successful mini-project will use multiple concepts from the course to parse and manipulate data from the file.  Complete mini-projects are to be submitted as one or more Python scripts.  Students should also provide an excerpt of the data file for evaluation.  If the data cannot be released because of ethical concerns or data sharing issues, then the student should provide a small mock-up data file that is sufficient to demonstrate the script.
 
 
 ## Syllabus
@@ -30,9 +33,9 @@
 1. [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
    * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
    * [Working on the command-line](basicunixcommands.md)
+   * Text editors
+   * Markdown format
    * In-class assignment: UNIX games - download `src/learn-cli.py`
-   * [Markdown](http://daringfireball.net/projects/markdown/basics)
-   * **Assignment:** [Project proposal in Markdown](proposal-example.md) (deadline May 16)
    * **Readings:** [basicunixcommands](Readings/basicunixcommands.md)
 
 2. Working with Python
@@ -40,7 +43,6 @@
    * Interactive mode
    * Working with shells
    * The built-in help system
-   * Text editors
    * Running scripts
    * Modules
    * Installing modules
