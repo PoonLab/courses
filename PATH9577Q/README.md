@@ -1,3 +1,15 @@
+## Learning objectives
+* To acquire some basic command-line literacy:
+  * understanding the limitations and advantages of command-line interfaces
+  * how to navigate a file system
+  * how to invoke a command
+* Basic programming concepts
+  * variables
+  * iteration
+  * conditional statements (control flow)
+* Learning to read and modify the contents of a file
+* Understanding the differences between "good" code and "bad" code
+
 ## Prerequisites
 * students must have a laptop to work on
 * your laptop must have a UNIX-like computing environment, e.g., Linux, Apple OS-X.  If you are unable to install a UNIX-like environment, then you need to install [PuTTY](http://www.putty.org/) and arrange for a temporary user account on one of my Linux workstations.  See [instructions](RemoteComputing.md).
@@ -8,56 +20,58 @@
 
 | Percent | Assessment |
 |---------|------------|
-| 10% | Participation (including computing skills survey) |
-| 30% | Assignments (6) |
-| 10% | Project proposal |
-| 50% | Coding project |
+| 20% | In-class quizzes |
+| 30% | Assignments (6x5%) |
+| 50% | Coding mini-project |
 
 
 ## Syllabus
 
 1. [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
-   * Computing skills survey 
-   * What is bioinformatics?  The biology-statistics-computer science triangle
    * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
    * [Working on the command-line](basicunixcommands.md)
-   * Running a Python script
    * In-class assignment: UNIX games - download `src/learn-cli.py`
    * [Markdown](http://daringfireball.net/projects/markdown/basics)
    * **Assignment:** [Project proposal in Markdown](proposal-example.md) (deadline May 16)
-   * **Assignment:** [UNIX games](src/learn-cli.py)
    * **Readings:** [basicunixcommands](Readings/basicunixcommands.md)
 
+2. Working with Python
+   * What is a scripting language?
+   * Interactive mode
+   * Working with shells
+   * The built-in help system
+   * Text editors
+   * Running scripts
+   * Modules
+   * Installing modules
+   * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md)
+   
+3. Variables
+   * Variable assignment
+   * Naming conventions
+   * Numbers (integers, floats)
+   * Lists
+   * Dictionaries
 
-2. Scripting languages.  Tabular data I.
-   * [Levels of programming languages](https://en.wikipedia.org/wiki/Low-level_programming_language)
-   * Scripting languages and their philosophies
-   * The Python interpreter - interactive mode
-   * tabular data (CSV, TSV)
-   * File I/O in Python
-   * for-loops
-   * indexing and slicing
-   * basic string operations:
-     * `print` (built-in function)
-     * `startswith`, `endswith`
-     * `in`, `find`
-     * `count`
-     * `strip`, `lstrip`, `rstrip`
-     * `split`
-   * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md) and [Tabular data](Readings/TabularData.md)
+4. Strings
+   * `for`
+   * What are the iterable types?
+   * Indexing and slicing
+   * Working with strings
+
+5. Reading and parsing text data
+   * File encodings: ASCII, Unicode
+   * Opening files
+   * **Readings:** [Tabular data](Readings/TabularData.md)
    * **Assignment:** [Parsing a tabular data set](Assignments/Assignment2.md)
 
-3. Tabular data II.  
-   * more examples of tabular data
-     * [SAM](https://samtools.github.io/hts-specs/)
-     * [ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/)
-     * [COSMIC](http://cancer.sanger.ac.uk/cosmic)
-   * iterable objects (strings, lists, tuples, file handles)
-   * control flow (if-else, break, continue)
+6. Tabular data
+   * Examples of tabular data in bioinformatics
+   * control flow (`if`-`else`, `break`, `continue`)
    * composing and debugging a script
    * **Readings:** [TabularData II](Readings/TabularData2.md)
 
-4. Genetic sequences.
+7. Genetic sequences.
    * Gathering information with dictionaries
    * Common sequence data formats
      * FASTA
@@ -67,29 +81,9 @@
    * **Assignment:** [Extracting quality score summaries](Assignments/Assignment3.md)
    * **Readings:** [SequenceData](Readings/SequenceData.md) and [Dictionaries](Readings/Dictionaries.md)
 
-5. More complex text processing
+8. Regular expressions
    * Regular expressions with `re`
    * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
 
-6. Batch processing
-   * Calling one script on many files with `bash`
-   * Calling many scripts - pipelining
-   * Calling other programs with `subprocess`
-   * Harnessing multiple cores with `multiprocessing`
-   * **Readings:** [Pipelining](Readings/Pipelining.md)
-   * **Assignment:** [Batching SAM files](Assignments/Assignment4.md)
-
-7. Scraping
-   * Pulling data from websites
-   * Automating web interfacing with `urllib`
-   * Parsing web content with `BeautifulSoup`
-   * **Readings:** [Web scraping](Readings/Scraping.md)
-   * **Assignment:** [Scraping a website](Assignments/Assignment5.md)
-   
-8. Final project help session
-
-9. Maintainability
-   * Version control with git
-   * Documentating your code
-   * the `argparse` module
+9. Good code and bad code
 
