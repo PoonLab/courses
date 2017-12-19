@@ -8,7 +8,6 @@
   * iteration
   * conditional statements (control flow)
 * Learning to read and modify the contents of a file
-* Understanding the differences between "good" code and "bad" code
 
 ## Prerequisites
 * students must have a laptop to work on
@@ -46,8 +45,7 @@
    * Working with shells
    * The built-in help system
    * Running scripts
-   * Modules
-   * Installing modules
+   * Good and bad code
    * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md)
    
 3. Variables
@@ -75,8 +73,19 @@
    * composing and debugging a script
    * **Readings:** [TabularData II](Readings/TabularData2.md)
 
-7. Genetic sequences.
-   * Gathering information with dictionaries
+7. Outputs
+   * `print`
+   * progress monitoring
+   * string formatting
+   * output redirection
+
+8. Working with modules
+   * cheating with `csv`
+   * cheating even more with `Bio`
+   * regular expressions with `re`
+   * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
+
+9. Genetic sequence data.
    * Common sequence data formats
      * FASTA
      * FASTQ
@@ -84,10 +93,4 @@
    * Formatted strings
    * **Assignment:** [Extracting quality score summaries](Assignments/Assignment3.md)
    * **Readings:** [SequenceData](Readings/SequenceData.md) and [Dictionaries](Readings/Dictionaries.md)
-
-8. Regular expressions
-   * Regular expressions with `re`
-   * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
-
-9. Good code and bad code
 
