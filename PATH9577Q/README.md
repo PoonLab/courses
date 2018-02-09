@@ -31,35 +31,38 @@
 
 ## Syllabus
 
-1. [In the beginning was the command line](http://cristal.inria.fr/~weis/info/commandline.html)
-   * [UNIX-like systems](https://en.wikipedia.org/wiki/Unix-like)
-   * [Working on the command-line](basicunixcommands.md)
-   * Text editors
-   * Markdown format
-   * In-class assignment: UNIX games - download `src/learn-cli.py`
+1. Linux and the command line
+   * Basic UNIX commands
+   * Navigating the file system
+   * File permissions
+   * Dealing with many files, UNIX wildcards
+   * Dealing with massive files: `less`, `grep` and `gunzip`
+   * **In-class assignment** Building a project folder.
    * **Readings:** [basicunixcommands](Readings/basicunixcommands.md)
 
 2. Working with Python
-   * What is a scripting language?
    * Interactive mode
    * Working with shells
    * The built-in help system
+   * Writing a script
    * Running scripts
-   * Good and bad code
+   * Opening a file
+   * Good and bad code practices
+   * **In-class assignment** Your first script.  
    * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md)
-   
-3. Variables
+
+3. Strings
+   * `for`
+   * What are the iterable types?
+   * Indexing and slicing
+   * Working with strings
+
+4. Variables
    * Variable assignment
    * Naming conventions
    * Numbers (integers, floats)
    * Lists
    * Dictionaries
-
-4. Strings
-   * `for`
-   * What are the iterable types?
-   * Indexing and slicing
-   * Working with strings
 
 5. Reading and parsing text data
    * File encodings: ASCII, Unicode
