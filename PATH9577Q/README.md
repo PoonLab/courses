@@ -37,63 +37,73 @@
    * File permissions
    * Dealing with many files, UNIX wildcards
    * Dealing with massive files: `less`, `grep` and `gunzip`
-   * **In-class assignment** Building a project folder.
+   * **In-class assignment** Map the file system.
+   * **Take-home assignment** Building a project folder.
    * **Readings:** [basicunixcommands](Readings/basicunixcommands.md)
 
-2. Working with Python
-   * Interactive mode
-   * Working with shells
-   * The built-in help system
-   * Writing a script
-   * Running scripts
-   * Opening a file
-   * Good and bad code practices
-   * **In-class assignment** Your first script.  
-   * **Readings:** [Scripting languages](Readings/ScriptingLanguages.md)
-
-3. Strings
-   * `for`
-   * What are the iterable types?
-   * Indexing and slicing
-   * Working with strings
-
-4. Variables
-   * Variable assignment
-   * Naming conventions
-   * Numbers (integers, floats)
+2. Variables
+   * Python's interactive mode
+   * `help()` and getting out of the help shell
+   * Numeric types: `int`, `float`
+   * Basic math
+   * Declaring a variable
+   * Special types: `bool`, `NoneType`
+   * Learning about an object with `dir()`
+   * Strings
+     * Indexing and slicing
    * Lists
+     * List comprehensions
+   * Tuples
+     * Mutable versus immutable types
+   * Sets
+     * set operations
    * Dictionaries
+   * Casting between types
+   * **In-class assignment** Built-in types worksheet
+   * **Take-home assignment** String and list operations
 
-5. Reading and parsing text data
+3. Control flow
+   * Code blocks with indents in Python
+   * Running Python script mode
+   * `print` statements
+   * `if`, `elif`, `else` statements
+   * Logical operations
+   * `for` and `while` loops
+   * iterable types: `range`, `map`, `filter`
+   * Combining conditional and loop statements: `break` and `continue`
+   * Defining functions
+   * **In-class assignment** Your first script
+
+4. Parsing data
    * File encodings: ASCII, Unicode
-   * Opening files
-   * **Readings:** [Tabular data](Readings/TabularData.md)
-   * **Assignment:** [Parsing a tabular data set](Assignments/Assignment2.md)
+   * Opening files, `File` types
+   * Parsing tabular data
+   * Modules
+   * Tabular data with `csv`
+   * Date and time data with `datetime`
+   * Genetic sequences with `Bio`
+   * Phylogenetic trees with `Phylo`
 
-6. Tabular data
-   * Examples of tabular data in bioinformatics
-   * control flow (`if`-`else`, `break`, `continue`)
-   * composing and debugging a script
-   * **Readings:** [TabularData II](Readings/TabularData2.md)
+5. Writing and debugging scripts
+   * Style
+   * Good coding practices
+   * Documenting your code
+   * Debugging with `print` statements
+   * `assert` statements
+   * Catching and handling exceptions with `try` and `except`
+   * **In-class assignment** Debugging scripts
+   * **Take-home assignment** Refactoring a bad script
 
-7. Outputs
-   * `print`
-   * progress monitoring
-   * string formatting
-   * output redirection
+6. Outputs and pipelining
+   * Old-style string formatting
+   * `format`
+   * Output redirection
+   * Pipelines
 
-8. Working with modules
-   * cheating with `csv`
-   * cheating even more with `Bio`
-   * regular expressions with `re`
-   * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
+7. Parsing BLAST
 
-9. Genetic sequence data.
-   * Common sequence data formats
-     * FASTA
-     * FASTQ
-     * [SAM, BAM](https://samtools.github.io/hts-specs/)
-   * Formatted strings
-   * **Assignment:** [Extracting quality score summaries](Assignments/Assignment3.md)
-   * **Readings:** [SequenceData](Readings/SequenceData.md) and [Dictionaries](Readings/Dictionaries.md)
+8. Working with RNASeq data
+   * FASTQ
+
+9.
 
