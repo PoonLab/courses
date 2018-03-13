@@ -11,9 +11,9 @@
 
 ## Prerequisites
 * students must have a laptop to work on
-* your laptop must have a UNIX-like computing environment, e.g., Linux, Apple OS-X.  If you are unable to install a UNIX-like environment, then you need to install [PuTTY](http://www.putty.org/) and arrange for a temporary user account on one of my Linux workstations.  See [instructions](RemoteComputing.md).
-* install [PyCharm](https://www.jetbrains.com/pycharm/) or a similar IDE (integrated development environment) or plain-text editor (such as [gedit](https://wiki.gnome.org/Apps/Gedit)).
-* install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).  This should already be installed on Linux and OS-X machines.  To confirm, open a [Terminal](https://en.wikipedia.org/wiki/Terminal_emulator) window and issue the following command: `git --version`.
+* your laptop must have a UNIX-like computing environment, e.g., Linux, Apple macOS.  If you are unable to install a UNIX-like environment, then you need to install [PuTTY](http://www.putty.org/) and arrange for a temporary user account on one of my Linux workstations.  See [instructions](RemoteComputing.md).
+* install a plain-text editor (such as [gedit](https://wiki.gnome.org/Apps/Gedit)) or an [integrated development environment](https://en.wikipedia.org/wiki/Integrated_development_environment) (IDE) for Python such as [PyCharm](https://www.jetbrains.com/pycharm/).
+* (optional) install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).  This should already be installed on Linux and macOS machines.  To confirm, open a [Terminal](https://en.wikipedia.org/wiki/Terminal_emulator) window and issue the following command: `git --version`.
 
 ## Grading
 
@@ -94,16 +94,20 @@
    * **In-class assignment** Debugging scripts
    * **Take-home assignment** Refactoring a bad script
 
-6. Outputs and pipelining
+6. Text processing
+   * Regular expressions with `re`
    * Old-style string formatting
    * `format`
-   * Output redirection
-   * Pipelines
+   
+7. Batch processing
+   * UNIX wildcards and `glob`
+   * Pipelining
+   * Calling other programs with `subprocess`
+   * Building a script interface with `argparse`
 
-7. Parsing BLAST
+8. Working with COSMIC data
 
-8. Working with RNASeq data
+9. Working with RNASeq data
    * FASTQ
 
-9.
 
