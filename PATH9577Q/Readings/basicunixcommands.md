@@ -181,6 +181,23 @@ Accessible.js          TeX-AMS_CHTML-full.js
 This is a *relative* path because it is defined relative to our current location in the filesystem.  If I moved one level up and tried the exact same command, it won't work.  Hence, relative paths are convenient but fragile.
 
 
+## Explore the filesystem (In-class assignment)
+
+It's useful to develop a general sense of how your filesystem is laid out.  One way to go about this is to use the `cd`, `ls` and `pwd` commands that we've just covered to move around and get to know what goes where!  Using the worksheet distributed in class, I want you to draw a partial map/outline of your filesystem.  At each branch, you should write a brief note about the role/contents of the corresponding directory.
+
+1. Start in your home directory (remember how to get there?).  You'll start mapping from the house on the worksheet.
+2. Move up to the top of the filesystem using the command `cd ..`.  At each level, draw a short line from the current directory upwards and label it with the name of the parent directory.  
+3. Repeat step 2 until you reach the root, *i.e.,* running `cd ..` fails to change the present working directory.
+4. Now we want to start exploring one level down from the root.  Draw branches downwards for `/usr` and at least 3 other child directories under `/`.  Some of these directories will contain binary executables, such as `/bin`.  Here are some brief descriptions of what you might encounter:
+  * `/bin` contains binaries that are needed to boot or repair the system in single user mode.
+  * `/sbin` contains binaries that are similar in function to those in `/bin` but are not normally executed by users.
+  * `/usr` contains resources that are required by users.  These files are generally read-only (not to be modified by users) and meant to be accessed by all users.
+  * `/home` is one level above your starting point.  It contains each user's own documents for which they will normally have full read-write privileges. 
+  For a more complete explanation, [The Linux Documentation Project](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/the-root-directory.html) has an excellent guide to the filesystem.
+5. Since there are a very large number of directories two levels down from the root, let's focus on the `/usr/local` branch.  Draw branches for all child directories under `/usr/local` and a brief description of each.
+6. Use the command `which python` or `which python3` to locate your default Python executable (more on this later).  Label this location on your map.  
+
+
 ## Examining files (`wc`, `cat`, `head`, `tail`)
 
 Okay, so now we're done looking around the filesystem.  We want to do some actual work here - let's inspect a file.  But we're not going to double-click on a file and wait for it to open up in some application like TextEdit or Excel.  The whole point of learning bioinformatics is (1) we are often dealing with files that are way too large to open in a standard application, and (2) we are often dealing with files that are too complex to deal with in a graphical user interface.  Bioinformatics exists in part because molecular technologies change so rapidly that every year brings a new *kind* of data, and a whole menagerie of competing formats.  
