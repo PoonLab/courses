@@ -16,15 +16,14 @@
 * The [Android OS](https://en.wikipedia.org/wiki/Android_(operating_system)) is based on the Linux kernel.
 * [Mac OS-X](https://en.wikipedia.org/wiki/MacOS) is also a Unix-like operating system, but it was built on the Berkeley Software Distribution (BSD) kernel, and includes proprietary and closed-source software.
 
-## Users and groups
-
+## You're a user!
 UNIX was developed for networked computing environments where a single computer may be accessed remotely and concurrently by multiple users.  This feature was important earlier on when computing resources in academic and research environments were often scarce, and groups needed to maximize the use of their computers.  The very first thing you will do when you first access a UNIX-like system is to create a user account.  If the system is administrated by someone else, then you will need that person or someone else with administrative privileges to create a new account for you.  Every account has a unique username.  Since you will have to type your username frequently and in many contexts, I suggest keeping it as simple as possible.  For example, I prefer to use `art` on systems that I own and administrate.  
 
 Next, you'll have to provide a password in order for your new user account to be activated.  I'm sure you're familiar with making passwords for social media and web services.  Although there are no universal rules for coming up with a password, some flavors of Linux have default requirements.  (These can later be bypassed on the command line, so if you *really* want to use `letmein` as your password, it is possible to make this change after creating your account.)  There are competing philosophies about what makes a good password:
 
 ![](https://imgs.xkcd.com/comics/password_strength.png)
 
-When you log into your user account on a UNIX-like machine that is configured to use a desktop environment, you will most likely see a collection of icons and images displayed on the monitor.  You'll need to open a terminal application to see what would normally be rendered in the absence of a desktop: the command line.
+When you log into your user account on a UNIX-like machine that is configured to use a desktop environment, you will most likely see a collection of icons and images displayed on the monitor.  You'll need to open a terminal application to see what would normally be rendered in the absence of a desktop: the command line.  In Ubuntu, you can click on the first icon to activate the search function and enter `terminal` to bring up a link to the default Terminal app.  In macOS, you can launch a similar application by activating Spotlight (&#8984;-`space`), typing `terminal` and hitting the `return` key.
 
 
 ## The command line
