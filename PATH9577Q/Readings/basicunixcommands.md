@@ -192,8 +192,8 @@ It's useful to develop a general sense of how your filesystem is laid out.  One 
   * `/bin` contains binaries that are needed to boot or repair the system in single user mode.
   * `/sbin` contains binaries that are similar in function to those in `/bin` but are not normally executed by users.
   * `/usr` contains resources that are required by users.  These files are generally read-only (not to be modified by users) and meant to be accessed by all users.
-  * `/home` is one level above your starting point.  It contains each user's own documents for which they will normally have full read-write privileges. 
-  For a more complete explanation, [The Linux Documentation Project](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/the-root-directory.html) has an excellent guide to the filesystem.
+  * `/home` is one level above your starting point.  It contains each user's own documents for which they will normally have full read-write privileges.   
+For a more complete explanation, [The Linux Documentation Project](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/the-root-directory.html) has an excellent guide to the filesystem.
 5. Since there are a very large number of directories two levels down from the root, let's focus on the `/usr/local` branch.  Draw branches for all child directories under `/usr/local` and a brief description of each.
 6. Use the command `which python` or `which python3` to locate your default Python executable (more on this later).  Label this location on your map.  
 
