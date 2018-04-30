@@ -1,6 +1,6 @@
-# A brief introduction to *nix
+# A brief introduction to &#42;nix
 
-## What is *nix?
+## What is &#42;nix?
 * This is as common way of referring to Unix-like operating systems
 * Unix was developed at [Bell Laboratories](https://en.wikipedia.org/wiki/Bell_Labs) starting 1969
 * Due to antitrust ruling in 1956, AT&T could not sell it for a profit, making it affordable for universities
@@ -146,15 +146,7 @@ boot   etc   initrd.img.old  lib64       mnt    root  snap  tmp  vmlinuz
 cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
 ```
 
-This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things. While we're here, let's point out some of the more important directories:
-* `/home` is where users keep their own stuff.  It has subdirectories for every user account.  There are generally no limits to reading and writing files in your home directory, but you won't be allowed to modify (or even read) files in another user's directory without special permissions.
-* `/usr` is where the OS keeps programs and resources that are meant for users.  
-* `/usr/local` is where programs and resources that were installed by users *on this particular machine* are located.
-* `/bin` is where binaries (executable files, i.e., programs) live.  These are generally low-level programs that define the OS.  `ls` and `cd` typically live here.
-* `/sbin` stores binaries meant for the system, not the typical user.
-* `/lib` contains [shared libraries](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries), files with resources that can be used by multiple programs and loaded when the program is run.
-* `/tmp` is an all-purpose space for temporary files that will probably get wiped when the system is restarted.
-For more inforation, see this [wiki](https://en.wikipedia.org/wiki/Unix_filesystem#Conventional_directory_layout) page.
+This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things in the form of user/group privileges.
 
 
 ## `pwd` and path specifications
@@ -192,9 +184,12 @@ It's useful to develop a general sense of how your filesystem is laid out.  One 
   * `/bin` contains binaries that are needed to boot or repair the system in single user mode.
   * `/sbin` contains binaries that are similar in function to those in `/bin` but are not normally executed by users.
   * `/usr` contains resources that are required by users.  These files are generally read-only (not to be modified by users) and meant to be accessed by all users.
-  * `/home` is one level above your starting point.  It contains each user's own documents for which they will normally have full read-write privileges.   
+  * `/home` is where users keep their own stuff.  It has subdirectories for every user account.  There are generally no limits to reading and writing files in your home directory, but you won't be allowed to modify (or even read) files in another user's directory without special permissions.
+  * `/lib` contains [shared libraries](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries), files with resources that can be used by multiple programs and loaded when the program is run.
+  * `/tmp` is an all-purpose space for temporary files that will probably get wiped when the system is restarted.
 For a more complete explanation, [The Linux Documentation Project](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/the-root-directory.html) has an excellent guide to the filesystem.
 5. Since there are a very large number of directories two levels down from the root, let's focus on the `/usr/local` branch.  Draw branches for all child directories under `/usr/local` and a brief description of each.
+  * `/usr/local` is where programs and resources that were installed by users *on this particular machine* are located.
 6. Use the command `which python` or `which python3` to locate your default Python executable (more on this later).  Label this location on your map.  
 
 
