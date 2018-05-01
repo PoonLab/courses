@@ -95,19 +95,26 @@ DESCRIPTION
 ![](https://imgs.xkcd.com/comics/tar.png)
 
 
-### Users and groups
+### File ownership and permissions
 
 Running the `ls` program with the `-l` argument generates a long list format of the directory contents, which looks something like this:
+```bash
+art@orolo:~$ ls -l
+total 60
+drwxr-xr-x 2 art art 4096 Apr 30 13:11 Desktop
+drwxr-xr-x 2 art art 4096 Apr  6 00:39 Documents
+drwxr-xr-x 2 art art 4096 Apr 30 10:08 Downloads
 ```
-[Elzar:~] artpoon% ls -l
-total 640
-drwx------    7 artpoon  staff     238 Feb 26 22:56 Applications
-drwxr-xr-x   48 artpoon  staff    1632 Sep 25  2017 Artwork
-drwx------@  31 artpoon  staff    1054 Apr 29 20:33 Desktop
-drwx------@  57 artpoon  staff    1938 Apr 29 20:31 Documents
-drwx------+ 377 artpoon  staff   12818 May  1 05:22 Downloads
+The top of the list (`total 60`) reports the total number of blocks occupied by these contents.  A block is a fundamental unit of filesystem storage - on my Ubuntu system, the block size corresponds to 4096 bytes (note that my `ls` output is truncated).  The rest of the list contains one row for every file in the directory (since everything in UNIX is a file, the directories are also listed as files).  The fact that the `Desktop` file is a directory is encoded by the first character in the string `drwxr-xr-x`.  If the file is not a directory, then the `d` would be replaced by a dash `-`.  
+
+The rest of the string is made up of three character triplets that encode the read/write/execute permissions for the file owner, group and everyone.  The owner of the file is given by the third item on the line - in this case, `art`.  Every user is automatically a member of their own group, which takes the same name.  So, I have read, write and execution (`rwx`) permissions for my `Desktop` file.  The act of executing a directory file corresponds to entering that directory and interfacing with its contents.  Any other user on the system can read (see) and execute (enter) my `Desktop` directory, but they can't enact *write* actions such as changing its name to `Sandwich`.  
+
+Now let's make a dummy file using the UNIX command `echo` and the redirection operator:
+```bash
+
 ```
-The top of the list (`total 640`) reports the total number of blocks occupied by these contents.  
+
+
 
 ### Working with the shell
 
