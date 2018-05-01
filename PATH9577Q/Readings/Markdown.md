@@ -59,6 +59,8 @@ However, there is some basic syntax that is fairly global across these different
 ## Second level heading
 ### Third level, and so on
 ```
+I'm not going to show the HTML rendering of these headers because it will mess up the document format.
+
 
 ### Text formatting
 ```markdown
@@ -100,6 +102,26 @@ __underline__
 | still | a | lot | easier | 
 | than | HTML | ! | |
 
+### Links and images
+```markdown
+[This embeds a link in the document](http://github.com)
+![This embeds an image in the document through its URL](https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/200px-Octicons-mark-github.svg.png)
+```
+[This embeds a link in the document](http://github.com)
+![This embeds an image in the document through its URL](https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/200px-Octicons-mark-github.svg.png)
+
+### Code blocks
+Blocks of code can be displayed in Markdown by enclosing the code in a pair of triple backticks ` ``` `.  We name a programming language after the first set of triple backticks to tell Markdown how to interpret the code for syntax highlighting.
+````markdown
+ ```python
+ for i in range(100):
+     print ('pants!')
+ ```
+````
+ ```python
+ for i in range(100):
+     print ('pants!')
+ ```
 
 ## Editors
 You can use any text editor to write Markdown as a plain text file, but it can be helpful to use a special editor that recognizes the Markdown syntax and modifies how your text is rendered accordingly.  For Linux, `gedit` is a simple text editor that does a nice job of highlighting headers, formatted text and lists.  For more expressive editors, you might try some open-source web applications such as:
