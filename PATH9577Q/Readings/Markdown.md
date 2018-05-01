@@ -142,7 +142,8 @@ Blocks of code can be displayed in Markdown by enclosing the code in a pair of t
  ```
 
 ## Editors
-You can use any text editor to write Markdown as a plain text file, but it can be helpful to use a special editor that recognizes the Markdown syntax and modifies how your text is rendered accordingly.  For Linux, `gedit` is a simple text editor that does a nice job of highlighting headers, formatted text and lists.  For more expressive editors, you might try some open-source web applications such as:
+You can use any text editor to write Markdown as a plain text file, but it can be helpful to use a special editor that recognizes the Markdown syntax and modifies how your text is rendered accordingly.  For Linux, `gedit` is a simple text editor that does a nice job of highlighting headers, formatted text and lists; for command-line text editing, I quite like `vim`.  For more expressive editors, you might try some open-source web applications such as:
 * [stackedit.io](https://stackedit.io/app#)
 * [dillinger.io](https://dillinger.io/)
 
+![](https://imgs.xkcd.com/comics/types_of_editors.png)
