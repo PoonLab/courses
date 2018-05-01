@@ -147,6 +147,8 @@ hello world
 ```
 What's going on here?  The `chmod` command allows me to set the permissions of a file.  But what is with the number `764`?  Each digit assumes a value between 0 and 7.  It is a compact representation of read/write/execute permissions that we can interpret by converting the digit into its binary representation.  For example, 7 is `111` (4 + 2 + 1) and is used to grant permissions to read, write *and* execute.  6 is `110` and gives members of the group permission to read and write only.  Finally, the binary representation of 4 is `100` and is used here to restrict anyone else to read-only access. 
 
+![](https://imgs.xkcd.com/comics/1_to_10.png)
+
 In this class, it is very unlikely that you will need to muck about with file permissions.  *However* it is useful to be aware of these because file permissions are a common stumbling block when working in a UNIX-like computing environment for the first time, or even when you've been doing it for years!
 
 
