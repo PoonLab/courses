@@ -34,5 +34,4 @@ In this assignment, you will need to use some basic UNIX commands that you've le
    ```bash
    # output of long list command here
    ```
-   
-   What are the permissions for this file and 
+   Briefly describe the characteristics of this file below, *i.e.*, read-write permissions, ownership, file size.
