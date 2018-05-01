@@ -46,7 +46,18 @@ A Markdown file is conventionally given the file extension `.md`.  When you see 
 
 
 ## Markdown syntax
-One of the tricky aspects of Markdown is that there are multiple implementations of the language.  That means that an annotation that is recognized by one implementation of Markdown won't necessarily be recognized by another.  There are also markup languages that extend Markdown by providing additional features such as the ability to embed mathematical formulas or bibliographies. 
+One of the tricky aspects of Markdown is that there are multiple implementations of the language.  There are also markup languages that extend Markdown by providing additional features such as the ability to embed mathematical formulas or bibliographies.  That means that an annotation that is recognized by one implementation of Markdown won't necessarily be recognized by another. 
 
 ![](https://imgs.xkcd.com/comics/standards.png)
+
+However, there is some basic syntax that is fairly global across these different implementations and extensions.  Given the current popularity of Markdown, there are several guides and resources online, but for your convenience I will summarize some of this syntax here.
+
+### Headings
+
+```markdown
+# A top level heading (title)
+## Second level heading
+### Third level, and so on
+```
+
 
