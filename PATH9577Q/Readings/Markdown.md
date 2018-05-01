@@ -50,7 +50,7 @@ One of the tricky aspects of Markdown is that there are multiple implementations
 
 ![](https://imgs.xkcd.com/comics/standards.png)
 
-However, there is some basic syntax that is fairly global across these different implementations and extensions.  Given the current popularity of Markdown, there are several guides and resources online, but for your convenience I will summarize some of this syntax here.
+However, there is some basic syntax that is fairly global across these different implementations and extensions.  Given the current popularity of Markdown, there are several guides and resources online, but for your convenience I will summarize some of this syntax here.  You can also look at the Markdown source of these Readings by clicking on the `Raw` button and compare this file alongside the rendered HTML.
 
 ### Headings
 
@@ -60,4 +60,49 @@ However, there is some basic syntax that is fairly global across these different
 ### Third level, and so on
 ```
 
+### Text formatting
+```markdown
+*italics*
+**bold**
+__underline__
+~~strikethrough~~
+```
+*italics*
+**bold**
+__underline__
+~~strikethrough~~
+
+### Lists
+```markdown
+* First item in a bulleted list
+* Another item
+1. Now we're switching to a numbered list
+2. Here is the next entry
+```
+* First item in a bulleted list
+* Another item
+1. Now we're switching to a numbered list
+2. Here is the next entry
+
+### Tables
+```markdown
+| Tables | are | a | bit |
+|--------|-----|---|-----|
+| of     | a   | bear | to |
+| write | in | markdown | but |
+| still | a | lot | easier | 
+| than | HTML | ! | |
+```
+| Tables | are | a | bit |
+|--------|-----|---|-----|
+| of     | a   | bear | to |
+| write | in | markdown | but |
+| still | a | lot | easier | 
+| than | HTML | ! | |
+
+
+## Editors
+You can use any text editor to write Markdown as a plain text file, but it can be helpful to use a special editor that recognizes the Markdown syntax and modifies how your text is rendered accordingly.  For Linux, `gedit` is a simple text editor that does a nice job of highlighting headers, formatted text and lists.  For more expressive editors, you might try some open-source web applications such as:
+* [stackedit.io](https://stackedit.io/app#)
+* [dillinger.io](https://dillinger.io/)
 
