@@ -40,7 +40,12 @@ Here is some *more* content, and here is an itemized list:
 ```
 Not only is there less extraneous markup text, but it doesn't interfere with our ability to read the underlying plain text.
 
-Markdown has become widely adopted.  For example, [GitHub](github.com) -- the largest code hosting service in the world -- uses Markdown as the standard format for developers to communicate with each other about coding issues.  [RStudio](https://www.rstudio.com/) provides [R Markdown](https://rmarkdown.rstudio.com/) as a simple format for creating rich documents with embedded R analyses and figures.  [Jekyll](https://en.wikipedia.org/wiki/Jekyll_(software)) is a [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language))-based framework for authoring [static web pages](https://en.wikipedia.org/wiki/Static_web_page), such as a blog site, using Markdown files and a small set of common templates.  In fact, you're reading a Markdown file right now - if you're looking at this in your web browser, then it has probably been rendered into an HTML document by Jekyll.
+Markdown has become widely adopted.  For example:
+
+* [GitHub](github.com) -- the largest code hosting service in the world -- uses Markdown as the standard format for developers to communicate with each other about coding issues.  
+* [RStudio](https://www.rstudio.com/) provides [R Markdown](https://rmarkdown.rstudio.com/) as a simple format for creating rich documents with embedded R analyses and figures.  
+* [Jekyll](https://en.wikipedia.org/wiki/Jekyll_(software)) is a [Ruby](https://en.wikipedia.org/wiki/Ruby_(programming_language))-based framework for authoring [static web pages](https://en.wikipedia.org/wiki/Static_web_page), such as a blog site, using Markdown files and a small set of common templates.  In fact, you're reading a Markdown file right now - if you're looking at this in your web browser, then it has probably been rendered into an HTML document by Jekyll.  
+* Some JavaScript frameworks for authoring web-based "PowerPoint" presentations, such as [reveal.js](https://revealjs.com/#/), can use Markdown for writing slides.
 
 A Markdown file is conventionally given the file extension `.md`.  When you see a file named `README.md`, then you can expect to be able to open it as a plain text file in any editor application and see some text decorated with Markdown syntax.
 
@@ -86,7 +91,7 @@ __underline__
 1. Now we're switching to a numbered list
 2. Here is the next entry
 
-### Tables
+### Tables and rules
 ```markdown
 | Tables | are | a | bit |
 |--------|-----|---|-----|
@@ -101,6 +106,19 @@ __underline__
 | write | in | markdown | but |
 | still | a | lot | easier | 
 | than | HTML | ! | |
+
+```markdown
+To draw a horizontal rule across the page, we use a triple dash:
+
+---
+
+which is handy for separating sections in the text.  Careful: if we don't have line breaks separating the text from the triple dash, then a Markdown interpreter may render the first line as an H2 header.
+```
+To draw a horizontal rule across the page, we use a triple dash:
+
+---
+
+which is handy for separating sections in the text.
 
 ### Links and images
 ```markdown
