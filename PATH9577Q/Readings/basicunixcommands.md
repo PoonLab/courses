@@ -95,6 +95,20 @@ DESCRIPTION
 ![](https://imgs.xkcd.com/comics/tar.png)
 
 
+### Users and groups
+
+Running the `ls` program with the `-l` argument generates a long list format of the directory contents, which looks something like this:
+```
+[Elzar:~] artpoon% ls -l
+total 640
+drwx------    7 artpoon  staff     238 Feb 26 22:56 Applications
+drwxr-xr-x   48 artpoon  staff    1632 Sep 25  2017 Artwork
+drwx------@  31 artpoon  staff    1054 Apr 29 20:33 Desktop
+drwx------@  57 artpoon  staff    1938 Apr 29 20:31 Documents
+drwx------+ 377 artpoon  staff   12818 May  1 05:22 Downloads
+```
+The top of the list (`total 640`) reports the total number of blocks occupied by these contents.  
+
 ### Working with the shell
 
 Before we get into some more UNIX commands, let's talk about a few things that are going to make your life easier.  
