@@ -109,11 +109,45 @@ The top of the list (`total 60`) reports the total number of blocks occupied by 
 
 The rest of the string is made up of three character triplets that encode the read/write/execute permissions for the file owner, group and everyone.  The owner of the file is given by the third item on the line - in this case, `art`.  Every user is automatically a member of their own group, which takes the same name.  So, I have read, write and execution (`rwx`) permissions for my `Desktop` file.  The act of executing a directory file corresponds to entering that directory and interfacing with its contents.  Any other user on the system can read (see) and execute (enter) my `Desktop` directory, but they can't enact *write* actions such as changing its name to `Sandwich`.  
 
-Now let's make a dummy file using the UNIX command `echo` and the redirection operator:
+Now let's make a dummy file using the UNIX command `echo` and the redirection operator (we'll learn more about these later):
 ```bash
-
+art@orolo:~$ echo boo! > dummy.txt
+art@orolo:~$ cat dummy.txt
+boo!
+art@orolo:~$ ls -l
+total 72
+drwxr-xr-x 2 art art 4096 Apr 30 13:11 Desktop
+drwxr-xr-x 2 art art 4096 Apr  6 00:39 Documents
+drwxr-xr-x 2 art art 4096 Apr 30 10:08 Downloads
+-rw-rw-r-- 1 art art    5 May  1 17:04 dummy.txt
 ```
+According to this output, I have read/write permissions for this new file, but no execution permissions.  It's just a plain text file so I wouldn't expect to try running it as a program.  But what if I did?  For example, I've used the `vi` editor to make a file called `test.py` with the following contents:
+```python
+#!/usr/bin/env python  # This first line tells the computer that this is a Python script
+print('hello world')
+```
+Here it is in my directory listing:
+```bash
+-rw-rw-r-- 1 art art   44 May  1 17:07 test.py
+```
+If I try to run this Python script, I get the following message:
+```bash
+art@orolo:~$ ./test.py
+bash: ./test.py: Permission denied
+```
+To understand why I had to put an `./` in front of the file name, see the section on *path specifications* below.  Basically, I need to tell the computer where to find the file I want to execute.  `./` is the UNIX way of saying "right here!".
 
+Now, let's change my user permissions on this script:
+```bash
+art@orolo:~$ chmod 764 test.py
+art@orolo:~$ ls -l test.py
+-rwxrw-r-- 1 art art 44 May  1 17:07 test.py
+art@orolo:~$ ./test.py
+hello world
+```
+What's going on here?  The `chmod` command allows me to set the permissions of a file.  But what is with the number `764`?  Each digit assumes a value between 0 and 7.  It is a compact representation of read/write/execute permissions that we can interpret by converting the digit into its binary representation.  For example, 7 is `111` (4 + 2 + 1) and is used to grant permissions to read, write *and* execute.  6 is `110` and gives members of the group permission to read and write only.  Finally, the binary representation of 4 is `100` and is used here to restrict anyone else to read-only access. 
+
+In this class, it is very unlikely that you will need to muck about with file permissions.  *However* it is useful to be aware of these because file permissions are a common stumbling block when working in a UNIX-like computing environment for the first time, or even when you've been doing it for years!
 
 
 ### Working with the shell
