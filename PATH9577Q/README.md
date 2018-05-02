@@ -39,7 +39,7 @@
    * Dealing with massive files: `less`, `grep` and `gunzip`
    * **In-class assignment** Map the file system - see [basicunixcommands](Readings/basicunixcommands.md)
    * **Take-home assignment** [Building a project folder](Assignments/takehome1.md).
-   * **Readings:** [basicunixcommands](Readings/basicunixcommands.md)
+   * **Readings:** [basicunixcommands](Readings/basicunixcommands.md), [Markdown](Readings/Markdown.md)
 
 2. Variables
    * Python's interactive mode
