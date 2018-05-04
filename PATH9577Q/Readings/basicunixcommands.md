@@ -45,7 +45,7 @@ eat: command not found
 
 Clearly, my OS is not impressed (your output will vary with OS's).  It doesn't recognize my random words as a valid command.  A command has to start by invoking a program.  (Invoke is a [D'n'D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons) way of saying that we type the name of a program.)  
 
-### `ls`
+### `ls` and wildcards
 Let's start by entering a valid command by invoking a program that actually exists.
 ```shell
 art@Misato:~$ ls
@@ -57,6 +57,25 @@ Downloads  java_error_in_PYCHARM_14175.log  Pictures  src     wip
 `ls` is a program that lists the files and folders in my home folder, which is my current "location" in the filesystem.  (UNIX was developed at a time where developers had to be extremely frugal with memory and storage; hence cryptic two-letter abbreviations were the norm.)  `ls` is an essential tool for getting the "lay of the land".
 
 ![](https://imgs.xkcd.com/comics/server_problem.png)
+
+`ls` on its own (without any arguments) will display the entire contents of the directory.  This can be problematic when the directory contains hundreds of files or more!  We can restrict the scope of the directory listing by providing some information about what we're specifically looking for.  On the other hand, we can't simply write out a vague description of what we're looking for, and expect the UNIX command to interpret our request.  Nope, we have to learn how to write out a set of instructions in a strict language that `ls` is going to understand.  The simplest request is to ask `ls` to verify whether a file with a specific name is present in the directory:
+```bash
+[Elzar:courses/PATH9577Q/Readings] artpoon% ls foo
+ls: foo: No such file or directory
+[Elzar:courses/PATH9577Q/Readings] artpoon% ls basicunixcommands.md 
+basicunixcommands.md
+```
+We can also chain together a list of filenames to search for, but it quickly gets tiresome writing these all out:
+```bash
+[Elzar:courses/PATH9577Q/Readings] artpoon% ls DateTime.md GoodCode.md Markdown.md
+DateTime.md	GoodCode.md	Markdown.md
+```
+It would be really helpful if we use some kind of shorthand to denote a number of possible filenames.  This is what [UNIX wildcards](http://tldp.org/LDP/GNU-Linux-Tools-Summary/html/x11655.htm) are for.  A wildcard is a character that is reserved for a special purpose of representing more than one character.  Here is a brief summary of some wildcards:
+* `*` stands for anything: any character can appear any number of times.  If you run `ls *`, it is the same as plain old `ls` - it will list all visible files in the directory.  If you run `ls z*`, then you are asking for a listing of all files with names that start with `z`.
+* `?` stands for any character appearing once.  If you run `ls f?b`, the listing can include the filenames `fab` and `fib`, but not `fuz`.
+* square brackets are used to restrict the wildcard to a specific subset of characters.  For example, if the directory contains the files `baz`, `bez` and `buz`, we can generate a listing of the first two files with the command `ls b[ae]z`.
+* `\` causes the next character to be taken literally if it is a wildcard.  `ls \**` will return a listing of all files whose names start with an asterisk.  Which is a terrible idea.  Don't name your files with asterisks.  Anyhow, this is really useful when you're dealing with a filename that contains a space, which is reserved for separating arguments.
+It's especially useful to learn wildcards because they apply not only to `ls` commands, but also to many other commands such as `rm` (deleting files).
 
 By default, `ls` doesn't display hidden files --- these are files with names that start with a dot `.` and are usually concealed because they are not meant to be accessed by the user.  Here's a truncated view of my output for an `ls -a` command:
 ```shell
