@@ -1,3 +1,4 @@
+import sys
 from urllib import request
 from bs4 import BeautifulSoup
 import re
@@ -54,4 +55,31 @@ for row in soup2table(tables[0]):
     result = [get_data(txt) for txt in row[1:]]
     results.append(result)
 
-print (results)
+
+################
+def soupheader(element):
+    for row in element.findAll('tr'):
+        data = row.findAll('th')
+        yield ([datum.text for datum in data])
+
+headers = []
+
+for row in soupheader(tables[0]):
+    if len(row) < 13:
+        continue  # go to next row
+    
+    header = row[0:]
+    headers.append(header)
+
+print (header)
+
+####################
+sys.exit()
+
+
+# print(results)
+def soup2header(element):
+    headers = element.findAll('th')
+    return [datum.text.strip() for datum in headers]
+
+print (soup2header(tables[0]))
