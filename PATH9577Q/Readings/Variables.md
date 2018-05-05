@@ -4,6 +4,19 @@
 
 ## Python as a calculator
 
+I stole this section title from the [official Python tutorial](https://docs.python.org/3/tutorial/introduction.html#using-python-as-a-calculator) because I really like the idea of introducing students to Python by launching it in interactive mode and working with this session in a familiar way, *e.g.,* punching in numbers and operations like a simple calculator.  First, let's launch an interactive session of Python:
+```bash
+art@orolo:~$ python3
+Python 3.5.2 (default, Nov 23 2017, 16:37:01) 
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+```
+Note that I had to specifically ask for Python version 3 instead of version 2 (on my Linux distro, this is just `python`).
+
+** in progress **
+
+
 ## Making variables
 
  Variables are a fundamental concept in programming - a variable is an agreement between you and the computer to refer to something with a name that you've both agreed on:
