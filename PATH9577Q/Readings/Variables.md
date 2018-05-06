@@ -25,7 +25,7 @@ Let's start doing some very basic calculations in Python:
 >>> (1+2)*3  # we can use brackets
 9
 >>> 3/2
-1.5
+1.5  # note in Python 2.x this returns a 1
 >>> 3%2  # 3 modulo 2 (divide and return the integer remainder)
 1
 >>> 3//2  # divide 3 by 2 and return only the integer part
@@ -33,11 +33,16 @@ Let's start doing some very basic calculations in Python:
 >>> 3**2  # 3 to the power of 2
 9
 ```
+All floating point numbers (numbers with decimal places) in Python are [internally represented as the sum of one or more fractions](https://docs.python.org/3.0/tutorial/floatingpoint.html).  In some cases, there is no exact representation for the number, which gives you funny results like this:
+```python
+>>> 0.1*3
+0.30000000000000004
+```
 
 
 ## Making variables
 
- Variables are a fundamental concept in programming - a variable is an agreement between you and the computer to refer to something with a name that you've both agreed on:
+Using Python as a calculator is handy but we're not really doing any programming.  A fundamental concept in programming is the abstraction of tasks like arithmetic so that the same operations can be applied to any inputs.  Variables are a fundamental concept in programming - a variable is an agreement between you and the computer to refer to something with a name that you've both agreed on:
 ```python
 >>> sandwich = 3
 >>> sandwich
