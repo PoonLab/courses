@@ -14,7 +14,25 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 Note that I had to specifically ask for Python version 3 instead of version 2 (on my Linux distro, this is just `python`).
 
-** in progress **
+Let's start doing some very basic calculations in Python:
+```python
+>>> 1+2
+3
+>>> 2*3
+6
+>>> 1+2*3  # Python adheres to the order of operations
+7
+>>> (1+2)*3  # we can use brackets
+9
+>>> 3/2
+1.5
+>>> 3%2  # 3 modulo 2 (divide and return the integer remainder)
+1
+>>> 3//2  # divide 3 by 2 and return only the integer part
+1
+>>> 3**2  # 3 to the power of 2
+9
+```
 
 
 ## Making variables
