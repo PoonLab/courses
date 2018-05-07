@@ -1,5 +1,3 @@
-> This document is in progress
-
 # Variables
 
 ## Python as a calculator
@@ -87,6 +85,12 @@ SyntaxError: invalid syntax
 ```
 Python didn't like this because it has strict rules about variable names.  It doesn't allow variable names to have any characters other than `_`, `A` to `Z`, `a` to `z`, and `0` to `9`, and the name cannot start with a digit.  These rules have to exist because if our variable name contains a character that has another role in the language, such as `=`, then Python is going to get confused!
 
+It's important to choose good variable names.  Here are some general guidelines:
+* Avoid using single letters as variable names like `x`, with an exception for generic variables such as [loop](Readings/ControlFlow.md) counters where we often use `i` for counting integers.
+* A name should be descriptive.  You don't want to name something `pepperoni` because your future self will have no idea what you're talking about.
+* Names should be concise.  You'll get tired of typing out `the_number_of_amino_acids_in_the_sequence` over and over again, and long variable names will cause unnecessary clutter in your code.
+* The [Python style guide](https://www.python.org/dev/peps/pep-0008/#id34) recommends that variable names be in lowercase and use underscores to separate words.  An alternative style is [camelcase](https://en.wikipedia.org/wiki/Camel_case), which uses a mix of upper and lowercase with uppercase used to indicate the start of a new word; *e.g.*, `theLastWord`.  It's fine if you prefer camelcase to underscores, but you should use one or the other consistently! 
+
 
 ## Variable types
 
@@ -142,4 +146,14 @@ Traceback (most recent call last):
 ValueError: invalid literal for int() with base 10: '3pizza'
 ```
 (In this example, I've made use of [string](Readings/Strings.md) objects.  We'll talk more about these later.)  If `int` can't convert the argument into an integer, then it complains - it throws an exception.
+
+When you cast a `float` as an `int`, the fractional part is simply dropped from the number.  The `round` function uses the fractional part to determine whether the value is rounded up or down to the nearest integer:
+```python
+>>> type(round(3.0))
+<class 'int'> 
+>>> round(3.49)
+3
+>>> round(3.51)
+4
+```
 
