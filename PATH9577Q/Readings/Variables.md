@@ -60,6 +60,17 @@ Now, we apply operations to this `sandwich` variable so that it becomes a generi
 ```
 Here, we've abstracted the act of adding one to some quantity, so we can use the same command to apply this action to *any* value that we assign to the `sandwich` variable.
 
+Variables are also useful for capturing the result of some operations so that we can use it for other calculations:
+```
+>>> cat = 1+3
+>>> dog = cat /2
+>>> dog
+2.0
+```
+It's also useful for "saving our work", *e.g.*, when we want to do some more operations with this variable later on.  We can use the variable as many times as we want!  *However*, we have to be careful that we don't inadvertently modify the variable so that it holds a completely different value by the time we want to re-use the original.
+
+## Naming variables
+
 Let's try messing around with Python a bit:
 ```python
 >>> 2=3
@@ -75,6 +86,9 @@ This is an error because we can't use `2` as a variable.  It has a fixed value, 
 SyntaxError: invalid syntax
 ```
 Python didn't like this because it has strict rules about variable names.  It doesn't allow variable names to have any characters other than `_`, `A` to `Z`, `a` to `z`, and `0` to `9`, and the name cannot start with a digit.  These rules have to exist because if our variable name contains a character that has another role in the language, such as `=`, then Python is going to get confused!
+
+
+## Variable types
 
 So far we've mostly been messing around with integers.  An integer is a specific *type* of variable in Python.  An integer has a number of properties that it does not share in common with other variable types.  To determine the type of a variable or constant, we can make use of the built-in Python function `type`:
 ```python
@@ -95,8 +109,37 @@ Python is a [dynamically-typed language](https://en.wikipedia.org/wiki/Type_syst
 In many other programming languages, the assignment of type is much more explicit --- we have to spell out the fact that we are making a new variable of integer type, and bad things will happen if we try to do non-integer things to it.
 
 
+## Coercion and casting variables
 
+A float is a Python `type` that is used to represent floating point numbers (a number with a decimal point).  What happens when we add an integer to a float?  
+```python
+>>> a = 1.2 + 3
+>>> a
+4.2
+>>> type(a)
+<class 'float'>
+```
+Any result of a sum that involves one or more floats will always return a float, even if the floats are integer-valued: 
+```python
+>>> 1 + 2 + 3 + 4 + 5.0
+15.0
+```
+This is called *variable coercion*.  It's important to be aware of this behaviour, especially when you start to mix more divergent Python types.
 
-
-
+What if we want to keep the result of this sum as an `int` type?  There are a number of possibilities, but the most generic is to force the result of this sum to be an integer using the `int()` function, which takes a single argument and attempts to convert it into an `int` type:
+```python
+>>> int(3.0)
+3
+>>> int(3.1)
+3
+>>> int(1 + 2 + 3 + 4 + 5.0)
+15
+>>> int('3')  # cast a string as an integer
+3
+>>> int('three')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '3pizza'
+```
+(In this example, I've made use of [string](Readings/Strings.md) objects.  We'll talk more about these later.)  If `int` can't convert the argument into an integer, then it complains - it throws an exception.
 
