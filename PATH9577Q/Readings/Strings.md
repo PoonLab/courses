@@ -1,7 +1,72 @@
 ## Strings
 
+A string is a kind of object in Python.  We identify a string constant by enclosing text in single or double quotes.
+```python
+>>> type('I am a string')
+<class 'str'>
+>>> s = "I am assigned to a variable"
+>>> type(s)
+<class 'str'>
+>>> "Your quotes have to be balanced'
+  File "<stdin>", line 1
+    "Your quotes have to be balanced'
+                                    ^
+SyntaxError: EOL while scanning string literal
+```
+`EOL` stands for "end of line".  Python's upset that I hit the `Enter` key before closing out the string I was writing.  With the first `"`, I promised Python that I would end the growing string with a second `"`. 
 
-A string is a kind of object in Python.  Specifically, it is an *iterable* and *immutable* sequence of characters.  A string is an ordered sequence because a character has a specific location in the string, and changing this location would give you a different string.  If the order of values in the sequence is meaningful, then we can legitimately ask Python for the value located at the third position of the sequence.  This is called *indexing*.  Python is a zero-index language: it starts counting from zero.  Other languages, such as *R*, are one-index languages and start counting from one.  Here's an example:
+>A literal is Python's way of talking about a string constant -- the sequence of characters is being read literally, instead of being interpreted as symbols in the Python language.
+
+>A [syntax error](https://en.wikipedia.org/wiki/Syntax_error) means that you accidentally broke the rules of the programming language and Python has no idea what you're talking about.  It is like having as having a conversation with someone and saying: "... so we opened the door and gabato flimm zxayaok *blows raspberry* *makes farting noise with armpit*".
+
+`"` and `'` are reserved characters in Python strings.  For example, we can't simply toss in a single quote for an apostrophe without causing trouble:
+```python
+>>> a_string = 'Don't try this at home'
+  File "<stdin>", line 1
+    a_string = 'Don't try this at home'
+                    ^
+SyntaxError: invalid syntax
+```
+There are a couple of solutions to this common problem.
+1. Enclose the strings with double quotes:
+```python
+>>> "It's a single quote!"
+"It's a single quote!"
+```
+2. Escape the single quote with a backslash character (`\`), so the quote is interpreted as a symbol instead of being read literally:
+```python
+>>> 'It\'s still a single quote!'
+"It's still a single quote!"
+```
+
+What happens if we need to declare a literal that contains both single and double quotes?  First, we could take strategy 2 and diligently escape every quote, but this is kind of a pain for long strings with lots of quotes.  Second, Python has a "nuke it from orbit" alternative, which is to enclose the string in **triple quotes**:
+```python
+>>> '''"So, you're the UNIX guru."'''
+'"So, you\'re the UNIX guru."'
+```
+(Note that when Python echos back the string literal, it returns it in a format that's a valid input.)
+We can use either three single `'''` or double `"""` quotes to enclose the string literal, as long as we use the same choice for both the left and right ends of the string.
+
+Can a string literal contain line breaks?  During an interactive session of Python, if we hit the `Enter` key while writing out a string that we meant to enclose in single or double quotes, then we're going to get a syntax error.  Again we have two choices - first, we can use a special escape character, `\n`, to represent the line break:
+```python
+>>> print(a)
+break this line
+ok
+```
+or we can declare the string literal using triple quotes:
+```python
+>>> a = """break this line
+... ok"""
+>>> a
+'break this line\nok'
+>>> print(a)
+break this line
+ok
+```
+
+
+## Indexing and slicing
+Specifically, it is an *iterable* and *immutable* sequence of characters.  A string is an ordered sequence because a character has a specific location in the string, and changing this location would give you a different string.  If the order of values in the sequence is meaningful, then we can legitimately ask Python for the value located at the third position of the sequence.  This is called *indexing*.  Python is a zero-index language: it starts counting from zero.  Other languages, such as *R*, are one-index languages and start counting from one.  Here's an example:
 
 ```python
 >>> s1 = "hotdog"  # define a string by enclosing characters with double-quotes and assign it to a variable
