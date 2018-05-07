@@ -10,7 +10,19 @@ Python 3.5.2 (default, Nov 23 2017, 16:37:01)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
-Note that I had to specifically ask for Python version 3 instead of version 2 (on my Linux distro, this is just `python`).
+(Note that I had to specifically ask for Python version 3 instead of version 2 -- on my Linux distro, this is just `python`.) This is a command line shell just like you've been working with for class on the [command line interface](Readings/basicunixcommands.md).  It has a prompt that comprises three greater-than signs: `>>>`.  The same tricks for navigating a command line entry and the history of your session apply equally well to this Python shell as they did for working with UNIX; we can use:
+* the `left` and `right` arrow keys to move along the command line
+* the `up` and `down` arrow keys to recall previous commands
+* `Ctrl-A` and `Ctrl-E` to jump to the start or end of the current command line
+* `Tab` to autocomplete a command if what you have already typed in uniquely refers to one of the available commands
+
+First things first.  We've entered the Python interactive shell.  How do we get out?  You can get back to the original command line interface by typing `Ctrl-D`.  If you forget, type `exit` or `quit` and Python will remind you!
+```python
+>>> quit
+Use quit() or Ctrl-D (i.e. EOF) to exit
+>>> exit
+Use exit() or Ctrl-D (i.e. EOF) to exit
+```
 
 Let's start doing some very basic calculations in Python:
 ```python
