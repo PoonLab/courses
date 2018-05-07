@@ -95,6 +95,8 @@ Python is a [dynamically-typed language](https://en.wikipedia.org/wiki/Type_syst
 In many other programming languages, the assignment of type is much more explicit --- we have to spell out the fact that we are making a new variable of integer type, and bad things will happen if we try to do non-integer things to it.
 
 
-## Integers
 
-I've mentioned that being a particular `type` means that the object (variable or constant) automatically takes on a number of properties.  To learn about these properties, we can use the `dir` function. 
+
+
+
+
