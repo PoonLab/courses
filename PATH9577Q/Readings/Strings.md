@@ -66,7 +66,7 @@ ok
 
 
 ## Indexing and slicing
-Strings are a very different type of object in Python than [integers or floats](Readings/Variables.md).  First, a string is an *iterable* object.  It is an ordered sequence of smaller objects (characters), which means that we can move from one part of the string to another in a meaningful way, and partition the string into substrings.
+Strings are a very different type of object in Python than [integers or floats](Variables.md).  First, a string is an *iterable* object.  It is an ordered sequence of smaller objects (characters), which means that we can move from one part of the string to another in a meaningful way, and partition the string into substrings.
 
 A string is an ordered sequence because a character has a specific location in the string, and changing this location would give you a different string.  If the order of values in the sequence is meaningful, then we can legitimately ask Python for the value located at the third position of the sequence.  This is called *indexing*.  Python is a zero-index language: it starts counting from zero.  Other languages, such as *R*, are one-index languages and start counting from one.  Here's an example:
 
@@ -121,7 +121,7 @@ This implies that the following is a legitimate (but kind of pointless) slice, a
 
 ### Mutability
 
-A string is "immutable":  Python won't allow you to change parts of the string by assigning a different character.  This is a property that strings share in common with [integers and floats](Readings/Variables.md).  On the other hand, you can concatenate two strings together without changing the content of either string.  This is accomplished with the plus sign (`+`):
+A string is "immutable":  Python won't allow you to change parts of the string by assigning a different character.  This is a property that strings share in common with [integers and floats](Variables.md).  On the other hand, you can concatenate two strings together without changing the content of either string.  This is accomplished with the plus sign (`+`):
 ```python
 >>> s1+s2
 'hotdogketchup'
