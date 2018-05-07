@@ -42,15 +42,23 @@ All floating point numbers (numbers with decimal places) in Python are [internal
 
 ## Making variables
 
-Using Python as a calculator is handy but we're not really doing any programming.  A fundamental concept in programming is the abstraction of tasks like arithmetic so that the same operations can be applied to any inputs.  Variables are a fundamental concept in programming - a variable is an agreement between you and the computer to refer to something with a name that you've both agreed on:
+Using Python as a calculator is handy but we're not really doing any programming.  A fundamental concept in programming is the abstraction of tasks like arithmetic so that the same operations can be applied to any inputs.  A variable is an agreement between you and the computer to refer to something with a unique name:
 ```python
->>> sandwich = 3
->>> sandwich
+>>> sandwich = 3  # assignment operation
+>>> sandwich  # print the value currently assigned to this variable
 3
 ```
-What just happened here?  We've named a variable `sandwich` and assigned to it the integer value `3`.  Python interprets the equal sign `=` as a directive to assign the value on the right side to a variable on the left side.  I think most programming languages follow this right to left convention, although there are different notations used for variable assignment.  For example, *R* uses a notation (`<-`) that is less ambiguous.
+What just happened here?  We've named a variable `sandwich` and assigned to it the integer value `3`.  Python interprets the equal sign `=` as a directive to **assign** the value on the right side to a variable on the left side.  I think most programming languages follow this right to left convention, although there are different notations used for variable assignment.  For example, *R* uses a notation (`<-`) that is less ambiguous.  Second, entering the variable name by itself is requesting Python to print the value associated with the variable.  Since we just assigned the integer value `3` to our variable, that's what is printed out.
 
-Second, entering the variable name by itself is requesting Python to print the value associated with the variable.  Since we just assigned the integer value `3` to our variable, that's what is printed out.
+Now, we apply operations to this `sandwich` variable so that it becomes a generic action on any value that we assign to `sandwich`:
+```python
+>>> sandwich + 1
+4
+>>> sandwich = 0.5  # assign a different value
+>>> sandwich + 1  # same operation as before
+1.5
+```
+Here, we've abstracted the act of adding one to some quantity, so we can use the same command to apply this action to *any* value that we assign to the `sandwich` variable.
 
 Let's try messing around with Python a bit:
 ```python
@@ -58,7 +66,7 @@ Let's try messing around with Python a bit:
   File "<stdin>", line 1
 SyntaxError: can't assign to literal
 ```
-This is an error because we can't use `2` as a variable.  It has a fixed value, which is what the error statement means when it's referring to it as a literal object.  Let's try something else:
+This is an error because we can't use `2` as a variable.  It has a fixed value, which is what the error statement means when it's referring to it as a literal object.  We would say that `2` is a constant, not a variable.  Let's try something else:
 ```python
 >>> 2two=3
   File "<stdin>", line 1
@@ -68,5 +76,25 @@ SyntaxError: invalid syntax
 ```
 Python didn't like this because it has strict rules about variable names.  It doesn't allow variable names to have any characters other than `_`, `A` to `Z`, `a` to `z`, and `0` to `9`, and the name cannot start with a digit.  These rules have to exist because if our variable name contains a character that has another role in the language, such as `=`, then Python is going to get confused!
 
-## Numbers
+So far we've mostly been messing around with integers.  An integer is a specific *type* of variable in Python.  An integer has a number of properties that it does not share in common with other variable types.  To determine the type of a variable or constant, we can make use of the built-in Python function `type`:
+```python
+>>> type(1)
+<class 'int'>
+>>> sandwich=3
+>>> type(sandwich)
+<class 'int'>
+```
+Here, the function `type` has identified the constant `1` as an instance of the class `int`.  A `class` is a more general category of objects in Python.  If this is getting confusing, think of a `type` as a subset of `class` - all types are classes, but not all classes are types.  Or if that is still too confusing, just think of `class` as a synonym of `type` for now.  
 
+Python is a [dynamically-typed language](https://en.wikipedia.org/wiki/Type_system): this means that we don't have to tell Python what kind of variable we are trying to make.  Python is smart enough to guess at our intention when we make the variable assignment.  For example, when we assign a floating point number to `sandwich`, its type is changed:
+```python
+>>> sandwich = 3.01
+>>> type(sandwich)
+<class 'float'>
+```
+In many other programming languages, the assignment of type is much more explicit --- we have to spell out the fact that we are making a new variable of integer type, and bad things will happen if we try to do non-integer things to it.
+
+
+## Integers
+
+I've mentioned that being a particular `type` means that the object (variable or constant) automatically takes on a number of properties.  To learn about these properties, we can use the `dir` function. 
