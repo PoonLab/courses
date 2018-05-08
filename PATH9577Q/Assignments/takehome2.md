@@ -12,10 +12,10 @@
 
 ```
 
-3. Assign the quoted text below to a string variable `haiku`, with line breaks intact (note, line breaks might not render in HTML; do not include `>` symbols):
-   > Antenna searches.
-   > Retriever's nose in the wind.
-   > Ether's far secrets.
+3. Assign the quoted text below to a string variable `haiku`, with line breaks intact (note, line breaks might not render in HTML; do not include `>` or `<br/>` symbols, the latter are just there to force line breaks within the quote):
+   > Antenna searches.<br/>
+   > Retriever's nose in the wind.<br/>
+   > Ether's far secrets.<br/>
 ```python
 # paste your work here
 
