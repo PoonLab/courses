@@ -224,6 +224,45 @@ cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
 
 This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things in the form of user/group privileges.
 
+## `mkdir`
+
+To create a new directory, you need to use the `mkdir` (make directory) command:
+```shell
+art@orolo:~/Desktop$ mkdir test
+art@orolo:~/Desktop/test$ pwd
+/home/art/Desktop/test
+```
+You can also submit a relative or absolute path as an argument to `mkdir` and it will create the directory at that location, so long as the rest of the path exists.  For example, if I had used:
+```shell
+art@orolo:~$ mkdir Desktop/test
+art@orolo:~$ cd Desktop
+art@orolo:~/Desktop$ cd test
+art@orolo:~/Desktop/test$ pwd
+/home/art/Desktop/test
+```
+then I will have achieved the same result, but if I tried:
+```
+art@orolo:~$ mkdir foobar/test
+mkdir: cannot create directory ‘foobar/test’: No such file or directory
+```
+then the command fails because there was no directory `foobar` relative to my current location in the filesystem.
+
+If you change your mind, then you can erase a directory using the `rmdir` (remove directory) command:
+```shell
+art@orolo:~/Desktop$ rmdir test
+art@orolo:~/Desktop$ cd test
+bash: cd: test: No such file or directory
+```
+However, this will only work if the directory does not contain any files or other directories.  If you are *absolutely certain* that you want to delete the directory and all of its contents, then you can nuke it from orbit with this command:
+```shell
+art@orolo:~/Desktop$ ls test
+a_file.txt
+art@orolo:~/Desktop$ rmdir test
+rmdir: failed to remove 'test': Directory not empty
+art@orolo:~/Desktop$ rm -rf test
+```
+**BE CAREFUL.**  Once you have run this command, there is no easy way to recover your directory or files.  This is **NOT** the same as moving these items into a "Trash" or "Recycling" folder like in Windows or macOS desktop operating systems.
+
 
 ## `pwd` and path specifications
 The Unix file system is a big place!  Fortunately, you can always warp back to your home directory by typing `cd` by itself.  Do that and start using `cd` to explore your home directory, then use the command `pwd` to get your bearings:
