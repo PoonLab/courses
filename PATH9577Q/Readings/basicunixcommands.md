@@ -211,7 +211,7 @@ Typing `cd` by itself will return you to your home directory:
 art@Misato:~/some/faroff/land$ cd
 art@Misato:~$ 
 ```
-and we can get the same result with `cd ~`.  The tilde `~` character is the UNIX symbol for your home directory, and can save you some typing when you're writing out a relative path.
+and we can get the same result with `cd ~`.  The tilde `~` character is the [UNIX symbol for your home directory](https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html), and can save you some typing when you're writing out a relative path.  Note that the tilde appears in the prompt `art@Misato:~$` which was configured on that computer to remind the user about their location in the filesystem.
 
 Now let's keep inputting `cd ..` to go as far as we can!
 ```shell
