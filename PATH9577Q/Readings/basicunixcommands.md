@@ -224,7 +224,7 @@ cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
 
 This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things in the form of user/group privileges.
 
-## `mkdir`
+## Making and removing: `mkdir`, `rmdir` and `rm`
 
 To create a new directory, you need to use the `mkdir` (make directory) command:
 ```shell
@@ -261,8 +261,19 @@ art@orolo:~/Desktop$ rmdir test
 rmdir: failed to remove 'test': Directory not empty
 art@orolo:~/Desktop$ rm -rf test
 ```
-**BE CAREFUL.**  Once you have run this command, there is no easy way to recover your directory or files.  This is **NOT** the same as moving these items into a "Trash" or "Recycling" folder like in Windows or macOS desktop operating systems.
+**BE CAREFUL.**  Once you have run this command, there is no easy way to recover your directory or files.  This is **NOT** the same as moving these items into a "Trash" or "Recycling" folder like in Windows or macOS desktop operating systems. 
 
+There are two options being set in this call to `rm`.  The `-r` flag means that we want to *recursively* remove files and directories starting from our location and all the way down to the last child directory.  The `-f` flag stands for *force* -- we are telling `rm` that we want to remove files and directories without the program repeatedly asking us "are you sure?".  The combination of these options makes this command exceedingly dangerous.
+
+Since we're on the topic of `rm`, I want to finish off this section with a mention that `rm` can be used with UNIX wildcards just like we have done with `ls`.  If we want to delete a specific file (let's call it `foo`), we call:
+```shell
+art@orolo:~/Desktop$ rm foo
+```
+If we want to delete all files in the current directory that start with the letter `f`:
+```shell
+art@orolo:~/Desktop$ rm f*
+```
+and so on.
 
 ## `pwd` and path specifications
 The Unix file system is a big place!  Fortunately, you can always warp back to your home directory by typing `cd` by itself.  Do that and start using `cd` to explore your home directory, then use the command `pwd` to get your bearings:
