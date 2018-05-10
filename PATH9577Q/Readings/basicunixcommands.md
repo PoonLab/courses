@@ -206,6 +206,13 @@ art@Misato:~/Desktop$ cd ..
 art@Misato:~$ 
 ```
 
+Typing `cd` by itself will return you to your home directory:
+```shell
+art@Misato:~/some/faroff/land$ cd
+art@Misato:~$ 
+```
+and we can get the same result with `cd ~`.  The tilde `~` character is the UNIX symbol for your home directory, and can save you some typing when you're writing out a relative path.
+
 Now let's keep inputting `cd ..` to go as far as we can!
 ```shell
 art@Misato:~$ cd ..
