@@ -61,7 +61,7 @@
    * Casting between types
    * **In-class assignment** Built-in types worksheet
    * **Take-home assignment** String and list operations
-   * **Readings:** [Variables](Readings/Variables.md), [Strings](Readings/Strings.md), [Iterables](Readings/Iterables.md), [Dictionaries](Readings/Dictionaries.md) -- note these are in progress
+   * **Readings:** [Variables](Readings/Variables.md), [Strings](Readings/Strings.md), [Iterables](Readings/Iterables.md), [Dictionaries](Readings/Dictionaries.md)
 
 3. Control flow
    * Code blocks with indents in Python
