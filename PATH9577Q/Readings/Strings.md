@@ -49,6 +49,7 @@ We can use either three single `'''` or double `"""` quotes to enclose the strin
 
 Can a string literal contain line breaks?  During an interactive session of Python, if we hit the `Enter` key while writing out a string that we meant to enclose in single or double quotes, then we're going to get a syntax error.  Again we have two choices - first, we can use a special escape character, `\n`, to represent the line break:
 ```python
+>>> a = 'break this line\nok'
 >>> print(a)
 break this line
 ok
