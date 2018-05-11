@@ -6,7 +6,7 @@
 
 ```
 
-2. Find a simple arithmetic operation with two integers that yields a float with a machine precision error, other than the one that was given as an example in class.  Use built-in functions in Python to round this quantity to the nearest integer.  
+2. Find a simple arithmetic operation with two numbers (`int` or `float`) that yields a float with a machine precision error, other than the one that was given as an example in class.  Use built-in functions in Python to round this quantity to the nearest integer.  
 ```python
 # paste your work here
 
