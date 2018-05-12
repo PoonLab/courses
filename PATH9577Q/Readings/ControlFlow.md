@@ -9,8 +9,74 @@ In Python, these aspects of contorl flow are accomplished by iteration (with `fo
 
 where a set of instructions is executed a number of times -- it is where bioinformatics gets a lot of its power, by doing many things very quickly.  
 
-### *for* and *while* loops
-A big challenge of taking a data-driven approach to learning about Python is that there is a lot of stuff we need to cover before we can start doing anything practical.  One of the general concepts in programming that I've been skirting around is control flow.  Think of running a simple script as water running down a pipe.  We've covered for-loops; these are like pumps that send water upwards for a while.  Another control statement that has a similar effect is the `while` loop:
+### *for* loops
+
+Loops are a fundamental concept in programming where we instruct the computer to follow the same set of instructions a specific number of times, or forever until some condition is met.  A `for` loop in Python looks like this:
+```python
+>>> for i in range(3):
+...     print('Underpants!')
+... 
+Underpants!
+Underpants!
+Underpants!
+```
+(This sort of thing really is how many of us got started with programming in the 80's.)  
+
+What's going on here?  First of all, a `for` statement has three basic parts:
+1. An iterable object that we're looping over.
+  In this example, `range` is a built-in function that returns a sequence of integers that starts with `0` and ends with one less than the integer argument.  In Python 3, you can't see this sequence even if you specifically ask for it.  This is because Python 3 is returning a function that will generator this sequence as numbers when you ask for them; this is more efficient than storing the entire sequence in memory.  I'm still getting used to this -- in Python 2, everything was immediately available to look at.
+  ```python
+  >>> range(3)
+  range(0, 3)
+  >>> thing = range(3)
+  >>> list(thing)
+  [0, 1, 2]
+  ```
+
+2. One or more variables for capturing the values being passed from the iterable object.  
+  In our example, there's only one integer being passed at a time, so we only need one variable: `i`.  In our first pass through the loop, `i` has the value `0`.  On our second pass, it has the value `1`.  To illustrate:
+  ```python
+  >>> for i in range(3):
+  ...   print(i)
+  ... 
+  0
+  1
+  2
+  ```
+  
+3. A code block that is going to be executed every time we pass through the loop.
+  This is where we have to get into another basic concept in Python.  A [code block](https://en.wikipedia.org/wiki/Block_(programming)) is a subset of instructions that we want to differentiate from the rest of the instructions.  When we write a `for` loop, for example, we usually don't want Python to execute the entire script multiple times.  A programming language needs to have some means of telling the computer which instructions are in the code block, and which ones are not.  Some languages enclose the code block in a special character.  For example, `C` uses curly brackets (`{` and `}`).  Python uses whitespace: a series of one or more spaces or tabs.  It's one of the defining (but not unique) characteristics of the language. 
+  For example, deleting the spaces to the left of the `print` function in the previous example raises an error:
+  ```
+  >>> for i in range(3):
+... print(i)
+  File "<stdin>", line 2
+    print(i)
+        ^
+IndentationError: expected an indented block
+  ```
+  All lines that begin with the same whitespace that come immediately after the `for` statement are included in the code block.  The next line to start with different whitespace closes the code block.  For example, this script:
+  ```python
+  for i in range(3):
+    print(i)
+  print('now stop')
+  ```
+  produces the following output:
+  ```shell
+  [Elzar:courses/GradPythonCourse/examples] artpoon% python foo.py
+  0
+  1
+  2
+  now stop
+  ```
+  Caveat: this example will raise a syntax error in interactive mode.  It's just [one of those quirks](https://docs.python.org/3/tutorial/interpreter.html#interactive-mode) of the interactive mode.
+  
+![](https://imgs.xkcd.com/comics/ducklings.png)
+
+
+### `while` loops
+
+Think of running a simple script as water running down a pipe.  We've covered for-loops; these are like pumps that send water upwards for a while.  Another control statement that has a similar effect is the `while` loop:
 ```python
 >>> i = 0
 >>> while i < 5:
@@ -99,6 +165,8 @@ Since this comes up so often, however, Python provides a slightly simpler and mo
 ...     print(' bark'*counter)
 ```
 The `enumerate` function returns tuples 
+
+
 
 ### if-else conditionals
 
