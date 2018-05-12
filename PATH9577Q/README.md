@@ -74,6 +74,7 @@
    * Combining conditional and loop statements: `break` and `continue`
    * Defining functions
    * **In-class assignment** Your first script
+   * **Readings:** [Control flow](Readings/ControlFlow.md)
 
 4. Parsing data
    * File encodings: ASCII, Unicode
