@@ -7,7 +7,9 @@ In Python, these aspects of contorl flow are accomplished by iteration (with `fo
 
 ### Iteration in Python
 
-where a set of instructions is executed a number of times -- it is where bioinformatics gets a lot of its power, by doing many things very quickly.  
+Iteration refers to a set of instructions being executed a number of times.  It is where bioinformatics gets a lot of its power, by doing many things very quickly.  Recall that some Python objects are [iterable](Iterables.md) - they are made up of one or more members in an ordered sequence that can be indexed and sliced.  
+
+
 
 ### *for* loops
 
