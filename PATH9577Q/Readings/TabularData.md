@@ -1,5 +1,7 @@
 # Working with tabular data in Python
 
+> Note: this document is being revised
+
 * [Binary and text files](TabularData.md#binary-and-text-files)
 * [Tabular data](TabularData.md#tabular-data)
 * [Functions](TabularData.md#intermission---working-with-python-functions)
@@ -143,31 +145,7 @@ open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, clo
 There's actually many more lines than this!  This shell works the same way as `less` and `man`: you can scroll up and down with the arrow keys, and return to your Python session at any time by typing `q`.  The first line of the help document provides some concise information about how to use the function (to get more detailed information, keep reading!).  There are 8 different arguments that can be passed to the `open` function.  There is only 1 argument that doesn't have a default value: `file`.  That is what we use to specify an absolute or relative path to the file that we want to open a stream from. The `mode` argument is the only one that I've ever used in practice.  Note that it defaults to a read-only mode (`r`).  This is good behaviour - if it defaulted to a write mode (`w`), then you'd wiped out every file you tried to open! 
 
 ### Another intermission - Variables
-Functions usually have *return values* --- they pass something back to you when they've completed their task.  You need to capture this return value by assigning it to a variable.  Variables are a fundamental concept in programming - a variable is an agreement between you and the computer to refer to something with a name that you've both agreed on:
-```python
->>> sandwich = 3
->>> sandwich
-3
-```
-What just happened here?  We've named a variable `sandwich` and assigned to it the integer value `3`.  Python interprets the equal sign `=` as a directive to assign the value on the right side to a variable on the left side.  I think most programming languages follow this right to left convention, although there are different notations used for variable assignment.  For example, *R* uses a notation (`<-`) that is less ambiguous.
-
-Second, entering the variable name by itself is requesting Python to print the value associated with the variable.  Since we just assigned the integer value `3` to our variable, that's what is printed out.
-
-Let's try messing around with Python a bit:
-```python
->>> 2=3
-  File "<stdin>", line 1
-SyntaxError: can't assign to literal
-```
-This is an error because we can't use `2` as a variable.  It has a fixed value, which is what the error statement means when it's referring to it as a literal object.  Let's try something else:
-```python
->>> 2two=3
-  File "<stdin>", line 1
-    2two=3
-       ^
-SyntaxError: invalid syntax
-```
-Python didn't like this because it has strict rules about variable names.  It doesn't allow variable names to have any characters other than `_`, `A` to `Z`, `a` to `z`, and `0` to `9`, and the name cannot start with a digit.  These rules have to exist because if our variable name contains a character that has another role in the language, such as `=`, then Python is going to get confused!
+Functions usually have *return values* --- they pass something back to you when they've completed their task.  You need to capture this return value by assigning it to a variable. 
 
 When a function returns a value, you need to assign this value to a variable.  When there are multiple return values, you can provide an equal number of variables to assign them to.  Otherwise, they will be assigned to a single variable as a collection of objects such as a [tuple](https://docs.python.org/2/tutorial/datastructures.html#tuples-and-sequences).
 
@@ -233,69 +211,6 @@ Now we've got a variable that we've named `line` that is holding onto the conten
 This is valid Python, but it's also stupid.  No, we're going to have to learn about `for` loops.
 
 
-## for loops
-
-Loops are a fundamental concept in programming where we instruct the computer to follow the same set of instructions a specific number of times, or forever until some condition is met.  A `for` loop in Python looks like this:
-```python
->>> for i in range(3):
-...     print('Underpants!')
-... 
-Underpants!
-Underpants!
-Underpants!
-```
-(This sort of thing really is how many of us got started with programming in the 80's.)  
-
-What's going on here?  First of all, a `for` statement has three basic parts:
-1. An iterable object that we're looping over.
-  In this example, `range` is a built-in function that returns a sequence of integers that starts with `0` and ends with one less than the integer argument.  In Python 3, you can't see this sequence even if you specifically ask for it.  This is because Python 3 is returning a function that will generator this sequence as numbers when you ask for them; this is more efficient than storing the entire sequence in memory.  I'm still getting used to this -- in Python 2, everything was immediately available to look at.
-  ```python
-  >>> range(3)
-  range(0, 3)
-  >>> thing = range(3)
-  >>> list(thing)
-  [0, 1, 2]
-  ```
-
-2. One or more variables for capturing the values being passed from the iterable object.  
-  In our example, there's only one integer being passed at a time, so we only need one variable: `i`.  In our first pass through the loop, `i` has the value `0`.  On our second pass, it has the value `1`.  To illustrate:
-  ```python
-  >>> for i in range(3):
-  ...   print(i)
-  ... 
-  0
-  1
-  2
-  ```
-  
-3. A code block that is going to be executed every time we pass through the loop.
-  This is where we have to get into another basic concept in Python.  A [code block](https://en.wikipedia.org/wiki/Block_(programming)) is a subset of instructions that we want to differentiate from the rest of the instructions.  When we write a `for` loop, for example, we usually don't want Python to execute the entire script multiple times.  A programming language needs to have some means of telling the computer which instructions are in the code block, and which ones are not.  Some languages enclose the code block in a special character.  For example, `C` uses curly brackets (`{` and `}`).  Python uses whitespace: a series of one or more spaces or tabs.  It's one of the defining (but not unique) characteristics of the language. 
-  For example, deleting the spaces to the left of the `print` function in the previous example raises an error:
-  ```
-  >>> for i in range(3):
-... print(i)
-  File "<stdin>", line 2
-    print(i)
-        ^
-IndentationError: expected an indented block
-  ```
-  All lines that begin with the same whitespace that come immediately after the `for` statement are included in the code block.  The next line to start with different whitespace closes the code block.  For example, this script:
-  ```python
-  for i in range(3):
-    print(i)
-  print('now stop')
-  ```
-  produces the following output:
-  ```shell
-  [Elzar:courses/GradPythonCourse/examples] artpoon% python foo.py
-  0
-  1
-  2
-  now stop
-  ```
-  Caveat: this example will raise a syntax error in interactive mode.  It's just [one of those quirks](https://docs.python.org/3/tutorial/interpreter.html#interactive-mode) of the interactive mode.
-  
-![](https://imgs.xkcd.com/comics/ducklings.png)
 
 
 ## Back to our file - working with strings
@@ -315,171 +230,6 @@ and much more!  There's a couple of things to note here.  First, the lines being
 
 ### Indexing
 
-A string is a kind of object in Python.  Specifically, it is an *iterable* and *immutable* sequence of characters.  A string is an ordered sequence because a character has a specific location in the string, and changing this location would give you a different string.  If the order of values in the sequence is meaningful, then we can legitimately ask Python for the value located at the third position of the sequence.  This is called *indexing*.  Python is a zero-index language: it starts counting from zero.  Other languages, such as *R*, are one-index languages and start counting from one.  Here's an example:
-
-```python
->>> s1 = "hotdog"  # define a string by enclosing characters with double-quotes and assign it to a variable
->>> s1[1]
-'o'
->>> s2 = 'ketchup'  # single quotes are okay too
->>> s2[0]
-'k'
->>> s2[0] = 'Z'  # now let's try to assign a new value to the first position
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: 'str' object does not support item assignment
-```
-
-A very important generalization of indexing is *slicing*, where we cut out a continuous interval of a sequence.  A slice is invoked by square brackets and a pair of integers separated by a colon (`:`) that describes a range:
-```python
->>> s2[0:3]  # the first 3 letters of "ketchup"
-'ket'
->>> s2[:3]  # we can omit the zero
-'ket'
->>> s2[3:5]  # the 3rd and 4th letters
-'ch'
->>> s2[-3:]  # the last 3 letters
-'hup'
->>> s2[1:-1]  # exclude the first and last letters
-'etchu'
-```
-So to sum up, the first integer gives the left limit of the range and the second gives the right limit.  If an integer is negative, then we start counting from the end of the string instead of the beginning.  Negative indexes are one-index instead of zero-index because we can't distinguish between `0` and `-0`.
-
-When you're learning Python for the first time, it's easy to get tripped up by slice notation.  First of all, remember that Python is a zero-index language, so we always start counting from `0`.  In other words, the element at position `1` is the 2nd element of a sequence.  In the first example, it might look like we've asked for four elements because the range `0:3` seems to span the numbers 0, 1, 2, and 3.  However, Python slices are left-closed/right-open intervals - they include the leftmost value, but they don't include the rightmost value.  This is actually a nice convention for a zero-indexed language: it allows us to ask directly for the first 3 letters with the integer value 3.
-
-There is actually a third "argument" to slice notation that people seldom use, but I'll mention it because you might encounter it when reading someone else's script.  This third argument specifies the step size used to progress through the range specified by the first and second arguments.  For example:
-```python
->>> s2[0:5:2]  # s2 is still "ketchup"
-'kth'
-```
-returns the first, third and fifth letters.  If you ever do encounter this type of slice notation, it'll probably be the following usage:
-```python
->>> s2[::-1]  # return the entire string in reverse
-'puhctek'
-```
-This implies that the following is a legitimate (but kind of pointless) slice, and it is indeed:
-```python
->>> s2[:]
-'ketchup'
-```
-
-![](https://imgs.xkcd.com/comics/donald_knuth.png)
-
-
-### Mutability
-
-A string is "immutable".  Python won't allow you to change parts of the string by assigning a different character.  On the other hand, you can concatenate two strings together without changing the content of either string.  This is accomplished with the plus sign (`+`):
-```python
->>> s1+s2
-'hotdogketchup'
-```
-Other operators don't work:
-```python
->>> s1-s2
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: unsupported operand type(s) for -: 'str' and 'str'
->>> s1*s2
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: can't multiply sequence by non-int of type 'str'
-```
-But if we multiply a string with an integer, then it gets repeated:
-```python
->>> s1*3
-'hotdoghotdoghotdog'
-```
-
-There are a lot of other things we can do with strings.  Let's get the list of these things:
-```python
->>> dir(s1)
-['__add__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__gt__', '__hash__', '__init__', '__iter__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
-```
-A nice feature of Python is that you can call the `dir` function on any instance of an object and get the list of that object's attributes.  Here, we called `dir` on the `s1` variable - because we assigned a string value to this variable, we get the list of string functions.  There are several useful functions to talk about here.  I'm going to collect these into "descriptive" and "manipulative" groups of functions.
-
-### Descriptive string functions
-
-I'm referring to these functions as descriptive because they are essentially tests on the content of a string: they return a `True` or `False` value that is the outcome of the test.  They don't return a new string or strings that are the product of the original string.  In most of the following brief descriptions, I am not going to go into some of the optional arguments for the respective functions; you can always learn more about them with the `help` function, *e.g.*, `help(''.beginswith)`.
-
-* `beginswith` and `endswith` test whether a string starts or ends with a particular substring, respectively.  For example:
- ```python
- >>> s = 'jabberwocky'
- >>> s.startswith('jab')
- True
- >>> s.endswith('hockey')
- False
- ```
-
-* `in` is actually an operator like `+` or `==`, not a function.  However, I'm going to mention it here because it is a useful test that is less specific than `beginswith` and `endswith`: it simply tests whether a substring occurs anywhere in the string:
- ```python
- >>> 'wock' in s  # variable still holds "jabberwocky"
- True
- ```
- 
-* A more informative test of substring occurrence is provided by `find` and `index`, which both return the index of the first occurrence.  The key difference between these two functions is that `find` returns a `-1` integer value if the substring is not found in the string, and `index` raises an Error.
- ```python
- >>> s.index('wock')
- 6
- >>> s.find('wock')
- 6
- >>> s.find('oaijreg')
- -1
- >>> s.index('oiajewf')
- Traceback (most recent call last):
-   File "<stdin>", line 1, in <module>
- ValueError: substring not found
- ```
- 
- * `count` returns the number of times that a substring occurs in the string:
- ```python
- >>> s.count('b')  # jabberwocky has two 'b's
- 2
- ```
-
-
-### Manipulative string functions
-
-I'm using this term to describe string functions that return a string or multiple strings.  Again, most of these functions have optional arguments that I won't be covering, and which can be examined with the `help` function.
-
-* `strip` : When this function is called without any arguments, it removes any leading or trailing whitespace (spaces or tabs on the extreme left or right of a string) by default.  If you supply a substring as the optional argument, then any occurrence *of any character* in the substring is removed from the left or right of the string.  `lstrip` and `rstrip` are special cases where `strip` is applied only to the left or right of a string, respectively.
- ```python
- >>> s = '  shrubbery \t'
- >>> s.strip()
- 'shrubbery'
- >>> s.lstrip()
-'shrubbery \t'
- >>> s.rstrip()
- '  shrubbery'
- >>> '  the spaces between us  '.strip()  # whitespace within a string is protected
- 'the space between us'
- >>> s.strip(' sy')  # can you explain why we get this output?
- 'hrubbery \t'
- ```
-
-* `replace` : This function has two required arguments.  The first argument is a substring to search for, and the second argument is a substring to replace every occurrence of the former.  
- ```python
- >>> s.replace('b', '')
- '  shruery \t'
- >>> s.replace('r', 'NI')
- '  shNIubbeNIy \t'
- ```
-
-* `split` : `split` is an extremely useful function for working with tabular data - it locates every occurrence of the substring argument and cuts the string into pieces wherever it removes the substring.  `split` always returns a list, even if the substring wasn't found.  Like `strip`, `split` cuts at whitespace by default.
- ```python
- >>> s = 'LCD Soundsystem'
- >>> s.split()
- ['LCD', 'Soundsystem']
- >>> s.split('s')
- ['LCD Sound', 'y', 'tem']
- ```
- 
-* `join` : is the antipode of `split`.  It takes a list of strings and then concatenates them together into a single string using a given substring as glue.  A key difference between `join` and the other functions is that the substring that is being used as glue is the calling object, not the argument.  This is necessary because the return value of `split` is a list, and a list can be sequence of any kind of object including a mixture of strings, integers and other lists.  It doesn't make sense to concatenate the items in a mixed list into a single string!
- ```python
- >>> s = "it's going to be a long trip"
- >>> '...'.join(s.split())  # not "s.split().join('...')"
- "it's...going...to...be...a...long...trip"
- ```
- 
  
 ### Getting back to tabular data
 
@@ -540,4 +290,233 @@ To understand what this script is doing, I find it helpful to extract one line f
 ['25-34', '0-39g/day', '0-9g/day', '0', '40']
 ```
 And so on.  Interactively poke and prod at every operation being performed on this line.  What happens if you don't enclose `cases` and `controls` with `int()` functions?  How about if you try to compute the proportion with `int(cases)/sampsize`?
+
+
+## Example: NCBI ClinVar
+[ClinVar](https://www.ncbi.nlm.nih.gov/clinvar/) is NCBI's web portal to query their curated database of associations between variants in the human genome (alleles) and phenotypes (measurable characteristics).  Results from a ClinVar database query can be saved to your computer as a plain-text file in a tab-separated values (TSV) tabular format.  Here is a snippet of the results when querying `BRCA1`, which returns a table of all variants within the BRCA1 gene and their clinical associations:
+```
+Name	Gene(s)	Condition(s)	Frequency	Clinical significance (Last reviewed)	Review status	Chromosome	Location	Assembly	VariationID	AlleleID(s)	
+NM_007294.3:c.(671_4096)ins(300)	BRCA1	Breast-ovarian cancer, familial 1		Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter			GRCh38	373890	360778
+NG_005905.2:g.61068_98138del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373857	360746
+NG_005905.2:g.137094_142043del	BRCA1	Breast-ovarian cancer, familial 1	Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	GRCh38	373853	360745
+```
+Note that this data file contains a header row.  I've uploaded this CSV file into the `examples/` directory.  To resync your local copy of the repository with the remote copy, navigate to your `courses/` directory and enter the following command:
+```shell
+art@Misato:~/git/courses/GradPythonCourse/examples$ git pull origin master
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (4/4), done.
+From http://github.com/PoonLab/courses
+ * branch            master     -> FETCH_HEAD
+   aa44207..d506966  master     -> origin/master
+Merge made by the 'recursive' strategy.
+ GradPythonCourse/TabularData2.md | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+```
+Your output will vary depending on when you last synced with the remote, and whether you've made any changes to files in your local repository.
+
+
+Try using some of the UNIX commands we've covered to have a quick look at this file, such as `wc`, `head`, and `grep`.
+
+
+## Review: parsing a tabular data file in Python
+
+Here is a basic skeleton of a script that opens a file and attempts to read data from it by assuming that it is in a tabular data format:
+```python
+# set the character or substring we're going to use to 
+delimiter ='\t'
+
+# open a stream to the file in read mode
+handle = open('ClinVar.BRCA1.tsv', 'rU')
+
+# if we want to skip a header row, we need to advance one line in the stream
+_ = handle.readline()
+
+#for line in handle.readlines():
+for line in handle:  # this is equivalent to the above statement
+    # remove the line break and break the remaining string down to a list of values
+    values = line.strip('\n').split(delimiter)
+    # do stuff with values here
+
+# tidy up after ourselves
+handle.close()
+```
+This isn't by any means the only way to write this sort of script, and it's far from the best (for one thing, there's no handling of values enclosed in double-quotes).  I'm only using this as a foundation for reviewing some of the basic concepts we've covered so far.  In a later section, I'll talk about a better way of handling tabular data in Python (with the *csv* module).
+
+Recall that a tabular data format is generally defined by separating table rows into different lines in the file, and separating the values within each row (table columns) with a delimiter.  This example script opens the file, pops the first line off as a header row, and then loops through the remaining lines in the file until it reaches the end.  Each line is broken up into pieces (substrings) that get assigned to a list.  
+
+Iteration over the file handle (looping over lines) plays a key role in our script.  
+```python
+for line in handle:  # this is equivalent to the above statement
+```
+An open file stream in Python is an iterable object.  Looping over the lines of a file is such a common task that it just made sense to incorporate this into the behaviour of a file stream object; in other words, you don't have to call its `readlines()` function.
+
+This isn't the only iterable object that we're dealing with in this script.  There's also an iterable object being returned from this line:
+```python
+values = line.strip('\n').split('\t')
+```
+The `split` function returns a list comprising all the substrings produced by cutting the original string wherever the delimiter occurs.  Since we're already dealing with two iterable objects, I think it makes sense to expand on what these are and how we work with them.
+
+
+
+## Composing and debugging scripts
+
+Let's get back to our example.  We're going to put everything we've covered so far to reformat this data set to address a couple of issues.  First of all, the first field `name` contains a lot of information that has been munged together into a long unintelligible string.  Let's break this up into parts that are easier to work with.  Second, the clinical significance field has a "Last reviewed" comment appended to it that we'd like to break into a separate field. 
+
+When we're composing a script, it generally helps to write it out in stages with a text editor and run those drafts with a non-interactive Python interpreter to check some intermediate outputs.  Any plain text editor will do.  I tend to use PyCharm, but gedit works just as well and if I know that I'm making a small change, I prefer to use UNIX [vim](https://en.wikipedia.org/wiki/Vi).
+
+![](https://imgs.xkcd.com/comics/real_programmers.png)
+
+Let's start by creating a file and calling it `parse-brca1.py`.  For convenience, you might like to have it in the same directory as the `ClinVar.BRCA1.tsv` file.  Myself, I like keeping my scripts and data in separate folders within a project folder and then calling scripts with relative paths to make the code portable.
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+
+for line in handle:
+    values = line.strip('\n').split('\t')
+    # temporary code - see how labels line up with content of first row
+    for i, val in enumerate(values):
+        print(header[i], '"', val, '"')  # enclose in quotes to make empty strings more apparent
+    break  # run only once!
+```
+Try this out and see what you get!
+
+Okay, let's start tackling the first objective.  I trying to guess how to parse the `name` field.
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+
+# now I just want to run for the first 10
+for idx, line in enumerate(handle):
+    # The output of the last run tells us about what content we expect per line
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    # ... removed temporary code ...
+    accno, rest = name.split(':')  # the first part looks like an accession number
+    print(accno, rest)
+    if idx == 9:
+        break
+```
+
+This results in the following output - note the `print` function inserts a space between each argument:
+```
+NM_007294.3 c.(671_4096)ins(300)
+NG_005905.2 g.61068_98138del
+NG_005905.2 g.137094_142043del
+NG_005905.2 g.118449_154829del
+NG_005905.2 g.116321_140085del
+NG_005905.2 g.110966_142550del
+NG_005905.2 g.133626_139705dup
+NM_007294.3(BRCA1) c.81-?_547+?dup
+NM_007294.3(BRCA1) c.81-?_5193+?del
+NM_007294.3(BRCA1) c.81-?_5152+?dup
+```
+
+Uh-oh.  There's some extra stuff tacked onto the first part in some cases.  Let's amend our script to strip it out.
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    accno, rest = name.split(':')
+    accno2 = accno.strip('(BRCA1)')
+    print(accno2)
+    if idx == 9:
+        break
+```
+
+Output:
+```shell
+[Elzar:courses/GradPythonCourse/examples] artpoon% python parse-brca1.py | tail -n3
+NM_007294.3
+NM_007294.3
+NM_007294.3
+```
+OK, that helped.  I'm feeling confident, so I try removing the last two lines to run through the entire file.  
+```
+NP_009225.
+NP_009225.
+[...other stuff...]
+Traceback (most recent call last):
+  File "parse-brca1.py", line 6, in <module>
+    accno, rest = name.split(':')
+ValueError: not enough values to unpack (expected 2, got 1)
+```
+Whoops.  That wasn't good enough after all.  We've got two problems.  The first is that the `strip` statement was too much and the clipped off the trailing `1` in some of the accession numbers.  In other words, `NP_009225.` should have remained `NP_009225.1`.  
+
+Second, not all of the `name` values contain a `:`.  What was the value that caused this to happen?  Unfortunately, Python exited the script without telling us.  We need to insert a debugging statement to reveal the contents of the value when our script hits this bug:
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    try:
+        accno, rest = name.split(':')
+    except:
+        print (line)  # show the entire line where the bug occurs
+        raise
+    accno2 = accno.split('(')[0]  # amended this line
+    print(accno2)
+```
+When we run this, we get the following (I truncated the output after the first line of the traceback):
+```
+L824X	BRCA1	Breast-ovarian cancer, familial 1		Pathogenic(Last reviewed: Feb 20, 2013)	no assertion criteria provided			GRCh38	125869	131407
+
+Traceback (most recent call last):
+```
+Our hunch was right - this is one of the few lines where the first value doesn't contain a colon character (`:`).  This would be a good place for a conditional statement:
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    if ':' in name:
+        accno, rest = name.split(':')
+        accno = accno.split('(')[0]
+    else:
+        # plain format
+        accno = ''  # empty string
+        rest = name
+    print (accno)
+```
+
+We're feeling pretty swell!  But now there's *another* bug:
+```shell
+Traceback (most recent call last):
+  File "parse-brca1.py", line 7, in <module>
+    accno, rest = name.split(':')
+ValueError: too many values to unpack (expected 2)
+```
+This error message tells me that when I split the `name` string on the `:` character, I got back more than two substrings.  In other words, one of the `name` values has more than one `:`.  I put in another `try..except` clause and dug up the offending line:
+```
+NM_007294.3:c.-19-48_80+248delinsU77841.1:g.2145_2536	BRCA1	Breast-ovarian cancer, familial 1		Pathogenic(Last reviewed: Oct 2, 2015)	criteria provided, single submitter	17	43123769 - 43124163	GRCh38	373856	360740
+```
+Yup, two colons.  We need to make this instruction a little less fragile:
+```python
+handle = open('ClinVar.BRCA1.tsv')
+header = handle.readline().strip('\n').split('\t')
+for idx, line in enumerate(handle):
+    name, _, _, _, clinical, _, _, _, _, _, _ = line.strip('\n').split('\t')
+    if ':' in name:
+        tokens = name.split(':')
+        accno = tokens[0].split('(')[0]
+        rest = ':'.join(tokens[1:])  # stitch the other parts back together
+    else:
+        accno = ''
+        rest = name
+    print (accno)
+```
+And *hooray*, our script now runs through the file without throwing exceptions!  
+
+What just happened?  You've now undergone the horrific experience of debugging code.  [Maurice Wilkes](https://en.wikipedia.org/wiki/Maurice_Wilkes) has a famous quote on debugging attributed to him:
+> As soon as we started programming, we found to our surprise that it wasn't as easy to get programs right as we had thought. Debugging had to be discovered. I can remember the exact instant when I realized that a large part of my life from then on was going to be spent in finding mistakes in my own programs.
+
+My motivation for writing this section was to give you a basic idea of what goes on when someone starts writing a script.  You never get it right the first time, and even after the hundredth iteration, there is inevitably some small problem in the code with more complex projects.  As far as composing a single script goes, I like this iterative process of writing a bit, getting some output and testing it out, writing a bit more, and so on.  It (*hopefully*) prevents the situation where you've written a big mess of code and end up having to throw it all away.
+
+![](https://imgs.xkcd.com/comics/new_bug.png)
+
+
+## Additional exercises
+1. Adapt your Python script to output all lines that contain the word `Pathogenic`.  Skip the header line.  Use `print` to write output to standard out, and then redirect this stream to a file by calling your script from the shell and using the `>` operator.  Generate a second file with the same criteria, but using UNIX `grep` instead of Python.  Run UNIX `diff` on the two files to determine if they are the same.
 
