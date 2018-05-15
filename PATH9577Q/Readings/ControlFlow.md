@@ -407,3 +407,29 @@ Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 NameError: name 'arg1' is not defined
 ```
+Conversely, variables defined at global scope can be used within a function:
+```python
+>>> def silly_function(arg1):
+...     return foo + str(arg1)
+... 
+>>> silly_function(1)
+'bar1'
+```
+
+What happens if we change a globally-defined variable within a function?  Something special!
+```python
+>>> def silly_function(arg1):
+...     foo = 'zip'
+...     return foo + str(arg1)
+... 
+>>> silly_function(1)
+'zip1'
+>>> foo
+'bar'
+```
+What happened here is that `foo` was redeclared at a local scope within the function `silly_function` and then used to generate the return value `zip1`.  Next, Python returned from the function back to global scope and continued along until we called `foo`, which retained its original value at this scope.
+
+
+
+
+### Positional and keyword arguments
