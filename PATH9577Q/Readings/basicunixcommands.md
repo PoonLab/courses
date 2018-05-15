@@ -171,6 +171,81 @@ Accessible.js          TeX-AMS_CHTML-full.js
 This is a *relative* path because it is defined relative to our current location in the filesystem.  If I moved one level up and tried the exact same command, it won't work.  Hence, relative paths are convenient but fragile.
 
 
+## The `$PATH` environment variable
+
+So far we've run a few commands and used these commands to starting exploring the *nix filesystem. What are these commands? How does the computer know what to do when we type in these two-letter combinations? The basic answer is that in the *nix world, *everything is a file*. `ls` is a file. More specifically, it is a binary executable, a file made up of `0`s and `1`s that encode a set of instructions for the computer, and does not encode information that is meant to be decoded and displayed to the user in a readable format.
+
+Where is this file? You can find this out with another command called `which` (and yes, `which` is also a file):
+```shell
+art@Kestrel:~$ which ls
+/bin/ls
+art@Kestrel:~$ ls -lh /bin/ls
+-rwxr-xr-x 1 root root 124K Mar  2  2017 /bin/ls
+```
+
+Note that we didn't have to tell the computer where the program `ls` is. This is because *nix keeps track of a list of folders to look for executable files. This list is stored as an [environment variable](https://en.wikipedia.org/wiki/Environment_variable). You can think of these variables as the command-line version of the operating system preferences. When we call an executable, the operating system searches through the list of paths that is stored in the variable `PATH`. To look at the contents of `PATH`, we have to use a `$` symbol to tell the OS that we are referring to the environment variable and not the string:
+
+```shell
+art@Kestrel:~$ echo PATH
+PATH
+art@Kestrel:~$ echo $PATH
+/home/art/bin:/home/art/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+```
+
+This is a list of absolute paths that is delimited (separated) by `:` characters. The computer starts reading this list from left to right. The first path is in my home directory, `/home/art/bin`. The name of this folder implies that it would hold binary executables, but I'm pretty certain that I never installed any executables in my own home folder:
+```shell
+art@Kestrel:~$ ls /home/art/bin
+ls: cannot access '/home/art/bin': No such file or directory
+```
+
+Fine. The computer doesn't mind that this directory doesn't exist. It just moves onto the next path in the list. Note that because the computer starts searching these paths from the left of the list, the leftmost path takes precedence over paths to the right. If you have two binary executable files with the same name, then the file in the leftmost path will get run first. For example, sometimes people have more than one copy of `python` installed on their computer -- these may be different versions of Python. With my `$PATH`, the `python` at `/usr/local/bin` would always be run instead of another copy at `/usr/bin` unless I specifically ask for the latter by invoking it with an absolute or relative path.
+
+
+## File permissions
+
+When we ran the `ls` command in long list mode with the flag `-l`, we saw some scary stuff. Here it is again:
+```shell
+art@Kestrel:~$ ls -l
+total 80
+drwxrwxr-x  2 art art  4096 Apr 14 22:17 Desktop
+drwxr-xr-x  4 art art  4096 Apr 10 19:33 Documents
+drwxr-xr-x  4 art art 12288 Apr 15 22:43 Downloads
+drwxrwxr-x 19 art art  4096 Apr 15 22:40 git
+```
+
+Each line represents a file or directory. Again, since everything in *nix is a file, a directory is just a special kind of file. To really understand what each line means, let's drill down on `Desktop`:
+
+* `d` means that this file is a directory. If it was just a regular file then we'd see a `-`.
+* The first `rwx` means that the owner of this file has permissions to read, write or execute the file. For a directory, `x` sets the permission to access and view the contents of the directory.
+* The second `rwx` specifies these same permissions for users in the group assigned to this file.
+* The third `rwx` specifies the permissions for everyone else.
+* `2` indicates the number of blocks taken up by this file. In *nix, space in the file system is allocated in 4 kilobyte blocks.
+* `art` indicates that I am the owner of this file.
+* The second `art` indicates that the file is assigned to a group called `art`. Every user in the system also has a group with their same name.
+* `4096` gives the size of the file in bytes.
+* `Apr 14 22:17` gives the date and time that this file was last modified.
+* `Desktop` is the name of the file
+
+Modifying the permissions of a file is a topic that is a bit outside the scope for this course. However, it is useful to be aware of permissions because they can occasionally cause problems for processing data and running scripts, especially when you are working with other users on the same system. To illustrate, I'm going to make a dummy file and then deny myself permission to edit it:
+
+```shell
+art@Kestrel:~$ echo "This is a fake file" > temp.txt
+art@Kestrel:~$ cat temp.txt
+This is a fake file
+art@Kestrel:~$ ls -l temp.txt
+-rw-rw-r-- 1 art art 20 Apr 16 00:04 temp.txt
+art@Kestrel:~$ chmod -w temp.txt
+art@Kestrel:~$ ls -l temp.txt
+-r--r--r-- 1 art art 20 Apr 16 00:04 temp.txt
+art@Kestrel:~$ echo "Let's try to write more" > temp.txt
+bash: temp.txt: Permission denied
+art@Kestrel:~$ chmod +w temp.txt
+art@Kestrel:~$ echo "Please?" > temp.txt
+art@Kestrel:~$ cat temp.txt
+Please?
+```
+
+
 ## Examining files (`wc`, `cat`, `head`, `tail`)
 
 Okay, so now we're done looking around the filesystem.  We want to do some actual work here - let's inspect a file.  But we're not going to double-click on a file and wait for it to open up in some application like TextEdit or Excel.  The whole point of learning bioinformatics is (1) we are often dealing with files that are way too large to open in a standard application, and (2) we are often dealing with files that are too complex to deal with in a graphical user interface.  Bioinformatics exists in part because molecular technologies change so rapidly that every year brings a new *kind* of data, and a whole menagerie of competing formats.  
