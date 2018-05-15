@@ -1,13 +1,68 @@
-## Control flow
+# Control flow
 
 [Control flow](https://en.wikipedia.org/wiki/Control_flow) determines how the computer moves through a set of instructions. Like many scripting languages, Python generally starts at the top of an instruction set and progresses downwards.  This downward flow can be interrupted by an instruction for Python to repeat a specific block of code a number of times (iteration).  It can also be diverted into separate streams depending on whether one or more specific conditions are met ([conditional branching](https://en.wikipedia.org/wiki/Branch_(computer_science))).  Finally, the program can be temporarily switched to a completely different set of instructions before continuing on the original flow ([subroutines](https://en.wikipedia.org/wiki/Subroutine)). 
 
 In Python, these aspects of contorl flow are accomplished by iteration (with `for` and `while`), conditional statements (`if` and `else`), and by defining and calling functions (`def`).  
 
 
-### Iteration in Python
+## Iteration in Python
 
-Iteration refers to a set of instructions being executed a number of times.  It is where bioinformatics gets a lot of its power, by doing many things very quickly.  Recall that some Python objects are [iterable](Iterables.md) - they are made up of one or more members in an ordered sequence that can be indexed and sliced.  
+Iteration refers to a set of instructions being executed a number of times.  It is where bioinformatics gets a lot of its power, by doing many things very quickly.  Recall that some Python objects are [iterable](Iterables.md) - they are made up of one or more members in an ordered sequence that can be indexed and sliced.  One way to create an iterable object is by declaring the literal representation, *e.g.*:
+```python
+>>> s = 'this is a string iterable'
+>>> l = ['This', 'is', 'an', 'iterable']
+```
+However, this is not a convenient method when we are dealing with an iterable with a large number of members, or when the membership of the iterable object needs to change on the fly, *e.g.,* when we are working through a large data file.
+
+A useful function that produces a generic iterable object is the function `range`:
+```python
+>>> r = range(10)
+>>> r
+range(0, 10)
+>>> list(r)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> r[0]
+0
+>>> r[-1]
+9
+>>> r[:]
+range(0, 10)
+```
+It isn't until we coerce `r` into a new List object that we see the contents of this iterable object.  However, we can index into it just like we would with a List.  To actually iterate over a range, we have to use a `for` command:
+```python
+>>> for i in r:
+...     print(i)
+... 
+0
+1
+2
+3
+...  # skipping a bunch for compactness
+9
+```
+We can iterate over `r` as many times as we like, just like a List object.  The key differences between `range` and `list` objects is that `range` objects are immutable and store information about the range as attributes:
+```python
+>>> r.start
+0
+>>> r.stop
+10
+>>> r.step
+1
+```
+`start`, `stop` and `step` are the three arguments of `range`.  For example, if we want the sequence of integers from `11` to `203` in steps of `3`, we enter:
+```python
+>>> r = range(11, 203, 3)
+>>> for i in r:
+...     print(i)
+... 
+11
+14
+17
+...  # skipping
+197
+200
+```
+We will explore how to build and use `for` loops in the next section, since these are tremendously useful structures in programming.
 
 
 
@@ -26,7 +81,7 @@ Underpants!
 
 What's going on here?  First of all, a `for` statement has three basic parts:
 1. An iterable object that we're looping over.
-  In this example, `range` is a built-in function that returns a sequence of integers that starts with `0` and ends with one less than the integer argument.  In Python 3, you can't see this sequence even if you specifically ask for it.  This is because Python 3 is returning a function that will generator this sequence as numbers when you ask for them; this is more efficient than storing the entire sequence in memory.  I'm still getting used to this -- in Python 2, everything was immediately available to look at.
+  In this example, `range` is a built-in function that returns a sequence of integers that starts with `0` and ends with one less than the integer argument.  In Python 3, you can't see this sequence even if you specifically ask for it.  This is because Python 3 is returning a special object that will generate this sequence as numbers when you ask for them; this is more efficient than storing the entire sequence in memory.  I'm still getting used to this -- in Python 2, everything was immediately available to look at.
   ```python
   >>> range(3)
   range(0, 3)
@@ -170,7 +225,7 @@ The `enumerate` function returns tuples
 
 
 
-### if-else conditionals
+## if-else conditionals
 
 If `for` and `while` loops are like pumps that recycle the water up to a higher section of the pipe, then `if` and `else` statements are like diverters in the pipe -- they split the flow in one direction or another.  Conditional statements are a fundamental component of programming languages, since we usually don't want to do *exactly* the same thing to every value that passes through our instructions.  There are different ways of structuring conditionals.  The simplest is a single `if` statement:
 ```python
@@ -284,3 +339,33 @@ Note there are three levels of indentation here!  Every `elif` saves us a level 
 If you're confused about the difference between these sets of conditional statements, it might help to draw out some flowcharts.
 
 ![](https://imgs.xkcd.com/comics/flowchart.png)
+
+
+### Joint conditionals
+
+Sometimes we need to check more than one condition.  For example, what if we want to run a specific code block if `i` is an integer that is both greater than 5 and less than 10?  We need to make use of an `and` operator:
+```python
+>>> if i > 5 and i < 10:
+...     print('yes')
+... 
+```
+What if we want to check if `i` is outside of this interval?  We could write two separate tests:
+```python
+>>> if i < 5:
+...     print('yes')
+... 
+>>> if i > 10:
+...     print('also yes')
+... 
+also yes
+```
+but it is more compact to use the `or` operator:
+```python
+>>> if i < 5 or i > 10:
+...     print('simpler')
+... 
+simpler
+```
+
+## Functions
+
