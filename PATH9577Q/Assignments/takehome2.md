@@ -29,7 +29,7 @@ print(haiku)  # run to display contents of haiku
 print(line)  # run to display line
 ```
 
-5. Assign the position of the apostrophe `'` in `line` a new variable `index`.  Using `index`, slice `line` to the end and assign the resulting substring to `subline`.
+5. Assign the position of the apostrophe `'` in `line` a new variable `index`.  Slice `line` from `index` to the end and assign the resulting substring to `subline`.
 ```python
 # paste your work here
 
