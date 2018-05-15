@@ -381,5 +381,29 @@ The last aspect of control flow that we need to cover is functions, which allow 
 
 Here is the basic layout of a function in Python:
 ```python
+>>> def silly_function(arg1):
+...     return '!' + str(arg1) + '!'
+... 
+>>> silly_function(1)
+'!1!'
+>>> silly_function('booger')
+'!booger!'
 ```
 
+* `def` tells the interpreter that the following code block belongs to a user-defined function
+* `silly_function` is an arbitrary name for our new function.  This name is what we use to invoke the function once it's been defined.  Like variables, Python has some strict rules and some general guidelines about function names:
+  * function names must start with a letter
+  * names should use underscores to separate words instead of camelCase
+* `arg1`: within the parentheses following the function name is a series of one or more arguments, which are identified by variable names.  These variable names only apply to the code block within the function.  For example, we can define a variable at global scope (outside the function) and input this variable as the argument for our function:
+  ```python
+  >>> foo = 'bar'
+  >>> silly_function(foo)
+  '!bar!'
+  ```
+Thus, variables defined at the scope of a function won't be recognized outside the function:
+```python
+>>> arg1
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'arg1' is not defined
+```
