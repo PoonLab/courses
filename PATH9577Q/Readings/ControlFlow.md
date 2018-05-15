@@ -5,6 +5,12 @@
 In Python, these aspects of contorl flow are accomplished by iteration (with `for` and `while`), conditional statements (`if` and `else`), and by defining and calling functions (`def`).  
 
 
+## Writing scripts
+
+Since we're going to start working with more complex instructions in Python that span multiple lines and define blocks of code (more on this later), this is a good point to transition from working with Python's interactive shell to writing scripts and calling the Python interpreter on your script:
+```shell
+```
+
 ## Iteration in Python
 
 Iteration refers to a set of instructions being executed a number of times.  It is where bioinformatics gets a lot of its power, by doing many things very quickly.  Recall that some Python objects are [iterable](Iterables.md) - they are made up of one or more members in an ordered sequence that can be indexed and sliced.  One way to create an iterable object is by declaring the literal representation, *e.g.*:
@@ -215,13 +221,15 @@ dog
 puppy
  bark bark
 ```
-Since this comes up so often, however, Python provides a slightly simpler and more integrated way to do it:
+Since we often need to use a loop counter, however, Python provides a slightly simpler and more integrated way to do it:
 ```python
 >>> for counter, pet in enumerate(['fish', 'dog', 'puppy']):
 ...     print(pet)
 ...     print(' bark'*counter)
 ```
-The `enumerate` function returns tuples 
+The `enumerate` function returns tuples with two members:
+1. The loop counter (an integer index for the iterable member currently assigned to our holding variable).
+2. The holding variable itself.
 
 
 
@@ -368,4 +376,10 @@ simpler
 ```
 
 ## Functions
+
+The last aspect of control flow that we need to cover is functions, which allow the user to direct the computer to run a set of instructions that is entirely separate from the main top-down flow of a particular script.  More importantly, this external set of instructions can be generic: as long as we supply the correct inputs, the function doesn't care where the inputs come from (whether it is one script or another).  
+
+Here is the basic layout of a function in Python:
+```python
+```
 
