@@ -1,5 +1,10 @@
 # Control flow
 
+1. [Writing scripts](ControlFlow.md#Writing-scripts)
+2. [Iteration](ControlFlow.md#Iteration-in-Python)
+3. [Conditional statements](ControlFlow.md#Conditional-statements)
+4. [Functions](ControlFlow.md#Functions)
+
 [Control flow](https://en.wikipedia.org/wiki/Control_flow) determines how the computer moves through a set of instructions. Like many scripting languages, Python generally starts at the top of an instruction set and progresses downwards.  This downward flow can be interrupted by an instruction for Python to repeat a specific block of code a number of times (iteration).  It can also be diverted into separate streams depending on whether one or more specific conditions are met ([conditional branching](https://en.wikipedia.org/wiki/Branch_(computer_science))).  Finally, the program can be temporarily switched to a completely different set of instructions before continuing on the original flow ([subroutines](https://en.wikipedia.org/wiki/Subroutine)). 
 
 In Python, these aspects of contorl flow are accomplished by iteration (with `for` and `while`), conditional statements (`if` and `else`), and by defining and calling functions (`def`).  
@@ -233,7 +238,7 @@ The `enumerate` function returns tuples with two members:
 
 
 
-## if-else conditionals
+## Conditional statements
 
 If `for` and `while` loops are like pumps that recycle the water up to a higher section of the pipe, then `if` and `else` statements are like diverters in the pipe -- they split the flow in one direction or another.  Conditional statements are a fundamental component of programming languages, since we usually don't want to do *exactly* the same thing to every value that passes through our instructions.  There are different ways of structuring conditionals.  The simplest is a single `if` statement:
 ```python
