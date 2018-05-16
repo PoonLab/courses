@@ -478,6 +478,13 @@ but it is more compact to use the `or` operator:
 ... 
 simpler
 ```
+Finally, we might need to chain together a combination of conditions where some nested conditions are evaluated first, before their results are evaluated at the next level.  We can nest conditions by enclosing them in round brackets:
+```python
+>>> ((i > 1 and i < 5) or (i > 7 and i < 9))
+False
+```
+but beyond a certain level of complexity, you might save yourself a headache by breaking these conditional statements up into separate blocks of code.
+
 
 ## Functions
 
@@ -534,6 +541,7 @@ What happens if we change a globally-defined variable within a function?  Someth
 What happened here is that `foo` was redeclared at a local scope within the function `silly_function` and then used to generate the return value `zip1`.  Next, Python returned from the function back to global scope and continued along until we called `foo`, which retained its original value at this scope.
 
 
-
-
 ### Positional and keyword arguments
+
+So far we've used a single argument.  
+
