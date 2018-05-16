@@ -37,10 +37,18 @@ To submit this assignment, e-mail to me your copy of this Markdown document and 
 4. Finally, utilize these two functions in the `main` function as follows:
    * iterate through `sys.argv`
    * for any entry that is a string, apply `scramble` and print the result.
-   * for any entry that is an integer, apply `obscure` to the previous integer entry and this current one, and print the result.  Since the first integer you encounter will have no previous integer, use `128`.
+   * for any entry that is an integer, apply `obscure` to the previous integer entry and this current one, and print the result.  Since the first integer you encounter will have no previous integer, use `128`.  Also, since every entry in `sys.argv` is always a string, use the function below to check whether the string can be cast as an integer:
    ```python
-   last_integer = 128
-   # paste your code here
+   def cast_integer(s):
+       try:
+           result = int(s)
+       except ValueError:
+           return False
+       return True
+   
+   def main():
+       last_integer = 128
+       # paste your code here
    ```
 
 5. Run your script with the following command line arguments and paste the result the same field:
