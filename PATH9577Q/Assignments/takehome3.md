@@ -19,7 +19,7 @@ To submit this assignment, e-mail to me your copy of this Markdown document and 
    # paste your code here
    ```
 
-2. Now we're going to define a new function called `scramble`.  This function should take a single argument, check that it is a string, and then collect all the odd-indexed and even-indexed characters into two separate substrings, and return the concatenation of these substrings.  For example, `pizza` should return as `pziza`.  Add this code after the first `import sys` line and copy the result below:
+2. Now we're going to define a new function called `scramble`.  This function should take a single argument, check that it is a string, and then collect all the odd-indexed and even-indexed characters into two separate substrings, and return the concatenation of these substrings.  For example, `pizza` should return as `izpza`.  Add this code after the first `import sys` line and copy the result below:
    ```python
    import sys
    # paste your code here
