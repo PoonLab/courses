@@ -1,16 +1,16 @@
 # Control flow
 
-1. [Writing scripts](ControlFlow.md#Writing-scripts)
-2. [Iteration](ControlFlow.md#Iteration-in-Python)
-3. [Conditional statements](ControlFlow.md#Conditional-statements)
-4. [Functions](ControlFlow.md#Functions)
+1. [Running and writing scripts](ControlFlow.md#running-and-writing-scripts)
+2. [Iteration](ControlFlow.md#iteration-in-python)
+3. [Conditional statements](ControlFlow.md#conditional-statements)
+4. [Functions](ControlFlow.md#functions)
 
 [Control flow](https://en.wikipedia.org/wiki/Control_flow) determines how the computer moves through a set of instructions. Like many scripting languages, Python generally starts at the top of an instruction set and progresses downwards.  This downward flow can be interrupted by an instruction for Python to repeat a specific block of code a number of times (iteration).  It can also be diverted into separate streams depending on whether one or more specific conditions are met ([conditional branching](https://en.wikipedia.org/wiki/Branch_(computer_science))).  Finally, the program can be temporarily switched to a completely different set of instructions before continuing on the original flow ([subroutines](https://en.wikipedia.org/wiki/Subroutine)). 
 
 In Python, these aspects of control flow are accomplished by iteration (with `for` and `while`), conditional statements (`if` and `else`), and by defining and calling functions (`def`). 
 
 
-## Writing scripts
+## Running and writing scripts
 
 Since we're going to start working with more complex instructions in Python that span multiple lines and define blocks of code (more on this later), this is a good point to transition from working with Python's interactive shell to writing scripts and calling the Python interpreter on your script.  I've created a little text file with a single line of Python and saved it as `example.py`.  We can call the Python interpreter on our script by running the command `python3` and providing a relative or absolute path to the script file as the only argument:
 ```shell
@@ -25,8 +25,53 @@ Remember that if we call `python3` without any argument, the program defaults in
 
 Sometimes you will see a script that contains this statement on the first line:
 ```python
-#!/usr/bin/env 
+#!/usr/bin/env python3
 ```
+The combination of `#!` symbols are called a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) and directs the operating system to use the rest of the line to call the appropriate interpreter program for running this script.  `/usr/bin/env` is an absolute path to the `env` program that tells UNIX to run the following program in a modified environment -- in this case, `env` is retrieving an absolute path to the `python3` binary in the filesystem.  
+
+You might encounter this line at the top of a Python script when the author intended for it to be run like a normal executable program.  Again, we normally call the `python3` program and then give a path to the script as the sole argument.  The file containing our script doesn't need to be an executable file -- it's just a plain text file for which we only need read access.  Note: we really do need to have read access.  Let's modify our `example.py` script to illustrate:
+```shell
+art@orolo:~/Desktop$ cat example.py 
+#!/usr/bin/env python3
+print('Hello world!')
+art@orolo:~/Desktop$ python3 example.py 
+Hello world!
+art@orolo:~/Desktop$ ./example.py
+-bash: ./example.py: Permission denied
+```
+
+If we take away all permissions from everyone, we can't even run this script the usual way:
+```
+art@orolo:~/Desktop$ chmod 000 example.py 
+art@orolo:~/Desktop$ ls -l example.py 
+---------- 1 art art 46 May 15 21:18 example.py
+art@orolo:~/Desktop$ python3 example.py 
+python3: can't open file 'example.py': [Errno 13] Permission denied
+art@orolo:~/Desktop$ chmod 664 example.py  # restore the original permissions
+```
+
+Now if we grant ourselves execution privileges on the script, we can call it like a local program:
+```shell
+art@orolo:~/Desktop$ chmod 755 example.py
+art@orolo:~/Desktop$ ls -l example.py 
+-rwxr-xr-x 1 art art 46 May 15 21:18 example.py
+art@orolo:~/Desktop$ ./example.py 
+Hello world!
+```
+In this case it is conventional to drop the `.py` extension.  If I temporarily move the file to a directory in my `$PATH` environment, then it acts like a typical program:
+```shell
+art@orolo:~/Desktop$ mv example.py example
+art@orolo:~/Desktop$ sudo cp example /usr/local/bin/example
+[sudo] password for art: 
+art@orolo:~/Desktop$ cd
+art@orolo:~$ ls example
+ls: cannot access 'example': No such file or directory
+art@orolo:~$ example  # Now we can run this script from anywhere in the filesystem
+Hello world!
+```
+
+Why would anyone want to turn a Python script into a pretend executable file?  I've seen cases where scripts are installed into `/usr/local/bin` so a given script can be called by any user on the system as though it was a typical program.  
+
 
 
 ### Basic debugging
