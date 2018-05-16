@@ -566,7 +566,11 @@ We're not done!  We stil need the following ingredients to complete our function
 
 ### Positional and keyword arguments
 
-So far we've used a single argument.  
+So far we've only called functions with one or more *positional* arguments - the identity of an argument is determined by where it appears in the order of arguments (first, second, etc.).  A second approach is to call the function with keyword arguments.  If we modify the previous script as follows:
+```python
+result = transfer(l2=[7,8,9], l1=[1,2,3]) 
+```
+then we obtain the same results even though we've swapped the order of `l1` and `l2` arguments.
 
 
 ### Recursive functions
