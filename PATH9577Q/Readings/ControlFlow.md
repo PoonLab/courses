@@ -114,6 +114,32 @@ print('hairnets')  # but the piece of code to the left does get run
 
 Comments are extremely important, not only because it documents the purpose and thought process behind your source code to others, but also because you will return to your code days or months from now and need those comments there to remind your future self.  We'll continue to cover comment writing and documentation practices in the readings on [good coding practices](GoodCode.md).
 
+### Taking inputs from the command line
+
+For a script to be really useful, you need some way of sending arbitrary inputs to the functions contained in the script.  Since we want to be working with data, we will usually want to read inputs from one or more files - we'll cover how to read and write files from Python in the next class.  For now, however, we'll just cover how to read inputs from the command line.  To do this, we need to access some special functions and variables that are contained in the Python module `sys`.  The `sys` module contains functions and variables for interacting with the operating system, the filesystem and the Python interpreter:
+```python
+import sys
+>>> sys.platform  # what operating system are we running on?
+'linux'
+>>> sys.version  # what is the version number for this Python interpreter?
+'3.5.2 (default, Nov 23 2017, 16:37:01) \n[GCC 5.4.0 20160609]'
+>>> sys.path  # a list of relative and absolute paths to search for Python modules
+['', '/usr/lib/python35.zip', '/usr/lib/python3.5', '/usr/lib/python3.5/plat-x86_64-linux-gnu', '/usr/lib/python3.5/lib-dynload', '/usr/local/lib/python3.5/dist-packages', '/usr/lib/python3/dist-packages']
+```
+In particular, we want to use the parameter `sys.argv` - this is a List object that stores the arguments from the command line when we called the Python interpreter on this script.  The first argument in `sys.argv` will always be the filename of the script being run.  Any other arguments (separated by spaces on the command line) will be appended to this list in the same order as they were entered on the command line.
+
+For example, we can make a basic script called `argv.py` with the following contents:
+```python
+import sys
+print(sys.argv)
+```
+Here's what happens when we call the script with a bunch of arbitrary arguments:
+```shell
+art@orolo:~/Desktop$ python3 argv.py poodle 123 -- hexagon
+['argv.py', 'poodle', '123', '--', 'hexagon']
+```
+The values in the list `sys.argv` are available to be assigned to other variables and manipulated as we like.  This is a standard way of passing inputs into our script.
+
 
 ## Iteration in Python
 
