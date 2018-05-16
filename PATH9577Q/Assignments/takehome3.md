@@ -1,4 +1,8 @@
 # Take-home 3
+To submit this assignment, e-mail to me your copy of this Markdown document and the Python script.
+
+*Name:*
+
 
 1. Open a new text file called `tka3.py`.  Copy and paste the following:
    ```python
