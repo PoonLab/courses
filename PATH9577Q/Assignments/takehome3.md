@@ -36,8 +36,9 @@ To submit this assignment, e-mail to me your copy of this Markdown document and 
 
 4. Finally, utilize these two functions in the `main` function as follows:
    * iterate through `sys.argv`
-   * for any entry that is a string, apply `scramble` and print the result.
-   * for any entry that is an integer, apply `obscure` to the previous integer entry and this current one, and print the result.  Since the first integer you encounter will have no previous integer, use `128`.  Also, since every entry in `sys.argv` is always a string, use the function below to check whether the string can be cast as an integer:
+   * for any entry that *cannot* be cast as an integer, apply `scramble` and print the result.
+   * for any entry that *can* be cast as an integer, apply `obscure` to the previous integer entry and this current one, and print the result.  Since the first integer you encounter will have no previous integer, use `128`.  
+   Since every entry in `sys.argv` is always a string, use the function below to check whether the string can be cast as an integer.
    ```python
    def cast_integer(s):
        try:
