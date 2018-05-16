@@ -7,14 +7,68 @@
 
 [Control flow](https://en.wikipedia.org/wiki/Control_flow) determines how the computer moves through a set of instructions. Like many scripting languages, Python generally starts at the top of an instruction set and progresses downwards.  This downward flow can be interrupted by an instruction for Python to repeat a specific block of code a number of times (iteration).  It can also be diverted into separate streams depending on whether one or more specific conditions are met ([conditional branching](https://en.wikipedia.org/wiki/Branch_(computer_science))).  Finally, the program can be temporarily switched to a completely different set of instructions before continuing on the original flow ([subroutines](https://en.wikipedia.org/wiki/Subroutine)). 
 
-In Python, these aspects of contorl flow are accomplished by iteration (with `for` and `while`), conditional statements (`if` and `else`), and by defining and calling functions (`def`).  
+In Python, these aspects of control flow are accomplished by iteration (with `for` and `while`), conditional statements (`if` and `else`), and by defining and calling functions (`def`). 
 
 
 ## Writing scripts
 
-Since we're going to start working with more complex instructions in Python that span multiple lines and define blocks of code (more on this later), this is a good point to transition from working with Python's interactive shell to writing scripts and calling the Python interpreter on your script:
+Since we're going to start working with more complex instructions in Python that span multiple lines and define blocks of code (more on this later), this is a good point to transition from working with Python's interactive shell to writing scripts and calling the Python interpreter on your script.  I've created a little text file with a single line of Python and saved it as `example.py`.  We can call the Python interpreter on our script by running the command `python3` and providing a relative or absolute path to the script file as the only argument:
 ```shell
+art@Kestrel:~/Desktop$ cat example.py 
+print("This is a very small script!")
+
+art@Kestrel:~/Desktop$ python3 example.py 
+This is a very small script!
 ```
+
+Remember that if we call `python3` without any argument, the program defaults into launching an interactive shell.  Once Python has run through our script, it exits back into the command line.  If Python encounters a problem while running through the script, then it will issue an exception like we've encountered in interactive mode (*e.g.,* `SyntaxError`) and exit prematurely (without running the rest of the script).
+
+Sometimes you will see a script that contains this statement on the first line:
+```python
+#!/usr/bin/env 
+```
+
+
+### Basic debugging
+Let's create another text file with the following contents:
+```python
+a = 1
+b = 2
+print(str(a+b))
+print('This will break)
+print('This will not get run')
+```
+and call it `example2.py`.  If we run the script, Python will throw an exception:
+```shell
+art@Kestrel:~/Desktop$ python3 example2.py 
+  File "example2.py", line 4
+    print('This will break)
+                          ^
+SyntaxError: EOL while scanning string literal
+```
+We've encountered this `SyntaxError` before -- Python encountered the end of a line before we finished declaring a string literal.  (Remember that a *string literal* is a sequence of characters that represents one and only one string, and that it should be enclosed with matched single or double quotes if the string will only occupy a single line.) 
+
+Python provides some useful information here.  First, it tells us which file contains the bug (`File "example2.py"`) and the line within that file that contains the bug (`line 4`).  It even shows us the line in question:
+```python
+    print('This will break)
+                          ^
+```
+and highlights the offending character with a caret symbol (`^`).  We forgot to add a closing quote mark! 
+
+
+### Comments
+
+Because a script is a set of instructions that has been written into a file, we don't have to keep entering the same instructions over and over in an interactive shell.  Another great thing about writing a script is that we can write *comments* - discrete bits of text that explain what a piece of code is meant to do. 
+
+There are several different kinds of comments, but for now we'll just talk about inline comments.  An inline comment occupies a single line.  It may be preceded by some code, but any text to the right of the starting symbol `#` is ignored by Python as commenting text:
+```python
+# The next line will not get run either
+# print('dirty socks')
+print('hairnets')  # but the piece of code to the left does get run
+```
+
+Comments are extremely important, not only because it documents the purpose and thought process behind your source code to others, but also because you will return to your code days or months from now and need those comments there to remind your future self.  We'll continue to cover comment writing and documentation practices in the readings on [good coding practices](GoodCode.md).
+
 
 ## Iteration in Python
 
