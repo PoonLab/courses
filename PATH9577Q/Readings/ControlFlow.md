@@ -540,8 +540,34 @@ What happens if we change a globally-defined variable within a function?  Someth
 ```
 What happened here is that `foo` was redeclared at a local scope within the function `silly_function` and then used to generate the return value `zip1`.  Next, Python returned from the function back to global scope and continued along until we called `foo`, which retained its original value at this scope.
 
+We're not done!  We stil need the following ingredients to complete our function definition:
+* A code block.  Remember that blocks are defined by whitespace, and that the convention for Python is an indent of 4 spaces for every level.  Once we drop back to the original level, Python assumes that we are past the end of the function definition.
+* A return value (not strictly necessary but typical).  A `return` statement exits the function and transmits one or more variables back to the point of the script where the function was called.  To return more than one variable, you can separate the variable names with commas.
+  ```python
+  def transfer(l1, l2):
+    if type(l1) is not list or type(l2) is not list:
+        return None
+    l2 = [l1[-1]] + l2  # add last item of l1 to left of l2
+    l1 = l1[:-1]  # drop the last item
+    return l1, l2
+
+  l1 = [1,2,3]
+  l2 = [7,8,9]
+  result = transfer(l1, l2)
+  print(type(result))
+  print(result)
+  ```
+  Running this script generates the following output:
+  ```shell
+  art@Kestrel:~/Desktop$ python3 example3.py 
+  <class 'tuple'>
+  ([1, 2], [3, 7, 8, 9])
+  ```
 
 ### Positional and keyword arguments
 
 So far we've used a single argument.  
+
+
+### Recursive functions
 
