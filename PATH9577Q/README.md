@@ -73,7 +73,8 @@
    * iterable types: `range`, `map`, `filter`
    * Combining conditional and loop statements: `break` and `continue`
    * Defining functions
-   * **In-class assignment** Your first script
+   * **In-class assignment** Drawing a flowchart
+   * **Take-home assignment** [Your first script](Assignments/takehome3.md)
    * **Readings:** [Control flow](Readings/ControlFlow.md)
 
 4. Parsing data
@@ -81,10 +82,10 @@
    * Opening files, `File` types
    * Parsing tabular data
    * Modules
-   * Tabular data with `csv`
-   * Date and time data with `datetime`
-   * Genetic sequences with `Bio`
-   * Phylogenetic trees with `Phylo`
+     * Tabular data with `csv`
+     * Date and time data with `datetime`
+     * Genetic sequences with `Bio`
+     * Phylogenetic trees with `Phylo`
 
 5. Writing and debugging scripts
    * Style
