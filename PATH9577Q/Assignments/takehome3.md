@@ -16,7 +16,31 @@
    ```
 
 2. Now we're going to define a new function called `scramble`.  This function should take a single argument, check that it is a string, and then collect all the odd-indexed and even-indexed characters into two separate substrings, and return the concatenation of these substrings.  For example, `pizza` should return as `pziza`.  Add this code after the first `import sys` line and copy the result below:
-  ```python
-  import sys
-  # paste your code here
-  ```
+   ```python
+   import sys
+   # paste your code here
+   ```
+   
+3. Add a second function called `obscure`, which:
+   * takes two integers `a` and `b`, multiplies them together and stores the remainder when we divide this product by `17` as `z1`
+   * multiply `a` by 17 and stores the remainder when we divide by `b` as `z2`
+   * return the greater of `z1` and `z2`.  
+   For example, `84` and `38` should return `22`.
+   ```python
+   # paste your code here
+   ```
+
+4. Finally, utilize these two functions in the `main` function as follows:
+   * iterate through `sys.argv`
+   * for any entry that is a string, apply `scramble` and print the result.
+   * for any entry that is an integer, apply `obscure` to the previous integer entry and this current one, and print the result.  Since the first integer you encounter will have no previous integer, use `128`.
+   ```python
+   last_integer = 128
+   # paste your code here
+   ```
+
+5. Run your script with the following command line arguments and paste the result the same field:
+   ```shell
+   python3 tka3.py blue 987345 red 7197982 green 109832
+   # copy the output here
+   ```
