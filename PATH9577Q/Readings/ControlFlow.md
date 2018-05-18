@@ -596,7 +596,9 @@ So far we've only called functions with one or more *positional* arguments - the
 ```python
 result = transfer(l2=[7,8,9], l1=[1,2,3]) 
 ```
-then we obtain the same results even though we've swapped the order of `l1` and `l2` arguments.
+then we obtain the same results even though we've swapped the order of `l1` and `l2` arguments.  
+
+It is possible to use a mixture of positional and keyword arguments in a function call, but the positional arguments have to appear before the keyword arguments.  
 
 
 ### Recursive functions
