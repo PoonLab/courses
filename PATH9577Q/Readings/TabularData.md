@@ -4,9 +4,7 @@
 
 * [Binary and text files](TabularData.md#binary-and-text-files)
 * [Tabular data](TabularData.md#tabular-data)
-* [Functions](TabularData.md#intermission---working-with-python-functions)
-* [for loops](TabularData.md#for-loops)
-* [String indexing and manipulation](TabularData.md#back-to-our-file---working-with-strings)
+* [Reading files in Python](TabularData.md#reading-files-in-python)
 
 
 ## Binary and text files
@@ -79,7 +77,7 @@ One last thing.  There are several reasons why tabular data formats are not the 
 
 
 
-## Working with tabular data files in Python
+## Reading files in Python
 
 Okay, let's use `cd` and `ls` to navigate to the `examples` folder.  I've placed a CSV file derived from the `esoph` R data set, which I've uncreatively named `esoph.csv`:
 ```shell
@@ -90,10 +88,11 @@ Okay, let's use `cd` and `ls` to navigate to the `examples` folder.  I've placed
 [Elzar:courses/PATH9577/examples] artpoon% ls
 esoph.csv
 ```
+If you haven't cloned this repository, you can grab this example file by directing your browser to [this link](https://github.com/PoonLab/courses/raw/master/PATH9577Q/examples/esoph.csv).
 
 Use the `head` command to have a quick look at the contents of this file:
 ```
-[Elzar:courses/GradPythonCourse/examples] artpoon% head -n5 esoph.csv 
+[Elzar:courses/PATH9577Q/examples] artpoon% head -n5 esoph.csv 
 agegp,alcgp,tobgp,ncases,ncontrols
 25-34,0-39g/day,0-9g/day,0,40
 25-34,0-39g/day,10-19,0,10
@@ -101,31 +100,17 @@ agegp,alcgp,tobgp,ncases,ncontrols
 25-34,0-39g/day,30+,0,5
 ```
 
-Now let's fire up an interactive session with Python.  
-```shell
-[Elzar:courses/GradPythonCourse/examples] artpoon% python
-Python 3.6.0b3 (default, Nov  1 2016, 16:08:38) 
-[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
->>> 
-```
-
 The first thing we need to do is to open the file.  This is accomplished with the built-in Python function `open`:
 ```python
 >>> handle = open('esoph.csv', 'rU')
 ```
-Before we talk about what's happening here, we need to talk a bit about functions and variables.
-
-
-### Intermission - working with Python functions
-Since this may be the first time you've encountered a function call in Python (or even in any programming language!), I need to take a minute to explain some basic concepts.  A function is a set of instructions in the programming language that we've asked the computer to set aside and label with a name.  Whenever we call that name, the computer will know to run that set of instructions.  Functions become really useful if you can apply the same set of instructions to different things.  We pass those things to a function as "arguments".  There are two arguments being passed to the `open` function in this example:
+Before we talk about what's happening here, we need to talk a bit about functions and variables.  There are two arguments being passed to the `open` function in this example:
 1. `'esoph.csv'` is a string (sequence of characters) that corresponds to a relative path to the file.  Since we initiated our Python session in the same directory as the file, we don't need to specify any other directories.
 2. `'rU'` is another string that tells Python to open the file in "read-only" mode (`r`) and to interpret the stream of ones and zeros being transmitted from the file with a Unicode encoding `U`.  
 How are we supposed to know what arguments to pass to a function?  You need to use another built-in Python function called `help`:
 ```python
-help(open)
+>>> help(open)
 ```
-
 This spawns another interactive shell for viewing the help documentation for the `open` function:
 ```shell
 open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, closefd=True, opener=None)
@@ -133,21 +118,7 @@ open(file, mode='r', buffering=-1, encoding=None, errors=None, newline=None, clo
 ```
 There's actually many more lines than this!  This shell works the same way as `less` and `man`: you can scroll up and down with the arrow keys, and return to your Python session at any time by typing `q`.  The first line of the help document provides some concise information about how to use the function (to get more detailed information, keep reading!).  There are 8 different arguments that can be passed to the `open` function.  There is only 1 argument that doesn't have a default value: `file`.  That is what we use to specify an absolute or relative path to the file that we want to open a stream from. The `mode` argument is the only one that I've ever used in practice.  Note that it defaults to a read-only mode (`r`).  This is good behaviour - if it defaulted to a write mode (`w`), then you'd wiped out every file you tried to open! 
 
-### Another intermission - Variables
-Functions usually have *return values* --- they pass something back to you when they've completed their task.  You need to capture this return value by assigning it to a variable. 
-
-When a function returns a value, you need to assign this value to a variable.  When there are multiple return values, you can provide an equal number of variables to assign them to.  Otherwise, they will be assigned to a single variable as a collection of objects such as a [tuple](https://docs.python.org/2/tutorial/datastructures.html#tuples-and-sequences).
-
-
-### Back to our regular programming
-
-Okay, let's go back to this situation:
-```python
->>> handle = open('esoph.csv', 'rU')
-```
-Calling the `open` function caused Python to open a stream to the file named `esoph.csv`.  Since this file is in the present working directory (typically where our shell was located in the file system when we triggered an interactive Python session), we don't have to specify an absolute or relative path to the file.  
-
-Think of a stream as a binary sequence of ones and zeros that are being read off the storage device.  The stream always starts at the beginning of the file; it can't start somewhere in the middle.  By default, Python will interpret a file stream in read mode using the Unicode encoding.  Once you've moved forward in the stream, you can't easily go back.  It's possible, but it requires calling functions that we won't cover in this course.
+Calling the `open` function caused Python to open a stream to the file named `esoph.csv`.  Since this file is in the present working directory (typically where our shell was located in the file system when we triggered an interactive Python session), we don't have to specify an absolute or relative path to the file.  Think of a stream as a binary sequence of ones and zeros that are being read off the storage device.  The stream always starts at the beginning of the file; it can't start somewhere in the middle.  By default, Python will interpret a file stream in read mode using the Unicode encoding.  Once you've moved forward in the stream, you can't easily go back.  It's possible, but it requires calling functions that we won't cover in this course.
 
 What are we supposed to do with this file stream object?
 ```python
@@ -197,30 +168,33 @@ Now we've got a variable that we've named `line` that is holding onto the conten
 >>> line3 = handle.readline()
 >>> another_line = handle.readline()
 ```
-This is valid Python, but it's also stupid.  No, we're going to have to learn about `for` loops.
+This is valid Python, but it's also stupid.  No, the smart thing to do here is to use a [for loop](ControlFlow.md) to iterate over the contents of the file.
 
 
+## Iterating over the file
 
-
-## Back to our file - working with strings
-
-Now that we know a little bit about `for` loops, let's apply it to our code:
+So far we've been messing around with our file in an interactive session of Python.  Now we're going to write structured code, so let's open a new text file and start out with this basic script:
+```python
+"""
+Parse the contents of the tabular data set esoph.csv
+"""
+handle = open('esoph.csv')  # defaults to read mode
+for line in handle.readlines():
+    print(line)
 ```
->>> for line in handle.readlines():
-...     print(line)
-... 
-25-34,40-79,20-29,0,4
+Now save this script as `esoph.py` in the same directory as `esoph.csv` and run it with:
+```shell
+art@orolo:~/git/courses/PATH9577Q/examples$ python esoph.py 
+agegp,alcgp,tobgp,ncases,ncontrols
 
-25-34,40-79,30+,0,7
+25-34,0-39g/day,0-9g/day,0,40
 
-25-34,80-119,0-9g/day,0,2
+25-34,0-39g/day,10-19,0,10
+
+25-34,0-39g/day,20-29,0,6
+
 ```
-and much more!  There's a couple of things to note here.  First, the lines being printed don't start at the top of our file because we've already called the `readline()` function a few times, so we've already moved through the file stream.  Second, the output is skipping every other line because each string returned by `readlines()` keeps the line break at the end.  Third, this still isn't very useful code - we could have accomplished the same thing with a `cat` statement.  No, for our script to start getting useful, we have to learn about string manipulation, and in order to do *that*, we have to learn about indexing and immutables.
-
-### Indexing
-
- 
-### Getting back to tabular data
+Note that the output is skipping every other line because each string returned by `readlines()` keeps the line break at the end.  This still isn't very useful code - we could have accomplished the same thing with a `cat` statement.  No, for our script to start getting useful, we have to use what we've learned about [string manipulation](Strings.md).
 
 Hopefully you'll have noticed that some (if not all) of the string functions that we just reviewed are really useful for working with tabular data sets.  Let's open a file handle to our example plain-text file again:
 ```python
@@ -230,7 +204,7 @@ We know that our file contains a header line, so we need to skip it before we pr
 ```python
 _ = handle.nextline()  # skip header line
 ```
-In Python 2, I used to be able to use a different function called `next`, but `nextline` pretty much serves the same role: it tells our file object to return the current line and advance to the next line in the file stream.  Since I'm not interested in doing anything with this line, I'm assigning it to a dummy variable as indicated with a single underscore (`_`) --- a totally valid and utterly uninformative variable name!  
+In Python 2, I used to be able to use a different function called `next`, but `nextline` pretty much serves the same role: it tells our file object to return the current line and advance to the next line in the file stream.  (Alternatively, `next` has become a built-in function in Python 3 and we can replace `handle.nextline()` with `next(handle)`.)  Since I'm not interested in doing anything with this line, I'm assigning it to a dummy variable as indicated with a single underscore (`_`) --- a totally valid and utterly uninformative variable name!  
 
 Now it's time to iterate through the rest of the file and do something with the information contained within.  We're going to work with prior knowledge about the content of the file - namely, that each row contains the following information:
  * age group
@@ -306,10 +280,6 @@ Merge made by the 'recursive' strategy.
 Your output will vary depending on when you last synced with the remote, and whether you've made any changes to files in your local repository.
 
 
-Try using some of the UNIX commands we've covered to have a quick look at this file, such as `wc`, `head`, and `grep`.
-
-
-## Review: parsing a tabular data file in Python
 
 Here is a basic skeleton of a script that opens a file and attempts to read data from it by assuming that it is in a tabular data format:
 ```python
@@ -505,7 +475,4 @@ My motivation for writing this section was to give you a basic idea of what goes
 
 ![](https://imgs.xkcd.com/comics/new_bug.png)
 
-
-## Additional exercises
-1. Adapt your Python script to output all lines that contain the word `Pathogenic`.  Skip the header line.  Use `print` to write output to standard out, and then redirect this stream to a file by calling your script from the shell and using the `>` operator.  Generate a second file with the same criteria, but using UNIX `grep` instead of Python.  Run UNIX `diff` on the two files to determine if they are the same.
 
