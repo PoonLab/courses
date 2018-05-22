@@ -86,6 +86,9 @@
      * Date and time data with `datetime`
      * Genetic sequences with `Bio`
      * Phylogenetic trees with `Phylo`
+   * **In-class assignment**
+   * **Take-home assignment** [](Assignments/takehome4.md)
+   * **Readings:** [Tabular data](Readings/TabularData.md)
 
 5. Writing and debugging scripts
    * Style
