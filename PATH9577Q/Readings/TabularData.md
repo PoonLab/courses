@@ -16,6 +16,9 @@ For a plain text file, a format is a set of rules about how the characters are a
 
 ![](https://imgs.xkcd.com/comics/binary_heart.jpg)
 
+In this module, we are going to learn how to parse tabular data sets in Python, in which information is organized into a table with specific numbers of rows and columns.  Many bioinformatic data sets have a format that is consistent with tabular data.  Even though these data can be imported into a spreadsheet application such as Excel, the dimensions of many bioinformatic data sets make it difficult to work with manually and we usually need to process enormous numbers of rows and/or columns and to automate the batch processing of many files.
+
+
 ## Tabular data
 
 Tabular data formats are probably the most common format for storing conventional data types.  A table is made up of rows and columns like a [spreadsheet](https://en.wikipedia.org/wiki/Spreadsheet).  Table rows (by convention) represent independent observations/records, such as a sample of patients, and columns represent different kinds of measurements (variables) such as height and weight.  For example:
@@ -37,41 +40,27 @@ These data come from the `esoph` dataset in [R](https://stat.ethz.ch/R-manual/R-
 ```R
 kable(esoph[sample(1:nrow(esoph), 10),], format='markdown', row.names=F)
 ```
-These are aggregate data from a case-control study of esophageal cancer in France.  If you're interested about the study, you can read more about it in the source reference: [Brewlow and Day 1980](https://www.iarc.fr/en/publications/pdfs-online/stat/sp32/).  
+where I used the `kable` function to display the table in Markdown format.  These are aggregate data from a case-control study of esophageal cancer in France.  If you're interested about the study, you can read more about it in the source reference: [Brewlow and Day 1980](https://www.iarc.fr/en/publications/pdfs-online/stat/sp32/).  
 
 How do we record this information in a plain text file?  Typically, we preserve the row structure of the table by placing line breaks between each row.  A [line break](https://en.wikipedia.org/wiki/Newline) is a special character encoding that tells the computer to move to a new line when displaying the content of a text file.  Different operating systems use [different control characters](https://en.wikipedia.org/wiki/Newline#Representations) in the ASCII encoding set to represent a line break: UNIX and its descendants use `LF` (line feed); Apple computers used `CR` (carriage return) until the OS became a UNIX-like system; and Microsoft Windows uses a combination of `LF` and `CR`.  This frequently causes problems when passing data files originating from different computers between programs that were developed on different platforms!  If you are trying to process a data file with a program and it isn't working, this is a possible cause.
 
-We still have to deal with preserving the column structure of a tabular data set.  This is usually accomplished with a [delimiter](https://en.wikipedia.org/wiki/Delimiter): a character or sequence of characters that is used to separate content that belongs to different items.  The comma `,` is probably the most common delimiter, closely followed (if not surpassed) by the [tab character](https://en.wikipedia.org/wiki/Tab_key#Tab_characters), which is represented by the escape character `\t`.  To illustrate, here is how our `esoph` data would appear in a comma-separated values (CSV) file:
+We still have to deal with preserving the column structure of a tabular data set.  This is usually accomplished with a [delimiter](https://en.wikipedia.org/wiki/Delimiter): a character or sequence of characters that is used to separate content that belongs to different items.  The comma `,` is probably the most common delimiter, closely followed (if not surpassed) by the [tab character](https://en.wikipedia.org/wiki/Tab_key#Tab_characters), which is represented by the escape character `\t`.  To illustrate, here is how the first few rows in our `esoph` data would appear in a comma-separated values (CSV) file:
 ```
 agegp,alcgp,tobgp,ncases,ncontrols
 75+,40-79,0-9g/day,2,5
 75+,40-79,10-19,1,3
 35-44,80-119,10-19,0,6
-65-74,80-119,10-19,4,12
-55-64,40-79,30+,3,6
-45-54,120+,10-19,3,4
-55-64,120+,20-29,2,3
-25-34,80-119,30+,0,2
-55-64,40-79,20-29,4,17
-55-64,80-119,10-19,8,15
 ```
 
-and here is the same data set as a tab-separated values (TSV) file:
+and here they are formatted as a tab-separated values (TSV) file:
 ```
 agegp	alcgp	tobgp	ncases	ncontrols
 75+	40-79	0-9g/day	2	5
 75+	40-79	10-19	1	3
 35-44	80-119	10-19	0	6
-65-74	80-119	10-19	4	12
-55-64	40-79	30+	3	6
-45-54	120+	10-19	3	4
-55-64	120+	20-29	2	3
-25-34	80-119	30+	0	2
-55-64	40-79	20-29	4	17
-55-64	80-119	10-19	8	15
 ```
 
-An important feature of these formats is that the first line is being used to store the column labels.  This is often referred to as the *header row*.  Including the header row is optional in a CSV or TSV file, but it is important to be aware of whether it is present or absent when you are processing the file.  
+An important feature of these formats is that the first line is being used to store the column *labels* or headers.  This is often referred to as the *header row*.  Including the header row is optional in a CSV or TSV file, but it is important to be aware of whether it is present or absent when you are processing the file - otherwise you might intepret the labels as data, or vice versa.
 
 A tabular data file should have the same number of items on each line.  If a line has more items than another, then the assignment of items to the various columns becomes ambiguous (especially if the data are similar types, such as a large set of numbers).  In other words, did we append an extra number to the left, or the right, or some where in the middle?  
 
@@ -96,9 +85,9 @@ Okay, let's use `cd` and `ls` to navigate to the `examples` folder.  I've placed
 ```shell
 [Elzar:~/git/courses] artpoon% pwd
 /Users/artpoon/git/courses
-[Elzar:~/git/courses] artpoon% cd GradPythonCourse/
-[Elzar:~/git/courses/GradPythonCourse] artpoon% cd examples/
-[Elzar:courses/GradPythonCourse/examples] artpoon% ls
+[Elzar:~/git/courses] artpoon% cd PATH9577/
+[Elzar:~/git/courses/PATH9577] artpoon% cd examples/
+[Elzar:courses/PATH9577/examples] artpoon% ls
 esoph.csv
 ```
 
