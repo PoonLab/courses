@@ -81,11 +81,6 @@
    * File encodings: ASCII, Unicode
    * Opening files, `File` types
    * Parsing tabular data
-   * Modules
-     * Tabular data with `csv`
-     * Date and time data with `datetime`
-     * Genetic sequences with `Bio`
-     * Phylogenetic trees with `Phylo`
    * **In-class assignment**
    * **Take-home assignment** [](Assignments/takehome4.md)
    * **Readings:** [Tabular data](Readings/TabularData.md)
@@ -99,19 +94,26 @@
    * Catching and handling exceptions with `try` and `except`
    * **In-class assignment** Debugging scripts
    * **Take-home assignment** Refactoring a bad script
+   * **Readings:** [Writing "good" code](Readings/GoodCode.md)
 
-6. Text processing
+6. Advanced text processing
    * Regular expressions with `re`
-   * Old-style string formatting
+   * Old-style string formatting (C-style placeholders)
    * `format`
-   
-7. Batch processing
+   * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
+
+7. Modules
+   * Tabular data with `csv`
+   * Date and time data with `datetime`
+   * Genetic sequences with `Bio`
+   * Phylogenetic trees with `Phylo`
+   * **Readings:** [Date-time objects](Readings/DateTime.md)
+
+8. Batch processing
    * UNIX wildcards and `glob`
    * Pipelining
    * Calling other programs with `subprocess`
    * Building a script interface with `argparse`
-
-8. Working with COSMIC data
 
 9. Working with RNASeq data
    * FASTQ
