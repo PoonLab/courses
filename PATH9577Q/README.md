@@ -51,10 +51,9 @@
    * Learning about an object with `dir()`
    * Strings
      * Indexing and slicing
-   * Lists
-     * List comprehensions
-   * Tuples
+   * Lists and tuples
      * Mutable versus immutable types
+     * Sorting
    * Sets
      * set operations
    * Dictionaries
@@ -86,12 +85,17 @@
    * **Readings:** [Tabular data](Readings/TabularData.md)
 
 5. Writing and debugging scripts
-   * Style
+   * What is coding style?
+   * Concise code:
+     * List comprehensions
+     * `lambda` functions and `map`, `filter` and `reduce`
+     * 
    * Good coding practices
    * Documenting your code
-   * Debugging with `print` statements
-   * `assert` statements
-   * Catching and handling exceptions with `try` and `except`
+   * Debugging
+     * `print` statements
+     * `assert` statements
+     * Catching and handling exceptions with `try` and `except`
    * **In-class assignment** Debugging scripts
    * **Take-home assignment** Refactoring a bad script
    * **Readings:** [Writing "good" code](Readings/GoodCode.md)
