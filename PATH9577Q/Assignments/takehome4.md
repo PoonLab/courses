@@ -1,7 +1,7 @@
 # Take-home assignment 4
 Write a script to retrieve the entry at a specific row and column index of a CSV file.
 
-1. First, we need to write a function that takes an open file as its single argument.  The file should be assumed to contain a tabular data set in a CSV format.  The function should return a list of lists.  Each internal list should correspond to a row in the tabular data set.  Remember, to insert a list into a list, use the `append` function; for example, `a = [[6,7]]; a.append([1,2,3])` results in `[[6,7], [1,2,3]]` assigned to `a`.
+1. First, we need to write a function that takes an open file as its single argument.  The file should be assumed to contain a tabular data set in a CSV format.  The function should return a list of lists.  Each internal list should correspond to a row in the tabular data set.  Remember, to insert a list into the end of a list, use the `append` function; for example, `a = [[6,7]]; a.append([1,2,3])` results in `[[6,7], [1,2,3]]` assigned to `a`.
    ```python
    def csv_to_lists(handle):
        rows = []
