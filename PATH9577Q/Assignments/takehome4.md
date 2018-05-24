@@ -1,4 +1,4 @@
-# In-class assignment 4
+# Take-home assignment 4
 Write a script to retrieve the entry at a specific row and column index of a CSV file.
 
 1. First, we need to write a function that takes an open file as its single argument.  The file should be assumed to contain a tabular data set in a CSV format.  The function should return a list of lists.  Each internal list should correspond to a row in the tabular data set.
@@ -41,4 +41,4 @@ def csv_to_lists(handle):
        main()  # we got called from the command line!
 ```
 
-3. 
+3. Run yoiur script 
