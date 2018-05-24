@@ -5,6 +5,10 @@
 1. [Binary and text files](TabularData.md#binary-and-text-files)
 2. [Tabular data](TabularData.md#tabular-data)
 3. [Reading files in Python](TabularData.md#reading-files-in-python)
+4. [Iterating over the file](TabularData.md#iterating-over-the-file)
+5. [Example: NCBI ClinVar](TabularData.md#example-ncbi-clinvar)
+6. [Composing and debugging scripts](TabularData.md#composing-and-debugging-scripts)
+7. [The `csv` module](TabularData.md#the-csv-module)
 
 
 ## Binary and text files
@@ -496,5 +500,86 @@ So far, I've shown you a rudimentary approach to parsing a plain text file in CS
 5. Assign the resulting List object to variables.
 6. Do stuff with the variables.
 7. Return to step 2 until you reach the end of the file.
+The critical step that is specific to CSV formats is step 4.  However, this step will obviously fail if the some entries in the tabular data contain commas.  If the CSV is in a [conventional format](https://tools.ietf.org/html/rfc4180), then each affected entry should be enclosed in double quotes.  If not, then the CSV format is broken and we've got bigger problems: there is no straight-forward way to determine which entry belongs in which column.
 
-The critical step that is specific to CSV formats is step 4.  However, this step will obviously fail if the some entries in the tabular data contain commas.  
+To get a useful example, let's download the "all causes" mortality database from the US Government website Data.gov:
+```shell
+[Elzar:courses/PATH9577Q/examples] artpoon% wget https://data.cdc.gov/api/views/bi63-dtpu/rows.csv
+--2018-05-23 22:45:46--  https://data.cdc.gov/api/views/bi63-dtpu/rows.csv
+Resolving data.cdc.gov (data.cdc.gov)... 52.206.140.199, 52.206.68.26, 52.206.140.205
+Connecting to data.cdc.gov (data.cdc.gov)|52.206.140.199|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/csv]
+Saving to: ‘rows.csv’
+
+rows.csv                [ <=>                ] 118.65K  --.-KB/s    in 0.07s   
+
+Last-modified header invalid -- time-stamp ignored.
+2018-05-23 22:45:47 (1.65 MB/s) - ‘rows.csv’ saved [1275181]
+```
+There should now be a new file called `rows.csv` in your current working directory.  (These data are in the public domain but I don't feel comfortable uploading it to this repository, so please use `wget` to obtain your own copy.)  
+
+Let's get a brief look at this file:
+```shell
+[Elzar:courses/PATH9577Q/examples] artpoon% head -n3 rows.csv
+Year,113 Cause Name,Cause Name,State,Deaths,Age-adjusted Death Rate
+1999,"Accidents (unintentional injuries) (V01-X59,Y85-Y86)",Unintentional Injuries,Alabama,2313,52.20
+1999,"Accidents (unintentional injuries) (V01-X59,Y85-Y86)",Unintentional Injuries,Alaska,294,55.90
+```
+The very first line of data is going to cause problems - the entry `"Accidents (unintentional injuries) (V01-X59,Y85-Y86)"` contains the comma delimiter and our approach to parsing this file will fail.  To illustrate, here is a small script:
+```python
+handle = open('rows.csv')
+header = next(handle)
+print(header)  # show the column labels
+for line in handle:
+    year, cause113, cause, state, deaths, aad_rate = line.strip('\n').split(',')
+```
+I saved this to a file `rows.py`.  As expected, running this script throws an exception:
+```shell
+[Elzar:courses/PATH9577Q/examples] artpoon% python rows.py
+Year,113 Cause Name,Cause Name,State,Deaths,Age-adjusted Death Rate
+
+Traceback (most recent call last):
+  File "rows.py", line 5, in <module>
+    year, cause113, cause, state, deaths, aad_rate = line.strip('\n').split(',')
+ValueError: too many values to unpack (expected 6)
+```
+The `too many values` message is our big clue.  The `expected 6` part tells us that Python was expecting to assign six members from a list returned by `split` to a series of variables, but instead the list had too many members.  This is exactly what we'd expect to happen if one of the entries contains an extra `,`.
+
+Fortunately, parsing tabular data is such a frequent task that Python has a standard module (`csv`) that is already equipped to handle these cases.  To load this module, we simply use an `import` command that should normally appear at the top of your script.  Let's write a different script:
+```python
+import csv
+
+handle = open('rows.csv')
+header = next(handle)  # skip the header line
+reader = csv.reader(handle, delimiter=',', quotechar='"')
+for row in reader:
+    year, cause113, cause, state, deaths, aad_rate = row
+```
+This time the script runs without throwing any exceptions!  (In fact, there is no output at all.  How would you modify this script to get more feedback to confirm that the tabular data are being processed as expected?)  `csv.reader` is a function in the `csv` module that returns an iterable object where each line is correctly parsed into a row of the tabular data set, including entries enclosed in double quotes.  I've called this function with three arguments:
+* `handle` is the open file object (default read mode) that I created on the previous line
+* `delimiter=','` is a keyword argument that specifies the delimiter used to separate entries
+* `quotechar='"'` is another keyword argument that species the character used to enclose entries that contain the delimiter character.
+
+Great!  Of course, the `csv` module comes with a lot of useful functions for working with tabular data sets.  I'll cover one more here because it's so useful.  `csv.DictReader` returns a different type of iterable object where the column labels contained in the first line of the file are used as keys in a Dictionary object.  The values in each subsequent line are assigned as values to the respective keys.  This is nice when we're working with a dataset that has a great many columns.  Here is yet another example script to illustrate:
+```python
+import csv
+
+handle = open('rows.csv')
+reader = csv.DictReader(handle, delimiter=',', quotechar='"')
+for i, row in enumerate(reader):
+    if i > 2:
+        break  # just print the first 3 rows
+    print(row)
+```
+This yields the following output:
+```shell
+[Elzar:courses/PATH9577Q/examples] artpoon% python dictread.py
+{'Cause Name': 'Unintentional Injuries', 'Deaths': '2313', '113 Cause Name': 'Accidents (unintentional injuries) (V01-X59,Y85-Y86)', 'Age-adjusted Death Rate': '52.20', 'Year': '1999', 'State': 'Alabama'}
+{'Cause Name': 'Unintentional Injuries', 'Deaths': '294', '113 Cause Name': 'Accidents (unintentional injuries) (V01-X59,Y85-Y86)', 'Age-adjusted Death Rate': '55.90', 'Year': '1999', 'State': 'Alaska'}
+{'Cause Name': 'Unintentional Injuries', 'Deaths': '2214', '113 Cause Name': 'Accidents (unintentional injuries) (V01-X59,Y85-Y86)', 'Age-adjusted Death Rate': '44.80', 'Year': '1999', 'State': 'Arizona'}
+```
+
+## Writing tabular data
+
+
