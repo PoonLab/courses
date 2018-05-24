@@ -2,22 +2,26 @@
 
 > Note: this document is being revised
 
-* [Binary and text files](TabularData.md#binary-and-text-files)
-* [Tabular data](TabularData.md#tabular-data)
-* [Reading files in Python](TabularData.md#reading-files-in-python)
+1. [Binary and text files](TabularData.md#binary-and-text-files)
+2. [Tabular data](TabularData.md#tabular-data)
+3. [Reading files in Python](TabularData.md#reading-files-in-python)
 
 
 ## Binary and text files
+
+### Binary and plain text
 First, let's draw a distinction between plain text and binary files.  All files correspond to a series of 1's and 0's on the hard drive or in memory.  A stream of bits is all the computer needs to run a set of instructions, but it would be difficult for a person to read and interpret these instructions.  For this reason, a file that encodes an executable program is some times referred to as a "binary" - it isn't intended to be read by users.  (For fun, try running `head` on a binary executable file.)  
 
 A plain text file has a flag that tells the computer that it should apply a [character encoding](https://en.wikipedia.org/wiki/Character_encoding) that maps binary sequences (bit strings) to symbols that make sense to a person, such as characters in an alphabet.  For example, the [ASCII](https://en.wikipedia.org/wiki/ASCII) encoding maps the bit string `1001010` to the letter `J`.  This means that when you open the file, the computer knows that it should display its contents as a collection of meaningful characters.  Obviously this is a big advantage for making a file immediately interpretable.  However, we sacrifice some efficiency to make this possible, so binary files tend to be more compact while storing the same information. 
 
+### ASCII and Unicode
 ASCII is a limited map: it encodes 128 characters (2 raised to the power of 7), including several special characters that represent specific operations such as a line break.  As a standard with roots in the U.S.A. (the A stands for American), it is really only suitable for encoding plain text in American English.  However, there are many languages in the world and some of those languages have thousands of characters representing different words!  For this reason, another consortium was founded (ironically also in the United States) to develop and maintain a larger character set for encoding many different languages: [Unicode](https://en.wikipedia.org/wiki/Unicode).  
+
 ![](https://imgs.xkcd.com/comics/unicode.png)
 
 A Unicode transformation format (UTF) is like ASCII but uses more than 7 bits; for example, UTF-8 uses 8 bits and can encode 256 characters.  More importantly, multiple UTF-8 encoding bits can be combined to map to a massive number of characters.  For example, the current Unicode standard maps to 136,755 characters, including emoji, which can be reached by [combining UTF-8 bytes](https://en.wikipedia.org/wiki/UTF-8).
 
-
+### Parsing text
 For a plain text file, a format is a set of rules about how the characters are arranged to encode information.  Data formats are a necessary evil in bioinformatics.  Learning to parse new formats and converting between formats is a ubiquitous task that is often made more difficult by the lack of a strict standardization for popular formats such as [NEXUS](https://en.wikipedia.org/wiki/Nexus_file) or [Newick](https://en.wikipedia.org/wiki/Newick_format).  Fortunately, the pervasiveness of such tasks means that there are also plenty of resources in the public domain that make them easier to accomplish.
 
 In this module, we are going to learn how to parse tabular data sets in Python, in which information is organized into a table with specific numbers of rows and columns.  Many bioinformatic data sets have a format that is consistent with tabular data.  Even though these data can be imported into a spreadsheet application such as Excel, the dimensions of many bioinformatic data sets make it difficult to work with manually and we usually need to process enormous numbers of rows and/or columns and to automate the batch processing of many files.
@@ -174,7 +178,7 @@ Now we've got a variable that we've named `line` that is holding onto the conten
 >>> line3 = handle.readline()
 >>> another_line = handle.readline()
 ```
-This is valid Python, but it's also stupid.  No, the smart thing to do here is to use a [for loop](ControlFlow.md) to iterate over the contents of the file.
+This is valid Python, but it's also stupid.  The smart thing to do here is to use a [for loop](ControlFlow.md) to iterate over the contents of the file.
 
 
 ## Iterating over the file
@@ -327,7 +331,7 @@ The `split` function returns a list comprising all the substrings produced by cu
 
 ## Composing and debugging scripts
 
-Let's get back to our example.  We're going to put everything we've covered so far to reformat this data set to address a couple of issues.  First of all, the first field `name` contains a lot of information that has been munged together into a long unintelligible string.  Let's break this up into parts that are easier to work with.  Second, the clinical significance field has a "Last reviewed" comment appended to it that we'd like to break into a separate field. 
+We're going to put everything we've covered so far to reformat this data set to address a couple of issues.  First of all, the first field `name` contains a lot of information that has been munged together into a long unintelligible string.  Let's break this up into parts that are easier to work with.  Second, the clinical significance field has a "Last reviewed" comment appended to it that we'd like to break into a separate field. 
 
 When we're composing a script, it generally helps to write it out in stages with a text editor and run those drafts with a non-interactive Python interpreter to check some intermediate outputs.  Any plain text editor will do.  I tend to use PyCharm, but gedit works just as well and if I know that I'm making a small change, I prefer to use UNIX [vim](https://en.wikipedia.org/wiki/Vi).
 
@@ -482,3 +486,15 @@ My motivation for writing this section was to give you a basic idea of what goes
 ![](https://imgs.xkcd.com/comics/new_bug.png)
 
 
+## The `csv` module
+
+So far, I've shown you a rudimentary approach to parsing a plain text file in CSV format with Python:
+1. `open` the file
+2. Iterate over each line in the file with a `for` loop
+3. `strip` the line break
+4. `split` the line into substrings on commas
+5. Assign the resulting List object to variables.
+6. Do stuff with the variables.
+7. Return to step 2 until you reach the end of the file.
+
+The critical step that is specific to CSV formats is step 4.  However, this step will obviously fail if the some entries in the tabular data contain commas.  
