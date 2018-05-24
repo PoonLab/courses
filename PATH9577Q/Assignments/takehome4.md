@@ -2,12 +2,12 @@
 Write a script to retrieve the entry at a specific row and column index of a CSV file.
 
 1. First, we need to write a function that takes an open file as its single argument.  The file should be assumed to contain a tabular data set in a CSV format.  The function should return a list of lists.  Each internal list should correspond to a row in the tabular data set.
-```python
-def csv_to_lists(handle):
-    rows = []
-    # your code goes here!
-    return rows
-```
+   ```python
+   def csv_to_lists(handle):
+       rows = []
+       # your code goes here!
+       return rows
+   ```
 
 2. Next, use the template below to write a `main` function that handles arguments from the command line.  It should check that there are three arguments (other than the name of the script).  
    * The first argument should be a path to the CSV file
@@ -39,6 +39,11 @@ def csv_to_lists(handle):
        
    if __name__ == '__main__':
        main()  # we got called from the command line!
-```
+   ```
 
-3. Run yoiur script 
+3. Run your script on the file `esoph.csv` to print the value in row 4, column 4.  (Remember, Python is zero indexed!)  Paste the result below:
+   ```shell
+   
+   ```
+
+
