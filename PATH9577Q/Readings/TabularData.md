@@ -9,7 +9,7 @@
 5. [Example: NCBI ClinVar](TabularData.md#example-ncbi-clinvar)
 6. [Composing and debugging scripts](TabularData.md#composing-and-debugging-scripts)
 7. [The `csv` module](TabularData.md#the-csv-module)
-
+8. [Writing CSV files](TabularData.md#)
 
 ## Binary and text files
 
@@ -580,6 +580,19 @@ This yields the following output:
 {'Cause Name': 'Unintentional Injuries', 'Deaths': '2214', '113 Cause Name': 'Accidents (unintentional injuries) (V01-X59,Y85-Y86)', 'Age-adjusted Death Rate': '44.80', 'Year': '1999', 'State': 'Arizona'}
 ```
 
+
 ## Writing tabular data
 
+At this point, we have learned how to read and process tabular data from CSV-formatted files.  I'm going to finish off this section on how to export the results of your processing as tabular data in another file.  To write to a file, we use the `open` command just as we did for reading a file, except that we set the `mode` option to `w`:
+```python
+handle = open('output.txt', 'w')
+```
+**Warning:** This will erase the entire contents of the `output.txt` file!  Do not run this command unless you are certain that you don't mind losing everything in that file, or if the string you pass as the first argument to `open` is a valid path to a file that does not yet exist in your filesystem (i.e., a new file).  If you want to retain everything in a pre-existing file and simply append new content, then you have the option of opening the file in the mode `a`:
+```python
+handle = open('output.txt', 'a')  # nothing is erased
+```
 
+Instead of calling `.readline()` or iterating over this file handle, we want to use its `.write()` command:
+```python
+handle = open('output.txt', 'w')
+```
