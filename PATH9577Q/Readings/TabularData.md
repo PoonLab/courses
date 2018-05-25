@@ -9,7 +9,7 @@
 5. [Example: NCBI ClinVar](TabularData.md#example-ncbi-clinvar)
 6. [Composing and debugging scripts](TabularData.md#composing-and-debugging-scripts)
 7. [The `csv` module](TabularData.md#the-csv-module)
-8. [Writing CSV files](TabularData.md#)
+8. [Writing CSV files](TabularData.md#writing-tabular-data)
 
 ## Binary and text files
 
