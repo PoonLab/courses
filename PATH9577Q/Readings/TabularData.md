@@ -595,4 +595,38 @@ handle = open('output.txt', 'a')  # nothing is erased
 Instead of calling `.readline()` or iterating over this file handle, we want to use its `.write()` command:
 ```python
 handle = open('output.txt', 'w')
+handle.write('I just wrote something!\n')
+handle.close()
 ```
+If you ran this script, you'd now have a new text file in your current working directory named `output.txt` with a single line.
+
+To write tabular data in a CSV format, we can take the following approach if we're not worried about extra commas:
+```python
+handle = open('output.csv', 'w')
+data = [['a', '1'], ['b', '2'], ['c', '3']]
+for row in data:
+    handle.write(','.join(row) + '\n')
+handle.close()
+```
+Running this script should produce the following file:
+```shell
+art@orolo:~/Desktop$ cat output.csv
+a,1
+b,2
+c,3
+```
+
+Again, it is helpful to use the `csv` module when we're dealing with more complicated situations, such as needing to join a mixture of string and non-string objects into a comma-delimited line, or dealing with entries that contain the delimiter:
+```python
+import csv
+outfile = open('temp.csv', 'w')
+writer = csv.writer(outfile, delimiter=',', quotechar='"')
+writer.writerow([1,'a', 'this, has a comma'])
+outfile.close()
+```
+This yields the following file:
+```shell
+art@orolo:~/Desktop$ cat temp.csv
+1,a,"this, has a comma"
+```
+Note that `csv.writer` knew how to handle an integer as well as the string containing the delimiter (`,`).
