@@ -12,9 +12,7 @@ Maintainable code can be read by another person, who will be able to:
 2. not have to spend days picking apart the code to understand it;
 3. understand it well enough to modify it without breaking something.
 
-Even if you don
-""""" 
-Calculate nucleotide frequencies from a FASTA file't intend for anyone else to use your code, you will always be writing it for someone else: *you*.  Months from now when you return to your code, if your code hasn't been written to be maintainable then you will have created a "black box" for yourself.  So do yourself a big favour and write clean, readable code with sufficient commenting and documentations, or you'll be creating more work for your future self.
+Even if you don't intend for anyone else to use your code, you will always be writing it for someone else: *you*.  Months from now when you return to your code, if your code hasn't been written to be maintainable then you will have created a "black box" for yourself.  So do yourself a big favour and write clean, readable code with sufficient commenting and documentations, or you'll be creating more work for your future self.
 
 ![](https://imgs.xkcd.com/comics/future_self.png)
 
@@ -194,11 +192,40 @@ which yields the following list object:
 >>> squares
 [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 ```
-If you've covered [List objects](Iterables.md), [`for` loops](ControlFlow.md) and basic [arithmetic operations](Variables.md#python-as-a-calculator) in Python, then you should be able to get a handle on what is going on.  However, there is a more compact way of making this List:
+If you've covered [List objects](Iterables.md), [`for` loops](ControlFlow.md) and basic [arithmetic operations](Variables.md#python-as-a-calculator) in Python, then you should be able to get a handle on what is going on.  
+
+However, there is a more compact way of making this List:
 ```python
 squares = [i*i for i in range(1, 11)]
 ```
-This approach is called a *list comprehension*.  It is a popular shortcut in Python and you'll encounter it pretty often.
+This one-line approach is called a *list comprehension*.  (This statement doesn't *have* to be on one line.  Some times you might want to add some line breaks to make the statement more readable.  This is okay as long as the line breaks occur within the square brackets.)  It is a popular shortcut in Python and you'll encounter it pretty often.  Each element in the list is the result of some *operation* that has been applied to every member of some iterable object.  The basic structure of a list comprehension is as follows:
+* All statements are contained within square brackets.
+* An operation on the loop variable(s), *e.g.*, `i*i`.
+* A series of one or more loop variables to assign values from every iteration, *e.g.*, `i`.
+* An iterable object, *e.g.*, `range(1,10)`.
+
+Instead of writing out the operation component of a list comprehension, we could call some function and send the loop variable as the argument.
+
+
+#### `map` and `lambda` functions
+
+Applying the same operation to a sequence of inputs is a very common task in computing, and there is an even *more* concise way to generate the `squares` list that we produced in the above section:
+```python
+>>> squares = map(lambda i: i*i, range(1, 11))
+>>> squares
+<map object at 0x7f5110e45ba8>  # in Python 2, map() used to return a list but now it is a special iterable
+>>> list(squares)
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+This is even more concise if we have already defined a function elsewhere:
+```python
+def square(i):
+    return i*i
+
+squares = map(square, range(1, 11))  # yields the same result
+```
+However, we're now starting to make things more and more cryptic.  For example, we can save a bunch of space if `square` is an operation with many lines of code, or requires several arguments; but if the function definition is written somewhere else in the code or imported from another script, then we might have no idea of what's going on.
+
 
 
 ### Modular programming
