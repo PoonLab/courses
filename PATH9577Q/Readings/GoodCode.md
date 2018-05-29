@@ -12,7 +12,9 @@ Maintainable code can be read by another person, who will be able to:
 2. not have to spend days picking apart the code to understand it;
 3. understand it well enough to modify it without breaking something.
 
-Even if you don't intend for anyone else to use your code, you will always be writing it for someone else: *you*.  Months from now when you return to your code, if your code hasn't been written to be maintainable then you will have created a "black box" for yourself.  So do yourself a big favour and write clean, readable code with sufficient commenting and documentations, or you'll be creating more work for your future self.
+Even if you don
+""""" 
+Calculate nucleotide frequencies from a FASTA file't intend for anyone else to use your code, you will always be writing it for someone else: *you*.  Months from now when you return to your code, if your code hasn't been written to be maintainable then you will have created a "black box" for yourself.  So do yourself a big favour and write clean, readable code with sufficient commenting and documentations, or you'll be creating more work for your future self.
 
 ![](https://imgs.xkcd.com/comics/future_self.png)
 
@@ -171,6 +173,32 @@ Doesn't this make a huge difference?  I certainly think so!
 Every programming language has to enforce some rule about variable names, or else it may get confused about where the variable name ends and the code begins.  In Python, a variable name may contain any letters, numbers or underscores, and cannot start with a number.  [PEP 8](https://www.python.org/dev/peps/pep-0008/#descriptive-naming-styles) goes further with suggestions about how to format more complex variable names.  For example, my `old_string` variable name uses an underscore to separate words.  Another acceptable approach is known as *camelcase*: `oldString`.  You are free to choose whatever naming style you want, but you *should* be consistent!
 
 ![](https://imgs.xkcd.com/comics/sigil_cycle.png)
+
+
+### Shortcuts
+
+One of the [core philosophies](https://www.python.org/dev/peps/pep-0020/) of the Python language is that:
+> There should be one-- and preferably only one-- way to do it
+Even so, there are certainly many ways of writing the same code.  For this class, we've been focusing on the most basic, generic approaches to getting something done with Python.  However, there are other methods that are more succinct and even more visually appealing -- on the other hand, they can lead to code that is difficult to read, and they can involve more advanced concepts in programming such as [anonymous functions](https://en.wikipedia.org/wiki/Anonymous_function).  I think that the decision of whether or not to use some of these "shortcut" methods is a question of code style, so I've placed a brief explanation on some of (what I think are) the more common shortcuts here.
+
+#### List comprehensions
+
+Here is a generic approach to building up a list:
+```python
+squares = []  # start with an empty list
+for i in range(1, 11):  # iterate over something
+    squares.append(i*i)
+```
+which yields the following list object:
+```python
+>>> squares
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+If you've covered [List objects](Iterables.md), [`for` loops](ControlFlow.md) and basic [arithmetic operations](Variables.md#python-as-a-calculator) in Python, then you should be able to get a handle on what is going on.  However, there is a more compact way of making this List:
+```python
+squares = [i*i for i in range(1, 11)]
+```
+This approach is called a *list comprehension*.  It is a popular shortcut in Python and you'll encounter it pretty often.
 
 
 ### Modular programming
