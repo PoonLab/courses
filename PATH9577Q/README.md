@@ -84,7 +84,10 @@
    * **Take-home assignment** [](Assignments/takehome4.md)
    * **Readings:** [Tabular data](Readings/TabularData.md)
 
-5. Writing and debugging scripts
+5. Review session
+   * Going over the material we have covered so far
+  
+6. Writing and debugging scripts
    * What is coding style?
    * Concise code:
      * List comprehensions
@@ -100,26 +103,22 @@
    * **Take-home assignment** Refactoring a bad script
    * **Readings:** [Writing "good" code](Readings/GoodCode.md)
 
-6. Advanced text processing
+7. Advanced text processing
    * Regular expressions with `re`
    * Old-style string formatting (C-style placeholders)
    * `format`
    * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
 
-7. Modules
-   * Tabular data with `csv`
+8. Modules
    * Date and time data with `datetime`
    * Genetic sequences with `Bio`
+     * Working with RNASeq data (FASTQ)
    * Phylogenetic trees with `Phylo`
    * **Readings:** [Date-time objects](Readings/DateTime.md)
 
-8. Batch processing
+9. Batch processing
    * UNIX wildcards and `glob`
    * Pipelining
    * Calling other programs with `subprocess`
    * Building a script interface with `argparse`
-
-9. Working with RNASeq data
-   * FASTQ
-
 
