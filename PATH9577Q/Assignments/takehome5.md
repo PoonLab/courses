@@ -42,6 +42,8 @@ This CSV file encodes a very large matrix.  Each column corresponds to a single 
    
    # iterate over rows in the csv.reader object (remember the header was already removed and processed)
    
+       # break out of this loop if we hit 1,000 lines
+       
        # assign the first item in this row to `gene`
        
        # iterate over the remaining items and keep track of the index with `enumerate`
@@ -61,5 +63,5 @@ This CSV file encodes a very large matrix.  Each column corresponds to a single 
    ```shell
    
    ```
-
+   For the record, the total file size of this sparse output if we ran the whole CSV file is about 369Mb, and the original CSV file is 542Mb!  We could probably get more compact if we use integers instead of the full barcode and sample labels, but then we'd want additional CSV files to associate those integers back to the original labels.
 
