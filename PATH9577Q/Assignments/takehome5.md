@@ -48,8 +48,10 @@ This CSV file encodes a very large matrix.  Each column corresponds to a single 
        
            # assign the i-th item to `count`
            
-           # write the following to your csv.writer: [gene, barcodes[i], samples[groups[i]], count]
-           # think: why are we indexing into `groups` and then keying into `samples`?
+           # only do the next step if count is non-zero
+           
+               # write the following to your csv.writer: [gene, barcodes[i], samples[groups[i]], count]
+               # think: why are we indexing into `groups` and then keying into `samples`?
    
    # when we're done, close the two file streams
 
