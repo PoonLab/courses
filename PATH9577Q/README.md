@@ -80,12 +80,15 @@
    * File encodings: ASCII, Unicode
    * Opening files, `File` types
    * Parsing tabular data
-   * **In-class assignment**
-   * **Take-home assignment** [](Assignments/takehome4.md)
+   * **In-class assignment** [Splitting a column](Assignments/inclass4.md)
+   * **Take-home assignment** [Row-column index script](Assignments/takehome4.md)
    * **Readings:** [Tabular data](Readings/TabularData.md)
 
 5. Review session
    * Going over the material we have covered so far
+   * Discuss final projects
+   * **In-class assignment** [Single-cell expresssion data](Assignments/inclass5.md)
+   * **Take-home assignment** [Unwinding a dense CSV matrix](Assignments/takehome5.md)
   
 6. Writing and debugging scripts
    * What is coding style?
