@@ -14,7 +14,7 @@ This is a next-generation sequencing-based ([10X Chromium](https://www.10xgenomi
 4. Ascites DCs
 5. Tonsil DCs
 
-where DC is dendritic cell and 1, 2 and 5 are presumably controls (at the time of composing this exercise, this was an unpublished study!)
+where DC is dendritic cell and 1, 2 and 5 are presumably controls (at the time of composing this exercise, this was an unpublished study!).  Specifically, this is a dense gene-barcode matrix data set from the study.
 
 We're going to rely on the `csv` module for this exercise.  If you need to review how this works, check the readings on [tabular data sets](Readings/TabularData.md).
 
@@ -39,7 +39,7 @@ We're going to rely on the `csv` module for this exercise.  If you need to revie
    # provide output of print() here
 
    ```
-
+   You should see a List object containing strings like this: `'CTCGTCATCGAGAGCA-1'`.  The nucleotide sequence is a barcode. The number after the dash is a [GEM group](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/bam) that is used to differentiate the different samples on a multiplexed run.  We'll assume that these numbers 1 to 5 correspond to the cell types that I listed above.  Each barcode within a group identifies a single cell.
 
 3. Now let's iterate over the rest of the CSV file and print the first 10 entries of every 1000 rows, along with its row number.  Copy-paste your code below:
    ```python
@@ -55,4 +55,24 @@ We're going to rely on the `csv` module for this exercise.  If you need to revie
    # copy the output here
    ```
 
-4. 
+4. The result from Q3 suggests that the first column holds a gene name, and the rest of the entries in a row are integers that count the number of times a transcript from that gene was observed for a particular cell.  Let's calculate the total number of transcripts observed for each gene, and break out of the loop after the first 20 genes.  Start a new script for this question - you can reuse some of the code from the above:
+   ```python
+   # start a new script
+   import csv
+   
+   # open the file and create a csv.reader object
+   
+   # skip the header
+   
+   # start a loop over the csv.reader object - use `enumerate` to track iteration numbers
+   
+       # iterate over this row (skip the first entry), cast each entry to an integer and sum
+       
+       # print the first entry (gene name) and the sum
+       
+       # tell Python to exit this loop if we've done 20 entries
+   ```
+   Copy the output below:
+   ```
+   
+   ```
