@@ -30,9 +30,10 @@ This CSV file encodes a very large matrix.  Each column corresponds to a single 
    * barcode
    * group
    * count
-The `gene` entry comes from the first item in each row - it's simply a gene name such as `OR4F5`.  We'll write the output to a separate file called `GSE111007-long.csv`.  Finally, let's skip any entry that has a value of `0`.  This will drastically reduce the size of our output file since most of the entries in this gene-barcode matrix are zeroes!  This approach is known as a *sparse* CSV matrix format.
+   
+   The `gene` entry comes from the first item in each row - it's simply a gene name such as `OR4F5`.  We'll write the output to a separate file called `GSE111007-long.csv`.  Finally, let's skip any entry that has a value of `0`.  This will drastically reduce the size of our output file since most of the entries in this gene-barcode matrix are zeroes!  This approach is known as a *sparse* CSV matrix format.
 
-Paste your code below:
+   Paste your code below:
    ```python
    import csv
    # your code from Q1 and Q2 can go here
