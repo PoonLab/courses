@@ -33,7 +33,7 @@ We're going to rely on the `csv` module for this exercise.  If you need to revie
    ```shell
    ```
    
-2. Next, let's print every 10,000th entry in this list.  Slice into the list from Q1 and print the result:
+2. Next, let's print every 1000th entry in this list.  Slice into the list from Q1 and print the result:
    ```python
    
    # provide output of print() here
