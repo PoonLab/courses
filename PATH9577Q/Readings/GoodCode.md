@@ -177,6 +177,7 @@ Every programming language has to enforce some rule about variable names, or els
 
 One of the [core philosophies](https://www.python.org/dev/peps/pep-0020/) of the Python language is that:
 > There should be one-- and preferably only one-- way to do it
+
 Even so, there are certainly many ways of writing the same code.  For this class, we've been focusing on the most basic, generic approaches to getting something done with Python.  However, there are other methods that are more succinct and even more visually appealing -- on the other hand, they can lead to code that is difficult to read, and they can involve more advanced concepts in programming such as [anonymous functions](https://en.wikipedia.org/wiki/Anonymous_function).  I think that the decision of whether or not to use some of these "shortcut" methods is a question of code style, so I've placed a brief explanation on some of (what I think are) the more common shortcuts here.
 
 #### List comprehensions
@@ -226,6 +227,21 @@ squares = map(square, range(1, 11))  # yields the same result
 ```
 However, we're now starting to make things more and more cryptic.  For example, we can save a bunch of space if `square` is an operation with many lines of code, or requires several arguments; but if the function definition is written somewhere else in the code or imported from another script, then we might have no idea of what's going on.
 
+
+#### `with`..`as` statements
+
+The `with` statement [defines a context](https://docs.python.org/3/reference/datamodel.html#context-managers) for a block of code, within which a variable holds the value of some expression and does not outside the block.  I usually come across `with` statements used for briefly opening and working with the contents of a file stream.  For example:
+```python
+with open('file.txt') as handle:
+    print(next(handle))
+```
+instead of:
+```python
+handle = open('file.txt')
+print(next(handle))
+handle.close()
+```
+One of the benefits of using `with` for file streams is that the stream is automatically closed upon exiting the nested code block.  It also results in slightly more concise code!  Other advantages of using `with` statements depend on using [context management] programming of Python classes, which is a topic that is too advanced for this class.
 
 
 ### Modular programming
