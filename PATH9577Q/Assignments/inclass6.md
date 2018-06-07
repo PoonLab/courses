@@ -1,20 +1,13 @@
 # In-class assignment 6
 ## Debugging Python
 
-In each of the following questions, you'll see a small amount of Python code and the output that is produced when the code is run.  In every case, the output should read `correct!`.  Make corrections directly to the Python code and e-mail me your edited Markdown file.  (Hint: all of these code blocks have more than one problem to fix.)
+In each of the following questions, you'll see a small amount of Python code that is full of bugs.  In every case, the output should read `correct!`.  Make corrections directly to the Python code and e-mail me your edited Markdown file.  (Hint: paste the code into a text file, run the script and examine the error message that results.)
 
 1. Code:
    ```python
    print['correct!]
    ```
-   Output:
-   ```shell
-     File "<stdin>", line 1
-       print['correct!]
-                   ^
-   SyntaxError: EOL while scanning string literal
-   ```
-
+   
 2. Code:
    ```python
    letters = ['c', 'e', 'o', 'c', 'r' 't', 'r']
@@ -22,10 +15,6 @@ In each of the following questions, you'll see a small amount of Python code and
        for i in range(offset, len(letters, 2)):
            unscrambled = letters[i]
    print(unscrambled)
-   ```
-   Output:
-   ```shell
-   t
    ```
 
 3. Code:
@@ -40,13 +29,6 @@ In each of the following questions, you'll see a small amount of Python code and
    
    input = [99, 111, 114, 114, 101, 99, 116, 33]
    mascii(result)
-   ```
-   Output:
-   ```
-   Traceback (most recent call last):
-     File "inca6.py", line 10, in <module>
-       mascii(result)
-   NameError: name 'result' is not defined
    ```
    
 4. Code:
