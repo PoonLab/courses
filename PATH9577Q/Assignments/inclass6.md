@@ -23,3 +23,11 @@ In each of the following questions, you'll see a small amount of Python code and
            unscrambled = letters[i]
    print(unscrambled)
    ```
+   Output:
+   ```shell
+   t
+   ```
+
+3. Code:
+   ```python
+   
