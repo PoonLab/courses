@@ -204,6 +204,7 @@ This one-line approach is called a *list comprehension*.  (This statement doesn'
 * An operation on the loop variable(s), *e.g.*, `i*i`.
 * A series of one or more loop variables to assign values from every iteration, *e.g.*, `i`.
 * An iterable object, *e.g.*, `range(1,10)`.
+* *optional* A conditional statement that filters entries from the iterable object.  For example, we could amend the above example to output only integers divisible by 3: `squares = [i*i for i in range(1,11) if i%3==0]`
 
 Instead of writing out the operation component of a list comprehension, we could call some function and send the loop variable as the argument.
 
