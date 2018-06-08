@@ -11,6 +11,7 @@ In each of the following questions, you'll see a small amount of Python code tha
 2. Code:
    ```python
    letters = ['c', 'e', 'o', 'c', 'r' 't', 'r']
+   unscrambled = ''
    for offset in range(2):
        for i in range(offset, len(letters, 2)):
            unscrambled = letters[i]
