@@ -1,7 +1,6 @@
+# String formatting
 
-## Formatted output
-
-So far we've mostly talked about reading text from files, parsing information from that text, and printing some information to the console with `print()`.  We also need to learn how to write output to another file, which is more convenient when there is a lot of output or if we need to write to multiple files, making it difficult to use stream redirection with the `>` operator.
+So far we've mostly talked about reading text from files, parsing information from that text, and printing some information to the console with `print()`.  We also need to learn how to write output to another file, which is more convenient when there is a lot of output or if we need to write to multiple files, making it difficult to use stream redirection with the `>` operator.  We've made use of 
 
 First let's talk about constructing formatted strings.  A formatted string embeds information from one or more variables into specific locations of a string.  There are two ways of defining a formatted string in Python, the old way:
 ```python
