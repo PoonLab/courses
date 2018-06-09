@@ -102,15 +102,17 @@
      * `print` statements
      * `assert` statements
      * Catching and handling exceptions with `try` and `except`
-   * **In-class assignment** Debugging scripts
-   * **Take-home assignment** Refactoring a bad script
+   * **In-class assignment** [Debugging scripts](Assignments/inclass6.md)
+   * **Take-home assignment** [Refactoring a bad script](Assignments/takehome6.md)
    * **Readings:** [Writing "good" code](Readings/GoodCode.md)
 
 7. Advanced text processing
    * Regular expressions with `re`
    * Old-style string formatting (C-style placeholders)
    * `format`
-   * **Readings:** [Regular expressions](Readings/RegularExpressions.md)
+   * **In-class assignment**
+   * **Take-home assignment**
+   * **Readings:** [Regular expressions](Readings/RegularExpressions.md), [String formatting](Readings/FormattedStrings.md)
 
 8. Modules
    * Date and time data with `datetime`
