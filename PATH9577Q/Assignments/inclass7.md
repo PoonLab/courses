@@ -23,4 +23,14 @@ aaseq = 'MTSEKTQLLIAILLASTCLLYCKQYVTVFYGVPAWRNASIPLFCATKNRDTWGTIQCLPDNDDYQEIALNV
 
 ```
 
-3. [Noonan-like syndrome](http://elm.eu.org/diseases/) is a genetic condition characterized by  
+3. [Noonan-like syndrome](http://elm.eu.org/diseases/) is an autosomal dominant condition characterized by macrocephaly, short stature, developmental delays and an elevated risk of congenital heart defects.  One cause of this condition is a serine to glycine mutation creates a novel N-myristolation motif, which leads to aberrant targeting of [SHOC2](https://ghr.nlm.nih.gov/gene/SHOC2) to the plasma membrane.  The regular expression for this motif is: `^M{0,1}(G)[^EDRKHPFYW]..[STAGCN][^P]`.
+
+In the following space, describe this motif in plain language (use Q1 as an example):
+
+   1. 
+   2. 
+   3. 
+   4. 
+   5. 
+   6. 
+   7. 
