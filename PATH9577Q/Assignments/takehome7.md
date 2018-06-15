@@ -1,7 +1,7 @@
 # Take-home assignment 7
 ## Regular expressions and formatted strings
 
-1. First, we're going to create a function that searches an amino acid sequence for possible nuclear localisation signals (NLSs) -- a sequence that flags a protein for transport into the nucleus.  There are several different motifs that generally comprise basic residues (lysine and arginine).  [The "classical" bipartite NGS](http://elm.eu.org/elms/TRG_NLS_Bipartite_1) is described by the following regular expression:
+1. First, we're going to create a function that searches an amino acid sequence for possible nuclear localisation signals (NLSs) -- a sequence that flags a protein for transport into the nucleus.  There are several different motifs that generally comprise basic residues (lysine and arginine).  [The "classical" bipartite NLS](http://elm.eu.org/elms/TRG_NLS_Bipartite_1) is described by the following regular expression:
    ```
    [KR][KR].{7,15}[^DE]((K[RK])|(RK))(([^DE][KR])|([KR][^DE]))[^DE]
    ```
