@@ -110,8 +110,8 @@
    * Regular expressions with `re`
    * Old-style string formatting (C-style placeholders)
    * `format`
-   * **In-class assignment**
-   * **Take-home assignment**
+   * **In-class assignment** [Sequence motifs](Assignments/inclass7.md)
+   * **Take-home assignment** [Nuclear localization signals](Assignments/takehome7.md)
    * **Readings:** [Regular expressions](Readings/RegularExpressions.md), [String formatting](Readings/FormattedStrings.md)
 
 8. Modules
