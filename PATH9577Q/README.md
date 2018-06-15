@@ -119,11 +119,11 @@
    * Genetic sequences with `Bio`
      * Working with RNASeq data (FASTQ)
    * Phylogenetic trees with `Phylo`
-   * **Readings:** [Date-time objects](Readings/DateTime.md)
+   * **Readings:** [Date-time objects](Readings/DateTime.md), [Sequence Data](Readings/SequenceData.md)
 
 9. Batch processing
    * UNIX wildcards and `glob`
    * Pipelining
    * Calling other programs with `subprocess`
-   * Building a script interface with `argparse`
+   * **Readings:** [Pipelining](Readings/Pipelining.md)
 
