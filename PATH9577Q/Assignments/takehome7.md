@@ -37,12 +37,23 @@
    * The sequence label
    * The length of the sequence in amino acids
    * The number of predicted localisation signals
+   
+   ```python
+   # paste your script here
+   
+   ```
 
 
 4. Run the result on this file:
    https://github.com/PoonLab/courses/blob/master/PATH9577Q/Assignments/motifs.fasta
-   and paste the result here:
+   
+   Your answer should look like this:
    ```
-   
-   
+   L07347.1 Influenza A virus (strain A/memphis/4/73) nucleoprotein (NP) gene, complete cds	586	1
+   AAA42967.1 nucleoprotein [Dhori thogotovirus]	522	1
+   AAA43798.1 nucleoprotein [Influenza C virus]	609	0
+   AAA16109.1 cyclin-dependent kinase inhibitor [Homo sapiens]	223	1
+   AAI17252.1 Tumor protein p73 [Homo sapiens]	679	1
+   sp|P08153.1|SWI5_YEAST RecName: Full=Transcriptional factor SWI5	773	1
+   AGE89224.1 nucleoprotein [Salmon isavirus]	658	0   
    ```
