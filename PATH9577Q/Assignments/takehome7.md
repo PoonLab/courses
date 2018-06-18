@@ -17,6 +17,7 @@
    - Declare a new variable storing an empty list.
    - Set `sequence` to an empty string.  Set `label` to an empty string.
    - Iterating over each line in the file stream:
+      - Remove the line break character
       - If the line starts with `>`:
          - If `sequence` is a non-empty string
             - append the current label-sequence pair as a tuple on the list
@@ -33,7 +34,7 @@
    * a path containing a FASTA file of amino acid sequences
    * a path to write tab separated output
    
-   Use either old- or new-style string formatting to write the following items on each line of the output file, for each sequence in the input FASTA:
+   Use either old- or new-style string formatting to write the following items (delimited by tabs) on each line of the output file, for each sequence in the input FASTA:
    * The sequence label
    * The length of the sequence in amino acids
    * The number of predicted localisation signals
