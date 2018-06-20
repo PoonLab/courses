@@ -22,8 +22,8 @@
          - If `sequence` is a non-empty string
             - append the current label-sequence pair as a tuple on the list
             - reset `sequence` to an empty string
-         - Either way, strip `>` from the current line and assign the result to `label`
-      - Otherwise, strip `>` from the current line and append the result to `sequence`
+         - Either way, strip `>` and `\n` from the current line and assign the result to `label`
+      - Otherwise, strip `\n` from the current line and append the result to `sequence`
    - Append the final label-sequence pair as a tuple on the list
    - Return the list
    ```python
