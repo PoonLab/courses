@@ -173,6 +173,78 @@ Every programming language has to enforce some rule about variable names, or els
 ![](https://imgs.xkcd.com/comics/sigil_cycle.png)
 
 
+### Shortcuts
+
+One of the [core philosophies](https://www.python.org/dev/peps/pep-0020/) of the Python language is that:
+> There should be one-- and preferably only one-- way to do it
+
+Even so, there are certainly many ways of writing the same code.  For this class, we've been focusing on the most basic, generic approaches to getting something done with Python.  However, there are other methods that are more succinct and even more visually appealing -- on the other hand, they can lead to code that is difficult to read, and they can involve more advanced concepts in programming such as [anonymous functions](https://en.wikipedia.org/wiki/Anonymous_function).  I think that the decision of whether or not to use some of these "shortcut" methods is a question of code style, so I've placed a brief explanation on some of (what I think are) the more common shortcuts here.
+
+#### List comprehensions
+
+Here is a generic approach to building up a list:
+```python
+squares = []  # start with an empty list
+for i in range(1, 11):  # iterate over something
+    squares.append(i*i)
+```
+which yields the following list object:
+```python
+>>> squares
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+If you've covered [List objects](Iterables.md), [`for` loops](ControlFlow.md) and basic [arithmetic operations](Variables.md#python-as-a-calculator) in Python, then you should be able to get a handle on what is going on.  
+
+However, there is a more compact way of making this List:
+```python
+squares = [i*i for i in range(1, 11)]
+```
+This one-line approach is called a *list comprehension*.  (This statement doesn't *have* to be on one line.  Some times you might want to add some line breaks to make the statement more readable.  This is okay as long as the line breaks occur within the square brackets.)  It is a popular shortcut in Python and you'll encounter it pretty often.  Each element in the list is the result of some *operation* that has been applied to every member of some iterable object.  The basic structure of a list comprehension is as follows:
+* All statements are contained within square brackets.
+* An operation on the loop variable(s), *e.g.*, `i*i`.
+* A series of one or more loop variables to assign values from every iteration, *e.g.*, `i`.
+* An iterable object, *e.g.*, `range(1,10)`.
+* *optional* A conditional statement that filters entries from the iterable object.  For example, we could amend the above example to output only integers divisible by 3: `squares = [i*i for i in range(1,11) if i%3==0]`
+
+Instead of writing out the operation component of a list comprehension, we could call some function and send the loop variable as the argument.
+
+
+#### `map` and `lambda` functions
+
+Applying the same operation to a sequence of inputs is a very common task in computing, and there is an even *more* concise way to generate the `squares` list that we produced in the above section:
+```python
+>>> squares = map(lambda i: i*i, range(1, 11))
+>>> squares
+<map object at 0x7f5110e45ba8>  # in Python 2, map() used to return a list but now it is a special iterable
+>>> list(squares)
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+This is even more concise if we have already defined a function elsewhere:
+```python
+def square(i):
+    return i*i
+
+squares = map(square, range(1, 11))  # yields the same result
+```
+However, we're now starting to make things more and more cryptic.  For example, we can save a bunch of space if `square` is an operation with many lines of code, or requires several arguments; but if the function definition is written somewhere else in the code or imported from another script, then we might have no idea of what's going on.
+
+
+#### `with`..`as` statements
+
+The `with` statement [defines a context](https://docs.python.org/3/reference/datamodel.html#context-managers) for a block of code, within which a variable holds the value of some expression and does not outside the block.  I usually come across `with` statements used for briefly opening and working with the contents of a file stream.  For example:
+```python
+with open('file.txt') as handle:
+    print(next(handle))
+```
+instead of:
+```python
+handle = open('file.txt')
+print(next(handle))
+handle.close()
+```
+One of the benefits of using `with` for file streams is that the stream is automatically closed upon exiting the nested code block.  It also results in slightly more concise code!  Other advantages of using `with` statements depend on using [context management] programming of Python classes, which is a topic that is too advanced for this class.
+
+
 ### Modular programming
 
 Modular programming is an aspect of programming style that isn't really spelled out in PEP 8.  Modularity means that we want to break tasks down to components that are self-contained and portable.  The opposite approach is [monolithic] programming where everything is subsumed under a single massive script.  In the above example, I've broken the second script down into two functions, `main` and `count_bases`:

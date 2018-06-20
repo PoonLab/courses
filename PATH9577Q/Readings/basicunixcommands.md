@@ -45,7 +45,7 @@ eat: command not found
 
 Clearly, my OS is not impressed (your output will vary with OS's).  It doesn't recognize my random words as a valid command.  A command has to start by invoking a program.  (Invoke is a [D'n'D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons) way of saying that we type the name of a program.)  
 
-### `ls`
+### `ls` and wildcards
 Let's start by entering a valid command by invoking a program that actually exists.
 ```shell
 art@Misato:~$ ls
@@ -57,6 +57,25 @@ Downloads  java_error_in_PYCHARM_14175.log  Pictures  src     wip
 `ls` is a program that lists the files and folders in my home folder, which is my current "location" in the filesystem.  (UNIX was developed at a time where developers had to be extremely frugal with memory and storage; hence cryptic two-letter abbreviations were the norm.)  `ls` is an essential tool for getting the "lay of the land".
 
 ![](https://imgs.xkcd.com/comics/server_problem.png)
+
+`ls` on its own (without any arguments) will display the entire contents of the directory.  This can be problematic when the directory contains hundreds of files or more!  We can restrict the scope of the directory listing by providing some information about what we're specifically looking for.  On the other hand, we can't simply write out a vague description of what we're looking for, and expect the UNIX command to interpret our request.  Nope, we have to learn how to write out a set of instructions in a strict language that `ls` is going to understand.  The simplest request is to ask `ls` to verify whether a file with a specific name is present in the directory:
+```bash
+[Elzar:courses/PATH9577Q/Readings] artpoon% ls foo
+ls: foo: No such file or directory
+[Elzar:courses/PATH9577Q/Readings] artpoon% ls basicunixcommands.md 
+basicunixcommands.md
+```
+We can also chain together a list of filenames to search for, but it quickly gets tiresome writing these all out:
+```bash
+[Elzar:courses/PATH9577Q/Readings] artpoon% ls DateTime.md GoodCode.md Markdown.md
+DateTime.md	GoodCode.md	Markdown.md
+```
+It would be really helpful if we use some kind of shorthand to denote a number of possible filenames.  This is what [UNIX wildcards](http://tldp.org/LDP/GNU-Linux-Tools-Summary/html/x11655.htm) are for.  A wildcard is a character that is reserved for a special purpose of representing more than one character.  Here is a brief summary of some wildcards:
+* `*` stands for anything: any character can appear any number of times.  If you run `ls *`, it is the same as plain old `ls` - it will list all visible files in the directory.  If you run `ls z*`, then you are asking for a listing of all files with names that start with `z`.
+* `?` stands for any character appearing once.  If you run `ls f?b`, the listing can include the filenames `fab` and `fib`, but not `fuz`.
+* square brackets are used to restrict the wildcard to a specific subset of characters.  For example, if the directory contains the files `baz`, `bez` and `buz`, we can generate a listing of the first two files with the command `ls b[ae]z`.
+* `\` causes the next character to be taken literally if it is a wildcard.  `ls \**` will return a listing of all files whose names start with an asterisk.  Which is a terrible idea.  Don't name your files with asterisks.  Anyhow, this is really useful when you're dealing with a filename that contains a space, which is reserved for separating arguments.
+It's especially useful to learn wildcards because they apply not only to `ls` commands, but also to many other commands such as `rm` (deleting files).
 
 By default, `ls` doesn't display hidden files --- these are files with names that start with a dot `.` and are usually concealed because they are not meant to be accessed by the user.  Here's a truncated view of my output for an `ls -a` command:
 ```shell
@@ -107,7 +126,7 @@ drwxr-xr-x 2 art art 4096 Apr 30 10:08 Downloads
 ```
 The top of the list (`total 60`) reports the total number of blocks occupied by these contents.  A block is a fundamental unit of filesystem storage - on my Ubuntu system, the block size corresponds to 4096 bytes (note that my `ls` output is truncated).  The rest of the list contains one row for every file in the directory (since everything in UNIX is a file, the directories are also listed as files).  The fact that the `Desktop` file is a directory is encoded by the first character in the string `drwxr-xr-x`.  If the file is not a directory, then the `d` would be replaced by a dash `-`.  
 
-The rest of the string is made up of three character triplets that encode the read/write/execute permissions for the file owner, group and everyone.  The owner of the file is given by the third item on the line - in this case, `art`.  Every user is automatically a member of their own group, which takes the same name.  So, I have read, write and execution (`rwx`) permissions for my `Desktop` file.  The act of executing a directory file corresponds to entering that directory and interfacing with its contents.  Any other user on the system can read (see) and execute (enter) my `Desktop` directory, but they can't enact *write* actions such as changing its name to `Sandwich`.  
+The rest of the string is made up of three character triplets that encode the read/write/execute permissions for the file owner, group and everyone.  The owner of the file is given by the third item on the line - in this case, `art`.  Every user is automatically a member of their own group, which takes the same name.  So, I have read, write and execution (`rwx`) permissions for my `Desktop` file.  The act of executing a directory file corresponds to entering that directory and interfacing with its contents.  Any other user on the system can read (see) and execute (enter) my `Desktop` directory, but they can't enact *write* actions such as changing its name to `Sandwich`.
 
 Now let's make a dummy file using the UNIX command `echo` and the redirection operator (we'll learn more about these later):
 ```bash
@@ -187,6 +206,13 @@ art@Misato:~/Desktop$ cd ..
 art@Misato:~$ 
 ```
 
+Typing `cd` by itself will return you to your home directory:
+```shell
+art@Misato:~/some/faroff/land$ cd
+art@Misato:~$ 
+```
+and we can get the same result with `cd ~`.  The tilde `~` character is the [UNIX symbol for your home directory](https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html), and can save you some typing when you're writing out a relative path.  Note that the tilde appears in the prompt `art@Misato:~$` which was configured on that computer to remind the user about their location in the filesystem.
+
 Now let's keep inputting `cd ..` to go as far as we can!
 ```shell
 art@Misato:~$ cd ..
@@ -205,6 +231,56 @@ cdrom  home  lib             lost+found  opt    run   srv   usr  vmlinuz.old
 
 This is the root directory, which is represented by the forward slash `/`.  It has no parent --- we're at the base of the tree.  This is deep in the guts of the computer.  The wrong command can do a lot of damage here.  Fortunately, the OS has a child-safety cap on doing most of the bad things in the form of user/group privileges.
 
+## Making and removing: `mkdir`, `rmdir` and `rm`
+
+To create a new directory, you need to use the `mkdir` (make directory) command:
+```shell
+art@orolo:~/Desktop$ mkdir test
+art@orolo:~/Desktop/test$ pwd
+/home/art/Desktop/test
+```
+You can also submit a relative or absolute path as an argument to `mkdir` and it will create the directory at that location, so long as the rest of the path exists.  For example, if I had used:
+```shell
+art@orolo:~$ mkdir Desktop/test
+art@orolo:~$ cd Desktop
+art@orolo:~/Desktop$ cd test
+art@orolo:~/Desktop/test$ pwd
+/home/art/Desktop/test
+```
+then I will have achieved the same result, but if I tried:
+```
+art@orolo:~$ mkdir foobar/test
+mkdir: cannot create directory ‘foobar/test’: No such file or directory
+```
+then the command fails because there was no directory `foobar` relative to my current location in the filesystem.
+
+If you change your mind, then you can erase a directory using the `rmdir` (remove directory) command:
+```shell
+art@orolo:~/Desktop$ rmdir test
+art@orolo:~/Desktop$ cd test
+bash: cd: test: No such file or directory
+```
+However, this will only work if the directory does not contain any files or other directories.  If you are *absolutely certain* that you want to delete the directory and all of its contents, then you can nuke it from orbit with this command:
+```shell
+art@orolo:~/Desktop$ ls test
+a_file.txt
+art@orolo:~/Desktop$ rmdir test
+rmdir: failed to remove 'test': Directory not empty
+art@orolo:~/Desktop$ rm -rf test
+```
+**BE CAREFUL.**  Once you have run this command, there is no easy way to recover your directory or files.  This is **NOT** the same as moving these items into a "Trash" or "Recycling" folder like in Windows or macOS desktop operating systems. 
+
+There are two options being set in this call to `rm`.  The `-r` flag means that we want to *recursively* remove files and directories starting from our location and all the way down to the last child directory.  The `-f` flag stands for *force* -- we are telling `rm` that we want to remove files and directories without the program repeatedly asking us "are you sure?".  The combination of these options makes this command exceedingly dangerous.
+
+Since we're on the topic of `rm`, I want to finish off this section with a mention that `rm` can be used with UNIX wildcards just like we have done with `ls`.  If we want to delete a specific file (let's call it `foo`), we call:
+```shell
+art@orolo:~/Desktop$ rm foo
+```
+If we want to delete all files in the current directory that start with the letter `f`:
+```shell
+art@orolo:~/Desktop$ rm f*
+```
+and so on.
 
 ## `pwd` and path specifications
 The Unix file system is a big place!  Fortunately, you can always warp back to your home directory by typing `cd` by itself.  Do that and start using `cd` to explore your home directory, then use the command `pwd` to get your bearings:
@@ -230,24 +306,80 @@ Accessible.js          TeX-AMS_CHTML-full.js
 This is a *relative* path because it is defined relative to our current location in the filesystem.  If I moved one level up and tried the exact same command, it won't work.  Hence, relative paths are convenient but fragile.
 
 
-## Explore the filesystem (In-class assignment)
+## The `$PATH` environment variable
 
-It's useful to develop a general sense of how your filesystem is laid out.  One way to go about this is to use the `cd`, `ls` and `pwd` commands that we've just covered to move around and get to know what goes where!  Using the worksheet distributed in class, I want you to draw a partial map/outline of your filesystem.  At each branch, you should write a brief note about the role/contents of the corresponding directory.
+So far we've run a few commands and used these commands to starting exploring the *nix filesystem. What are these commands? How does the computer know what to do when we type in these two-letter combinations? The basic answer is that in the *nix world, *everything is a file*. `ls` is a file. More specifically, it is a binary executable, a file made up of `0`s and `1`s that encode a set of instructions for the computer, and does not encode information that is meant to be decoded and displayed to the user in a readable format.
 
-1. Start in your home directory (remember how to get there?).  You'll start mapping from the house on the worksheet.
-2. Move up to the top of the filesystem using the command `cd ..`.  At each level, draw a short line from the current directory upwards and label it with the name of the parent directory.  
-3. Repeat step 2 until you reach the root, *i.e.,* running `cd ..` fails to change the present working directory.
-4. Now we want to start exploring one level down from the root.  Draw branches downwards for `/usr` and at least 3 other child directories under `/`.  Some of these directories will contain binary executables, such as `/bin`.  Here are some brief descriptions of what you might encounter:
-  * `/bin` contains binaries that are needed to boot or repair the system in single user mode.
-  * `/sbin` contains binaries that are similar in function to those in `/bin` but are not normally executed by users.
-  * `/usr` contains resources that are required by users.  These files are generally read-only (not to be modified by users) and meant to be accessed by all users.
-  * `/home` is where users keep their own stuff.  It has subdirectories for every user account.  There are generally no limits to reading and writing files in your home directory, but you won't be allowed to modify (or even read) files in another user's directory without special permissions.
-  * `/lib` contains [shared libraries](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries), files with resources that can be used by multiple programs and loaded when the program is run.
-  * `/tmp` is an all-purpose space for temporary files that will probably get wiped when the system is restarted.
-For a more complete explanation, [The Linux Documentation Project](https://www.tldp.org/LDP/Linux-Filesystem-Hierarchy/html/the-root-directory.html) has an excellent guide to the filesystem.
-5. Since there are a very large number of directories two levels down from the root, let's focus on the `/usr/local` branch.  Draw branches for all child directories under `/usr/local` and a brief description of each.
-  * `/usr/local` is where programs and resources that were installed by users *on this particular machine* are located.
-6. Use the command `which python` or `which python3` to locate your default Python executable (more on this later).  Label this location on your map.  
+Where is this file? You can find this out with another command called `which` (and yes, `which` is also a file):
+```shell
+art@Kestrel:~$ which ls
+/bin/ls
+art@Kestrel:~$ ls -lh /bin/ls
+-rwxr-xr-x 1 root root 124K Mar  2  2017 /bin/ls
+```
+
+Note that we didn't have to tell the computer where the program `ls` is. This is because *nix keeps track of a list of folders to look for executable files. This list is stored as an [environment variable](https://en.wikipedia.org/wiki/Environment_variable). You can think of these variables as the command-line version of the operating system preferences. When we call an executable, the operating system searches through the list of paths that is stored in the variable `PATH`. To look at the contents of `PATH`, we have to use a `$` symbol to tell the OS that we are referring to the environment variable and not the string:
+
+```shell
+art@Kestrel:~$ echo PATH
+PATH
+art@Kestrel:~$ echo $PATH
+/home/art/bin:/home/art/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+```
+
+This is a list of absolute paths that is delimited (separated) by `:` characters. The computer starts reading this list from left to right. The first path is in my home directory, `/home/art/bin`. The name of this folder implies that it would hold binary executables, but I'm pretty certain that I never installed any executables in my own home folder:
+```shell
+art@Kestrel:~$ ls /home/art/bin
+ls: cannot access '/home/art/bin': No such file or directory
+```
+
+Fine. The computer doesn't mind that this directory doesn't exist. It just moves onto the next path in the list. Note that because the computer starts searching these paths from the left of the list, the leftmost path takes precedence over paths to the right. If you have two binary executable files with the same name, then the file in the leftmost path will get run first. For example, sometimes people have more than one copy of `python` installed on their computer -- these may be different versions of Python. With my `$PATH`, the `python` at `/usr/local/bin` would always be run instead of another copy at `/usr/bin` unless I specifically ask for the latter by invoking it with an absolute or relative path.
+
+
+## File permissions
+
+When we ran the `ls` command in long list mode with the flag `-l`, we saw some scary stuff. Here it is again:
+```shell
+art@Kestrel:~$ ls -l
+total 80
+drwxrwxr-x  2 art art  4096 Apr 14 22:17 Desktop
+drwxr-xr-x  4 art art  4096 Apr 10 19:33 Documents
+drwxr-xr-x  4 art art 12288 Apr 15 22:43 Downloads
+drwxrwxr-x 19 art art  4096 Apr 15 22:40 git
+```
+
+Each line represents a file or directory. Again, since everything in *nix is a file, a directory is just a special kind of file. To really understand what each line means, let's drill down on `Desktop`:
+
+* `d` means that this file is a directory. If it was just a regular file then we'd see a `-`.
+* The first `rwx` means that the owner of this file has permissions to read, write or execute the file. For a directory, `x` sets the permission to access and view the contents of the directory.
+* The second `rwx` specifies these same permissions for users in the group assigned to this file.
+* The third `rwx` specifies the permissions for everyone else.
+* `2` indicates the number of blocks taken up by this file. In *nix, space in the file system is allocated in 4 kilobyte blocks.
+* `art` indicates that I am the owner of this file.
+* The second `art` indicates that the file is assigned to a group called `art`. Every user in the system also has a group with their same name.
+* `4096` gives the size of the file in bytes.
+* `Apr 14 22:17` gives the date and time that this file was last modified.
+* `Desktop` is the name of the file
+
+Modifying the permissions of a file is a topic that is a bit outside the scope for this course. However, it is useful to be aware of permissions because they can occasionally cause problems for processing data and running scripts, especially when you are working with other users on the same system. To illustrate, I'm going to make a dummy file and then deny myself permission to edit it:
+
+```shell
+art@Kestrel:~$ echo "This is a fake file" > temp.txt
+art@Kestrel:~$ cat temp.txt
+This is a fake file
+art@Kestrel:~$ ls -l temp.txt
+-rw-rw-r-- 1 art art 20 Apr 16 00:04 temp.txt
+art@Kestrel:~$ chmod -w temp.txt
+art@Kestrel:~$ ls -l temp.txt
+-r--r--r-- 1 art art 20 Apr 16 00:04 temp.txt
+art@Kestrel:~$ echo "Let's try to write more" > temp.txt
+bash: temp.txt: Permission denied
+art@Kestrel:~$ chmod +w temp.txt
+art@Kestrel:~$ echo "Please?" > temp.txt
+art@Kestrel:~$ cat temp.txt
+Please?
+```
+
 
 
 ## Examining files (`wc`, `cat`, `head`, `tail`)

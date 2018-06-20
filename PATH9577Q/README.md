@@ -51,16 +51,16 @@
    * Learning about an object with `dir()`
    * Strings
      * Indexing and slicing
-   * Lists
-     * List comprehensions
-   * Tuples
+   * Lists and tuples
      * Mutable versus immutable types
+     * Sorting
    * Sets
      * set operations
    * Dictionaries
    * Casting between types
    * **In-class assignment** Built-in types worksheet
    * **Take-home assignment** String and list operations
+   * **Readings:** [Variables](Readings/Variables.md), [Strings](Readings/Strings.md), [Iterables](Readings/Iterables.md), [Dictionaries](Readings/Dictionaries.md)
 
 3. Control flow
    * Code blocks with indents in Python
@@ -72,42 +72,58 @@
    * iterable types: `range`, `map`, `filter`
    * Combining conditional and loop statements: `break` and `continue`
    * Defining functions
-   * **In-class assignment** Your first script
+   * **In-class assignment** Drawing a flowchart
+   * **Take-home assignment** [Your first script](Assignments/takehome3.md)
+   * **Readings:** [Control flow](Readings/ControlFlow.md)
 
 4. Parsing data
    * File encodings: ASCII, Unicode
    * Opening files, `File` types
    * Parsing tabular data
-   * Modules
-   * Tabular data with `csv`
-   * Date and time data with `datetime`
-   * Genetic sequences with `Bio`
-   * Phylogenetic trees with `Phylo`
+   * **In-class assignment** [Splitting a column](Assignments/inclass4.md)
+   * **Take-home assignment** [Row-column index script](Assignments/takehome4.md)
+   * **Readings:** [Tabular data](Readings/TabularData.md)
 
-5. Writing and debugging scripts
-   * Style
+5. Review session
+   * Going over the material we have covered so far
+   * Discuss final projects
+   * **In-class assignment** [Single-cell expresssion data](Assignments/inclass5.md)
+   * **Take-home assignment** [Unwinding a dense CSV matrix](Assignments/takehome5.md)
+  
+6. Writing and debugging scripts
+   * What is coding style?
+   * Concise code:
+     * List comprehensions
+     * `lambda` functions and `map`, `filter` and `reduce`
+     * 
    * Good coding practices
    * Documenting your code
-   * Debugging with `print` statements
-   * `assert` statements
-   * Catching and handling exceptions with `try` and `except`
-   * **In-class assignment** Debugging scripts
-   * **Take-home assignment** Refactoring a bad script
+   * Debugging
+     * `print` statements
+     * `assert` statements
+     * Catching and handling exceptions with `try` and `except`
+   * **In-class assignment** [Debugging scripts](Assignments/inclass6.md)
+   * **Take-home assignment** [Refactoring a bad script](Assignments/takehome6.md)
+   * **Readings:** [Writing "good" code](Readings/GoodCode.md)
 
-6. Text processing
+7. Advanced text processing
    * Regular expressions with `re`
-   * Old-style string formatting
+   * Old-style string formatting (C-style placeholders)
    * `format`
-   
-7. Batch processing
+   * **In-class assignment** [Sequence motifs](Assignments/inclass7.md)
+   * **Take-home assignment** [Nuclear localization signals](Assignments/takehome7.md)
+   * **Readings:** [Regular expressions](Readings/RegularExpressions.md), [String formatting](Readings/FormattedStrings.md)
+
+8. Modules
+   * Date and time data with `datetime`
+   * Genetic sequences with `Bio`
+     * Working with RNASeq data (FASTQ)
+   * Phylogenetic trees with `Phylo`
+   * **Readings:** [Date-time objects](Readings/DateTime.md), [Sequence Data](Readings/SequenceData.md)
+
+9. Batch processing
    * UNIX wildcards and `glob`
    * Pipelining
    * Calling other programs with `subprocess`
-   * Building a script interface with `argparse`
-
-8. Working with COSMIC data
-
-9. Working with RNASeq data
-   * FASTQ
-
+   * **Readings:** [Pipelining](Readings/Pipelining.md)
 
