@@ -21,6 +21,7 @@ On macOS, you can use the Python Packaging Authority (PyPA, http://pypa.io) scri
 ```
 [Elzar:~] artpoon% wget https://bootstrap.pypa.io/get-pip.py
 [Elzar:~] artpoon% sudo python3 get-pip.py
+[Elzar:~] artpoon% sudo pip install biopython
 ```
 
 1. Use `gunzip --keep zika.gb.gz` to uncompress the Genbank file you downloaded, and then `less` to manually examine the file.  Copy and paste the first ten lines here:
