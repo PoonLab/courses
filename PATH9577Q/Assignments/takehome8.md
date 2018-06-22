@@ -12,4 +12,13 @@ This is a dataset associated with a microbiome study of lung inflammation due to
    
    ```
    
-2. 
+2. You can extract the quality scores from a `SeqRecord` object, which are stored as a list of integers in `SeqRecord.letter_annotations['phred_quality']`.  Write a function that extracts this list from a record and calculates the proportion of nucleotides with a quality score below 10.
+   ```python
+   
+   ```
+
+3. Write a script that writes a new FASTQ file containing only reads that pass the criterion in Q2.
+   ```python
+   
+   ```
+   
