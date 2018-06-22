@@ -118,7 +118,8 @@
    * Date and time data with `datetime`
    * Genetic sequences with `Bio`
      * Working with RNASeq data (FASTQ)
-   * Phylogenetic trees with `Phylo`
+   * **In-class assignment** [Zika virus](Assignments/inclass8.md)
+   * **Take-home assignment** [Lung microbiome](Assignments/takehome8.md)
    * **Readings:** [Date-time objects](Readings/DateTime.md), [Sequence Data](Readings/SequenceData.md)
 
 9. Batch processing
