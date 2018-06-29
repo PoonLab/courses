@@ -1,12 +1,12 @@
 # Final Project Grading Rubric
 
 For your final project, please submit:
-* One or more Python or bash scripts that accomplish the objectives set out in your proposal.  
+* One or more Python or bash scripts to analyze your data.  
 * Provide the raw data if possible - if not, then submit a truncated version with reduced file sizes.  
 * Provide full or truncated outputs.
 * Write a `README.md` Markdown file that documents the purpose of each script.
 
-**Due date:** August 1, 2018
+**Due date:** first Friday of August, 2018
 Submit to Dr. Poon by e-mail.  Late penalties will apply.
 
 **Total score:** 40
