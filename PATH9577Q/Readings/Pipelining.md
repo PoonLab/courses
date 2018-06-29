@@ -5,7 +5,7 @@
 * Calling one script on many files with bash
 * Calling many scripts - pipelining
 * Calling other programs - subprocessing
-* Harnessing multiple cores with MPI
+* Harnessing multiple cores
 
 ## Background
 
@@ -48,6 +48,7 @@ art@Shinji:~/git/courses/GradPythonCourse/Readings$ for f in `ls *.md`; do wc -l
 655 TabularData2.md
 543 TabularData.md
 ```
+Actually, we can get the same output if we run `wc -l *.md`, but many programs will not interpret UNIX wildcards this way.
 
 We can use this bash command to perform some simple batch processing, where we're calling some python script `foo.py` on each file in the list.  However, this requires that we have written a script that will take input from the command line.  So far, we've been simply hard-coding the input file into a script, like this:
 ```python
